@@ -1,12 +1,8 @@
-package Render;
+package UIComponents.Render;
 
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.util.*;
 
 public class Main {
 

@@ -7,7 +7,7 @@ the screen, and the y-axis runs vertically on the screen.
 The XY plane is the screen.
 The z-value of the coordinate can be used to represent depth.
  */
-package Render;
+package UIComponents.Render;
 
 public class Coordinate{
     private final double x, y, z;

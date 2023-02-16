@@ -1,5 +1,4 @@
-package Render;
-import java.util.ArrayList;
+package UIComponents.Render;
 
 public abstract class Polyhedron {
     public Polygon[] faces;

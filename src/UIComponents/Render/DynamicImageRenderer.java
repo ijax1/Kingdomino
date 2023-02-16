@@ -1,4 +1,4 @@
-package Render;
+package UIComponents.Render;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

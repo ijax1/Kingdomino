@@ -1,6 +1,6 @@
 package UIComponents;
 
-import Render.*;
+import UIComponents.Render.*;
 import Backend.*;
 
 import java.awt.*;
@@ -10,6 +10,11 @@ public abstract class Component {
     Coordinate position;
     Kingdomino game;
 
+    Component(Coordinate position, Kingdomino k){
+        this.position = position;
+        this.game = k;
+    }
+
     public void minimize(){
         minimized = false;
     }
@@ -18,7 +23,13 @@ public abstract class Component {
         minimized = true;
     }
 
-    public abstract Coordinate getPosition();
+    public Coordinate getPosition(){
+        return position;
+    };
+
+    public Kingdomino getGame(){
+        return game;
+    }
 
     public abstract void setPosition(Coordinate coordinate);
 

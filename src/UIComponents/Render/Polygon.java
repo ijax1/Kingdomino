@@ -1,4 +1,4 @@
-package Render;
+package UIComponents.Render;
 public class Polygon {
     private Coordinate[] points;
     private final Coordinate center;

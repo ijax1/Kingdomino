@@ -1,4 +1,4 @@
-package Render;
+package UIComponents.Render;
 
 import java.awt.image.BufferedImage;
 
