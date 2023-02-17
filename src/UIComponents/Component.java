@@ -1,9 +1,9 @@
 package UIComponents;
 
-import UIComponents.Render.*;
-import Backend.*;
+import java.awt.Graphics2D;
 
-import java.awt.*;
+import Backend.Kingdomino;
+import UIComponents.Render.Coordinate;
 
 public abstract class Component {
     boolean minimized;
@@ -35,7 +35,7 @@ public abstract class Component {
 
     public abstract boolean onComponent(Coordinate c);
 
-    public abstract void draw(Graphics g);
+    public abstract void draw(Graphics2D g);
 
     public abstract void whenClicked();
 

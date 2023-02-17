@@ -1,9 +1,9 @@
 package UIComponents;
 
-import UIComponents.Render.*;
-import Backend.*;
+import java.awt.Graphics2D;
 
-import java.awt.*;
+import Backend.Kingdomino;
+import UIComponents.Render.Coordinate;
 
 public abstract class Button extends Component{
 
@@ -25,7 +25,7 @@ public abstract class Button extends Component{
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
 
     }
 
