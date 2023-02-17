@@ -21,15 +21,18 @@ public class Resources {
 		}
 		return image;
 	}
+	
 	public static Font loadFont(String name) {
 		Font font;
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, Resources.class.getResourceAsStream(name));
 		} catch (IOException | FontFormatException e) {
 			//A default serif font
+			System.out.println("serif");
 			font = Font.getFont(Font.SERIF);
 			if(font==null) {
 			//The default Swing font
+				System.out.println("default");
 				font = new JLabel().getFont();
 			}
 		}
