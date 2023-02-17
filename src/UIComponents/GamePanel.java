@@ -13,12 +13,13 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import UIComponents.Render.Coordinate;
+import res.Resources;
 
 public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener{
 	private ArrayList<Component>components;
-	private Font medievalSharp;
+	private Font medieval;
 	public GamePanel() {
-		
+		medieval = Resources.loadFont("/fonts/MedievalSharp-Regular.ttf");
 		//components.add(new Hitbo)
 	}
 	public void paintComponent(Graphics g) {
