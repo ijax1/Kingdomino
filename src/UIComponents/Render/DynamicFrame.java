@@ -6,10 +6,9 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import Backend.Kingdomino;
+import res.Resources;
 
 public class DynamicFrame extends JFrame {
     public final int width;
@@ -27,7 +26,7 @@ public class DynamicFrame extends JFrame {
 
     public static void main(String[] args) throws IOException {
         DynamicFrame d = new DynamicFrame();
-        d.add(new DynamicImagePanel(d, ImageIO.read(Kingdomino.class.getResource("../images/Homework.jpg")), new Coordinate(d.width/2,0,d.height/2)));
+        d.add(new DynamicImagePanel(d, Resources.loadImage("homework.jpg"), new Coordinate(d.width/2,0,d.height/2)));
         d.setVisible(true);
     }
 

@@ -1,5 +1,6 @@
 package UIComponents;
 
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -15,8 +16,10 @@ import UIComponents.Render.Coordinate;
 
 public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener{
 	private ArrayList<Component>components;
+	private Font medievalSharp;
 	public GamePanel() {
 		
+		//components.add(new Hitbo)
 	}
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
