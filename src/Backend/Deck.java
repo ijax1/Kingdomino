@@ -1,6 +1,8 @@
+/*
 import java.util.ArrayList;
 
-class deck() {
+import UIComponents.*;
+class Deck() {
     private ArrayList<Domino> deck;
     private Domino[] dominoesToSelect;
     private boolean[] selected;
@@ -27,3 +29,5 @@ class deck() {
 
 
 }
+
+ */

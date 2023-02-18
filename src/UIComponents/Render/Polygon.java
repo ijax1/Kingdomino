@@ -3,15 +3,26 @@ public class Polygon {
     private Coordinate[] points;
     private final Coordinate center;
 
+    private final LineSegment[] lineSegments;
+
 
     public Polygon(Coordinate[] points, Coordinate center){
         this.points = points;
         this.center = center;
+        this.lineSegments = calcLineSegments(points);
     }
 
     public Polygon(Coordinate[] points, Coordinate center, double xRotation, double yRotation, double zRotation){
         this(points, center);
         setToRotation(xRotation, yRotation, zRotation);
+    }
+
+    private LineSegment[] calcLineSegments(Coordinate[] points){
+        LineSegment[] lines = new LineSegment[points.length];
+        for(int i = 0; i < points.length; i++){
+            lines[i] = new LineSegment(getPoint(i), getPoint(i+1));
+        }
+        return lines;
     }
 
     public Coordinate getPoint(int num){
@@ -51,12 +62,28 @@ public class Polygon {
         return Math.abs(bottom.getY() - top.getY());
     }
 
+    public LineSegment[] getLineSegments(){
+        return lineSegments;
+    }
+
     /*
     Checks if a ray perpendicular to the XY plane at c intersects the polygon.
      */
     public boolean intersects(Coordinate c){
 
         return false;
+    }
+
+    private Coordinate[] flatten(){
+        Coordinate[] flat = new Coordinate[points.length];
+        for(int i = 0; i < points.length; i++){
+            flat[i] = new Coordinate(
+                points[i].getX(),
+                points[i].getY(),
+                0
+            );
+        }
+        return flat;
     }
 
 }

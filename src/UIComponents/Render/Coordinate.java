@@ -13,7 +13,9 @@ public class Coordinate{
     private final double x, y, z;
 
     public enum Axis{
-        X,Y,Z
+        X,
+        Y,
+        Z
     }
 
     public Coordinate(double x, double y, double z){

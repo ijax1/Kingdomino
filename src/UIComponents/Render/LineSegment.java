@@ -68,11 +68,9 @@ public class LineSegment {
             distance = otherDistance;
             next = this.getNextPoint(next, 1.0/limit);
             otherNext = ls.getNextPoint(otherNext, 1.0/limit);
-            count++;;
+            count++;
         }
-        if(almostEqual(distance, 0.0, 0.01))
-            return true;
-        return false;
+        return almostEqual(distance, 0.0, 0.01);
     }
 
     public Coordinate intersection(LineSegment ls){
@@ -106,11 +104,17 @@ public class LineSegment {
     }
 
     public static void main(String[] args) {
-        LineSegment ls = new LineSegment(new Coordinate(0,0,0),new Coordinate(100,100,100));
+        LineSegment ls = new LineSegment(new Coordinate(0,0,0),new Coordinate(0,2,0));
+        LineSegment ls2 = new LineSegment(new Coordinate(0,1,0),new Coordinate(1,0,0));
+
+        /*
         Coordinate s = ls.getStart();
         for(int i = 0; i < ls.getLength(); i++){
             s = ls.getNextPoint(s,0.01);
             System.out.println(s);
         }
+
+         */
+        System.out.println(ls.intersects(ls2));
     }
 }

@@ -6,9 +6,10 @@ import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
 
 public abstract class Component {
-    boolean minimized;
-    Coordinate position;
-    Kingdomino game;
+    private boolean minimized;
+    private Coordinate position;
+    private Kingdomino game;
+    //private GameManager gm;
 
     Component(Coordinate position, Kingdomino k){
         this.position = position;
