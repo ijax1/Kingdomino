@@ -52,59 +52,73 @@ public class LineSegment {
         return s.getStart().equals(start) && s.getEnd().equals(end);
     }
 
-    public boolean intersects(LineSegment ls){
-        double distance = start.distanceFrom(ls.getStart());
-        double delta = 0.0;
-        int count = 0;
-        int limit = 100000;
-
-        Coordinate next = this.getStart();
-        Coordinate otherNext = ls.getStart();
-        while(delta <= 0.0 && !almostEqual(distance, 0.0, 0.01) && count < limit){
-            if(next == null || otherNext == null)
-                return false;
-            double otherDistance = next.distanceFrom(otherNext);
-            delta = otherDistance - distance;
-            distance = otherDistance;
-            next = this.getNextPoint(next, 1.0/limit);
-            otherNext = ls.getNextPoint(otherNext, 1.0/limit);
-            count++;
-        }
-        return almostEqual(distance, 0.0, 0.01);
+    public boolean onLine(Coordinate check){
+        if (check.getX() <= Math.max(start.getX(), end.getX()) && check.getX() >= Math.min(start.getX(), end.getX()) &&
+            check.getY() <= Math.max(start.getY(), end.getY()) && check.getY() >= Math.min(start.getY(), end.getY()) &&
+            check.getZ() <= Math.max(start.getZ(), end.getZ()) && check.getZ() >= Math.min(start.getZ(), end.getZ()))
+            return true;
+        return false;
     }
 
-    public Coordinate intersection(LineSegment ls){
-        double distance = start.distanceFrom(ls.getStart());
-        double delta = 0.0;
-        int count = 0;
-        int limit = 100000;
+    public boolean intersect2D(LineSegment other){
+        Coordinate otherStart = other.getStart();
+        Coordinate otherEnd = other.getEnd();
 
-        Coordinate next = this.getStart();
-        Coordinate otherNext = ls.getStart();
-        while(delta <= 0.0 && !almostEqual(distance, 0.0, 0.01) && count < limit){
-            if(next == null || otherNext == null)
-                return null;
-            double otherDistance = next.distanceFrom(otherNext);
-            delta = otherDistance - distance;
-            distance = otherDistance;
-            next = this.getNextPoint(next, 1.0/limit);
-            otherNext = ls.getNextPoint(otherNext, 1.0/limit);
-            count++;
-        }
+        int turn1 = tripletOrientation2D(start, otherEnd, otherStart);
+        int turn2 = tripletOrientation2D(start, end, otherEnd);
+        int turn3 = tripletOrientation2D(otherStart, otherEnd, start);
+        int turn4 = tripletOrientation2D(otherStart, otherEnd, end);
 
-        return null;
+        if (turn1 != turn2 && turn3 != turn4)
+            return true;
+
+        if (turn1 == 0 && this.onLine(otherStart))
+            return true;
+
+        if (turn2 == 0 && this.onLine(otherEnd))
+            return true;
+
+        if (turn3 == 0 && other.onLine(start))
+            return true;
+
+        if (turn4 == 0 && other.onLine(end))
+            return true;
+
+        return false;
     }
 
+    /*
+    returns direction of triplet ABC:
+        0 if collinear
+        1 if clockwise
+        -1 if counterclockwise
+     */
+    private int tripletOrientation2D(Coordinate a, Coordinate b, Coordinate c){
+        double turn = (b.getY() - a.getY()) * (c.getX()-b.getX()) -
+                    (b.getX() - a.getX()) * (c.getY() - b.getY());
+        if (almostEqual(turn,0,1e-4))
+            return 0;
+        return (int) Math.signum(turn);
+    }
+
+    public boolean isEndpoint(Coordinate c){
+        return c.equals(start) || c.equals(end);
+    }
+
+    public boolean meetsAtEndpoint(LineSegment other){
+        return other.isEndpoint(this.start) || other.isEndpoint(this.end);
+    }
     private static boolean almostEqual(double a, double b, double eps){
         return Math.abs(a-b)<eps;
     }
+
 
     public String toString(){
         return start.toString() + " -> " + end.toString();
     }
 
     public static void main(String[] args) {
-        LineSegment ls = new LineSegment(new Coordinate(0,0,0),new Coordinate(0,2,0));
+        LineSegment ls = new LineSegment(new Coordinate(0,0,0),new Coordinate(2,2,0));
         LineSegment ls2 = new LineSegment(new Coordinate(0,1,0),new Coordinate(1,0,0));
 
         /*
@@ -115,6 +129,6 @@ public class LineSegment {
         }
 
          */
-        System.out.println(ls.intersects(ls2));
+        System.out.println(ls.intersect2D(ls2));
     }
 }

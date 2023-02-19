@@ -1,4 +1,8 @@
 package UIComponents.Render;
+
+import javax.sound.sampled.Line;
+import java.awt.*;
+
 public class Polygon {
     private Coordinate[] points;
     private final Coordinate center;
@@ -70,10 +74,44 @@ public class Polygon {
     Checks if a ray perpendicular to the XY plane at c intersects the polygon.
      */
     public boolean intersects(Coordinate c){
-
-        return false;
+        double leftX = Double.MAX_VALUE;
+        double topY = Double.MIN_VALUE;
+        for(Coordinate point: points){
+            if(point.getX() < leftX)
+                leftX =point.getX();
+            if(point.getY() > topY)
+                topY = point.getY();
+        }
+        Coordinate end = new Coordinate(leftX-1, topY+1, 0);
+        LineSegment check = new LineSegment(end, c);
+        int count = 0;
+        for(LineSegment ls: lineSegments){
+            if(!ls.meetsAtEndpoint(check))
+                if(ls.intersect2D(check))
+                    count++;
+        }/*
+        System.out.println(count);
+        for(Coordinate point: points)
+            if(check.isEndpoint(point)){
+                count++;
+            }
+        System.out.println(count);
+        */
+        return count % 2 == 1;
     }
 
+    public void render(Graphics g){
+        int numPoints = points.length+1;
+        int[] xPoints = new int[numPoints];
+        int[] yPoints = new int[numPoints];
+        for(int i = 0; i < points.length; i++){
+            xPoints[i] = (int) points[i].getX();
+            yPoints[i] = (int) points[i].getY();
+        }
+        xPoints[points.length] = xPoints[0];
+        yPoints[points.length] = yPoints[0];
+        g.drawPolygon(xPoints, yPoints, numPoints);
+    }
     private Coordinate[] flatten(){
         Coordinate[] flat = new Coordinate[points.length];
         for(int i = 0; i < points.length; i++){
@@ -84,6 +122,17 @@ public class Polygon {
             );
         }
         return flat;
+    }
+
+    public static void main(String[] args) {
+        Coordinate[] points = {
+                new Coordinate(0,0,0),
+                new Coordinate(0,5,0),
+                new Coordinate(5,5,0),
+                new Coordinate(5,0,0),
+        };
+        Polygon p = new Polygon(points, new Coordinate(2.5,2.5,0));
+        System.out.println(p.intersects(new Coordinate(4.9,4.9,0)));
     }
 
 }
