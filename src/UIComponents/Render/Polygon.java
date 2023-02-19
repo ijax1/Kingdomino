@@ -5,9 +5,11 @@ import java.awt.*;
 
 public class Polygon {
     private Coordinate[] points;
-    private final Coordinate center;
+    private Coordinate center;
 
-    private final LineSegment[] lineSegments;
+    private LineSegment[] lineSegments;
+
+    private Color color = new Color(0,0,0);
 
 
     public Polygon(Coordinate[] points, Coordinate center){
@@ -40,6 +42,10 @@ public class Polygon {
             temp[i] = Coordinate.rotateAbout(center, init, xRotation, yRotation, zRotation);
         }
         this.points = temp;
+    }
+
+    public void setColor(Color c){
+        this.color = c;
     }
 
     public double getWidth(){
@@ -89,14 +95,7 @@ public class Polygon {
             if(!ls.meetsAtEndpoint(check))
                 if(ls.intersect2D(check))
                     count++;
-        }/*
-        System.out.println(count);
-        for(Coordinate point: points)
-            if(check.isEndpoint(point)){
-                count++;
-            }
-        System.out.println(count);
-        */
+        }
         return count % 2 == 1;
     }
 
@@ -110,7 +109,8 @@ public class Polygon {
         }
         xPoints[points.length] = xPoints[0];
         yPoints[points.length] = yPoints[0];
-        g.drawPolygon(xPoints, yPoints, numPoints);
+        g.setColor(this.color);
+        g.fillPolygon(xPoints, yPoints, numPoints);
     }
     private Coordinate[] flatten(){
         Coordinate[] flat = new Coordinate[points.length];
@@ -122,6 +122,22 @@ public class Polygon {
             );
         }
         return flat;
+    }
+
+    public void moveTo(Coordinate c){
+        Coordinate[] temp = new Coordinate[points.length];
+        double deltaX = c.getX() - center.getX();
+        double deltaY = c.getY() - center.getY();
+        double deltaZ = c.getZ() - center.getZ();
+        for(int i = 0; i < points.length; i++){
+            Coordinate change = points[i];
+            temp[i] = new Coordinate(change.getX() + deltaX,
+                    change.getY() + deltaY,
+                    change.getZ() + deltaZ);
+        }
+        this.center = c;
+        this.points = temp;
+        this.lineSegments = calcLineSegments(temp);
     }
 
     public static void main(String[] args) {
