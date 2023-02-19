@@ -11,8 +11,13 @@ public class GamePanelTester {
 	public void runGUI() {
 		JFrame frame = new JFrame(getClass().getName());
 		GamePanel panel = new GamePanel();
+		frame.setSize(1280,720);
 		frame.add(panel);
-		frame.pack();
+		panel.add(new UIDomino());
+		panel.add(new UIGrid());
+		
+		//frame.pack();
 		frame.setVisible(true);
+		panel.repaint();
 	}
 }

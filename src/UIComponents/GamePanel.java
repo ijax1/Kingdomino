@@ -46,24 +46,35 @@ class Dummy extends Component {
 		// TODO Auto-generated method stub
 		
 	}};
-public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener{
+public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 	private static final long serialVersionUID = 7381080659172927952L;
 	private ArrayList<Component>components = new ArrayList<Component>();
 	private Font medieval;
 	private Font medievalLg;
+	private int mousedx;
+	private int mousedy;
+	private UIDomino domino;
+	private int mousex, mousey;
 	
 	public GamePanel() {
 		setPreferredSize(new Dimension(1280,720));
 		setOpaque(true);
 		setBackground(new Color(100,100,100));
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		addKeyListener(this);
 		medieval = Resources.loadFont("fonts/MedievalSharp-Regular.ttf");
 		medievalLg = medieval.deriveFont(100f);
+		
 		
 		components.add(new Dummy(null,null));
 		//components.add(new Hitbo)
 	}
 	public void paintComponent(Graphics g1) {
 		Graphics2D g = (Graphics2D) g1;
+		g.setBackground(Color.WHITE);
+		g.clearRect(0, 0, 1280, 720);
+		
 		if(medieval==null)System.out.println("true");
 		g.setFont(medievalLg);
 		g.drawString("Hello world", 200,200);
@@ -72,6 +83,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			//We may need to copy the graphics object using g.create() or g.copyarea()
 			component.draw(g);
 		}
+	}
+	private void drawBg(Graphics2D g) {
+		
+
+	}
+	private void drawStaticTiles() {
+		
 	}
 	public void drawError(String header, String message) {
 		
@@ -88,6 +106,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		
 		for(Component component: components) {
 			if (component instanceof Button){
+				//this won't work either, just a placeholder
 				if(component.getPosition().equals(mouse)) {
 				component.whenClicked();
 				}
@@ -96,9 +115,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		mousex = e.getX();
+		mousey = e.getY();
+		System.out.println("mousex: "+mousex + " mousey: "+mousey);
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
+		System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
 	}
 	public void mouseEvent(boolean isClicked, boolean isDragged, boolean isScrolling) {
 		
