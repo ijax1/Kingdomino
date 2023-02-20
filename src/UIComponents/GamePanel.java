@@ -78,6 +78,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		if(medieval==null)System.out.println("true");
 		g.setFont(medievalLg);
 		g.drawString("Hello world", 200,200);
+		g.fillOval(500, 500, 10, 10);
+		g.drawRect(480, 480, 40, 40);
 		for(Component component: components) {
 			//TODO: currently, every component uses the same graphics object. Is this ok?
 			//We may need to copy the graphics object using g.create() or g.copyarea()
