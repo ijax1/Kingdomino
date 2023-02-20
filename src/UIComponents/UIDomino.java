@@ -48,6 +48,7 @@ public class UIDomino extends JComponent implements MouseListener, MouseMotionLi
 	private boolean snapped = false;
 	int snappeddx = 0;
 	int snappeddy = 0;
+	Point lastAnchor;
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		//TODO: make these relative
@@ -67,18 +68,17 @@ public class UIDomino extends JComponent implements MouseListener, MouseMotionLi
 //			y=720;
 //			dy=0;
 //		}
-		current.distance(new Point(500,500));
+		
 		System.out.println("x:"+x+" y:"+y+"dx:"+dx+" dy:"+dy + " snapped:" + snapped + " snapx:" + snappeddx + " snapy:" + snappeddy);
 		if(snapped) {
-			if(!closeTo(dx, snappeddx, 20) || !closeTo(dy, snappeddy, 20)) {
+			if(lastAnchor.distance(new Point(500,500)) > 20) {
 				snapped=false;
 			}
 		} else {
 			//fix this snapping with relative coords
-			if(closeTo(x, 500, 20) && closeTo(y, 500, 20)) {
+			if(current.distance(new Point(500,500)) < 20) {
 				snapped=true;
-				snappeddx = dx;
-				snappeddy = dy;
+				lastAnchor = new Point(dx,dy);
 			}
 		}
 		if(snapped) {
