@@ -12,7 +12,7 @@ import UIComponents.*;
 
 public class InteractionPanel extends DynamicPanel implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
     Domino d = new Domino(new Coordinate(400,400,0),null,new Color(0,255,0),new Color(255,0,255));
-    RectangularPrism r = new RectangularPrism(new Coordinate(200,200,200),100,100,100);
+    RectangularPrism r = new RectangularPrism(new Coordinate(200,200,200),100,200,25);
 
     boolean dragging = false;
     boolean draggingCube = false;
@@ -60,7 +60,6 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
     public void mousePressed(MouseEvent e) {
         if(d.onComponent(new Coordinate(e.getX(),e.getY(),0))) {
             dragging = true;
-            System.out.println("AAA");
         }
         if(r.intersects(new Coordinate(e.getX(), e.getY(), 0))){
             draggingCube = true;
@@ -96,7 +95,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
 
         if(draggingCube) {
             r.moveTo(new Coordinate(e.getX(), e.getY(), 0));
-            r.incrementRotation(Math.PI / 50, Math.PI / 50,Math.PI / 50);
+            r.incrementRotation(Math.PI / 50, Math.PI / 40,Math.PI / 50);
             repaint();
         }
     }
@@ -110,7 +109,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
     public void mouseWheelMoved(MouseWheelEvent e) {
         if(dragging) {
             double direction = Math.signum(e.getWheelRotation());
-            d.rotate(0,0, direction * Math.PI / 2);
+            d.rotate(0,0, direction * Math.PI / 3);
             repaint();
         }
     }
