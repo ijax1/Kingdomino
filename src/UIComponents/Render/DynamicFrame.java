@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import res.Resources;
+import resources.Resources;
 
 public class DynamicFrame extends JFrame {
     public final int width;

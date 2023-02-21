@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 
 import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
-import res.Resources;
+import resources.Resources;
 class Dummy extends Component {
 	Dummy(Coordinate position, Kingdomino k) {
 		super(position, k);

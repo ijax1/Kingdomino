@@ -1,4 +1,4 @@
-package res;
+package resources;
 
 import java.awt.Font;
 import java.awt.FontFormatException;

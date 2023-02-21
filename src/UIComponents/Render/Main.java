@@ -2,7 +2,7 @@ package UIComponents.Render;
 
 import java.io.IOException;
 
-import res.Resources;
+import resources.Resources;
 
 public class Main {
 
