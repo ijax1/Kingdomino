@@ -20,7 +20,7 @@ public class Polygon {
 
     public Polygon(Coordinate[] points, Coordinate center, double xRotation, double yRotation, double zRotation){
         this(points, center);
-        setToRotation(xRotation, yRotation, zRotation);
+        incrementRotation(xRotation, yRotation, zRotation);
     }
 
     private LineSegment[] calcLineSegments(Coordinate[] points){
@@ -35,7 +35,7 @@ public class Polygon {
         return points[num%points.length];
     }
 
-    public void setToRotation(double xRotation, double yRotation, double zRotation){
+    public void incrementRotation(double xRotation, double yRotation, double zRotation){
         Coordinate[] temp = new Coordinate[points.length];
         for(int i = 0; i < points.length; i++){
             Coordinate init = points[i];
@@ -82,6 +82,7 @@ public class Polygon {
     public boolean intersects(Coordinate c){
         double leftX = Double.MAX_VALUE;
         double topY = Double.MIN_VALUE;
+
         for(Coordinate point: points){
             if(point.getX() < leftX)
                 leftX =point.getX();
@@ -140,6 +141,18 @@ public class Polygon {
         this.lineSegments = calcLineSegments(temp);
     }
 
+    public Coordinate getTopLeft(){
+        Coordinate left = getPoint(0);
+        Coordinate top = getPoint(0);
+        for(Coordinate c: points){
+            if(c.getX() < left.getX())
+                left = c;
+            if(c.getY() < top.getY())
+                top = c;
+        }
+        return new Coordinate(left.getX(), top.getY(), 0);
+    }
+
     public static void main(String[] args) {
         Coordinate[] points = {
                 new Coordinate(0,0,0),
@@ -151,4 +164,25 @@ public class Polygon {
         System.out.println(p.intersects(new Coordinate(4.9,4.9,0)));
     }
 
+    public Coordinate getCenter() {
+        return center;
+    }
+
+    public double getAverageZ(){
+        double avg = 0;
+        for(Coordinate c: points){
+            avg += c.getZ();
+        }
+        return avg/points.length;
+    }
+
+    public String toString(){
+        StringBuilder ret = new StringBuilder();
+        System.out.println("FACE START");
+        for(Coordinate c: points){
+            ret.append((int) c.getX()).append(" ").append((int) c.getY()).append(" ").append((int) c.getZ());
+            ret.append(" ->\n");
+        }
+        return ret.toString();
+    }
 }

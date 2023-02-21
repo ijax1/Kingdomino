@@ -1,12 +1,32 @@
 package UIComponents.Render;
 
-public abstract class Polyhedron {
-    public Polygon[] faces;
-    Coordinate center;
+import java.awt.*;
 
-    public void setToRotation(double xRotation, double yRotation, double zRotation){
-        for(Polygon face: faces)
-            face.setToRotation(xRotation,yRotation,zRotation);
+public abstract class Polyhedron {
+
+    Polyhedron(){
+    }
+    public void incrementRotation(double xRotation, double yRotation, double zRotation){
+        for(Polygon face: getFaces())
+            face.incrementRotation(xRotation,yRotation,zRotation);
+    }
+
+    public void render(Graphics g){
+        for(Polygon p: getVisible())
+            p.render(g);
+    }
+
+    abstract Polygon[] calcFaces();
+
+    abstract Polygon[] getFaces();
+
+    abstract Polygon[] getVisible();
+
+    public boolean intersects(Coordinate c){
+        for(Polygon p: getFaces())
+            if(p.intersects(c))
+                return true;
+        return false;
     }
 
 
