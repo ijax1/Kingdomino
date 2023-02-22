@@ -37,7 +37,7 @@ public abstract class Player {
         return name;
     }
 
-    public String generateTitles() {
+    public String generateTitle() {
         Random rand = new Random();
         int randIndex = rand.nextInt(MEDIEVAL_TITLES.length);
         //chooses a random title in MEDIEVAL_TITLES class variable
@@ -63,10 +63,8 @@ public abstract class Player {
 
     public void selecteDomino(Domino domino) {
         //how do i get the selected domino
+        nextDomino = domino;
     }
 
-    public String generateTitle() {
-        //don't know what this does
-    }
 }
 
