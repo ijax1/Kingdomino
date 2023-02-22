@@ -8,6 +8,5 @@ public class Kingdomino {
         System.out.println("I love Minions");
         System.out.println("merged 2");
         System.out.println("caleb test");
-
     }
 }
