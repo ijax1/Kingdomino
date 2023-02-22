@@ -43,10 +43,14 @@ public class Polygon {
             temp[i] = Coordinate.rotateAbout(center, init, xRotation, yRotation, zRotation);
         }
         this.points = temp;
+        this.lineSegments = calcLineSegments(temp);
     }
 
     public void setColor(Color c){
         this.color = c;
+    }
+    public Color getColor(){
+        return this.color;
     }
 
     public double getWidth(){

@@ -16,13 +16,16 @@ public class AnimationPanel extends DynamicPanel{
     final double xMax;
     final double yMin = 0;
     final double yMax;
-    int num = 35;
+    final double zMin = -200;
+    final double zMax = 200;
+    int num = 20;
     RectangularPrism[] rects = new RectangularPrism[num];
     double[] xRotations = new double[num];
     double[] yRotations = new double[num];
     double[] zRotations = new double[num];
     double[] xVelocities = new double[num];
     double[] yVelocities = new double[num];
+    double[] zVelocities = new double[num];
 
     public AnimationPanel(JFrame frame) {
         super(frame);
@@ -47,6 +50,7 @@ public class AnimationPanel extends DynamicPanel{
             zRotations[i] = Math.random() * Math.PI/30 * Math.signum(((2*Math.random())-1));
             xVelocities[i] = Math.random() * 10.0 * Math.signum(((2*Math.random())-1));
             yVelocities[i] = Math.random() * 10.0 * Math.signum(((2*Math.random())-1));
+            zVelocities[i] = Math.random() * 10.0 * Math.signum(((2*Math.random())-1));
         }
     }
 
@@ -64,10 +68,16 @@ public class AnimationPanel extends DynamicPanel{
                     if(xDest + xV > xMax || xDest + xV < xMin) {
                         xV = -xV;
                         xVelocities[i] = xV;
+                        xRotations[i] = -xRotations[i];
+                        yRotations[i] = -yRotations[i];
+                        zRotations[i] = -zRotations[i];
                     }
                     if(yDest + yV > yMax || yDest + yV < yMin) {
                         yV = -yV;
                         yVelocities[i] = yV;
+                        xRotations[i] = -xRotations[i];
+                        yRotations[i] = -yRotations[i];
+                        zRotations[i] = -zRotations[i];
                     }
                     Coordinate dest = new Coordinate(
                             xDest + xV,
@@ -93,16 +103,47 @@ public class AnimationPanel extends DynamicPanel{
         });
         timer.start();
     }
-    Color colo = new Color((int)(2*Math.random())*255,(int)(2*Math.random())*255,(int)(2*Math.random())*255);
+    Color[] colors = {Color.RED, Color.MAGENTA, Color.YELLOW, Color.BLUE, Color.GREEN, Color.CYAN};
+    Color prev = Color.RED;
+    Color curr = Color.RED;
+    Color next = Color.RED;
+    double rInc = 0, gInc = 0, bInc = 0;
     public void paintComponent(Graphics g){
         g.clearRect(0,0,(int)xMax,(int)yMax);
-        if((int)(Math.random()*3)==0)
-            colo = new Color((int)(2*Math.random())*255,(int)(2*Math.random())*255,(int)(2*Math.random())*255);
-
-        g.setColor(colo);
+        if(colorSimilar(curr, next)) {
+            next = colors[(int) (colors.length * Math.random())];
+            rInc = ((double)next.getRed() - (double)curr.getRed())/5.0;
+            gInc = ((double)next.getGreen() - (double)curr.getGreen())/5.0;
+            bInc = ((double)next.getBlue() -(double) curr.getBlue())/5.0;
+        }
+        curr = new Color(
+                (int) limitNum((curr.getRed() + rInc),0,255),
+                (int) limitNum((curr.getGreen() + gInc),0,255),
+                (int) limitNum((curr.getBlue() + bInc),0,255)
+        );
+        g.setColor(curr);
         g.fillRect(0,0,(int)xMax,(int)yMax);
-        for(RectangularPrism r: rects)
+        for(RectangularPrism r: rects){
             r.render(g);
+        }
+    }
+
+    private boolean colorSimilar(Color c1, Color c2){
+        if(Math.abs(c1.getRed()-c2.getRed()) < 3 && Math.abs(c1.getGreen()-c2.getGreen()) < 3 && Math.abs(c1.getBlue()-c2.getBlue()) < 3)
+            return true;
+        return false;
+    }
+
+    private void reorderZ(){
+
+    }
+
+    private double limitNum(double num, double lower, double upper){
+        if(num < lower)
+            return lower;
+        else if(num > upper)
+            return upper;
+        return num;
     }
 
     public static void main(String[] args) throws IOException {

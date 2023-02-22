@@ -13,7 +13,6 @@ import UIComponents.*;
 public class InteractionPanel extends DynamicPanel implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
     Domino d = new Domino(new Coordinate(400,400,0),null,new Color(0,255,0),new Color(255,0,255));
     RectangularPrism r = new RectangularPrism(new Coordinate(200,200,200),100,200,25);
-
     boolean dragging = false;
     boolean draggingCube = false;
     public InteractionPanel(JFrame frame) throws IOException {
@@ -28,6 +27,15 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
         g.clearRect(0,0,10000,10000);
         d.draw((Graphics2D) g);
         r.render(g);
+        try{
+        TexturedPolygon tp = new TexturedPolygon(new Coordinate[]{
+                new Coordinate(200,200,0),
+                new Coordinate(400,200,0),
+                new Coordinate(300,400,0)
+        }, new Coordinate(300,300,0), ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\obamba.jpg")));
+        tp.render(g);
+        }catch(Exception e){}
+
     }
 
     @Override

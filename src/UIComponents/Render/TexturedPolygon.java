@@ -87,7 +87,9 @@ public class TexturedPolygon extends Polygon implements ImageObserver {
             for(double j = 0; j < height; j+=heightIncrement){
                 int rotX = (int) (limitNum((int) access.getX()-(int)topLeftCorner.getX(),0,(int)x-1));
                 int rotY = (int) (limitNum((int)access.getY()-(int) topLeftCorner.getY(),0,(int)y-1));
-                int color = RGBArray[limitNum((int)(j/scale),0,RGBArray.length-1)][limitNum((int)(i/scale),0,RGBArray[0].length-1)];
+                int color = RGBArray
+                        [limitNum((int)(j/scale),0,RGBArray.length-1)]
+                        [limitNum((int)(i/scale),0,RGBArray[0].length-1)];
                 if(b.getRGB(rotX,rotY)==0)
                     b.setRGB(rotX, rotY, color);
                     //if(p.intersects(new Coordinate(access.getX(),access.getY(),0)))

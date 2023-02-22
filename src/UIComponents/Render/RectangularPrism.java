@@ -12,6 +12,8 @@ public class RectangularPrism extends Polyhedron{
     private Coordinate center;
     private double length, width, height;
 
+    private TransformationManager tm = new TransformationManager(new double[3], new double[3]);
+
     private Color[] color = {
             Color.RED,
             Color.GREEN,
@@ -48,10 +50,14 @@ public class RectangularPrism extends Polyhedron{
                 Polygon p = new Polygon(points, center);
                 p.setColor(color[index]);
                 faces[index] = p;
-                if(index == 0 || index == 3)
+                if(index == 0)
+                    try {
+                        faces[index] = new TexturedPolygon(points, center, ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\strong.jpg")));
+                    } catch(Exception e){;}
+                if(index == 3)
                     try {
                         faces[index] = new TexturedPolygon(points, center, ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\obamba.jpg")));
-                    } catch(IOException e){;}
+                    } catch(Exception e){;}
             }
         }
         return faces;
