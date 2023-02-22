@@ -1,5 +1,3 @@
-package Backend;
-
 import UIComponents.*;
 
 import javax.swing.*;

@@ -1,7 +1,6 @@
 import java.util.*;
 //aman
 public class Tile{
-	Land[] landTypes= {Land.FORREST,Land.LAKE,Land.WHEAT,Land.SWAMP,Land.PASTURE,Land.MINE,Land.CASTLE};
 	int crowns;
 	Land landType;
 	Tile(Land land){
@@ -19,7 +18,7 @@ public class Tile{
 		return landType;
 	}
 	enum Land{
-		FORREST,
+		FOREST,
 		LAKE,
 		WHEAT,
 		SWAMP,
@@ -27,5 +26,5 @@ public class Tile{
 		MINE,
 		CASTLE
 	}
-	
+
 }

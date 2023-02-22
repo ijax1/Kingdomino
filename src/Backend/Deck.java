@@ -25,10 +25,4 @@ class deck() {
     public Domino[] getDominoesToSelect() {
         //remove 4 items from main deck and place them in list
     }
-
-    public boolean chooseDomino(Player player){
-
-    }
-
-
 }
