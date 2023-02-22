@@ -59,7 +59,7 @@ public abstract class Player {
         }
     }
 
-    public void selecteDomino(Domino domino) {
+    public void selectedDomino(Domino domino) {
 
     }
 
