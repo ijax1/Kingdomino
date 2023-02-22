@@ -37,4 +37,3 @@ public abstract class Button extends Component{
 
     abstract public void doAction();
 }
-
