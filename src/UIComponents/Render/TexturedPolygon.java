@@ -40,15 +40,6 @@ public class TexturedPolygon extends Polygon implements ImageObserver {
         double height = this.height * scale;
 
         Coordinate center = super.getCenter();
-        /*
-        Coordinate[] points = {
-                new Coordinate(center.getX()-width/2.0, center.getY()-height/2.0,center.getZ()),
-                new Coordinate(center.getX()+width/2.0, center.getY()-height/2.0,center.getZ()),
-                new Coordinate(center.getX()+width/2.0, center.getY()+height/2.0,center.getZ()),
-                new Coordinate(center.getX()-width/2.0, center.getY()+height/2.0,center.getZ())
-        };
-
-         */
         g.setColor(Color.BLACK);
         int[] xPoints = {(int)super.getPoint(0).getX(),
                 (int)super.getPoint(1).getX(),
