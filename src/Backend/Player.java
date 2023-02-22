@@ -38,13 +38,15 @@ public abstract class Player {
     }
 
     public String generateTitles() {
-        // Random rand = new Random();
-        // int randIndex = rand.nextInt(MEDIEVAL_TITLES.length);
-        // name = MEDIEVAL_TITLES[randIndex];
+        Random rand = new Random();
+        int randIndex = rand.nextInt(MEDIEVAL_TITLES.length);
+        //chooses a random title in MEDIEVAL_TITLES class variable
+        return MEDIEVAL_TITLES[randIndex];
     }
 
     public String generateAIName() {
-
+        //returns a temp name for the AI
+        return "Computer";
     }
 
     public Grid getGrid() {
@@ -60,10 +62,11 @@ public abstract class Player {
     }
 
     public void selecteDomino(Domino domino) {
-
+        //how do i get the selected domino
     }
 
     public String generateTitle() {
-
+        //don't know what this does
     }
 }
+
