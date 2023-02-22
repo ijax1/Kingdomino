@@ -21,7 +21,9 @@ public class Resources {
 		}
 		return image;
 	}
-	
+	public static Font getMedievalFont(float size) {
+		return loadFont("fonts/MedievalSharp-Regular.ttf").deriveFont(size);
+	}
 	public static Font loadFont(String name) {
 		Font font;
 		try {
