@@ -1,6 +1,7 @@
 package UIComponents.Render;
 
 import java.awt.*;
+import java.io.IOException;
 
 public abstract class Polyhedron {
 
@@ -16,7 +17,7 @@ public abstract class Polyhedron {
             p.render(g);
     }
 
-    abstract Polygon[] calcFaces();
+    abstract Polygon[] calcFaces() throws IOException;
 
     abstract Polygon[] getFaces();
 

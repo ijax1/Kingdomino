@@ -1,6 +1,11 @@
 package UIComponents.Render;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class RectangularPrism extends Polyhedron{
     private Polygon[] faces;
@@ -40,14 +45,14 @@ public class RectangularPrism extends Polyhedron{
                         new Coordinate(center.getX()+(sign * orientations[j][3] * length/2), center.getY()+(sign * orientations[(j+1)%3][3] * height/2), center.getZ()+(sign * orientations[(j+2)%3][3] * width/2))
                 };
                 int index = i*3+j;
-                System.out.println(index);
                 Polygon p = new Polygon(points, center);
                 p.setColor(color[index]);
                 faces[index] = p;
+                if(index == 0 || index == 3)
+                    try {
+                        faces[index] = new TexturedPolygon(points, center, ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\obamba.jpg")));
+                    } catch(IOException e){;}
             }
-        }
-        for(Polygon p: faces){
-            System.out.println(p);
         }
         return faces;
     }
@@ -69,28 +74,38 @@ public class RectangularPrism extends Polyhedron{
 
     @Override
     Polygon[] getVisible() {
-        Polygon[] visible = {
-                faces[0],
-                faces[1],
-                faces[2]
-        };
-        for(Polygon p: faces){
-            System.out.println(p);
-            if(p.getAverageZ() > visible[0].getAverageZ()){
-                visible[2] = visible[1];
-                visible[1] = visible[0];
-                visible[0] = p;
-            }
-            else if(p.getAverageZ() > visible[1].getAverageZ()){
-                visible[2] = visible[1];
-                visible[1] = p;
-            }
-            else if(p.getAverageZ() > visible[2].getAverageZ()){
-                visible[2] = p;
-            }
-
+        double near = 300;
+        double far = -300;
+        double[] zPrimes = new double[6];
+        for(int i = 0; i < 6; i++){
+            zPrimes[i] = 2.0 * (faces[i].getAverageZ() - near)/(far - near) - 1;
         }
-        return visible;
+        ArrayList<Polygon> visible = new ArrayList<>();
+        for(int i = 0; i < 6; i++){
+            visible.add(faces[i]);
+        }
+        int n = zPrimes.length;
+        for (int i = 1; i < n; ++i) {
+            double key = zPrimes[i];
+            int j = i - 1;
 
+            while (j >= 0 && zPrimes[j] > key) {
+                zPrimes[j + 1] = zPrimes[j];
+                j = j - 1;
+            }
+            zPrimes[j + 1] = key;
+            visible.add(j+1, visible.remove(i));
+        }
+        Polygon[] vis = new Polygon[6];
+        for(int i = 0; i < 6; i++){
+            vis[i] = visible.get(i);
+        }
+        return new Polygon[]{
+                vis[3],vis[4],vis[5]
+        };
+    }
+
+    public Coordinate getCenter(){
+        return this.center;
     }
 }

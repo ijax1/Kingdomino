@@ -74,9 +74,7 @@ public class TexturedPolygon extends Polygon implements ImageObserver {
         LineSegment sweep = new LineSegment(end, start);
         Coordinate access = sweep.getStart();
 
-        g.setColor(Color.GREEN);
         Coordinate topLeftCorner = super.getTopLeft();
-        g.drawOval((int) topLeftCorner.getX()-5, (int) topLeftCorner.getY()-5, 10,10);
 
         if((int) x == 0 || (int) y == 0)
             return;

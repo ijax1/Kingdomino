@@ -2,6 +2,7 @@ package UIComponents.Render;
 
 import javax.sound.sampled.Line;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Polygon {
     private Coordinate[] points;
@@ -161,7 +162,6 @@ public class Polygon {
                 new Coordinate(5,0,0),
         };
         Polygon p = new Polygon(points, new Coordinate(2.5,2.5,0));
-        System.out.println(p.intersects(new Coordinate(4.9,4.9,0)));
     }
 
     public Coordinate getCenter() {
@@ -176,6 +176,10 @@ public class Polygon {
         return avg/points.length;
     }
 
+    public TexturedPolygon toTexturedPolygon(BufferedImage b){
+        return new TexturedPolygon(points, center, b);
+    }
+
     public String toString(){
         StringBuilder ret = new StringBuilder();
         System.out.println("FACE START");
@@ -185,4 +189,5 @@ public class Polygon {
         }
         return ret.toString();
     }
+
 }

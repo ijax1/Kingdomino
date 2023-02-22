@@ -95,7 +95,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
 
         if(draggingCube) {
             r.moveTo(new Coordinate(e.getX(), e.getY(), 0));
-            r.incrementRotation(Math.PI / 50, Math.PI / 40,Math.PI / 50);
+            r.incrementRotation(Math.PI / 20, Math.PI / 40,Math.PI / 50);
             repaint();
         }
     }
