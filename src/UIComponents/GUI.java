@@ -1,3 +1,5 @@
+package UIComponents;
+
 import javax.swing.*;
 import java.awt.event.*;
 public class GUI implements ActionListener {
@@ -45,7 +47,7 @@ public class GUI implements ActionListener {
 		new GUI();
 	}
 	public static void main(String[] args) {
-		//New thread for GUI
+		//New thread for UIComponents.GUI
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				runGUI();
