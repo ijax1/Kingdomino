@@ -1,5 +1,5 @@
 import java.util.*;
-
+//aman
 public class Tile{
 	Land[] landTypes= {Land.FORREST,Land.LAKE,Land.WHEAT,Land.SWAMP,Land.PASTURE,Land.MINE,Land.CASTLE};
 	int crowns;
