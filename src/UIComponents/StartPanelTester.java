@@ -1,6 +1,7 @@
 package UIComponents;
 
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -21,7 +22,7 @@ public class StartPanelTester {
 	}
 	public void runGUI() {
 		JFrame frame = new JFrame(getClass().getName());
-		StartPanel panel = new StartPanel();
+		StartPanel panel = new StartPanel(new GridBagLayout());
 		frame.setSize(1280,720);
 		frame.add(panel);
 		
