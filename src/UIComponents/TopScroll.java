@@ -10,7 +10,7 @@ import resources.Resources;
 
 public class TopScroll extends JPanel {
 	public TopScroll() {
-		setPreferredSize(new Dimension(600,200));
+		setPreferredSize(new Dimension(500,100));
 	}
 	@Override
 	public void paintComponent(Graphics g1) {
