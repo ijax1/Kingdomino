@@ -64,8 +64,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
-		medieval = Resources.loadFont("fonts/MedievalSharp-Regular.ttf");
-		medievalLg = medieval.deriveFont(100f);
+		medieval = Resources.loadFont("fonts/MedievalSharp-Regular.ttf", 100);
 		
 		
 		components.add(new Dummy(null,null));
