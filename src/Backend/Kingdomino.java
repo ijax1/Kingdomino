@@ -1,21 +1,24 @@
+package Backend;
+
 import UIComponents.*;
 
 import javax.swing.*;
 import java.awt.*;
 
+
 public class Kingdomino {
     private JPanel currentPanel;
-    private StartPanel startPanel;
-    private PodiumPanel podiumPanel;
-    private GamePanel gamePanel;
-    private GameManager manager;
+    final private StartPanel startPanel;
+    final private GamePanel gamePanel;
+    final private PodiumPanel podiumPanel;
+    final private GameManager manager;
     private JFrame frame;
 
-    void KingDomino() {
+    Kingdomino() {
         manager = new GameManager();
-        startPanel = new StartPanel();
-        gamePanel = new GamePanel();
-        podiumPanel = new PodiumPanel();
+        startPanel = new StartPanel(manager);
+        gamePanel = new GamePanel(manager);
+        podiumPanel = new PodiumPanel(manager);
         setUpFrame();
     }
 
@@ -29,7 +32,20 @@ public class Kingdomino {
         frame.setResizable(false);
     }
 
+    public void changePanel(GameState state) {
+        JPanel newPanel;
+        if (state == GameState.INITIAL)
+            newPanel = startPanel;
+        else if (state == GameState.PLAYER_TURN)
+            newPanel = gamePanel;
+        else if (state == ENDSCREEN)
+            newPanel = podiumPanel;
+        else
+            newPanel = currentPanel;
+        frame.setContentPane(newPanel);
+    }
+
     public static void main(String[] args) {
-        Kingdomino game = new Kingdomino();
+        new Kingdomino();
     }
 }
