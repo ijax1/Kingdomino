@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
@@ -25,15 +26,13 @@ public class StartPanelTester {
 		frame.add(panel);
 		String[]choices = {"Choice 1", "Choice 2"};
 		JComboBox<String>computerBox = new JComboBox<String>(choices);
-		
-		textBox = new JTextField("Player 1");
-		textBox.setFont(Resources.getMedievalFont(40));
-		textBox.selectAll();
-		textBox.setMinimumSize(new Dimension(50,100));
+		JPanel playerPanel = new JPanel();
+		textBox = new NameTextField("Player 1");
 
-		panel.add(textBox);
+
+		playerPanel.add(textBox);
 		
-		panel.add(computerBox);
+		playerPanel.add(computerBox);
 		
 		JRadioButton playerButton = new JRadioButton("Human");
 		JRadioButton computerButton = new JRadioButton("Computer");
@@ -49,10 +48,11 @@ public class StartPanelTester {
 		group.add(computerButton);
 		group.add(noneButton);
 		
-		panel.add(computerButton);
-		panel.add(playerButton);
-		panel.add(noneButton);
-
+		playerPanel.add(computerButton);
+		playerPanel.add(playerButton);
+		playerPanel.add(noneButton);
+		panel.add(playerPanel);
+		panel.add(playerPanel);
 		
 		//frame.pack();
 		frame.setVisible(true);
