@@ -18,7 +18,7 @@ public class AnimationPanel extends DynamicPanel{
     final double yMax;
     final double zMin = -200;
     final double zMax = 200;
-    int num = 10;
+    int num = 100;
     RectangularPrism[] rects = new RectangularPrism[num];
     double[] xRotations = new double[num];
     double[] yRotations = new double[num];

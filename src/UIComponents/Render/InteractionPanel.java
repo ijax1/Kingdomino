@@ -55,12 +55,6 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(dragging) {
-            if (e.getButton() == MouseEvent.BUTTON3){
-                d.rotate(0,0,Math.PI/2);
-                repaint();
-            }
-        }
 
     }
 
@@ -68,6 +62,9 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
     public void mousePressed(MouseEvent e) {
         if(d.onComponent(new Coordinate(e.getX(),e.getY(),0))) {
             dragging = true;
+        }
+        if(dragging && e.getButton() == MouseEvent.BUTTON3){
+            d.rotateToNextPos(1,this);
         }
         if(r.intersects(new Coordinate(e.getX(), e.getY(), 0))){
             draggingCube = true;
@@ -117,7 +114,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
     public void mouseWheelMoved(MouseWheelEvent e) {
         if(dragging) {
             double direction = Math.signum(e.getWheelRotation());
-            d.rotate(0,0, direction * Math.PI / 3);
+            d.rotateToNextPos((int)direction,this);
             repaint();
         }
     }
