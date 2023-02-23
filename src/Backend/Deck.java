@@ -29,8 +29,10 @@ class deck() {
     public Domino[] getDominoesToSelect() {
         //what about 3 players?
         //remove 4 items from main deck and place them in list
-        if (this.dominoesRemaining()) {
-            dominoesToSelect = [deck.remove(0), deck.remove(0), deck.remove(0), deck.remove(0)];
+        if (this.dominoesRemaining() >= 4) {
+            for (int i = 0; i < 4; i++) {
+                dominoesToSelect[i] = deck.remove(0);
+            }
         } else {
             //not enough cards
         }
