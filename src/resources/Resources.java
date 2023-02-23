@@ -24,6 +24,16 @@ public class Resources {
 	public static Font getMedievalFont(float size) {
 		return loadFont("fonts/MedievalSharp-Regular.ttf").deriveFont(size);
 	}
+	public static Font getLogoFont(float size) {
+		//return loadFont("fonts/MedievalSharp-Regular.ttf").deriveFont(size);
+		return loadFont("fonts/PUSDTE+Germania.ttf").deriveFont(size);
+	}
+	public static Font getLogoFontContour(float size) {
+		return loadFont("fonts/DS Germania Contour.ttf").deriveFont(size);
+	}
+	public static Font getLogoFontShadow(float size) {
+		return loadFont("fonts/DS Germania Shadow.ttf").deriveFont(size);
+	}
 	public static Font loadFont(String name) {
 		Font font;
 		try {

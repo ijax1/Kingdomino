@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -22,32 +24,35 @@ import resources.Resources;
 
 public class NameTextField extends JTextField {
 	public static final int MAX_CHARS = 16;
+	private String defaultText;
 	public NameTextField(String text) {
 		super(text);
-		setFont(Resources.getMedievalFont(10));
+		defaultText = text;
+		setFont(Resources.getMedievalFont(20));
 		selectAll();
 		setPreferredSize(new Dimension(200,50));
 		AbstractDocument doc = (AbstractDocument) getDocument();
 		doc.setDocumentFilter(new DocumentSizeFilter(MAX_CHARS));
-		addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		addFocusListener(new FocusListener() {
 
-			}
-		});
-		addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyTyped(KeyEvent e) {
-				if(getText().length() > MAX_CHARS) {
-					e.consume();
+			public void focusGained(FocusEvent e) {
+				if(getText().equals(defaultText)) {
+					setText("");
 				}
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	}
 
 	/* Adapted from TextComponentDemo in the Java Tutorials
 	 * 
-	 * https://docs.oracle.com/javase/tutorial/uiswing/components/generaltext.html#document */
+	 * https://docs.oracle.com/javase/tutorial/uiswing/components/generaltext.html#document
+	 */
 	class DocumentSizeFilter extends DocumentFilter {
 		private int maxChars;
 		public DocumentSizeFilter(int max) {
@@ -62,12 +67,8 @@ public class NameTextField extends JTextField {
 				//Toolkit.getDefaultToolkit().beep();
 			}
 		}
-
+		@Override
 		public void replace(FilterBypass fb, int offs, int length, String str, AttributeSet a) throws BadLocationException {
-			//This rejects the entire replacement if it would make
-			//the contents too long. Another option would be
-			//to truncate the replacement string so the contents
-			//would be exactly maxCharacters in length.
 			if ((fb.getDocument().getLength() + str.length() - length) <= maxChars) {
 				super.replace(fb, offs, length, str, a);
 			} else {
