@@ -48,4 +48,5 @@ class deck() {
     public boolean[] getSelected() {
         return selected;
     }
+    
 }
