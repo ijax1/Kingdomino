@@ -37,6 +37,10 @@ class deck() {
         
     }
 
+    public boolean chooseDomino(Player player) {
+        //necessary?
+    }
+
     public void setSelected(int index) {
         selected[index] = true;
     }
