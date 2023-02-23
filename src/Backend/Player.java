@@ -18,7 +18,7 @@ public abstract class Player {
         this.name = name;
         this.score = 0;
         //create empty grid
-        grid = new Grid(title);
+        this.grid = new Grid(title);
     }
     public Color getColor() {
         return color;
@@ -44,13 +44,13 @@ public abstract class Player {
         if (grid.avilableSpaces(domino)) {
             grid.placeDomino(x, y, domino);
         } else {
-            //prompt user?
+            //doesn't go through
+            //activate message box
         }
     }
 
     public void selecteDomino(Domino domino) {
-        //how do i get the selected domino
-        nextDomino = domino;
+        this.nextDomino = domino;
     }
 
 }
