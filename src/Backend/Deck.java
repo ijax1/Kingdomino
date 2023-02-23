@@ -24,6 +24,6 @@ class deck() {
 
     public Domino[] getDominoesToSelect() {
         //remove 4 items from main deck and place them in list
-        dominoesToSelect = [deck.remove(1), deck.remove(1), deck.remove(1), deck.remove(1)]
+        dominoesToSelect = [deck.remove(0), deck.remove(0), deck.remove(0), deck.remove(0)];
     }
 }
