@@ -1,21 +1,32 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import UIComponents.Domino;
+
 
 class deck() {
-    private ArrayList<Domino> deck;
-    private Domino[] dominoesToSelect;
+
+    private ArrayList<Domino> deck = new ArrayList<>();
+    private Domino[] dominoesToSelect = {null, null, null, null};
     private boolean[] selected = {false, false, false, false};
 
     public deck(boolean isTwoPlayer) {
         //create a deck of random dominos
+        for (int i = 0; i < 4; i++) {
+            Domino d = new Domino();
+            deck.add(d);
+        }
+ 
         if (isTwoPlayer) {
             //take first half
-            this.deck = deck.subList(0, deck.size / 2);
+            this.deck = deck.subList(0, deck.size() / 2);
         }
+
+        //shuffle the deck
+        this.shuffleDeck();
     }
 
-    public shuffleDeck() {
-        collections.shuffle(deck);
+    public void shuffleDeck() {
+        Collections.shuffle(deck);
     }
 
     public int dominoesRemaining() {
