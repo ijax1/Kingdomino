@@ -1,27 +1,26 @@
 import java.util.ArrayList;
 import java.util.Collections;
+
 import UIComponents.Domino;
 
-
-class deck() {
-
+class Deck {
     private ArrayList<Domino> deck = new ArrayList<>();
     private Domino[] dominoesToSelect = {null, null, null, null};
     private boolean[] selected = {false, false, false, false};
 
-    public deck(boolean isTwoPlayer) {
-        //create a deck of random dominos
+    public Deck(boolean isTwoPlayer) {
+        // create a deck of random dominos
         for (int i = 0; i < 4; i++) {
             Domino d = new Domino();
             deck.add(d);
         }
- 
+
         if (isTwoPlayer) {
-            //take first half
+            // take first half
             this.deck = deck.subList(0, deck.size() / 2);
         }
 
-        //shuffle the deck
+        // shuffle the deck
         this.shuffleDeck();
     }
 
@@ -38,20 +37,21 @@ class deck() {
     }
 
     public Domino[] getDominoesToSelect() {
-        //what about 3 players?
-        //remove 4 items from main deck and place them in list
+        // what about 3 players?
+        // remove 4 items from main deck and place them in list
         if (this.dominoesRemaining() >= 4) {
             for (int i = 0; i < 4; i++) {
                 dominoesToSelect[i] = deck.remove(0);
             }
         } else {
-            //not enough cards
+            // not enough cards
         }
-        
+        return dominoesToSelect;
     }
 
     public boolean chooseDomino(Player player) {
-        //necessary?
+        // necessary?
+        return true;
     }
 
     public void setSelected(int index) {
@@ -61,5 +61,4 @@ class deck() {
     public boolean[] getSelected() {
         return selected;
     }
-    
 }
