@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.Random;
 
 public abstract class Player {
+    
     // Class variables
     static final String[] MEDIEVAL_TITLES = {"The Honorable", "The Great", "The Wise", "The Bold", "The Valiant", "The Chivalrous", "The Magnificent", "The Noble", "The Righteous", "The Sagacious"};
 

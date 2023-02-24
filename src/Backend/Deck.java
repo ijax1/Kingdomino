@@ -4,7 +4,6 @@ import java.util.Collections;
 import UIComponents.Domino;
 
 class Deck {
-
     //Instance Variables
     private ArrayList<Domino> deck = new ArrayList<>();
     private Domino[] dominoesToSelect;
