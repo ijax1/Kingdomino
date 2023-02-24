@@ -4,13 +4,21 @@ import java.util.Collections;
 import UIComponents.Domino;
 
 class Deck {
-    private ArrayList<Domino> deck = new ArrayList<>();
-    private Domino[] dominoesToSelect = {null, null, null, null};
-    private boolean[] selected = {false, false, false, false};
 
+    //Instance Variables
+    private ArrayList<Domino> deck = new ArrayList<>();
+    private Domino[] dominoesToSelect;
+    private boolean[] selected;
+
+
+    //Create deck and shuffles
     public Deck(boolean isTwoPlayer) {
-        // create a deck of random dominos
-        for (int i = 0; i < 4; i++) {
+
+        this.dominoesToSelect = {null, null, null, null};
+        this.selected = {false, false, false, false};
+
+        // create a deck of 48 random dominos
+        for (int i = 0; i < 48; i++) {
             Domino d = new Domino();
             deck.add(d);
         }
@@ -36,6 +44,7 @@ class Deck {
         return deck.isEmpty();
     }
 
+    //Returns a list of 4 tiles removed from the deck
     public Domino[] getDominoesToSelect() {
         // remove 4 items from main deck, places in list and reutrns list
         if (this.dominoesRemaining() >= 4) {
@@ -48,10 +57,12 @@ class Deck {
         return dominoesToSelect;
     }
 
-    public boolean chooseDomino(Player player) {
-        // necessary?
-        return true;
+    // --------------
+    public void chooseDomino(Player player, int index) {
+        //leaving alone for now
+        
     }
+    // --------------
 
     public void setSelected(int index) {
         selected[index] = true;
