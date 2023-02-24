@@ -16,7 +16,7 @@ class Deck {
         }
 
         if (isTwoPlayer) {
-            // take first half
+            // take first half of card
             this.deck = deck.subList(0, deck.size() / 2);
         }
 
