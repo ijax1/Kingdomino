@@ -21,20 +21,20 @@ public class Resources {
 		}
 		return image;
 	}
-	public static Font getMedievalFont(float size) {
-		return loadFont("fonts/MedievalSharp-Regular.ttf").deriveFont(size);
+	public static Font getMedievalFont(float fontSize) {
+		return loadFont("fonts/MedievalSharp-Regular.ttf", fontSize);
 	}
-	public static Font getLogoFont(float size) {
+	public static Font getLogoFont(float fontSize) {
 		//return loadFont("fonts/MedievalSharp-Regular.ttf").deriveFont(size);
-		return loadFont("fonts/PUSDTE+Germania.ttf").deriveFont(size);
+		return loadFont("fonts/DS Germania.ttf", fontSize);
 	}
-	public static Font getLogoFontContour(float size) {
-		return loadFont("fonts/DS Germania Contour.ttf").deriveFont(size);
+	public static Font getLogoFontContour(float fontSize) {
+		return loadFont("fonts/DS Germania Contour.ttf", fontSize);
 	}
-	public static Font getLogoFontShadow(float size) {
-		return loadFont("fonts/DS Germania Shadow.ttf").deriveFont(size);
+	public static Font getLogoFontShadow(float fontSize) {
+		return loadFont("fonts/DS Germania Shadow.ttf", fontSize);
 	}
-	public static Font loadFont(String name) {
+	public static Font loadFont(String name, float fontSize) {
 		Font font;
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, Resources.class.getResourceAsStream(name));
@@ -48,6 +48,6 @@ public class Resources {
 				font = new JLabel().getFont();
 			}
 		}
-		return font;
+		return font.deriveFont(fontSize);
 	}
 }
