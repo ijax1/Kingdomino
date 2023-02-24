@@ -52,11 +52,11 @@ public class RectangularPrism extends Polyhedron{
                 faces[index] = p;
                 if(index == 0)
                     try {
-                        //faces[index] = new TexturedPolygon(points, center, ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\strong.jpg")));
+                        faces[index] = new TexturedPolygon(points, center, ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\strong.jpg")));
                     } catch(Exception e){;}
                 if(index == 3)
                     try {
-                        //faces[index] = new TexturedPolygon(points, center, ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\obamba.jpg")));
+                        faces[index] = new TexturedPolygon(points, center, ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\obamba.jpg")));
                     } catch(Exception e){;}
             }
         }
@@ -113,5 +113,9 @@ public class RectangularPrism extends Polyhedron{
 
     public Coordinate getCenter(){
         return this.center;
+    }
+
+    public void setFace(int index, Polygon p){
+        faces[index] = p;
     }
 }

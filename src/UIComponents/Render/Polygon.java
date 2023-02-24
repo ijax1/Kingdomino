@@ -158,6 +158,10 @@ public class Polygon {
         return new Coordinate(left.getX(), top.getY(), 0);
     }
 
+    public Coordinate[] getPoints(){
+        return points;
+    }
+
     public static void main(String[] args) {
         Coordinate[] points = {
                 new Coordinate(0,0,0),
@@ -177,6 +181,8 @@ public class Polygon {
         for(Coordinate c: points){
             avg += c.getZ();
         }
+        System.out.println(avg/points.length);
+        System.out.println(avg/points.length);
         return avg/points.length;
     }
 

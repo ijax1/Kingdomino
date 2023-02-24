@@ -113,7 +113,8 @@ public class Coordinate{
         return point;
     }
 
-    public boolean equals(Coordinate other){
+    public boolean equals(Object o){
+        Coordinate other = (Coordinate) o;
         return almostEqual(this.x, other.getX(), 0.01) && almostEqual(this.y, other.getY(), 0.01) && almostEqual(this.z, other.getZ(), 0.01);
     }
 
