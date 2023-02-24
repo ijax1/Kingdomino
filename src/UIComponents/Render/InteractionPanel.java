@@ -114,7 +114,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
     public void mouseWheelMoved(MouseWheelEvent e) {
         if(dragging) {
             double direction = Math.signum(e.getWheelRotation());
-            d.rotateToNextPos((int)direction,this);
+            d.incrementRotation(direction * Math.PI/30,direction * Math.PI/30,direction * Math.PI/30);
             repaint();
         }
     }

@@ -1,5 +1,7 @@
 package UIComponents.Render;
 
+import javax.sound.sampled.Line;
+
 public class LineSegment {
 
     private final Coordinate start, end;
@@ -48,9 +50,11 @@ public class LineSegment {
         return end.getZ() - start.getZ();
     }
 
-    public boolean equals(LineSegment s){
-        return s.getStart().equals(start) && s.getEnd().equals(end);
-    }
+
+    public boolean equals(Object o){
+        LineSegment s = (LineSegment) o;
+        return (s.getStart().equals(start) && s.getEnd().equals(end)) || (s.getStart().equals(end) && s.getEnd().equals(start));
+}
 
     public boolean onLine(Coordinate check){
         if (check.getX() <= Math.max(start.getX(), end.getX()) && check.getX() >= Math.min(start.getX(), end.getX()) &&

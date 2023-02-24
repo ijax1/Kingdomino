@@ -19,41 +19,34 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Domino extends Component{
-    private Polygon[] p = new Polygon[2];
+    private UITile[] tiles = new UITile[2];
     private RectangularPrism self;
 
-    double rotation = 0;
-    int rotIncrement = 18;
+    double rotateTo = 0;
+    double rotIncrement = 90.0/4;
     public double currentRotation = 0;
 
-    int sideLen = 100;
+    boolean rotating = false;
+
+    double sideLen = 100;
 
 
     public Domino(Coordinate position, Kingdomino k, Color color1, Color color2) {
         super(position, k);
         double x = position.getX();
         double y = position.getY();
-        BufferedImage b = null;
-        try {
-            b = ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\rizz.png"));
-        }catch(IOException e){;}
-        Coordinate[] left = {
-                new Coordinate(x,y-sideLen/2,0),
-                new Coordinate(x-sideLen,y-sideLen/2,0),
-                new Coordinate(x-sideLen,y+sideLen/2,0),
-                new Coordinate(x,y+sideLen/2,0)
+        tiles[0] = new UITile(Color.RED, new Coordinate(position.getX()-sideLen/2.0, position.getY(),position.getZ()+sideLen/8.0), (int) sideLen/2, position);
+        tiles[1] = new UITile(Color.CYAN, new Coordinate(position.getX()+sideLen/2.0, position.getY(),position.getZ()+sideLen/8.0), (int) sideLen/2, position);
+
+        Coordinate[] points = {
+                new Coordinate(position.getX()-sideLen, position.getY()-sideLen/2.0,position.getZ()+sideLen/8.0),
+                new Coordinate(position.getX()+sideLen, position.getY()-sideLen/2.0,position.getZ()+sideLen/8.0),
+                new Coordinate(position.getX()+sideLen, position.getY()+sideLen/2.0,position.getZ()+sideLen/8.0),
+                new Coordinate(position.getX()-sideLen, position.getY()+sideLen/2.0,position.getZ()+sideLen/8.0)
         };
-        p[0] = new TexturedPolygon(left, position,b);
-        p[0].setColor(color1);
-        Coordinate[] right = {
-                new Coordinate(x+sideLen,y-sideLen/2,0),
-                new Coordinate(x,y-sideLen/2,0),
-                new Coordinate(x,y+sideLen/2,0),
-                new Coordinate(x+sideLen,y+sideLen/2,0)
-        };
-        p[1] = new TexturedPolygon(right, position,b);
-        p[1].setColor(color2);
+
         self = new RectangularPrism(new Coordinate(800,400,0),sideLen*2,25,sideLen);
+        self.setFace(2,new CompoundPolygon(new Polygon[]{tiles[0].getPolygon(),tiles[1].getPolygon()},points,position));
     }
 
     @Override
@@ -84,22 +77,29 @@ public class Domino extends Component{
         self.incrementRotation(xRotation, yRotation, zRotation);
     }
 
-    public void rotateToNextPos(final int direction, final JPanel panel){
-        final Timer timer = new Timer(1,null);
-        currentRotation = rotation;
-        rotation += 90*direction;
-        timer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                currentRotation += rotIncrement*direction;
-                incrementRotation(0,0,direction*Math.toRadians(rotIncrement));
-                panel.repaint();
-                if(Math.abs(currentRotation - rotation) == 0)
-                    timer.stop();
+    public void rotateToNextPos(final int direction, final JPanel panel) {
+            rotateTo += 90 * direction;
+        System.out.println(rotateTo);
+        System.out.println(currentRotation);
+        if (currentRotation%360 == (rotateTo-90)%360) {
+            rotating = true;
+            final Timer timer = new Timer(1, null);
+            currentRotation = rotateTo - 90 * direction;
+            timer.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    currentRotation += rotIncrement * direction;
+                    incrementRotation(0, 0, direction * Math.toRadians(rotIncrement));
+                    panel.repaint();
+                    if (Math.abs(currentRotation%360 - rotateTo%360) == 0) {
+                        timer.stop();
+                        rotating = false;
+                    }
 
-            }
-        });
-        timer.start();
+                }
+            });
+            timer.start();
+        }
     }
 
 }
