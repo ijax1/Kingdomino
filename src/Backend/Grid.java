@@ -37,7 +37,6 @@ public class Grid {
     }
 
     private boolean[][] availableSpaces(Domino domino) {
-
     }
 
 }
