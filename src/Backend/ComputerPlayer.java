@@ -1,6 +1,8 @@
 package Backend;
 import java.awt.Color;
 
+import UIComponents.Domino;
+
 abstract class ComputerPlayer extends Player {
 
 	public ComputerPlayer(Color color, String name, String title) {
