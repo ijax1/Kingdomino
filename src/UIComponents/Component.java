@@ -28,6 +28,8 @@ public abstract class Component {
         return position;
     };
 
+    public boolean getMinimized() {return minimized;}
+
     public Kingdomino getGame(){
         return game;
     }
