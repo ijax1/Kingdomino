@@ -5,41 +5,90 @@ import UIComponents.Render.Coordinate;
 
 import java.awt.Graphics2D;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class MinimizeComponentButton extends Button{
-    MinimizeComponentButton(Coordinate position, Kingdomino k) {
+
+    Graphics2D graphics;
+    ArrayList<Component> components;
+
+    MinimizeComponentButton(Coordinate position, Kingdomino k, Graphics2D g, ArrayList<Component> c) {
         super(position, k);
+        graphics = g;
+        components = c;
     }
 
     // action = if already minimized - set to not minimized, vice versa
     // draws separate components based on if minimized or not
     // sets position of tip to determine where to draw / where to determine the mouse
     public void doAction() {
-        if (super.minimized) {
-            super.show();
+        if (getMinimized()) {
+            show();
+            for (Component c: components) {
+                c.show();
+            }
             // need to set coordinate based on location of button
-            //super.setPosition(Coordinate())
+            //super.setPosition(new Coordinate())
         } else {
-            super.minimize();
-            //super.setPosition(Coordinate())
+            minimize();
+            for (Component c: components) {
+                c.minimize();
+            }
+            //super.setPosition(new Coordinate())
         }
 
-        //draw(k.getGraphics);
+        for (Component c: components) {
+            c.draw(graphics);
+        }
+
         //need to minimize message box, but need to get the instance of the message box somehow
+    }
+
+    public boolean onComponent(Coordinate c) {
+        double pointX = c.getX();
+        double pointY = c.getY();
+
+        double[] xPoints = getPoints()[0];
+        double[] yPoints = getPoints()[1];
+
+        double area = getArea(xPoints[0], xPoints[1], xPoints[2], yPoints[0], yPoints[1], yPoints[2]);
+        double area1 = getArea(pointX, xPoints[1], xPoints[2], pointY, yPoints[1], yPoints[2]);
+        double area2 = getArea(xPoints[0], pointX, xPoints[2], yPoints[0], pointY, yPoints[2]);
+        double area3 = getArea(xPoints[0], xPoints[1], pointX, yPoints[0], yPoints[1], pointY);
+
+        return (area1 + area2 + area3 == area);
+    }
+
+    private double[][] getPoints() {
+        double tipX = getPosition().getX();
+        double tipY = getPosition().getY();
+        double[] xPoints = {tipX, tipX-10, tipX+10};
+        double yConstant = -10;
+        if (getMinimized()) {
+            yConstant = 10;
+        }
+        double[] yPoints = {tipY, tipY+yConstant, tipY+yConstant};
+
+        return new double[][]{xPoints, yPoints};
+    }
+
+    private double getArea(double x1, double x2, double x3, double y1, double y2, double y3) {
+        return Math.abs((x1*(y2-y3) + x2*(y3-y1)+x3*(y1-y2))/2);
     }
 
     // draws based on the coordinate of the tip of the arrow
     // (if minimized or not)
 
     public void draw(Graphics2D g) {
-        double tipX = super.getPosition().getX();
-        double tipY = super.getPosition().getY();
-        int[] xPoints = {(int)tipX, (int)tipX+10, (int)tipX-10};
-        int yConstant = -10;
-        if (super.minimized) {
-            yConstant = 10;
+        //for loop moving points into new arrays with integer type
+        double[][] points = getPoints();
+        int[] xPoints = new int[3];
+        int[] yPoints = new int[3];
+
+        for (int i=0; i<3; i++) {
+            xPoints[i] = (int) points[0][i];
+            yPoints[i] = (int) points[1][i];
         }
-        int[] yPoints = {(int) tipY, (int)tipY+yConstant, (int)tipY+yConstant};
 
         g.setColor(new Color(241, 194, 50, 100));
         g.fillPolygon(new Polygon(xPoints, yPoints, 3));
