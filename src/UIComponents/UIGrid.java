@@ -1,25 +1,32 @@
 package UIComponents;
+import UIComponents.Render.*;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
+import java.util.ArrayList;
 
-import javax.swing.JComponent;
+public class UIGrid {
+    private final int width;
+    private final int height;
+    private final Coordinate center;
+    private ArrayList<UITile> tiles = new ArrayList<UITile>();
 
-public class UIGrid extends JComponent {
-	private int size = 501;
-	public UIGrid() {
-		setPreferredSize(new Dimension(size,size));
-	}
-	
-	@Override
-	public void paintComponent(Graphics g1) {
-		Graphics2D g = (Graphics2D)g1;
-		for(int i=0; i<=size; i+=100) {
-			g.drawLine(i, 0, i, size);
-		}
-		for(int i=0; i<=size; i+=100) {
-			g.drawLine(0, i, size, i);
-		}
-	}
+    public UIGrid(Coordinate center, Grid g){
+        this.width = 0;
+        this. height = 0;
+        this.center = center;
+    }
+
+    public void addDominoToGrid(Coordinate placed){
+
+    }
+
+    public void render(Graphics g){
+      Graphics2D g = (Graphics2D)g1;
+      for(int i=0; i<=size; i+=100) {
+        g.drawLine(i, 0, i, size);
+      }
+      for(int i=0; i<=size; i+=100) {
+        g.drawLine(0, i, size, i);
+      }
+    }
 }

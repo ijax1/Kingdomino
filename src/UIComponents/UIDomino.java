@@ -1,118 +1,120 @@
 package UIComponents;
 
-import java.awt.BasicStroke;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Stroke;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.awt.geom.Point2D;
+import Backend.Kingdomino;
+import UIComponents.Render.Coordinate;
 
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
-public class UIDomino extends JComponent implements MouseListener, MouseMotionListener, MouseWheelListener {
-	int x, y, startScreenx, startScreeny, startx, starty;
-	public UIDomino() {
-		setPreferredSize(new Dimension(100,100));
-		addMouseListener(this);
-		addMouseMotionListener(this);
-		addMouseWheelListener(this);
-	}
-	
-	public void paintComponent(Graphics g1) {
-		Graphics2D g = (Graphics2D)g1;
-		g.setStroke(new BasicStroke(3f));
-		g.drawRect(0, 0, 99, 99);
-		g.drawRect(5,5,85,85);
-	}
+import UIComponents.Render.*;
+import UIComponents.Render.Polygon;
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-		if(SwingUtilities.isRightMouseButton(e)) {
-			System.out.println("right mouse");
-		} else {
-			startx = getX();
-			starty = getY();
-			startScreenx = e.getXOnScreen();
-			startScreeny = e.getYOnScreen();
-			System.out.println("X:"+startx+" Y:"+starty+" scrx:"+startScreenx+" scry:"+startScreeny);
-		}
-	}
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
-	private boolean snapped = false;
-	int snappeddx = 0;
-	int snappeddy = 0;
-	Point lastAnchor;
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		//TODO: make these relative
+public class UIDomino extends Component{
+    private UITile[] tiles = new UITile[2];
+    private RectangularPrism self;
 
-		x=getX();
-		y=getY();
-		Point current = new Point(x,y);
-		int dx=0;
-		int dy=0;
-		dx = e.getXOnScreen()-startScreenx;
-		dy = e.getYOnScreen()-startScreeny;
-//		if(x>1280) {
-//			x=1280;
-//			dx=0;
-//		}
-//		if(y > 720) {
-//			y=720;
-//			dy=0;
-//		}
-		
-		System.out.println("x:"+x+" y:"+y+"dx:"+dx+" dy:"+dy + " snapped:" + snapped + " snapx:" + snappeddx + " snapy:" + snappeddy);
-		if(snapped) {
-			if(lastAnchor.distance(new Point(500,500)) > 20) {
-				snapped=false;
-			}
-		} else {
-			//fix this snapping with relative coords
-			if(current.distance(new Point(500,500)) < 20) {
-				snapped=true;
-				lastAnchor = new Point(dx,dy);
-			}
-		}
-		if(snapped) {
-			setLocation(500, 500);
-		} else {
-			setLocation(startx + dx, starty + dy);
-		}
-		
-	}
-	private boolean closeTo(int x, int num, int tolerance) {
-		x=Math.abs(x);
-		num=Math.abs(num);
-		return (x>=num-tolerance && x<=num+tolerance);
-	}
-	@Override
-	public void mouseWheelMoved(MouseWheelEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println(e.getWheelRotation());
-	}
-	
-	//Empty methods
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-	@Override
-	public void mouseMoved(MouseEvent e) {
-	}
+    double rotateTo = 0;
+    double rotIncrement = 90.0/4;
+    public double currentRotation = 0;
+
+    boolean rotating = false;
+
+    double sideLen = 100;
+
+
+    public UIDomino(Coordinate position, Kingdomino k, Color color1, Color color2) {
+        super(position, k);
+        double x = position.getX();
+        double y = position.getY();
+        tiles[0] = new UITile(Color.RED, new Coordinate(position.getX()-sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
+        tiles[1] = new UITile(Color.CYAN, new Coordinate(position.getX()+sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
+
+        Coordinate[] points = {
+                new Coordinate(position.getX()-sideLen, position.getY()-sideLen/2.0,position.getZ()-sideLen/20),
+                new Coordinate(position.getX()+sideLen, position.getY()-sideLen/2.0,position.getZ()-sideLen/20),
+                new Coordinate(position.getX()+sideLen, position.getY()+sideLen/2.0,position.getZ()-sideLen/20),
+                new Coordinate(position.getX()-sideLen, position.getY()+sideLen/2.0,position.getZ()-sideLen/20)
+        };
+        self = new RectangularPrism(new Coordinate(800,400,0),sideLen*2,10,sideLen);
+        Color sideColor = new Color(123, 63, 0);
+        Color backColor = new Color(123, 63, 0);
+        self.getFace(0).setColor(sideColor);
+        self.getFace(1).setColor(sideColor);
+        self.getFace(3).setColor(sideColor);
+        self.getFace(4).setColor(sideColor);
+        self.getFace(5).setColor(backColor);
+        CompoundPolygon c = new CompoundPolygon(new Polygon[]{tiles[0].getPolygon(),tiles[1].getPolygon()},points,position);
+        self.setFace(2,new CompoundPolygon(new Polygon[]{tiles[0].getPolygon(),tiles[1].getPolygon()},points,position));
+        try {
+           self.setFace(5,new TexturedPolygon(self.getFace(5).getPoints(), self.getFace(5).getCenter(), ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\18.jpg"))));
+        } catch(Exception e){;}
+    }
+
+    @Override
+    public void setPosition(Coordinate coordinate) {
+        self.moveTo(coordinate);
+    }
+
+    @Override
+    public boolean onComponent(Coordinate c) {
+        return self.intersects(c);
+    }
+
+    @Override
+    public void draw(Graphics2D g) {
+        self.render(g);
+    }
+
+    @Override
+    public void whenClicked() {
+
+    }
+
+    public void whenDragged(){
+
+    }
+
+    public void incrementRotation(double xRotation, double yRotation, double zRotation){
+        self.incrementRotation(xRotation, yRotation, zRotation);
+    }
+
+    public void rotateToNextPos(final int direction, final JPanel panel) {
+            rotateTo += 90 * direction;
+        System.out.println(rotateTo);
+        System.out.println(currentRotation);
+        if (currentRotation%360 == (rotateTo-90)%360) {
+            rotating = true;
+            final Timer timer = new Timer(1, null);
+            currentRotation = rotateTo - 90 * direction;
+            timer.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    currentRotation += rotIncrement * direction;
+                    incrementRotation(0, 0, direction * Math.toRadians(rotIncrement));
+                    panel.repaint();
+                    if (Math.abs(currentRotation%360 - rotateTo%360) == 0) {
+                        timer.stop();
+                        rotating = false;
+                    }
+
+                }
+            });
+            timer.start();
+        }
+    }
+
+    public Coordinate getCenter() {
+        return self.getCenter();
+    }
+
+    public void moveTo(Coordinate c) {
+        for(UITile t: tiles)
+            t.moveTo(c);
+        self.moveTo(c);
+    }
 }

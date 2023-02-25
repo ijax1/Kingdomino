@@ -1,8 +1,8 @@
+/*
 import java.util.ArrayList;
 import java.util.Collections;
 
-import UIComponents.Domino;
-
+import UIComponents.*;
 class Deck {
     //Instance Variables
     private ArrayList<Domino> deck = new ArrayList<>();
@@ -66,7 +66,6 @@ class Deck {
     public void setSelected(int index) {
         selected[index] = true;
     }
-
     public boolean[] getSelected() {
         return selected;
     }
