@@ -8,6 +8,7 @@ public class CompoundPolygon extends Polygon{
     Polygon[] polygons;
 
 
+
     public CompoundPolygon(Polygon[] polys, Coordinate[] points, Coordinate center) {
         super(points, center);
         polygons = polys;
@@ -22,10 +23,32 @@ public class CompoundPolygon extends Polygon{
     public void incrementRotation(double xRotation, double yRotation, double zRotation){
         for(Polygon p: polygons)
             p.incrementRotation(xRotation, yRotation, zRotation);
+        super.incrementRotation(xRotation, yRotation, zRotation);
     }
     public void moveTo(Coordinate c){
         for(Polygon p: polygons)
             p.moveTo(c);
+    }
+
+    public LineSegment[] getLineSegments(){
+        ArrayList<LineSegment> lines = new ArrayList<>();
+        ArrayList<LineSegment> duplicates = new ArrayList<>();
+        for(Polygon p: polygons){
+            for(LineSegment ls: p.getLineSegments()){
+                if(lines.contains(ls)){
+                    duplicates.add(ls);
+                    lines.remove(ls);
+                }
+                if(!duplicates.contains(ls)){
+                    lines.add(ls);
+                }
+            }
+        }
+        LineSegment[] lineSegments = new LineSegment[lines.size()];
+        for(int i = 0; i < lines.size(); i++){
+            lineSegments[i] = lines.get(i);
+        }
+        return lineSegments;
     }
 
 

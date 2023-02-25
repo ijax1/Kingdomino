@@ -25,7 +25,7 @@ public class DynamicFrame extends JFrame {
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //this.setUndecorated(true);
         this.setDefaultCloseOperation(super.EXIT_ON_CLOSE);
-        this.setUndecorated(true);
+        //this.setUndecorated(true);
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel"); //$NON-NLS-1$
         getRootPane().getActionMap().put("Cancel", new AbstractAction()

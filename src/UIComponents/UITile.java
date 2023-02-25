@@ -9,7 +9,6 @@ public class UITile {
 
     public UITile(Color c, Coordinate tileCenter, int radius, Coordinate center){
         //TODO
-        //CHANGE Z VALUE FROM ZERO DUMBASS
         p = new Polygon(new Coordinate[]{
                 new Coordinate(tileCenter.getX() - radius, tileCenter.getY() - radius, tileCenter.getZ()),
                 new Coordinate(tileCenter.getX() + radius, tileCenter.getY() - radius, tileCenter.getZ()),

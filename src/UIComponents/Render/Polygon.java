@@ -181,8 +181,6 @@ public class Polygon {
         for(Coordinate c: points){
             avg += c.getZ();
         }
-        System.out.println(avg/points.length);
-        System.out.println(avg/points.length);
         return avg/points.length;
     }
 

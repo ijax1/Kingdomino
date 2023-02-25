@@ -18,8 +18,8 @@ public class AnimationPanel extends DynamicPanel{
     final double yMax;
     final double zMin = -200;
     final double zMax = 200;
-    int num = 10;
-    RectangularPrism[] rects = new RectangularPrism[num];
+    int num = 20;
+    Domino[] rects = new Domino[num];
     double[] xRotations = new double[num];
     double[] yRotations = new double[num];
     double[] zRotations = new double[num];
@@ -44,7 +44,7 @@ public class AnimationPanel extends DynamicPanel{
             int length = (int) (200.0*Math.random())+50;
             int width = (int) (200.0*Math.random())+50;
             int height = (int) (200.0*Math.random())+50;
-            rects[i] = new RectangularPrism(center, length, width, height);
+            rects[i] = new Domino(center, null, null, null);
             xRotations[i] = Math.random() * Math.PI/30 * Math.signum(((2*Math.random())-1));
             yRotations[i] = Math.random() * Math.PI/30 * Math.signum(((2*Math.random())-1));
             zRotations[i] = Math.random() * Math.PI/30 * Math.signum(((2*Math.random())-1));
@@ -60,7 +60,7 @@ public class AnimationPanel extends DynamicPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(int i = 0; i < num; i++){
-                    RectangularPrism r = rects[i];
+                    Domino r = rects[i];
                     double xDest = r.getCenter().getX();
                     double yDest = r.getCenter().getY();
                     double xV = xVelocities[i];
@@ -94,7 +94,7 @@ public class AnimationPanel extends DynamicPanel{
                 }
                 a.repaint();
                 if((int)(Math.random()*1)==0) {
-                    ArrayList<RectangularPrism> rect = new ArrayList<>();
+                    ArrayList<Domino> rect = new ArrayList<>();
                     Collections.addAll(rect, rects);
                     Collections.shuffle(rect);
                     //rects = rect.toArray(rects);
@@ -123,8 +123,8 @@ public class AnimationPanel extends DynamicPanel{
         );
         g.setColor(curr);
         g.fillRect(0,0,(int)xMax,(int)yMax);
-        for(RectangularPrism r: rects){
-            r.render(g);
+        for(Domino r: rects){
+            r.draw((Graphics2D) g);
         }
     }
 

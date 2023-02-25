@@ -35,18 +35,28 @@ public class Domino extends Component{
         super(position, k);
         double x = position.getX();
         double y = position.getY();
-        tiles[0] = new UITile(Color.RED, new Coordinate(position.getX()-sideLen/2.0, position.getY(),position.getZ()+sideLen/8.0), (int) sideLen/2, position);
-        tiles[1] = new UITile(Color.CYAN, new Coordinate(position.getX()+sideLen/2.0, position.getY(),position.getZ()+sideLen/8.0), (int) sideLen/2, position);
+        tiles[0] = new UITile(Color.RED, new Coordinate(position.getX()-sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
+        tiles[1] = new UITile(Color.CYAN, new Coordinate(position.getX()+sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
 
         Coordinate[] points = {
-                new Coordinate(position.getX()-sideLen, position.getY()-sideLen/2.0,position.getZ()+sideLen/8.0),
-                new Coordinate(position.getX()+sideLen, position.getY()-sideLen/2.0,position.getZ()+sideLen/8.0),
-                new Coordinate(position.getX()+sideLen, position.getY()+sideLen/2.0,position.getZ()+sideLen/8.0),
-                new Coordinate(position.getX()-sideLen, position.getY()+sideLen/2.0,position.getZ()+sideLen/8.0)
+                new Coordinate(position.getX()-sideLen, position.getY()-sideLen/2.0,position.getZ()-sideLen/20),
+                new Coordinate(position.getX()+sideLen, position.getY()-sideLen/2.0,position.getZ()-sideLen/20),
+                new Coordinate(position.getX()+sideLen, position.getY()+sideLen/2.0,position.getZ()-sideLen/20),
+                new Coordinate(position.getX()-sideLen, position.getY()+sideLen/2.0,position.getZ()-sideLen/20)
         };
-
-        self = new RectangularPrism(new Coordinate(800,400,0),sideLen*2,25,sideLen);
+        self = new RectangularPrism(new Coordinate(800,400,0),sideLen*2,10,sideLen);
+        Color sideColor = new Color(123, 63, 0);
+        Color backColor = new Color(123, 63, 0);
+        self.getFace(0).setColor(sideColor);
+        self.getFace(1).setColor(sideColor);
+        self.getFace(3).setColor(sideColor);
+        self.getFace(4).setColor(sideColor);
+        self.getFace(5).setColor(backColor);
+        CompoundPolygon c = new CompoundPolygon(new Polygon[]{tiles[0].getPolygon(),tiles[1].getPolygon()},points,position);
         self.setFace(2,new CompoundPolygon(new Polygon[]{tiles[0].getPolygon(),tiles[1].getPolygon()},points,position));
+        try {
+           self.setFace(5,new TexturedPolygon(self.getFace(5).getPoints(), self.getFace(5).getCenter(), ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\18.jpg"))));
+        } catch(Exception e){;}
     }
 
     @Override
@@ -102,4 +112,13 @@ public class Domino extends Component{
         }
     }
 
+    public Coordinate getCenter() {
+        return self.getCenter();
+    }
+
+    public void moveTo(Coordinate c) {
+        for(UITile t: tiles)
+            t.moveTo(c);
+        self.moveTo(c);
+    }
 }

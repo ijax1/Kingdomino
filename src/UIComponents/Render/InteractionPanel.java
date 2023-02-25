@@ -26,7 +26,8 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
     public void paintComponent(Graphics g){
         g.clearRect(0,0,10000,10000);
         d.draw((Graphics2D) g);
-        r.render(g);
+        //r.render(g);
+        /*
         try{
         TexturedPolygon tp = new TexturedPolygon(new Coordinate[]{
                 new Coordinate(200,200,0),
@@ -35,6 +36,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
         }, new Coordinate(300,300,0), ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\obamba.jpg")));
         tp.render(g);
         }catch(Exception e){}
+        */
 
     }
 
@@ -114,7 +116,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
     public void mouseWheelMoved(MouseWheelEvent e) {
         if(dragging) {
             double direction = Math.signum(e.getWheelRotation());
-            d.incrementRotation(direction * Math.PI/30,direction * Math.PI/30,direction * Math.PI/30);
+            d.incrementRotation(direction * Math.PI/20,direction * Math.PI/30,direction * Math.PI/20);
             repaint();
         }
     }
