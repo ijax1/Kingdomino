@@ -15,22 +15,31 @@ public class RandomStrategy extends ComputerPlayer {
     	super(color, name, title);
     }    
     
-    private static int randomNum() {
-    	int num = (int) (Math.random() * 4);
+    private static int randomNum(int x) {
+    	int num = (int) (Math.random() * x);
     	return num;
     }
     
     Domino calculateChoice() {
     	Domino[] choices = deck.getDominoesToSelect();
-    	int ranChoice = randomNum();
+    	int ranChoice = randomNum(4);
     	Domino chosenDomino = choices[ranChoice];
     	return chosenDomino;
     }
 
     
     int[] calculatePlacement() {
-    	grid.availableSpaces(getCurrentDomino());
+    	boolean[][] places = grid.availableSpaces(calculateChoice());
     	
+    	//not sure about this:
+    	int ranPlace = randomNum(9);
+
+    	for(int x=0; x<9; x++) {
+    		
+    	}
+    	
+    	
+    	//getCurrentDomino()
     	
    	 //view grid
    	 //define legal moves --> availableSpaces(Domino domino)
