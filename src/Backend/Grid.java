@@ -36,7 +36,7 @@ public class Grid {
         return grid[x][y];
     }
 
-    private boolean[][] availableSpaces(Domino domino) {
+    public boolean[][] availableSpaces(Domino domino) {
         boolean[][] spaces = new boolean[9][9];
         double rotation = domino.getRotation();
 
@@ -61,10 +61,14 @@ public class Grid {
         return spaces;
     }
 
+    public void placeDomino(int x, int y, Domino domino) {
+
+    }
+
     private boolean isValidPos(int x, int y) {
         return 0 <= x && x < 9 && 0 <= y && y < 9;
     }
-
+    /*
     public ArrayList<Region> getContiguous() {
         boolean[][] covered = new boolean[9][9];
         for (int i = 0; i < 9; i++) {
@@ -93,4 +97,5 @@ public class Grid {
         }
 
     }
+     */
 }

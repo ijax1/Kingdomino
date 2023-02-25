@@ -8,25 +8,66 @@ public class UIGrid {
     private final int width;
     private final int height;
     private final Coordinate center;
-    private ArrayList<UITile> tiles = new ArrayList<UITile>();
+    /*
+    9x9 array of tiles, castle tile at the center
+     */
+    private UITile[][] tiles = new UITile[9][9];
+
+    private int tileSize = 100;
 
     public UIGrid(Coordinate center, Grid g){
         this.width = 0;
         this. height = 0;
         this.center = center;
+        tiles[4][4] = new UITile(Color.GRAY, center, 50, center);
     }
 
-    public void addDominoToGrid(Coordinate placed){
+    public void addDominoToGrid(Domino d, Coordinate placed){
 
+    }
+
+    public UITile[][] getCenteredGrid(){
+        int startX = -1;
+        int startY = -1;
+        int width = 0;
+        int height = 0;
+        for(int i = 0; i < 9; i++){
+            boolean emptyRow = true;
+            boolean emptyCol = true;
+            for(int j = 0; j < 9; j++){
+                if(emptyRow && tiles[i][j] != null){
+                    emptyRow = false;
+                }
+                if(emptyCol && tiles[j][i] != null){
+                    emptyCol = false;
+                }
+            }
+            if(!emptyRow) {
+                if(startY == -1)
+                    startY = i;
+                width++;
+            }
+            if(!emptyCol) {
+                if(startX == -1)
+                    startX = i;
+                height++;
+            }
+        }
+        UITile[][] croppedKingdom = new UITile[width][height];
+        for(int i = startX; i < startX + width; i++){
+            for(int j = startY; j < startY + height; j++){
+                croppedKingdom[i-startX][j-startY] = tiles[startX][startY];
+            }
+        }
+        return croppedKingdom;
     }
 
     public void render(Graphics g){
-      Graphics2D g = (Graphics2D)g1;
-      for(int i=0; i<=size; i+=100) {
-        g.drawLine(i, 0, i, size);
-      }
-      for(int i=0; i<=size; i+=100) {
-        g.drawLine(0, i, size, i);
-      }
+        UITile[][] toRender = getCenteredGrid();
+        for(UITile[] tList: toRender)
+            for(UITile tile: tList)
+                if(tile != null)
+                    tile.render(g);
     }
+
 }

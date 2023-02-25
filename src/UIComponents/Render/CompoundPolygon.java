@@ -51,5 +51,15 @@ public class CompoundPolygon extends Polygon{
         return lineSegments;
     }
 
+    public void addPolygon(Polygon p){
+        Polygon[] temp = new Polygon[polygons.length+1];
+        int index = 0;
+        for(Polygon poly: polygons){
+            temp[index] = poly;
+            index++;
+        }
+        temp[index] = p;
+        this.polygons = temp;
+    }
 
 }

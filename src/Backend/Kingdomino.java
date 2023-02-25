@@ -16,9 +16,10 @@ public class Kingdomino {
 
     Kingdomino() {
         manager = new GameManager();
-        startPanel = new StartPanel(manager);
-        gamePanel = new GamePanel(manager);
-        podiumPanel = new PodiumPanel(manager);
+        GridBagLayout gb = new GridBagLayout();
+        startPanel = new StartPanel(gb);
+        gamePanel = new GamePanel();
+        podiumPanel = new PodiumPanel();
         setUpFrame();
     }
 
@@ -31,8 +32,9 @@ public class Kingdomino {
         frame.pack();
         frame.setResizable(false);
     }
-
+    /*
     public void changePanel(GameState state) {
+
         JPanel newPanel;
         if (state == GameState.INITIAL)
             newPanel = startPanel;
@@ -44,6 +46,8 @@ public class Kingdomino {
             newPanel = currentPanel;
         frame.setContentPane(newPanel);
     }
+
+     */
 
     public static void main(String[] args) {
         new Kingdomino();

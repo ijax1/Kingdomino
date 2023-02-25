@@ -1,5 +1,7 @@
 package Backend;
 
+import UIComponents.*;
+
 import java.awt.Color;
 import java.util.Random;
 
@@ -22,7 +24,7 @@ public abstract class Player {
         this.name = name;
         this.score = 0;
         // Create empty grid
-        this.grid = new Grid(title);
+        this.grid = new Grid();
     }
 
     // Abstract method to check if player is human
@@ -67,7 +69,7 @@ public abstract class Player {
 
     // Places a domino on the grid at the given coordinates
     public void placeDomino(int x, int y, Domino domino) {
-        if (grid.availableSpaces(domino)) {
+        if (grid.availableSpaces(domino)[x][y]) {
             grid.placeDomino(x, y, domino);
         } else {
             // Activate message box

@@ -42,4 +42,8 @@ public abstract class Component {
 
     public abstract void whenClicked();
 
+    public boolean isMinimized(){
+        return minimized;
+    }
+
 }

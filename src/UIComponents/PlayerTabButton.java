@@ -23,15 +23,15 @@ public class PlayerTabButton extends Button{
     }
 
     public void draw(Graphics2D g) {
-        double startX = super.getPosition.getX();
-        double startY = super.getPosition.getY();
+        double startX = super.getPosition().getX();
+        double startY = super.getPosition().getY();
 
         double width = 50;
         double height = 100;
 
         g.setColor(player.getColor());
 
-        if(!super.minimized) {
+        if(!super.isMinimized()) {
             width += 25;
         }
 
