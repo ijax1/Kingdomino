@@ -28,8 +28,16 @@ public class RandomStrategy extends ComputerPlayer {
     }
 
     
-    int[] calculatePlacement() {
+    int[] calculatePlacement() {    	
+    	//randomly set rotation of domino
+    	
+    	//getRotation()
+     	
+    	//setRotation(int)
     	boolean[][] places = grid.availableSpaces(calculateChoice());
+    	
+    	
+    	
     	
     	//not sure about this:
     	int ranPlace = randomNum(9);
