@@ -122,4 +122,11 @@ public class Coordinate{
         return Math.abs(a-b)<eps;
     }
 
+    public Coordinate translatedBy(double xIncrement, double yIncrement, double zIncrement){
+        return new Coordinate(
+                this.x + xIncrement,
+                this.y + yIncrement,
+                this.z + zIncrement
+        );
+    }
 }

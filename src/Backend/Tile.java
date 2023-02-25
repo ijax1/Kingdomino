@@ -1,5 +1,6 @@
 package Backend;
 
+import java.awt.*;
 import java.util.*;
 //aman
 public class Tile{
@@ -20,13 +21,42 @@ public class Tile{
 		return landType;
 	}
 	enum Land{
-		FOREST,
-		LAKE,
-		WHEAT,
-		SWAMP,
-		PASTURE,
-		MINE,
-		CASTLE
+		FOREST{
+			public Color getColor(){
+				return new Color(40,80,40);
+			}
+		},
+		LAKE{
+			public Color getColor(){
+				return new Color(40,80,40);
+			}
+		},
+		WHEAT{
+			public Color getColor(){
+				return new Color(215, 182, 19);
+			}
+		},
+		SWAMP{
+			public Color getColor(){
+				return new Color(146, 151, 108);
+			}
+		},
+		PASTURE{
+			public Color getColor(){
+				return new Color(40,180,40);
+			}
+		},
+		MINE{
+			public Color getColor(){
+				return new Color(40,40,40);
+			}
+		},
+		CASTLE{
+			public Color getColor(){
+				return Color.GRAY;
+			}
+		};
+		abstract Color getColor();
 	}
 
 }
