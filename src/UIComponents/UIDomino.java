@@ -6,11 +6,7 @@ import UIComponents.Render.Coordinate;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 
 import UIComponents.Render.*;
 import UIComponents.Render.Polygon;
@@ -18,7 +14,7 @@ import UIComponents.Render.Polygon;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class Domino extends Component{
+public class UIDomino extends Component{
     private UITile[] tiles = new UITile[2];
     private RectangularPrism self;
 
@@ -31,7 +27,7 @@ public class Domino extends Component{
     double sideLen = 100;
 
 
-    public Domino(Coordinate position, Kingdomino k, Color color1, Color color2) {
+    public UIDomino(Coordinate position, Kingdomino k, Color color1, Color color2) {
         super(position, k);
         double x = position.getX();
         double y = position.getY();

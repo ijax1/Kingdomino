@@ -1,14 +1,12 @@
 package UIComponents.Render;
 
-import UIComponents.Domino;
-import org.w3c.dom.css.Rect;
+import UIComponents.UIDomino;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class AnimationPanel extends DynamicPanel{
@@ -19,7 +17,7 @@ public class AnimationPanel extends DynamicPanel{
     final double zMin = -200;
     final double zMax = 200;
     int num = 20;
-    Domino[] rects = new Domino[num];
+    UIDomino[] rects = new UIDomino[num];
     double[] xRotations = new double[num];
     double[] yRotations = new double[num];
     double[] zRotations = new double[num];
@@ -44,7 +42,7 @@ public class AnimationPanel extends DynamicPanel{
             int length = (int) (200.0*Math.random())+50;
             int width = (int) (200.0*Math.random())+50;
             int height = (int) (200.0*Math.random())+50;
-            rects[i] = new Domino(center, null, null, null);
+            rects[i] = new UIDomino(center, null, null, null);
             xRotations[i] = Math.random() * Math.PI/30 * Math.signum(((2*Math.random())-1));
             yRotations[i] = Math.random() * Math.PI/30 * Math.signum(((2*Math.random())-1));
             zRotations[i] = Math.random() * Math.PI/30 * Math.signum(((2*Math.random())-1));
@@ -60,7 +58,7 @@ public class AnimationPanel extends DynamicPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(int i = 0; i < num; i++){
-                    Domino r = rects[i];
+                    UIDomino r = rects[i];
                     double xDest = r.getCenter().getX();
                     double yDest = r.getCenter().getY();
                     double xV = xVelocities[i];
@@ -94,7 +92,7 @@ public class AnimationPanel extends DynamicPanel{
                 }
                 a.repaint();
                 if((int)(Math.random()*1)==0) {
-                    ArrayList<Domino> rect = new ArrayList<>();
+                    ArrayList<UIDomino> rect = new ArrayList<>();
                     Collections.addAll(rect, rects);
                     Collections.shuffle(rect);
                     //rects = rect.toArray(rects);
@@ -123,7 +121,7 @@ public class AnimationPanel extends DynamicPanel{
         );
         g.setColor(curr);
         g.fillRect(0,0,(int)xMax,(int)yMax);
-        for(Domino r: rects){
+        for(UIDomino r: rects){
             r.draw((Graphics2D) g);
         }
     }
