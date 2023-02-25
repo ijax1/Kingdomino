@@ -1,8 +1,6 @@
-package UIComponents;
+package Backend;
 
-import Backend.Tile;
-
-public class Domino implements Comparable{
+public class Domino implements Comparable<Domino>{
     private final Tile[] tiles = new Tile[2];
     private final int dominoValue;
     private int rotation;
@@ -40,8 +38,8 @@ public class Domino implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o) {
-        return this.getValue() - ((Domino) o).getValue();
+    public int compareTo(Domino d) {
+        return this.getValue() - d.getValue();
     }
 
     public int getRotation(){
