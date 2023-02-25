@@ -4,6 +4,8 @@ import UIComponents.Render.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+import Backend.Domino;
+
 public class UIGrid {
     private final int width;
     private final int height;
