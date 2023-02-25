@@ -21,6 +21,12 @@ public class UIGrid {
     }
 
     public void render(Graphics g){
-
+      Graphics2D g = (Graphics2D)g1;
+      for(int i=0; i<=size; i+=100) {
+        g.drawLine(i, 0, i, size);
+      }
+      for(int i=0; i<=size; i+=100) {
+        g.drawLine(0, i, size, i);
+      }
     }
 }

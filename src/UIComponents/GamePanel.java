@@ -1,7 +1,11 @@
 package UIComponents;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -11,20 +15,94 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
+import resources.Resources;
+class Dummy extends Component {
+	Dummy(Coordinate position, Kingdomino k) {
+		super(position, k);
+		// TODO Auto-generated constructor stub
+	}
 
-public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener{
-	private ArrayList<Component>components;
-	public GamePanel() {
+	@Override
+	public void setPosition(Coordinate coordinate) {
+		// TODO Auto-generated method stub
 		
 	}
-	public void paintComponent(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
+
+	@Override
+	public boolean onComponent(Coordinate c) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void draw(Graphics2D g) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void whenClicked() {
+		// TODO Auto-generated method stub
+		
+	}};
+public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
+	private static final long serialVersionUID = 7381080659172927952L;
+	private ArrayList<Component>components = new ArrayList<Component>();
+	private Font medieval;
+	private Font medievalLg;
+	private int mousedx;
+	private int mousedy;
+	private UIDomino domino;
+	private int mousex, mousey;
+	
+	public GamePanel() {
+		setPreferredSize(new Dimension(1280,720));
+		setOpaque(true);
+		setBackground(new Color(100,100,100));
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		addKeyListener(this);
+		medieval = Resources.loadFont("fonts/MedievalSharp-Regular.ttf", 100);
+		
+		
+		components.add(new Dummy(null,null));
+		//components.add(new Hitbo)
+	}
+	public void paintComponent(Graphics g1) {
+		Graphics2D g = (Graphics2D) g1;
+		g.setBackground(Color.WHITE);
+		g.clearRect(0, 0, 1280, 720);
+		applyHints(g);
+		if(medieval==null)System.out.println("true");
+		g.setFont(medievalLg);
+		g.drawString("Hello world", 200,200);
+		g.fillOval(500, 500, 10, 10);
+		g.drawRect(480, 480, 40, 40);
 		for(Component component: components) {
 			//TODO: currently, every component uses the same graphics object. Is this ok?
 			//We may need to copy the graphics object using g.create() or g.copyarea()
-			component.draw(g2);
+			component.draw(g);
 		}
+	}
+    public static void applyHints(Graphics2D g2d) {
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+    }
+	private void drawBg(Graphics2D g) {
+		
+
+	}
+	private void drawStaticTiles() {
+		
 	}
 	public void drawError(String header, String message) {
 		
@@ -41,6 +119,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		
 		for(Component component: components) {
 			if (component instanceof Button){
+				//this won't work either, just a placeholder
 				if(component.getPosition().equals(mouse)) {
 				component.whenClicked();
 				}
@@ -49,9 +128,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		mousex = e.getX();
+		mousey = e.getY();
+		System.out.println("mousex: "+mousex + " mousey: "+mousey);
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
+		System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
 	}
 	public void mouseEvent(boolean isClicked, boolean isDragged, boolean isScrolling) {
 		

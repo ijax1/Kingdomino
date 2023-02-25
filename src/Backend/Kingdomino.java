@@ -1,10 +1,51 @@
 package Backend;
 
+import UIComponents.*;
+
+import javax.swing.*;
+import java.awt.*;
+
+
 public class Kingdomino {
-    public static void main(String[] args){
-        System.out.println("Salutation!");
-        System.out.println("merged");
-        System.out.println("Salutationsss!");
-        System.out.println("I love Minions");
+    private JPanel currentPanel;
+    final private StartPanel startPanel;
+    final private GamePanel gamePanel;
+    final private PodiumPanel podiumPanel;
+    final private GameManager manager;
+    private JFrame frame;
+
+    Kingdomino() {
+        manager = new GameManager();
+        startPanel = new StartPanel(manager);
+        gamePanel = new GamePanel(manager);
+        podiumPanel = new PodiumPanel(manager);
+        setUpFrame();
+    }
+
+    private void setUpFrame() {
+        frame = new JFrame("Kingdomino");
+        currentPanel = startPanel;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setContentPane(currentPanel);
+        frame.setPreferredSize(screenSize);
+        frame.pack();
+        frame.setResizable(false);
+    }
+
+    public void changePanel(GameState state) {
+        JPanel newPanel;
+        if (state == GameState.INITIAL)
+            newPanel = startPanel;
+        else if (state == GameState.PLAYER_TURN)
+            newPanel = gamePanel;
+        else if (state == ENDSCREEN)
+            newPanel = podiumPanel;
+        else
+            newPanel = currentPanel;
+        frame.setContentPane(newPanel);
+    }
+
+    public static void main(String[] args) {
+        new Kingdomino();
     }
 }
