@@ -30,7 +30,7 @@ public class NameTextField extends JTextField {
 		defaultText = text;
 		setFont(Resources.getMedievalFont(20));
 		selectAll();
-		setPreferredSize(new Dimension(200,50));
+		//setPreferredSize(new Dimension(200,50));
 		AbstractDocument doc = (AbstractDocument) getDocument();
 		doc.setDocumentFilter(new DocumentSizeFilter(MAX_CHARS));
 		addFocusListener(new FocusListener() {
@@ -43,8 +43,9 @@ public class NameTextField extends JTextField {
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				
+				if(getText().equals("")) {
+					setText(defaultText);
+				}
 			}
 		});
 	}

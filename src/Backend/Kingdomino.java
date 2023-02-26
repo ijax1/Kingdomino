@@ -50,6 +50,11 @@ public class Kingdomino {
      */
 
     public static void main(String[] args) {
-        new Kingdomino();
+    	SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new Kingdomino();
+			}
+    	});
     }
 }
