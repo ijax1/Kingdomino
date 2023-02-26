@@ -24,7 +24,7 @@ public class RoyalButton extends JButton {
         ui.setSelectColor(getBackground().darker());
         setUI(ui);
 		setBorder(new LineBorder(OurColors.ACCENT_COLOR, 2));
-		setFont(Resources.getMedievalFont(15));
+		setFont(Resources.getMedievalFont(20));
 		//get rid of that ugly border around the text
 		setFocusPainted(false);
 	}

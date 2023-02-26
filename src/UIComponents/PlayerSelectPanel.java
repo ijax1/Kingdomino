@@ -68,6 +68,10 @@ public class PlayerSelectPanel extends JPanel {
 		computerButton = new JRadioButton("Computer");
 		noneButton = new JRadioButton("None");
 		
+//		humanButton.setFocusPainted(false);
+//		computerButton.setFocusPainted(false);
+//		noneButton.setFocusPainted(false);
+		
 		humanImg = Resources.loadImage("player_icon.png");
 		computerImg = Resources.loadImage("computer_icon.png");
 		noneImg = Resources.loadImage("none_icon.png");

@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
@@ -52,24 +54,39 @@ public class StartPanel extends JPanel {
 		scroll.setForeground(OurColors.FONT_LIGHT);
 		RoyalButton exit = new RoyalButton("Exiteth");
 		RoyalButton play = new RoyalButton("Playeth");
+		exit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}	
+		});
+		play.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				/*
+				changePanel(GameState.PLAYER_TURN);
+				 */
+			}	
+		});
 		
+		//close = new CloseButton(new Coordinate(1200,800,0), null);	
 		
-		close = new CloseButton(new Coordinate(1200,800,0), null);
-		
-
+		//Settings for whole layout 
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx=0;
+		c.weightx=0.5;
 		c.gridheight = 1;
+		c.insets = new Insets(10,10,10,10);
+		c.anchor = GridBagConstraints.CENTER;
 		
+		//Settings for individual components
+		c.gridwidth = 4;
+		c.weighty = 0;	//Title can get cut off
 		c.gridx = 0;
 		c.gridy = 0;
-		c.insets = new Insets(10,10,10,10);
-		c.gridwidth = 4;
-		c.anchor = GridBagConstraints.CENTER;
 		//c.gridwidth = GridBagConstraints.REMAINDER;
 		g.setConstraints(scroll, c);
 		add(scroll);
-		
+		//c.weighty = 0.2;
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 1;
@@ -87,7 +104,7 @@ public class StartPanel extends JPanel {
 		c.gridy = 1;
 		g.setConstraints(player4, c);
 		add(player4);
-		
+		c.ipady = 20;
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
@@ -112,7 +129,7 @@ public class StartPanel extends JPanel {
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(OurColors.BACKGROUND_CIRCLE);
 		g.fillOval(100,50,getWidth()-200, getHeight()-100);
-		close.draw((Graphics2D) g.create());
+		//close.draw((Graphics2D) g.create());
 		//AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
 		//g.setComposite(ac);
 		//player = tint(player, new Color(0xe06666));
