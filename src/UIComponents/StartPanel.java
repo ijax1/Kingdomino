@@ -34,10 +34,10 @@ public class StartPanel extends JPanel {
 		//setBackground(OurColors.BACKGROUND);
 		GridBagConstraints c = new GridBagConstraints();
 		
-		PlayerPanel player1 = new PlayerPanel(OurColors.RED);
-		PlayerPanel player2 = new PlayerPanel(OurColors.BLUE);
-		PlayerPanel player3 = new PlayerPanel(OurColors.GREEN);
-		PlayerPanel player4 = new PlayerPanel(OurColors.YELLOW);
+		PlayerSelectPanel player1 = new PlayerSelectPanel(OurColors.RED, 1, PlayerSelectPanel.HUMAN);
+		PlayerSelectPanel player2 = new PlayerSelectPanel(OurColors.BLUE, 2, PlayerSelectPanel.COMPUTER);
+		PlayerSelectPanel player3 = new PlayerSelectPanel(OurColors.GREEN, 3, PlayerSelectPanel.COMPUTER);
+		PlayerSelectPanel player4 = new PlayerSelectPanel(OurColors.YELLOW, 4, PlayerSelectPanel.COMPUTER);
 		//JButton scrollB = new JButton("Quiteth");
 		JLabel scroll = new JLabel("Kingdomino", SwingConstants.CENTER);
 		scroll.setFont(Resources.getMedievalFont(50));
