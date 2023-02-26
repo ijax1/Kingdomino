@@ -2,15 +2,19 @@ package UIComponents;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -19,7 +23,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
+import UIComponents.Render.Coordinate;
 import resources.OurColors;
 import resources.Resources;
 
@@ -28,6 +35,7 @@ public class StartPanel extends JPanel {
 	BufferedImage player;
 	BufferedImage computer;
 	BufferedImage none;
+	CloseButton close;
 	
 	public StartPanel(GridBagLayout g) {
 		super(g);
@@ -42,8 +50,12 @@ public class StartPanel extends JPanel {
 		JLabel scroll = new JLabel("Kingdomino", SwingConstants.CENTER);
 		scroll.setFont(Resources.getMedievalFont(50));
 		scroll.setForeground(OurColors.FONT_LIGHT);
-		JButton quit = new JButton("Quiteth");
-		JButton play = new JButton("Playeth");
+		RoyalButton exit = new RoyalButton("Exiteth");
+		RoyalButton play = new RoyalButton("Playeth");
+		
+		
+		close = new CloseButton(new Coordinate(1200,800,0), null);
+		
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx=0;
@@ -51,7 +63,7 @@ public class StartPanel extends JPanel {
 		
 		c.gridx = 0;
 		c.gridy = 0;
-		
+		c.insets = new Insets(10,10,10,10);
 		c.gridwidth = 4;
 		c.anchor = GridBagConstraints.CENTER;
 		//c.gridwidth = GridBagConstraints.REMAINDER;
@@ -79,8 +91,8 @@ public class StartPanel extends JPanel {
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
-		g.setConstraints(quit, c);
-		add(quit);
+		g.setConstraints(exit, c);
+		add(exit);
 		
 		c.gridx = 2;
 		c.gridy = 2;
@@ -95,10 +107,12 @@ public class StartPanel extends JPanel {
 	public void paintComponent(Graphics g1) {
 		Graphics2D g = (Graphics2D)g1;
 		GamePanel.applyHints(g);
+
 		g.setColor(OurColors.BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(OurColors.BACKGROUND_CIRCLE);
 		g.fillOval(100,50,getWidth()-200, getHeight()-100);
+		close.draw((Graphics2D) g.create());
 		//AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
 		//g.setComposite(ac);
 		//player = tint(player, new Color(0xe06666));

@@ -30,7 +30,8 @@ public class Kingdomino {
         frame.setContentPane(currentPanel);
         frame.setPreferredSize(screenSize);
         frame.pack();
-        frame.setResizable(false);
+        //frame.setResizable(false);
+        frame.setVisible(true);
     }
     /*
     public void changePanel(GameState state) {

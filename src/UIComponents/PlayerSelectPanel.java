@@ -1,7 +1,9 @@
 package UIComponents;
 
+import java.awt.AlphaComposite;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,6 +37,16 @@ public class PlayerSelectPanel extends JPanel {
 	private JRadioButton computerButton;
 	private JRadioButton noneButton;
 	
+	private BufferedImage humanImg;
+	private BufferedImage computerImg;
+	private BufferedImage noneImg;
+	
+	private ImageIcon humanIcon;
+	private ImageIcon computerIcon;
+	private ImageIcon noneIcon;
+	
+	private JLabel avatarHolder;
+	
 	public PlayerSelectPanel(Color color, int playerNo, String defaultPlayer) {
 		
 		setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
@@ -56,11 +68,20 @@ public class PlayerSelectPanel extends JPanel {
 		computerButton = new JRadioButton("Computer");
 		noneButton = new JRadioButton("None");
 		
-		BufferedImage player = Resources.loadImage("player_icon.png");
+		humanImg = Resources.loadImage("player_icon.png");
+		computerImg = Resources.loadImage("computer_icon.png");
+		noneImg = Resources.loadImage("none_icon.png");
 		
-		Image resizedImage = player.getScaledInstance(100,100, Image.SCALE_SMOOTH);
-		JLabel avatarHolder = new JLabel(new ImageIcon(resizedImage));
-		
+		tint(humanImg, color);
+		tint(computerImg, color);
+		tint(noneImg, color);
+
+		humanIcon = toImageIcon(humanImg);
+		computerIcon = toImageIcon(computerImg);
+		noneIcon = toImageIcon(noneImg);
+
+		//TODO: not centered
+		avatarHolder = new JLabel(humanIcon, SwingConstants.CENTER);
 		
 		humanButton.setFont(Resources.getMedievalFont(40));
 		computerButton.setFont(Resources.getMedievalFont(40));
@@ -118,16 +139,30 @@ public class PlayerSelectPanel extends JPanel {
 		}
 	}
 	private void showHumanCard() {
+		avatarHolder.setIcon(humanIcon);
 		inputPanel.setVisible(true);
 		card.show(inputPanel, HUMAN);
 	}
 	private void showComputerCard() {
+		avatarHolder.setIcon(computerIcon);
 		inputPanel.setVisible(true);
 		card.show(inputPanel, COMPUTER);
 	}
 	private void showNoneCard() {
+		avatarHolder.setIcon(noneIcon);
 		inputPanel.setVisible(true);
 		card.show(inputPanel, NONE);
+	}
+	private void tint(BufferedImage img, Color color) {
+		Graphics2D g = img.createGraphics();
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+		g.setColor(color);
+		g.fillRect(0, 0, img.getWidth(), img.getHeight());
+	}
+	private ImageIcon toImageIcon(BufferedImage img){
+		Image resizedImage = img.getScaledInstance(150,150, Image.SCALE_SMOOTH);
+		ImageIcon playerIcon = new ImageIcon(resizedImage);
+		return playerIcon;
 	}
 	/** gets the player based on the selected options.
 	 * 
