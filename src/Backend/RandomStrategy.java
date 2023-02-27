@@ -1,8 +1,6 @@
 package Backend;
 import java.awt.Color;
 
-import UIComponents.Domino;
-
 public class RandomStrategy extends ComputerPlayer {
 
     GameManager game = new GameManager();
