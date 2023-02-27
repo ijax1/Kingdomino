@@ -1,7 +1,10 @@
 package resources;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -49,5 +52,11 @@ public class Resources {
 			}
 		}
 		return font.deriveFont(fontSize);
+	}
+	public static void tint(BufferedImage img, Color color) {
+		Graphics2D g = img.createGraphics();
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+		g.setColor(color);
+		g.fillRect(0, 0, img.getWidth(), img.getHeight());
 	}
 }
