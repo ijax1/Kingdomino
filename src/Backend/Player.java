@@ -1,14 +1,16 @@
 package Backend;
 
+import UIComponents.*;
+
 import java.awt.Color;
 import java.util.Random;
 
 public abstract class Player {
-
-    //class vars
+    
+    // Class variables
     static final String[] MEDIEVAL_TITLES = {"The Honorable", "The Great", "The Wise", "The Bold", "The Valiant", "The Chivalrous", "The Magnificent", "The Noble", "The Righteous", "The Sagacious"};
 
-    //instance
+    // Instance variables
     private String name;
     private int score;
     private Color color;
@@ -16,17 +18,21 @@ public abstract class Player {
     private Domino currentDomino;
     private Domino nextDomino;
 
-    //methods
-
-    abstract boolean isHuman();
-
+    // Constructor
     public Player(Color color, String name, String title) {
         this.color = color;
         this.name = name;
         this.score = 0;
+        // Create empty grid
+        this.grid = new Grid();
+    }
 
-        //create empty grid
-        grid = new Grid(title);
+    // Abstract method to check if player is human
+    abstract boolean isHuman();
+
+    // Getters for instance variables
+    public int getScore() {
+        return score;
     }
 
     public Color getColor() {
@@ -37,33 +43,41 @@ public abstract class Player {
         return name;
     }
 
-    public String generateTitles() {
-        // Random rand = new Random();
-        // int randIndex = rand.nextInt(MEDIEVAL_TITLES.length);
-        // name = MEDIEVAL_TITLES[randIndex];
-    }
-
-    public String generateAIName() {
-
-    }
-
     public Grid getGrid() {
         return grid;
     }
 
+    public Domino getCurrentDomino() {
+        return currentDomino;
+    }
+
+    public Domino getNextDomino() {
+        return nextDomino;
+    }
+
+    // Generates a random medieval title
+    public String generateTitle() {
+        Random rand = new Random();
+        int randIndex = rand.nextInt(MEDIEVAL_TITLES.length);
+        return MEDIEVAL_TITLES[randIndex];
+    }
+
+    // Returns a temporary name for the AI
+    public String generateAIName() {
+        return "Computer";
+    }
+
+    // Places a domino on the grid at the given coordinates
     public void placeDomino(int x, int y, Domino domino) {
-        if (grid.avilableSpaces(domino)) {
+        if (grid.availableSpaces(domino)[x][y]) {
             grid.placeDomino(x, y, domino);
         } else {
-            //prompt user?
+            // Activate message box
         }
     }
-
-    public void selectedDomino(Domino domino) {
-
+    // Sets the next domino to be played
+    public void selectDomino(Domino domino) {
+        this.nextDomino = domino;
     }
 
-    public String generateTitle() {
-
-    }
 }

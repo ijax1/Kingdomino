@@ -13,8 +13,8 @@ public class GamePanelTester {
 		GamePanel panel = new GamePanel();
 		frame.setSize(1280,720);
 		frame.add(panel);
-		panel.add(new UIDomino());
-		panel.add(new UIGrid());
+		//panel.add(new UIDomino());
+		//panel.add(new UIGrid());
 		
 		//frame.pack();
 		frame.setVisible(true);

@@ -6,9 +6,10 @@ import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
 
 public abstract class Component {
-    boolean minimized;
-    Coordinate position;
-    Kingdomino game;
+    private boolean minimized;
+    private Coordinate position;
+    private Kingdomino game;
+    //private GameManager gm;
 
     Component(Coordinate position, Kingdomino k){
         this.position = position;
@@ -27,6 +28,8 @@ public abstract class Component {
         return position;
     };
 
+    public boolean getMinimized() {return minimized;}
+
     public Kingdomino getGame(){
         return game;
     }
@@ -38,5 +41,9 @@ public abstract class Component {
     public abstract void draw(Graphics2D g);
 
     public abstract void whenClicked();
+
+    public boolean isMinimized(){
+        return minimized;
+    }
 
 }

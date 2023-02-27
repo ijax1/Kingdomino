@@ -13,7 +13,9 @@ public class Coordinate{
     private final double x, y, z;
 
     public enum Axis{
-        X,Y,Z
+        X,
+        Y,
+        Z
     }
 
     public Coordinate(double x, double y, double z){
@@ -111,7 +113,8 @@ public class Coordinate{
         return point;
     }
 
-    public boolean equals(Coordinate other){
+    public boolean equals(Object o){
+        Coordinate other = (Coordinate) o;
         return almostEqual(this.x, other.getX(), 0.01) && almostEqual(this.y, other.getY(), 0.01) && almostEqual(this.z, other.getZ(), 0.01);
     }
 
@@ -119,4 +122,11 @@ public class Coordinate{
         return Math.abs(a-b)<eps;
     }
 
+    public Coordinate translatedBy(double xIncrement, double yIncrement, double zIncrement){
+        return new Coordinate(
+                this.x + xIncrement,
+                this.y + yIncrement,
+                this.z + zIncrement
+        );
+    }
 }

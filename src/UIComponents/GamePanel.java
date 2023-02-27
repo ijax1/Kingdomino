@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -63,8 +64,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
-		medieval = Resources.loadFont("fonts/MedievalSharp-Regular.ttf");
-		medievalLg = medieval.deriveFont(100f);
+		medieval = Resources.loadFont("fonts/MedievalSharp-Regular.ttf", 100);
 		
 		
 		components.add(new Dummy(null,null));
@@ -74,7 +74,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		Graphics2D g = (Graphics2D) g1;
 		g.setBackground(Color.WHITE);
 		g.clearRect(0, 0, 1280, 720);
-		
+		applyHints(g);
 		if(medieval==null)System.out.println("true");
 		g.setFont(medievalLg);
 		g.drawString("Hello world", 200,200);
@@ -86,6 +86,17 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			component.draw(g);
 		}
 	}
+    public static void applyHints(Graphics2D g2d) {
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+    }
 	private void drawBg(Graphics2D g) {
 		
 
