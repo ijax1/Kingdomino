@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 
 public class PlayerTabButton extends Button{
     Player player;
+    private double width = 50;
+    private final double height = 100;
 
     PlayerTabButton(Coordinate position, Kingdomino k, Player p) {
         super(position, k);
@@ -18,19 +20,22 @@ public class PlayerTabButton extends Button{
         super.show();
     }
 
+    public boolean onComponent(Coordinate c) {
+        return ((c.getX() > 0 && c.getX() < width) &&
+                (c.getY() > getPosition().getY() && c.getY() < getPosition().getY() + height));
+    }
+
     public Player getPlayer() {
         return player;
     }
 
     public void draw(Graphics2D g) {
-        double startX = super.getPosition().getX();
-        double startY = super.getPosition().getY();
-
-        double width = 50;
-        double height = 100;
+        double startX = getPosition().getX();
+        double startY = getPosition().getY();
 
         g.setColor(player.getColor());
 
+        width = 50;
         if(!super.isMinimized()) {
             width += 25;
         }
