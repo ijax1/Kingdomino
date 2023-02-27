@@ -4,8 +4,9 @@ import UIComponents.Render.Coordinate;
 
 import java.awt.Graphics2D;
 import java.awt.*;
-
 public class CloseButton extends Button{
+    private final double width = 100;
+    private final double height = 50;
     CloseButton(Coordinate position, Kingdomino k) {
         super(position, k);
     }
@@ -14,12 +15,14 @@ public class CloseButton extends Button{
         System.exit(0);
     }
 
+    public boolean onComponent(Coordinate c) {
+        return ((c.getX() > 0 && c.getX() < width) &&
+                (c.getY() > getPosition().getY() && c.getY() < getPosition().getY() + height));
+    }
+
     public void draw(Graphics2D g) {
         double xStart = super.getPosition().getX();
         double yStart = super.getPosition().getY();
-
-        double width = 100;
-        double height = 50;
 
         g.setColor(new Color(140, 67, 188, 100));
         g.fillRect((int) xStart,(int) yStart, (int) width, (int) height);

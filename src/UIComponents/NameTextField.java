@@ -1,5 +1,6 @@
 package UIComponents;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -18,33 +19,37 @@ import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 import javax.swing.text.StyledDocument;
 
-
-
+import resources.OurColors;
 import resources.Resources;
 
 public class NameTextField extends JTextField {
 	public static final int MAX_CHARS = 16;
+	private static final Color DEFAULT_TEXT_COLOR = new Color(0xaaaaaa);
 	private String defaultText;
 	public NameTextField(String text) {
 		super(text);
 		defaultText = text;
 		setFont(Resources.getMedievalFont(20));
+		setForeground(DEFAULT_TEXT_COLOR);
 		selectAll();
-		setPreferredSize(new Dimension(200,50));
+		//setPreferredSize(new Dimension(200,50));
 		AbstractDocument doc = (AbstractDocument) getDocument();
 		doc.setDocumentFilter(new DocumentSizeFilter(MAX_CHARS));
 		addFocusListener(new FocusListener() {
 
 			@Override
 			public void focusGained(FocusEvent e) {
+				setForeground(OurColors.FONT_DARK);
 				if(getText().equals(defaultText)) {
 					setText("");
 				}
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				
+				if(getText().equals("")) {
+					setText(defaultText);
+					setForeground(DEFAULT_TEXT_COLOR);
+				}
 			}
 		});
 	}

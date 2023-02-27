@@ -40,11 +40,11 @@ public class Resources {
 			font = Font.createFont(Font.TRUETYPE_FONT, Resources.class.getResourceAsStream(name));
 		} catch (IOException | FontFormatException e) {
 			//A default serif font
-			System.out.println("serif");
+			System.out.println("Warning-could not find font " + name +". Loading serif font...");
 			font = Font.getFont(Font.SERIF);
 			if(font==null) {
 			//The default Swing font
-				System.out.println("default");
+				System.out.println("Warning-could not find serif font. Loading default font...");
 				font = new JLabel().getFont();
 			}
 		}

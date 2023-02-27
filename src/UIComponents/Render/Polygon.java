@@ -1,5 +1,7 @@
 package UIComponents.Render;
 
+import sun.security.util.PolicyUtil;
+
 import javax.sound.sampled.Line;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -187,6 +189,18 @@ public class Polygon {
     public TexturedPolygon toTexturedPolygon(BufferedImage b){
         return new TexturedPolygon(points, center, b);
     }
+
+    public void recenter(Coordinate c){
+        this.center = c;
+    }
+
+    public Polygon duplicatePolygon(Coordinate c){
+      Coordinate[] temp = new Coordinate[points.length];
+      System.arraycopy(points, 0, temp, 0, points.length);
+      Polygon p = new Polygon(temp, c);
+      p.setColor(this.color);
+      return p;
+    };
 
     public String toString(){
         StringBuilder ret = new StringBuilder();

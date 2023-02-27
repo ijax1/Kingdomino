@@ -23,7 +23,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
 
     public void paintComponent(Graphics g){
         g.clearRect(0,0,10000,10000);
-        grid.render(g);
+        grid.render(g, dragging);
         d.draw((Graphics2D) g);
         //r.render(g);
         /*
@@ -80,6 +80,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
             }
         }
         draggingCube = false;
+        repaint();
     }
 
     @Override

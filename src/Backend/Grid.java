@@ -1,7 +1,5 @@
 package Backend;
 
-import UIComponents.Domino;
-
 public class Grid {
     private Tile[][] grid;
 

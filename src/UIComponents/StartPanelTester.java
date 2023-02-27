@@ -1,17 +1,7 @@
 package UIComponents;
 
-import java.awt.Dimension;
 import java.awt.GridBagLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 
 import resources.Resources;
 
@@ -31,5 +21,6 @@ public class StartPanelTester {
 		//frame.pack();
 		frame.setVisible(true);
 		panel.repaint();
+		new ErrorDialog(frame);
 	}
 }
