@@ -26,10 +26,12 @@ public class PlayerTabGroup {
 
     public void setSelected(PlayerTabButton b) {
         selected = b;
-//        for (PlayerTabButton button: group) {
-//            if (button.)
-//        }
-
+        b.show();
+        for (PlayerTabButton button: group) {
+            if (button.getPlayer() != b.getPlayer()) {
+                button.minimize();
+            }
+        }
     }
 
     public void updateOrder() {
@@ -49,4 +51,9 @@ public class PlayerTabGroup {
             }
         }
     }
+
+    // returns selected player - do we want to determine background based on player or button
+//    public Player getSelected() {
+//        return selected.getPlayer();
+//    }
 }
