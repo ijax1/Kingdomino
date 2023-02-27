@@ -1,9 +1,7 @@
 package UIComponents;
 
-import java.awt.AlphaComposite;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,14 +11,12 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import Backend.Player;
 import resources.Resources;
 
 public class PlayerSelectPanel extends JPanel {
@@ -76,9 +72,9 @@ public class PlayerSelectPanel extends JPanel {
 		computerImg = Resources.loadImage("computer_icon.png");
 		noneImg = Resources.loadImage("none_icon.png");
 		
-		tint(humanImg, color);
-		tint(computerImg, color);
-		tint(noneImg, color);
+		Resources.tint(humanImg, color);
+		Resources.tint(computerImg, color);
+		Resources.tint(noneImg, color);
 
 		humanIcon = toImageIcon(humanImg);
 		computerIcon = toImageIcon(computerImg);
@@ -157,12 +153,7 @@ public class PlayerSelectPanel extends JPanel {
 		inputPanel.setVisible(true);
 		card.show(inputPanel, NONE);
 	}
-	private void tint(BufferedImage img, Color color) {
-		Graphics2D g = img.createGraphics();
-		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-		g.setColor(color);
-		g.fillRect(0, 0, img.getWidth(), img.getHeight());
-	}
+
 	private ImageIcon toImageIcon(BufferedImage img){
 		Image resizedImage = img.getScaledInstance(150,150, Image.SCALE_SMOOTH);
 		ImageIcon playerIcon = new ImageIcon(resizedImage);
