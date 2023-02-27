@@ -22,7 +22,9 @@ public class GameManager {
 
 
     public GameManager() {
+        for () {
 
+        }
     }
 
     public GameState getGameState() {
@@ -41,8 +43,24 @@ public class GameManager {
         return players.get(currentPlayer);
     }
 
-    public void updateTurnOrder() {
+    public Deck getDeck() {
+        return deck;
+    }
 
+    public void updateTurnOrder() {
+        ArrayList<Integer> dominoValues = new ArrayList<Integer>();
+        for (int i = 0; i < players.size(); i++) {
+            dominoValues.add(players.get(i).getNextDomino().getValue());
+        }
+        for (int i = 0; i < dominoValues.size() - 1; i++) {
+            for (int j = 0; j < dominoValues.size() - 1 - i; j++) {
+                if (dominoValues.get(j) > players.get(j + 1).getScore()) {
+                    Player temp = players.get(j);
+                    players.set(j, players.get(j + 1));
+                    players.set(j + 1, temp);
+                }
+            }
+        }
     }
 
     public void setResults() {
