@@ -1,9 +1,17 @@
 package Backend;
 
-import UIComponents.*;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import UIComponents.GamePanel;
+import UIComponents.PodiumPanel;
+import UIComponents.StartPanel;
+import resources.Resources;
 
 
 public class Kingdomino {
@@ -29,6 +37,7 @@ public class Kingdomino {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setContentPane(currentPanel);
         frame.setPreferredSize(screenSize);
+        frame.setIconImage(Resources.loadImage("crown.png"));
         frame.pack();
         //frame.setResizable(false);
         frame.setVisible(true);

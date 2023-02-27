@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class GameManager {
     final Deck STARTING_DECK; //probably unnecessary to be final
+    //yeah it caused errors
 
     private GameState state;
     private ArrayList<Player> players;
@@ -22,9 +23,11 @@ public class GameManager {
 
 
     public GameManager() {
-        for () {
-
-        }
+    	//needs to detect 2 players
+    	STARTING_DECK = new Deck(false);
+//        for () {
+//
+//        }
     }
 
     public GameState getGameState() {

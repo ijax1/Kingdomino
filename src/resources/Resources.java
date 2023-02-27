@@ -7,6 +7,7 @@ import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
@@ -17,9 +18,14 @@ public class Resources {
 	}
 	public static BufferedImage loadImage(String name) {
 		BufferedImage image;
-		try {
-			image = ImageIO.read(Resources.class.getResource(name));
-		} catch (IOException e) {
+		URL imageURL = Resources.class.getResource(name);
+		if(imageURL != null) {
+			try {
+				image = ImageIO.read(imageURL);
+			} catch (IOException e) {
+				image = new BufferedImage(500,500,BufferedImage.TYPE_INT_ARGB);
+			}
+		} else {
 			image = new BufferedImage(500,500,BufferedImage.TYPE_INT_ARGB);
 		}
 		return image;

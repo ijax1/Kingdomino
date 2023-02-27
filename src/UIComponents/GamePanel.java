@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 
 import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
+import resources.OurColors;
 import resources.Resources;
 class Dummy extends Component {
 	Dummy(Coordinate position, Kingdomino k) {
@@ -72,9 +73,18 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 	public void paintComponent(Graphics g1) {
 		Graphics2D g = (Graphics2D) g1;
-		g.setBackground(Color.WHITE);
-		g.clearRect(0, 0, 1280, 720);
+		
 		applyHints(g);
+		g.setColor(OurColors.BACKGROUND);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		g.setColor(OurColors.BACKGROUND_CIRCLE);
+		g.fillOval(100,50,getWidth()-200, getHeight()-100);
+		//close.draw((Graphics2D) g.create());
+		//AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
+		//g.setComposite(ac);
+		//player = tint(player, new Color(0xe06666));
+		//g.drawImage(player, 100,100,200,200, null);
+		//g.drawImage(player, 100,100,100,100,null);
 		if(medieval==null)System.out.println("true");
 		g.setFont(medievalLg);
 		g.drawString("Hello world", 200,200);
