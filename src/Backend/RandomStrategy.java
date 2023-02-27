@@ -8,7 +8,7 @@ public class RandomStrategy extends ComputerPlayer {
     GameManager game = new GameManager();
     //we need to add getDeck and getGrid to GameManager:
     Deck deck = game.getDeck();
-    Grid grid = game.getGrid();
+    Grid grid = getGrid();
 
     
     public RandomStrategy(Color color, String name, String title) {
