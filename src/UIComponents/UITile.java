@@ -30,6 +30,10 @@ public class UITile {
         p.moveTo(c);
     }
 
+    public void recenter(Coordinate c){
+        p.recenter(c);
+    }
+
     public Polygon getPolygon(){
         return p;
     }

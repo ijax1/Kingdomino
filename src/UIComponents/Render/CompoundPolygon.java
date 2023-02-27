@@ -11,7 +11,13 @@ public class CompoundPolygon extends Polygon{
 
     public CompoundPolygon(Polygon[] polys, Coordinate[] points, Coordinate center) {
         super(points, center);
-        polygons = polys;
+        //polygons = polys;
+        polygons = new Polygon[polys.length];
+        for(int i = 0; i< polys.length; i++){
+            Polygon p = polys[i];
+            p.recenter(center);
+            polygons[i] = p;
+        }
     }
 
     public void render(Graphics g){
