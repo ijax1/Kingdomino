@@ -75,7 +75,6 @@ public abstract class Player {
             // Activate message box
         }
     }
-    
     // Sets the next domino to be played
     public void selectDomino(Domino domino) {
         this.nextDomino = domino;
