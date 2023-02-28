@@ -28,20 +28,19 @@ public class RandomStrategy extends ComputerPlayer {
     
     public void calculatePlacement() {   	 
       	 Domino domino = calculateChoice();
-      	 int[] placement;
       	 
       	 //randomly set rotation of domino:
       	 int ranRot = randomNum(3)*90;
       	 domino.setRotation(ranRot);
-
+      	 
       	 boolean[][] places = grid.availableSpaces(domino);
       			 
       	 //not sure about this:
-      	 int ranPlacey = randomNum(places.length);
-      	 int ranPlacex = randomNum(places[0].length);
+      	 //int ranPlacey = randomNum(places.length);
+      	 //int ranPlacex = randomNum(places[0].length);
       	 
       	 if(places[ranPlacex][ranPlacey]) {
-      		 
+           	grid.placeDomino(ranPlacey, ranPlacex, domino);
       	 }
       	 
       	 
@@ -54,8 +53,6 @@ public class RandomStrategy extends ComputerPlayer {
      	  //generate random # between size of arrayList
      	  //select move # of arrayList
      	  //return move
-
-     	  return null;
    	}
 
     
