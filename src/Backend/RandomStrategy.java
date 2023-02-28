@@ -1,10 +1,10 @@
 package Backend;
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class RandomStrategy extends ComputerPlayer {
 
     GameManager game = new GameManager();
-    //we need to add getDeck and getGrid to GameManager:
     Deck deck = game.getDeck();
     Grid grid = getGrid();
 
@@ -33,28 +33,11 @@ public class RandomStrategy extends ComputerPlayer {
       	 int ranRot = randomNum(3)*90;
       	 domino.setRotation(ranRot);
       	 
-      	 boolean[][] places = grid.availableSpaces(domino);
-      			 
-      	 //not sure about this:
-      	 //int ranPlacey = randomNum(places.length);
-      	 //int ranPlacex = randomNum(places[0].length);
+      	 //randomly select available placement:
+      	 ArrayList<GridPosition> placements = grid.availableSpaces(domino);
+      	 int ranPlace = randomNum(placements.size());
       	 
-      	 if(places[ranPlacex][ranPlacey]) {
-           	grid.placeDomino(ranPlacey, ranPlacex, domino);
-      	 }
-      	 
-      	 
-      	 //getCurrentDomino()
-      	 
-     	  //view grid
-     	  //define legal moves --> availableSpaces(Domino domino)
-     	  //if move legal, put possible move in arrayList
-     	  //get size of arrayList
-     	  //generate random # between size of arrayList
-     	  //select move # of arrayList
-     	  //return move
-   	}
-
-    
-    
+      	 //calls placeDomino:
+      	 grid.placeDomino(placements.get(ranPlace).getX(),placements.get(ranPlace).getY(), domino);
+   	}  
 }
