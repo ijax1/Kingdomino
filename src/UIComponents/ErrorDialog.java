@@ -26,8 +26,10 @@ public class ErrorDialog extends JDialog {
 	private JPanel tintPane;
 	private Color tintColor = new Color(0,0,0,125);
 	public ErrorDialog(JFrame root) {
+		//jdialog with no name
 		super(root, "", ModalityType.DOCUMENT_MODAL);
 		
+		//tintPane darkens the entire background when the dialog is open
         tintPane = new JPanel() {
             //for some reason you need to do this instead of just setting the background, idk why
             @Override
@@ -45,17 +47,18 @@ public class ErrorDialog extends JDialog {
         
         JPanel titlePanel = new JPanel();
         titlePanel.setBackground(OurColors.ERROR_HEADER);
-        //the font color
+        //the font color is set in foreground
         titlePanel.setForeground(OurColors.FONT_LIGHT);
         
         JPanel bodyPanel = new JPanel();
         bodyPanel.setLayout(new BorderLayout());
         bodyPanel.setBackground(OurColors.ERROR_BODY);
-        //the font color
+
         
         
 		JLabel titleLabel = new JLabel("THOU HAST TRANSGRESSED!");
 		titleLabel.setFont(Resources.getMedievalFont(30));
+        //the font color is set in foreground
 		titleLabel.setForeground(OurColors.FONT_LIGHT);
 		
 		JLabel bodyLabel = new JLabel("Please select two or more players to begin, my liege!");
