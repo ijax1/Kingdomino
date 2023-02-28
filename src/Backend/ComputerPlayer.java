@@ -14,6 +14,6 @@ abstract class ComputerPlayer extends Player {
 	
 	abstract Domino calculateChoice();
 	
-	abstract int[] calculatePlacement();
+	abstract void calculatePlacement();
 	
 }
