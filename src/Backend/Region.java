@@ -5,14 +5,14 @@ import Backend.Tile.Land;
 import java.util.ArrayList;
 
 public class Region {
-    private ArrayList<Integer[]> positions;
+    private ArrayList<GridPosition> positions;
     private Land landType;
 
-    public ArrayList<Integer[]> getPositions() {
+    public ArrayList<GridPosition> getPositions() {
         return positions;
     }
 
-    public void addPosition(Integer[] position) {
+    public void addPosition(GridPosition position) {
         positions.add(position);
     }
 

@@ -2,6 +2,8 @@ package Backend;
 
 import java.util.ArrayList;
 
+import Backend.Tile.Land;
+
 public class Grid {
     private Tile[][] grid;
 
@@ -36,20 +38,22 @@ public class Grid {
         return grid[x][y];
     }
 
-    public boolean[][] availableSpaces(Domino domino) {
+    public ArrayList<GridPosition> availableSpaces(Domino domino) {
+        ArrayList<GridPosition> positions = new ArrayList<>();
         boolean[][] spaces = new boolean[9][9];
-        double rotation = domino.getRotation();
         int[] relPos = relPos(domino);
         int changeX = relPos[0];
         int changeY = relPos[1];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                spaces[i][j] = isValidPos(i + changeX, j + changeY)
+                if (isValidPos(i + changeX, j + changeY)
                         && grid[i][j] == null
-                        && grid[i + changeX][j + changeY] == null;
+                        && grid[i + changeX][j + changeY] == null) {
+                    positions.add(new GridPosition(i,j));
+                }
             }
         }
-        return spaces;
+        return positions;
     }
 
     // relative position for tile 2 where tile 1 is (0,0)
@@ -70,7 +74,7 @@ public class Grid {
         return new int[]{deltaX, deltaY};
     }
 
-    public void placeDomino(int x, int y, Domino domino) {
+    public boolean placeDomino(int x, int y, Domino domino) {
         int[] relPos = relPos(domino);
         int deltaX = relPos[0];
         int deltaY = relPos[1];
@@ -78,39 +82,71 @@ public class Grid {
         if (isValidPos(x, y) && isValidPos(x + deltaX, y + deltaY)) {
             grid[x][y] = tiles[0];
             grid[x + deltaX][y + deltaY] = tiles[1];
-        }
+            return true;
+        } else return false;
     }
 
     private boolean isValidPos(int x, int y) {
         return 0 <= x && x < 9 && 0 <= y && y < 9;
     }
-//
-//    public ArrayList<Region> getContiguous() {
-//        boolean[][] covered = new boolean[9][9];
-//        for (int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                if (!covered[i][j]) {
-//                    Region region = new Region();
-//                    region.setLandType(grid[i][j].getLandType());
-//                    findRegion(covered, i, j, region);
-//
-//                }
-//            }
-//        }
-//    }
-//
-//    private void findRegion(boolean[][] covered, int x, int y, Region region) {
-//        if (grid[x][y] != null && grid[x][y].getLandType() == region.land) {
-//            region.addPosition(new Integer[]{x, y});
-//
-//            covered[x][y] = true;
-//            findRegion(covered, x + 1, y, land, region);
-//            findRegion(covered, x - 1, y, land, region);
-//            findRegion(covered, x, y + 1, land, region);
-//            findRegion(covered, x, y - 1, land, region);
-//        } else {
-//            covered[x][y] = true;
-//        }
-//
-//    }
+
+    public ArrayList<Region> getContiguous() {
+        boolean[][] coveredTiles = new boolean[9][9];
+        ArrayList<Region> regions = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (!coveredTiles[i][j]) {
+                    Region region = new Region();
+                    region.setLandType(grid[i][j].getLandType());
+                    findRegion(new boolean[9][9], coveredTiles, i, j, region);
+                    regions.add(region);
+                }
+            }
+        }
+        return regions;
+    }
+
+    private void findRegion(boolean[][] covered, boolean[][] coveredTiles, int x, int y, Region region) {
+        if (!covered[x][y] && grid[x][y] != null && grid[x][y].getLandType() == region.getLandType()) {
+            region.addPosition(new GridPosition(x,y));
+
+            covered[x][y] = true;
+            coveredTiles[x][y] = true;
+            findRegion(covered, coveredTiles, x + 1, y, region);
+            findRegion(covered, coveredTiles, x - 1, y, region);
+            findRegion(covered, coveredTiles, x, y + 1, region);
+            findRegion(covered, coveredTiles, x, y - 1, region);
+        } else {
+            covered[x][y] = true;
+        }
+    }
+
+    public int calculateScore() {
+        ArrayList<Region> regions = getContiguous();
+        int score = 0;
+        for (Region region : regions) {
+            score += regionScore(region);
+        }
+        return score;
+    }
+
+    public int calculateScore(Land landType) {
+        ArrayList<Region> regions = getContiguous();
+        for (Region r : regions) {
+            if (r.getLandType() == landType) {
+                return regionScore(r);
+            }
+        }
+        return 0;
+    }
+
+    private int regionScore(Region region) {
+        int numTiles = region.getPositions().size();
+        int numCrowns = 0;
+        for (GridPosition position : region.getPositions()) {
+            Tile currTile = grid[position.getX()][position.getY()];
+            numCrowns += currTile.getCrowns();
+        }
+        return numTiles * numCrowns;
+    }
 }
