@@ -53,7 +53,7 @@ public class AnalysisPanel extends JPanel {
 		scroll.setFont(Resources.getMedievalFont(50));
 		scroll.setForeground(OurColors.FONT_LIGHT);
 		RoyalButton exit = new RoyalButton("Exiteth");
-		RoyalButton play = new RoyalButton("Playeth");
+		RoyalButton play = new RoyalButton("Playeth Once More");
 		exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
