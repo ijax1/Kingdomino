@@ -26,36 +26,38 @@ public class RandomStrategy extends ComputerPlayer {
     }
 
     
-    int[] calculatePlacement() {    	
-    	//randomly set rotation of domino
-    	
-    	//getRotation()
-     	
-    	//setRotation(int)
-    	boolean[][] places = grid.availableSpaces(calculateChoice());
-    	
-    	
-    	
-    	
-    	//not sure about this:
-    	int ranPlace = randomNum(9);
+    public void calculatePlacement() {   	 
+      	 Domino domino = calculateChoice();
+      	 int[] placement;
+      	 
+      	 //randomly set rotation of domino:
+      	 int ranRot = randomNum(3)*90;
+      	 domino.setRotation(ranRot);
 
-    	for(int x=0; x<9; x++) {
-    		
-    	}
-    	
-    	
-    	//getCurrentDomino()
-    	
-   	 //view grid
-   	 //define legal moves --> availableSpaces(Domino domino)
-   	 //if move legal, put possible move in arrayList
-   	 //get size of arrayList
-   	 //generate random # between size of arrayList
-   	 //select move # of arrayList
-   	 //return move
+      	 boolean[][] places = grid.availableSpaces(domino);
+      			 
+      	 //not sure about this:
+      	 int ranPlacey = randomNum(places.length);
+      	 int ranPlacex = randomNum(places[0].length);
+      	 
+      	 if(places[ranPlacex][ranPlacey]) {
+      		 
+      	 }
+      	 
+      	 
+      	 //getCurrentDomino()
+      	 
+     	  //view grid
+     	  //define legal moves --> availableSpaces(Domino domino)
+     	  //if move legal, put possible move in arrayList
+     	  //get size of arrayList
+     	  //generate random # between size of arrayList
+     	  //select move # of arrayList
+     	  //return move
 
-   	 return null;
-    }
+     	  return null;
+   	}
+
+    
     
 }

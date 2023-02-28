@@ -16,7 +16,9 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import Backend.Kingdomino;
+import Backend.Player;
 import UIComponents.Render.Coordinate;
+import resources.OurColors;
 import resources.Resources;
 class Dummy extends Component {
 	Dummy(Coordinate position, Kingdomino k) {
@@ -56,8 +58,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private int mousedy;
 	private UIDomino domino;
 	private int mousex, mousey;
+	private PlayerTabGroup group;
+	private PlayerTabButton button;
 	
-	public GamePanel() {
+	public GamePanel(ArrayList<Player> players, Kingdomino k) {
 		setPreferredSize(new Dimension(1280,720));
 		setOpaque(true);
 		setBackground(new Color(100,100,100));
@@ -65,25 +69,35 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		addMouseMotionListener(this);
 		addKeyListener(this);
 		medieval = Resources.loadFont("fonts/MedievalSharp-Regular.ttf", 100);
+		group = new PlayerTabGroup(players,k);
+		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
 		
-		
-		components.add(new Dummy(null,null));
+		components.add(group);
 		//components.add(new Hitbo)
 	}
 	public void paintComponent(Graphics g1) {
 		Graphics2D g = (Graphics2D) g1;
-		g.setBackground(Color.WHITE);
-		g.clearRect(0, 0, 1280, 720);
+		
 		applyHints(g);
+		g.setColor(OurColors.BACKGROUND);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		g.setColor(OurColors.BACKGROUND_CIRCLE);
+		g.fillOval(100,50,getWidth()-200, getHeight()-100);
+		//close.draw((Graphics2D) g.create());
+		//AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
+		//g.setComposite(ac);
+		//player = tint(player, new Color(0xe06666));
+		//g.drawImage(player, 100,100,200,200, null);
+		//g.drawImage(player, 100,100,100,100,null);
 		if(medieval==null)System.out.println("true");
 		g.setFont(medievalLg);
-		g.drawString("Hello world", 200,200);
-		g.fillOval(500, 500, 10, 10);
-		g.drawRect(480, 480, 40, 40);
+//		g.drawString("Hello world", 200,200);
+//		g.fillOval(500, 500, 10, 10);
+//		g.drawRect(480, 480, 40, 40);
 		for(Component component: components) {
 			//TODO: currently, every component uses the same graphics object. Is this ok?
 			//We may need to copy the graphics object using g.create() or g.copyarea()
-			component.draw(g);
+			component.draw((Graphics2D) g.create());
 		}
 	}
     public static void applyHints(Graphics2D g2d) {

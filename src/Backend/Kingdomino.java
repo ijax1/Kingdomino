@@ -1,9 +1,18 @@
 package Backend;
 
-import UIComponents.*;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.Toolkit;
+import java.util.ArrayList;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import UIComponents.GamePanel;
+import UIComponents.PodiumPanel;
+import UIComponents.StartPanel;
+import resources.Resources;
 
 
 public class Kingdomino {
@@ -14,11 +23,11 @@ public class Kingdomino {
     final private GameManager manager;
     private JFrame frame;
 
-    Kingdomino() {
+    public Kingdomino() {
         manager = new GameManager();
         GridBagLayout gb = new GridBagLayout();
         startPanel = new StartPanel(gb);
-        gamePanel = new GamePanel();
+        gamePanel = new GamePanel(new ArrayList<Player>(), this);
         podiumPanel = new PodiumPanel();
         setUpFrame();
     }
@@ -29,6 +38,7 @@ public class Kingdomino {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setContentPane(currentPanel);
         frame.setPreferredSize(screenSize);
+        frame.setIconImage(Resources.loadImage("crown.ico"));
         frame.pack();
         //frame.setResizable(false);
         frame.setVisible(true);

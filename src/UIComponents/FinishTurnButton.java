@@ -2,6 +2,7 @@ package UIComponents;
 
 import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
+import UIComponents.Render.Polygon;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
