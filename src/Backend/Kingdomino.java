@@ -37,7 +37,7 @@ public class Kingdomino {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setContentPane(currentPanel);
         frame.setPreferredSize(screenSize);
-        frame.setIconImage(Resources.loadImage("crown.png"));
+        frame.setIconImage(Resources.loadImage("crown.ico"));
         frame.pack();
         //frame.setResizable(false);
         frame.setVisible(true);
