@@ -3,6 +3,7 @@ package Backend;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,11 +23,11 @@ public class Kingdomino {
     final private GameManager manager;
     private JFrame frame;
 
-    Kingdomino() {
+    public Kingdomino() {
         manager = new GameManager();
         GridBagLayout gb = new GridBagLayout();
         startPanel = new StartPanel(gb);
-        gamePanel = new GamePanel();
+        gamePanel = new GamePanel(new ArrayList<Player>(), this);
         podiumPanel = new PodiumPanel();
         setUpFrame();
     }
