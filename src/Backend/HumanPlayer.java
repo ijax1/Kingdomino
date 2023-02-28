@@ -1,4 +1,4 @@
-package UIComponents;
+package Backend;
 
 public class HumanPlayer extends Player{
 	
