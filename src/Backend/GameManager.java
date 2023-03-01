@@ -3,17 +3,15 @@ package Backend;
 import java.util.ArrayList;
 
 public class GameManager {
-    final Deck STARTING_DECK; //probably unnecessary to be final
-    //yeah it caused errors
 
     private GameState state;
     private ArrayList<Player> players;
     private int currentPlayer;
     private Deck deck;
+    private Kingdomino game;
 
     public enum GameState {
         INITIAL,
-        FIRST_TURN,
         PLAYER_TURN,
         END_ROUND,
         TALLY_SCORE,
@@ -22,12 +20,12 @@ public class GameManager {
     }
 
 
-    public GameManager() {
-    	//needs to detect 2 players
-    	STARTING_DECK = new Deck(false);
-//        for () {
-//
-//        }
+    public GameManager(Kingdomino game) {
+        this.game = game;
+        state = GameState.INITIAL;
+        deck = new Deck();
+        players = new ArrayList<Player>();
+        currentPlayer = 0;
     }
 
     public GameState getGameState() {
@@ -36,10 +34,40 @@ public class GameManager {
 
     public void setGameState(GameState state) {
         this.state = state;
+        if (state == GameState.INITIAL) {
+            game.changePanel(GameState.INITIAL);
+            deck = new Deck();
+            players = new ArrayList<Player>();
+            currentPlayer = 0;
+        } else if (state == GameState.PLAYER_TURN) {
+            game.changePanel(GameState.PLAYER_TURN);
+            //while (play continues) {
+                Player current = players.get(currentPlayer);
+                current.getCurrentDomino().setDraggable();
+
+                currentPlayer++;
+                currentPlayer %= players.size();
+            //}
+        } else if (state == GameState.END_ROUND) {
+            game.changePanel(GameState.END_ROUND);
+        } else if (state == GameState.TALLY_SCORE) {
+            game.changePanel(GameState.TALLY_SCORE);
+        } else if (state == GameState.ENDSCREEN) {
+            game.changePanel(GameState.ENDSCREEN);
+        } else if (state == GameState.STRATEGY) {
+            game.changePanel(GameState.STRATEGY);
+        }
     }
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players.clear();
+        for (Player player : players) {
+            this.players.add(player);
+        }
     }
 
     public Player getCurrentPlayer() {
@@ -57,7 +85,7 @@ public class GameManager {
         }
         for (int i = 0; i < dominoValues.size() - 1; i++) {
             for (int j = 0; j < dominoValues.size() - 1 - i; j++) {
-                if (dominoValues.get(j) > players.get(j + 1).getScore()) {
+                if (dominoValues.get(j) > dominoValues.get(j + 1)) {
                     Player temp = players.get(j);
                     players.set(j, players.get(j + 1));
                     players.set(j + 1, temp);
@@ -76,9 +104,5 @@ public class GameManager {
                 }
             }
         }
-    }
-
-    public void reset() {
-
     }
 }
