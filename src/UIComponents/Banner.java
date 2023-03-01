@@ -2,12 +2,17 @@ package UIComponents;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
 
 import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
 import resources.OurColors;
 
 public class Banner extends Component {
+	private boolean minimized;
 	Banner(Coordinate position, Kingdomino k) {
 		super(position, k);
 		// TODO Auto-generated constructor stub
@@ -44,6 +49,27 @@ public class Banner extends Component {
 		g.fillOval(0,0,40,40);
 		
 	}
+	
+	@Override
+    public void minimize(){
+        minimized = false;
+        ActionListener task = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				draw();
+				
+			}
+        };
+        Timer timer = new Timer(10, task);
+	}
+	@Override
+    public void show(){
+        minimized = true;
+    }
+	@Override
+    public boolean isMinimized(){
+        return minimized;
+    }
 
 	@Override
 	public void whenClicked() {
