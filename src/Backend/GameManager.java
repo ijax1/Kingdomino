@@ -85,6 +85,8 @@ public class GameManager {
         return players.get(currentPlayer);
     }
 
+    public void setCurrentPlayer() {currentPlayer++; if (currentPlayer>players.size()-1) {currentPlayer = 0;}}
+
     public Deck getDeck() {
         return deck;
     }

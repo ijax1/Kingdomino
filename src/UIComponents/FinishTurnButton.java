@@ -20,8 +20,7 @@ public class FinishTurnButton extends Button{
         // need access to get maanger through kingDomnio
         // need access to set currentPlayer int in gameManager
 
-        //super.getGame().getGameManager().setCurrentPlayer() ...
-
+        getGame().getManager().setCurrentPlayer();
     }
 
     public boolean onComponent(Coordinate c) {
