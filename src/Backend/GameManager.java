@@ -9,6 +9,7 @@ public class GameManager {
     private int currentPlayer;
     private Deck deck;
     private Kingdomino game;
+    private boolean fastMode;
 
     public enum GameState {
         INITIAL,
@@ -42,9 +43,9 @@ public class GameManager {
             currentPlayer = 0;
         } else if (state == GameState.PLAYER_TURN) {
             game.changePanel(GameState.PLAYER_TURN);
-            //while (play continues) {
-            turn(firstTurn);
-            //}
+            while (play continues) {
+                turn();
+            }
         } else if (state == GameState.END_ROUND) {
             game.changePanel(GameState.END_ROUND);
         } else if (state == GameState.TALLY_SCORE) {
@@ -56,7 +57,7 @@ public class GameManager {
         }
     }
 
-    private void turn(boolean firstTurn) {
+    private void turn() {
         for (int i = 0; i < players.size(); i++) {
             currentPlayer = i;
             Player current = players.get(currentPlayer);
@@ -67,7 +68,12 @@ public class GameManager {
             current.setSelected(false);
             current.setPlaced(false);
         }
-        this.firstTurn = false;
+        updateTurnOrder();
+        firstTurn = false;
+    }
+
+    public void setMode(boolean fastMode) {
+        this.fastMode = fastMode;
     }
 
     public ArrayList<Player> getPlayers() {
@@ -85,7 +91,12 @@ public class GameManager {
         return players.get(currentPlayer);
     }
 
-    public void setCurrentPlayer() {currentPlayer++; if (currentPlayer>players.size()-1) {currentPlayer = 0;}}
+    public void setCurrentPlayer() {
+        currentPlayer++;
+        if (currentPlayer>players.size()-1) {
+            currentPlayer = 0;
+        }
+    }
 
     public Deck getDeck() {
         return deck;
