@@ -24,7 +24,7 @@ public class Kingdomino {
     private JFrame frame;
 
     public Kingdomino() {
-        manager = new GameManager();
+        manager = new GameManager(this);
         GridBagLayout gb = new GridBagLayout();
         startPanel = new StartPanel(gb);
         gamePanel = new GamePanel(new ArrayList<Player>(), this);
@@ -43,6 +43,8 @@ public class Kingdomino {
         //frame.setResizable(false);
         frame.setVisible(true);
     }
+
+    public GameManager getManager() {return manager;}
     /*
     public void changePanel(GameState state) {
 

@@ -6,6 +6,7 @@ import UIComponents.Render.Polygon;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.*;
 
 public class FinishTurnButton extends Button{
 
@@ -20,8 +21,7 @@ public class FinishTurnButton extends Button{
         // need access to get maanger through kingDomnio
         // need access to set currentPlayer int in gameManager
 
-        //super.getGame().getGameManager().setCurrentPlayer() ...
-
+        getGame().getManager().setCurrentPlayer();
     }
 
     public boolean onComponent(Coordinate c) {
@@ -50,10 +50,11 @@ public class FinishTurnButton extends Button{
         int[] triangleYT = {squareY, squareY, squareY / 2};
         int[] triangleYB = {(int) (squareY + height), (int) (squareY + height), squareY / 2};
 
-        g.fillPolygon(new Polygon(triangleXL, triangleYT, 3));
-        g.fillPolygon(new Polygon(triangleXL, triangleYB, 3));
-        g.fillPolygon(new Polygon(triangleXR, triangleYT, 3));
-        g.fillPolygon(new Polygon(triangleXR, triangleYB, 3));
+        g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYT, 3));
+        g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYB, 3));
+        g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYT, 3));
+        g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYB, 3));
+
 
         //gold outline
 
