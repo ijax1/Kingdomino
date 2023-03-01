@@ -23,10 +23,11 @@ import resources.Resources;
 
 @SuppressWarnings("serial")
 public class StartPanel extends JPanel {
-	BufferedImage player;
-	BufferedImage computer;
-	BufferedImage none;
-	CloseButton close;
+	private BufferedImage player;
+	private BufferedImage computer;
+	private BufferedImage none;
+	private CloseButton close;
+	GameManager gm;
 	
 	private PlayerSelectPanel[]playerPanels = new PlayerSelectPanel[4];
 	
@@ -34,6 +35,7 @@ public class StartPanel extends JPanel {
 		super(g);
 		//setBackground(OurColors.BACKGROUND);
 		GridBagConstraints c = new GridBagConstraints();
+		gm = k.getManager();
 		
 		playerPanels[0] = new PlayerSelectPanel(OurColors.RED, 1, PlayerSelectPanel.HUMAN);
 		playerPanels[1] = new PlayerSelectPanel(OurColors.BLUE, 2, PlayerSelectPanel.COMPUTER);
@@ -55,7 +57,7 @@ public class StartPanel extends JPanel {
 		play.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				GameManager gm = k.getManager();
+				
 				ArrayList<Player> players = getAllPlayers();
 				if(players.size() < 2) {
 					new ErrorDialog();
