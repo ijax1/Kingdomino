@@ -11,6 +11,20 @@ public class Grid {
         grid = new Tile[9][9];
     }
 
+    Grid(Tile[][] initialGrid) {
+        grid = initialGrid;
+    }
+
+    public Grid copy() {
+        Tile[][] newGrid = new Tile[9][9];
+        for (int i=0; i<9; i++) {
+            for (int j=0; j<9; j++) {
+                newGrid[i][j] = grid[i][j];
+            }
+        }
+        return new Grid(newGrid);
+    }
+
     private int[] findCenter() {
         int sumX = 0;
         int sumY = 0;
@@ -36,6 +50,10 @@ public class Grid {
 
     public Tile getTile(int x, int y) {
         return grid[x][y];
+    }
+
+    public Tile getTile(GridPosition pos) {
+        return grid[pos.getX()][pos.getY()];
     }
 
     public ArrayList<GridPosition> availableSpaces(Domino domino) {
