@@ -14,6 +14,8 @@ import UIComponents.PodiumPanel;
 import UIComponents.StartPanel;
 import resources.Resources;
 
+import static Backend.GameManager.GameState;
+
 
 public class Kingdomino {
     private JPanel currentPanel;
@@ -45,7 +47,7 @@ public class Kingdomino {
     }
 
     public GameManager getManager() {return manager;}
-    /*
+
     public void changePanel(GameState state) {
 
         JPanel newPanel;
@@ -53,14 +55,14 @@ public class Kingdomino {
             newPanel = startPanel;
         else if (state == GameState.PLAYER_TURN)
             newPanel = gamePanel;
-        else if (state == ENDSCREEN)
+        else if (state == GameState.ENDSCREEN)
             newPanel = podiumPanel;
         else
             newPanel = currentPanel;
         frame.setContentPane(newPanel);
     }
 
-     */
+
 
     public static void main(String[] args) {
     	SwingUtilities.invokeLater(new Runnable() {
