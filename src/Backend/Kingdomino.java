@@ -27,9 +27,9 @@ public class Kingdomino {
     public Kingdomino() {
         manager = new GameManager(this);
         GridBagLayout gb = new GridBagLayout();
-        startPanel = new StartPanel(gb);
+        startPanel = new StartPanel(gb, this);
         gamePanel = new GamePanel(new ArrayList<Player>(), this);
-        podiumPanel = new PodiumPanel();
+        podiumPanel = new PodiumPanel(this);
         setUpFrame();
     }
 

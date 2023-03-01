@@ -10,9 +10,11 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import Backend.GameManager;
 import Backend.GameManager.GameState;
@@ -27,6 +29,7 @@ public class StartPanel extends JPanel {
 	private BufferedImage computer;
 	private BufferedImage none;
 	private CloseButton close;
+	private JFrame root;
 	GameManager gm;
 	
 	private PlayerSelectPanel[]playerPanels = new PlayerSelectPanel[4];
@@ -36,11 +39,11 @@ public class StartPanel extends JPanel {
 		//setBackground(OurColors.BACKGROUND);
 		GridBagConstraints c = new GridBagConstraints();
 		gm = k.getManager();
-		
-		playerPanels[0] = new PlayerSelectPanel(OurColors.RED, 1, PlayerSelectPanel.HUMAN);
-		playerPanels[1] = new PlayerSelectPanel(OurColors.BLUE, 2, PlayerSelectPanel.COMPUTER);
-		playerPanels[2] = new PlayerSelectPanel(OurColors.GREEN, 3, PlayerSelectPanel.COMPUTER);
-		playerPanels[3] = new PlayerSelectPanel(OurColors.YELLOW, 4, PlayerSelectPanel.COMPUTER);
+		root = (JFrame) SwingUtilities.getWindowAncestor(this);
+		playerPanels[0] = new PlayerSelectPanel(OurColors.RED, 1, PlayerSelectPanel.HUMAN, k);
+		playerPanels[1] = new PlayerSelectPanel(OurColors.BLUE, 2, PlayerSelectPanel.COMPUTER, k);
+		playerPanels[2] = new PlayerSelectPanel(OurColors.GREEN, 3, PlayerSelectPanel.COMPUTER, k);
+		playerPanels[3] = new PlayerSelectPanel(OurColors.YELLOW, 4, PlayerSelectPanel.COMPUTER, k);
 		
 		//JButton scrollB = new JButton("Quiteth");
 		JLabel scroll = new JLabel("Kingdomino", SwingConstants.CENTER);
@@ -60,7 +63,7 @@ public class StartPanel extends JPanel {
 				
 				ArrayList<Player> players = getAllPlayers();
 				if(players.size() < 2) {
-					new ErrorDialog();
+					new ErrorDialog(root);
 				} else {
 					gm.setPlayers(players);
 					gm.setGameState(GameState.PLAYER_TURN);
