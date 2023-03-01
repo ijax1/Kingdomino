@@ -6,6 +6,7 @@ import UIComponents.Render.Coordinate;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.awt.*;
 
 public class PlayerTabGroup extends Component {
     private final ArrayList<PlayerTabButton> group;
