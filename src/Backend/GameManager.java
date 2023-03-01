@@ -26,7 +26,7 @@ public class GameManager {
         firstTurn = true;
         state = GameState.INITIAL;
         deck = new Deck();
-        players = new ArrayList<Player>();
+        players = new ArrayList<>();
         currentPlayer = 0;
     }
 
@@ -51,6 +51,7 @@ public class GameManager {
         } else if (state == GameState.TALLY_SCORE) {
             game.changePanel(GameState.TALLY_SCORE);
         } else if (state == GameState.ENDSCREEN) {
+            setResults();
             game.changePanel(GameState.ENDSCREEN);
         } else if (state == GameState.STRATEGY) {
             game.changePanel(GameState.STRATEGY);
@@ -70,6 +71,10 @@ public class GameManager {
         }
         updateTurnOrder();
         firstTurn = false;
+    }
+
+    public boolean getFirstTurn() {
+        return firstTurn;
     }
 
     public void setMode(boolean fastMode) {
