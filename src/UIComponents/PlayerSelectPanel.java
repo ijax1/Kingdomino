@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import Backend.HumanPlayer;
+import Backend.Kingdomino;
 import Backend.Player;
 import Backend.RandomStrategy;
 import Backend.SkilledStrategy;
@@ -47,7 +48,7 @@ public class PlayerSelectPanel extends JPanel {
 	
 	private JLabel avatarHolder;
 	
-	public PlayerSelectPanel(Color color, int playerNo, String defaultPlayer) {
+	public PlayerSelectPanel(Color color, int playerNo, String defaultPlayer, Kingdomino k) {
 		
 		setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 		setBackground(color);

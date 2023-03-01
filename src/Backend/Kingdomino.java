@@ -9,12 +9,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import Backend.GameManager.GameState;
 import UIComponents.GamePanel;
 import UIComponents.PodiumPanel;
 import UIComponents.StartPanel;
 import resources.Resources;
-
-import static Backend.GameManager.GameState;
 
 
 public class Kingdomino {
@@ -24,8 +23,9 @@ public class Kingdomino {
     final private PodiumPanel podiumPanel;
     final private GameManager manager;
     private JFrame frame;
-
-    public Kingdomino() {
+    
+    //there should only be the one instance of Kingdomino, in main
+    private Kingdomino() {
         manager = new GameManager(this);
         GridBagLayout gb = new GridBagLayout();
         startPanel = new StartPanel(gb);
