@@ -3,7 +3,7 @@ package Backend;
 import java.util.ArrayList;
 
 public class GameManager {
-
+    private boolean firstTurn;
     private GameState state;
     private ArrayList<Player> players;
     private int currentPlayer;
@@ -22,6 +22,7 @@ public class GameManager {
 
     public GameManager(Kingdomino game) {
         this.game = game;
+        firstTurn = true;
         state = GameState.INITIAL;
         deck = new Deck();
         players = new ArrayList<Player>();
@@ -43,7 +44,7 @@ public class GameManager {
             game.changePanel(GameState.PLAYER_TURN);
             //while (play continues) {
                 Player current = players.get(currentPlayer);
-                current.getCurrentDomino().setDraggable();
+                current.getCurrentDomino().setDraggable(true);
 
                 currentPlayer++;
                 currentPlayer %= players.size();
@@ -57,6 +58,19 @@ public class GameManager {
         } else if (state == GameState.STRATEGY) {
             game.changePanel(GameState.STRATEGY);
         }
+    }
+
+    private void turn(boolean firstTurn) {
+        for (int i = 0; i < players.size(); i++) {
+            currentPlayer = i;
+            Player current = players.get(currentPlayer);
+            while (!current.getSelected()) {}
+            if (firstTurn) {
+                while (!current.getPlaced()) {}
+            }
+            current.getCurrentDomino().setDraggable(true);
+        }
+        firstTurn = false;
     }
 
     public ArrayList<Player> getPlayers() {
