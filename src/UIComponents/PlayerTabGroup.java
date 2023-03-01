@@ -12,6 +12,7 @@ public class PlayerTabGroup extends Component {
     private final ArrayList<PlayerTabButton> group;
     private PlayerTabButton selected;
     private int selectedIndex;
+    private Graphics2D graphics; 
 
     PlayerTabGroup(ArrayList<Player> players, Kingdomino k) {
     	super(new Coordinate(0,160,0), k);
@@ -24,7 +25,6 @@ public class PlayerTabGroup extends Component {
             group.add(new PlayerTabButton(coord, k, p));
             //current height of each domino
             y += 100;
-
         }
     }
 
@@ -56,6 +56,7 @@ public class PlayerTabGroup extends Component {
                 }
             }
         }
+	setSelected(group.get(0);
     }
 
 	@Override
@@ -72,6 +73,7 @@ public class PlayerTabGroup extends Component {
 
 	@Override
 	public void draw(Graphics2D g) {
+	graphics = g;
         for (PlayerTabButton button: group) {
             button.draw(g);
         }
@@ -90,10 +92,24 @@ public class PlayerTabGroup extends Component {
         }
 	}
 
+	// trying to reduce the amount of times it needs to redraw? 
+	// when integrating, should run playerTabButton whenClicked() first bc it is updating information used by playertabgroup
+	// actually when we add viewed player this whenclicked() will look differently. 
 	@Override
 	public void whenClicked() {
-		// TODO Auto-generated method stub
+// 	for (PlayerTabButton buttons: group) {
+// 		if (button.isSelected == true) {
+// 			if (selected != button) {
+// 				setSelected(button);
+// 				g.draw()
+// 			}
+// 		}
+// 	}
 		
+	// shoudl look smth like this instead in theory ????
+// 	if (getGame().getManager().getViewedPlayer() != selected.player()) {
+// 		draw(graphics)
+// 	}
 	}
 
     // returns selected player - do we want to determine background based on player or button
