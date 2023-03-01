@@ -105,6 +105,11 @@ public class PlayerTabGroup extends Component {
 // 			}
 // 		}
 // 	}
+		
+	// shoudl look smth like this instead in theory ????
+// 	if (getGame().getManager().getViewedPlayer() != selected.player()) {
+// 		draw(graphics)
+// 	}
 	}
 
     // returns selected player - do we want to determine background based on player or button
