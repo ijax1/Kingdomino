@@ -43,11 +43,7 @@ public class GameManager {
         } else if (state == GameState.PLAYER_TURN) {
             game.changePanel(GameState.PLAYER_TURN);
             //while (play continues) {
-                Player current = players.get(currentPlayer);
-                current.getCurrentDomino().setDraggable(true);
-
-                currentPlayer++;
-                currentPlayer %= players.size();
+                turn(firstTurn);
             //}
         } else if (state == GameState.END_ROUND) {
             game.changePanel(GameState.END_ROUND);
@@ -68,9 +64,10 @@ public class GameManager {
             if (firstTurn) {
                 while (!current.getPlaced()) {}
             }
-            current.getCurrentDomino().setDraggable(true);
+            current.setSelected(false);
+            current.setPlaced(false);
         }
-        firstTurn = false;
+        this.firstTurn = false;
     }
 
     public ArrayList<Player> getPlayers() {
