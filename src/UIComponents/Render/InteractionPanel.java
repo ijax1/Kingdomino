@@ -96,8 +96,15 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
     @Override
     public void mouseDragged(MouseEvent e) {
         if(dragging) {
-            d.setPosition(new Coordinate(e.getX(), e.getY(), 0));
+            d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
+            if(grid.onGrid(new Coordinate(e.getX(), e.getY(), 0))) {
+                d.minimize();
+            }
+            else
+                d.show();
             repaint();
+
+            grid.holdDomino(d);
         }
 
         if(draggingCube) {

@@ -4,6 +4,7 @@ import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.Polygon;
 
+import UIComponents.Render.Polygon;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.*;
@@ -49,12 +50,14 @@ public class FinishTurnButton extends Button{
         int[] triangleXR = {(int) (squareX + width + squareW), (int) (squareX + width + squareW + triangleW), (int) (squareX + width + squareW)};
         int[] triangleYT = {squareY, squareY, squareY / 2};
         int[] triangleYB = {(int) (squareY + height), (int) (squareY + height), squareY / 2};
-
+        /*
         g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYT, 3));
         g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYB, 3));
         g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYT, 3));
         g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYB, 3));
 
+
+         */
 
         //gold outline
 

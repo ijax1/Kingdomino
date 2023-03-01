@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class UIDomino extends Component{
-    private UITile[] tiles = new UITile[2];
+    private final UITile[] tiles = new UITile[2];
     private RectangularPrism self;
 
     double rotateTo = 0;
@@ -53,6 +53,7 @@ public class UIDomino extends Component{
         try {
            self.setFace(5,new TexturedPolygon(self.getFace(5).getPoints(), self.getFace(5).getCenter(), ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\18.jpg"))));
         } catch(Exception e){;}
+        super.show();
     }
 
     @Override
@@ -67,7 +68,8 @@ public class UIDomino extends Component{
 
     @Override
     public void draw(Graphics2D g) {
-        self.render(g);
+        if(super.isMinimized())
+            self.render(g);
     }
 
     @Override
@@ -84,9 +86,7 @@ public class UIDomino extends Component{
     }
 
     public void rotateToNextPos(final int direction, final JPanel panel) {
-            rotateTo += 90 * direction;
-        System.out.println(rotateTo);
-        System.out.println(currentRotation);
+        rotateTo += 90 * direction;
         if (currentRotation%360 == (rotateTo-90)%360) {
             rotating = true;
             final Timer timer = new Timer(1, null);
@@ -116,5 +116,9 @@ public class UIDomino extends Component{
         for(UITile t: tiles)
             t.moveTo(c);
         self.moveTo(c);
+    }
+
+    public UITile[] getTiles(){
+        return tiles;
     }
 }
