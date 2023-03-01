@@ -43,6 +43,8 @@ public class Kingdomino {
         //frame.setResizable(false);
         frame.setVisible(true);
     }
+
+    public GameManager getManager() {return manager;}
     /*
     public void changePanel(GameState state) {
 
