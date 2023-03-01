@@ -17,9 +17,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import Backend.HumanPlayer;
-import Backend.Player;
-import Backend.RandomStrategy;
 import resources.Resources;
 
 public class PlayerSelectPanel extends JPanel {
@@ -166,6 +163,7 @@ public class PlayerSelectPanel extends JPanel {
 	 * 
 	 * @return the new player, null if "None" option selected
 	 */
+	/*
 	public Player createPlayer() {
 		if(noneButton.isSelected()) {
 			return null;
@@ -175,8 +173,9 @@ public class PlayerSelectPanel extends JPanel {
 			} else if(computerBox.getSelectedItem().equals("Skilled Strategy")) {
 				return new SkilledStrategy();
 			}
-		} else if(humanButton.isSelected()) {
+		} else if(playerButton.isSelected()) {
 			return new HumanPlayer(color, textBox.getText());
 		}
 	}
+	*/
 }
