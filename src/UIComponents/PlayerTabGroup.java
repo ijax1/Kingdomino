@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class PlayerTabGroup extends Component {
     private final ArrayList<PlayerTabButton> group;
     private PlayerTabButton selected;
+    private int selectedIndex;
 
     PlayerTabGroup(ArrayList<Player> players, Kingdomino k) {
     	super(new Coordinate(0,160,0), k);
@@ -32,6 +33,8 @@ public class PlayerTabGroup extends Component {
         for (PlayerTabButton button: group) {
             if (button.getPlayer() != b.getPlayer()) {
                 button.minimize();
+            } else {
+                selectedIndex = group.indexOf(button);
             }
         }
     }
@@ -70,6 +73,19 @@ public class PlayerTabGroup extends Component {
 	public void draw(Graphics2D g) {
         for (PlayerTabButton button: group) {
             button.draw(g);
+        }
+
+        if (selected.getPlayer() != getGame().getManager().getCurrentPlayer()) {
+            g.setColor(new Color(241, 194, 50, 100));
+            int width = 50, height = 100;
+            int[] tipX = {width + 10, width + 50, width + 50};
+            int[] tipY = {(int) (((selectedIndex - 0.5) * height) + getPosition().getY()),
+                    (int) ((selectedIndex-1) * height + getPosition().getY()),
+                    (int) ((selectedIndex) * height + getPosition().getY())};
+            g.fillPolygon(new Polygon(tipX, tipY, 3));
+
+            // height = y constant * 2
+            g.drawRect(tipX[2], tipY[0] - 20, 70, 40);
         }
 	}
 
