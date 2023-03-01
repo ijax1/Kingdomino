@@ -7,8 +7,10 @@ import UIComponents.Render.Polygon;
 public class UITile {
     Polygon p;
 
+    Coordinate tileCenter;
+
     public UITile(Color c, Coordinate tileCenter, int radius, Coordinate center){
-        //TODO
+        this.tileCenter = tileCenter;
         p = new Polygon(new Coordinate[]{
                 new Coordinate(tileCenter.getX() - radius, tileCenter.getY() - radius, tileCenter.getZ()),
                 new Coordinate(tileCenter.getX() + radius, tileCenter.getY() - radius, tileCenter.getZ()),
@@ -27,7 +29,15 @@ public class UITile {
     }
 
     public void moveTo(Coordinate c){
+        Coordinate polyCenter = p.getCenter();
+        tileCenter = tileCenter.translatedBy(
+                c.getX() - polyCenter.getX(),
+                c.getY() - polyCenter.getY(),
+                c.getZ() - polyCenter.getZ()
+
+        );
         p.moveTo(c);
+
     }
 
     public void recenter(Coordinate c){
@@ -37,4 +47,9 @@ public class UITile {
     public Polygon getPolygon(){
         return p;
     }
+
+    public Coordinate getCenter(){
+        return this.tileCenter;
+    }
+
 }

@@ -11,7 +11,7 @@ import Backend.Domino;
 public class UIGrid {
     private final int width;
     private final int height;
-    private final Coordinate center;
+    private Coordinate center;
     /*
     9x9 array of tiles, castle tile at the center
      */
@@ -19,7 +19,7 @@ public class UIGrid {
 
     private int tileSize = 100;
 
-    private Domino holding;
+    private UIDomino holding;
 
     public UIGrid(Coordinate center, Grid g){
         this.width = 0;
@@ -102,7 +102,7 @@ public class UIGrid {
             for(int j = 0; j < gridWidth; j++){
                 if(toRender[i][j] != null){
                     Polygon temp = toRender[i][j].getPolygon();
-                    Polygon p = temp.duplicatePolygon(center);
+                    Polygon p = temp.duplicatePolygon(temp.getCenter());
                     polygons[index] = p;
                     index++;
                 }
@@ -124,7 +124,6 @@ public class UIGrid {
             int startY = (int) center.getY() - tileSize*(heightAllowed)/2;
             int endX = (int) center.getX() + tileSize*(widthAllowed)/2;
             int endY = (int) center.getY() + tileSize*(heightAllowed)/2;
-            System.out.println(startX + " " + startY + " " + endX + " " + endY);
             for(int x = startX; x <= endX; x+=100) {
                 g.drawLine(x, startY, x, endY);
             }
@@ -134,14 +133,29 @@ public class UIGrid {
             }
         }
         c.render(g);
+        if(dominoOnGrid(holding)){
+            UITile[] dominoTiles = holding.getTiles();
+            for(UITile t: dominoTiles){
+                Polygon p = t.getPolygon().duplicatePolygon(t.getCenter());
+                p.moveTo(center);
+                Coordinate tileCenter = t.getCenter();
+                int xMod = (int) (tileCenter.getX() - center.getX())/tileSize;
+                int yMod = (int) (tileCenter.getY() - center.getY())/tileSize;
+                Coordinate dest = new Coordinate(
+                        center.getX() + (tileSize * xMod),
+                        center.getY() + (tileSize * yMod),
+                        0
+                );
+                p.moveTo(dest);
+                p.render(g);
+            }
+        }
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.BLACK);
         ((Graphics2D) g).setStroke(new BasicStroke(2));
         for(LineSegment ls: c.getLineSegments()){
             g2d.drawLine((int)ls.getStart().getX(),(int)ls.getStart().getY(),(int)ls.getEnd().getX(),(int)ls.getEnd().getY());
         }
-        g.setColor(Color.ORANGE);
-        g.drawOval((int)center.getX()-5,(int)center.getY()-5,10,10);
     }
 
     private void recenter(){
@@ -171,16 +185,84 @@ public class UIGrid {
                 width++;
             }
         }
-        int displacementX = ( (startX+width-1 -4) - (4-startX) );
-        int displacementY = ( (startY+height-1 -4) - (4-startY) );
+        int displacementX = ( (startX+width -4) - (4-startX) ) -1;
+        int displacementY = ( (startY+height -4) - (4-startY) ) -1;
         double x = center.getX();
         double y = center.getY();
+        Coordinate gridCenter = new Coordinate(x-(displacementX)*tileSize/2.0,y-(displacementY)*tileSize/2.0,0);
 
         for(UITile[] tList: tiles){
             for(UITile tile: tList)
                 if(tile!=null)
-                    tile.moveTo(new Coordinate(x-(displacementX)*tileSize/2.0,y-(displacementY)*tileSize/2.0,0));
+                    tile.moveTo(gridCenter);
         }
+
+
+
+    }
+
+    public boolean onGrid(Coordinate c){
+        int x = (int) c.getX();
+        int y = (int) c.getY();
+        int widthAllowed = 7-Math.abs(3-getWidth());
+        int heightAllowed = 7-Math.abs(3-getHeight());
+
+        int left = (int) center.getX() - tileSize*(widthAllowed)/2;
+        int bottom = (int) center.getY() - tileSize*(heightAllowed)/2;
+        int right = (int) center.getX() + tileSize*(widthAllowed)/2;
+        int top = (int) center.getY() + tileSize*(heightAllowed)/2;
+        if(left < x && x < right && bottom < y && y < top)
+            return true;
+        return false;
+    }
+
+    public int getWidth(){
+        int width = 0;
+        for(int i = 0; i < 9; i++){
+            boolean emptyCol = true;
+            for(int j = 0; j < 9 && emptyCol; j++){
+                if (emptyCol && tiles[j][i] != null){
+                    emptyCol = false;
+                }
+            }
+            if(!emptyCol) {
+                width++;
+            }
+        }
+        return width;
+    }
+
+    public int getHeight(){
+        int height = 0;
+        for(int i = 0; i < 9; i++) {
+            boolean emptyRow = true;
+            for (int j = 0; j < 9; j++) {
+                if (emptyRow && tiles[i][j] != null) {
+                    emptyRow = false;
+                }
+            }
+            if (!emptyRow) {
+                height++;
+            }
+        }
+        return height;
+    }
+
+    public void holdDomino(UIDomino d){
+        this.holding = d;
+    }
+
+    private boolean dominoOnGrid(UIDomino d){
+        if(d != null) {
+            UITile[] tiles = d.getTiles();
+            boolean onGrid = true;
+            for (UITile t : tiles) {
+                if (onGrid && !onGrid(t.getCenter())) {
+                    onGrid = false;
+                }
+            }
+            return onGrid;
+        } return false;
     }
 
 }

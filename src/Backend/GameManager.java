@@ -43,7 +43,7 @@ public class GameManager {
         } else if (state == GameState.PLAYER_TURN) {
             game.changePanel(GameState.PLAYER_TURN);
             //while (play continues) {
-                turn(firstTurn);
+            turn(firstTurn);
             //}
         } else if (state == GameState.END_ROUND) {
             game.changePanel(GameState.END_ROUND);
