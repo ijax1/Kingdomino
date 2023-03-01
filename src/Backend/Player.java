@@ -19,6 +19,7 @@ public abstract class Player {
     private Domino nextDomino;
     private boolean placed;
     private boolean selected;
+    private boolean legalMoves;
 
     // Constructor
     public Player(Color color, String name, String title) {
@@ -33,6 +34,9 @@ public abstract class Player {
     abstract boolean isHuman();
 
     // Getters and setters for instance variables\
+    public boolean getLegalMoves() {
+        return legalMoves;
+    }
     public boolean getSelected() {
         return selected;
     }
