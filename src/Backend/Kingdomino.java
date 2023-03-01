@@ -24,8 +24,7 @@ public class Kingdomino {
     final private GameManager manager;
     private JFrame frame;
     
-    //there should only be the one instance of Kingdomino, in main
-    private Kingdomino() {
+    public Kingdomino() {
         manager = new GameManager(this);
         GridBagLayout gb = new GridBagLayout();
         startPanel = new StartPanel(gb);
