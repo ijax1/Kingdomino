@@ -62,9 +62,9 @@ public class GameManager {
         for (int i = 0; i < players.size(); i++) {
             currentPlayer = i;
             Player current = players.get(currentPlayer);
-            while (!current.getSelected()) {}
+            while (!current.hasSelected()) {}
             if (firstTurn) {
-                while (!current.getPlaced()) {}
+                while (!current.hasPlaced()) {}
             }
             current.setSelected(false);
             current.setPlaced(false);

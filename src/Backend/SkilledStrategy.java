@@ -8,6 +8,11 @@ public class SkilledStrategy extends ComputerPlayer {
         super(color, name, title);
     }
 
+    @Override
+    public void placeDomino() {
+
+    }
+
 //    @Override
 //    Domino calculateChoice() {
 //

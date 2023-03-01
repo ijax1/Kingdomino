@@ -3,14 +3,19 @@ import java.awt.Color;
 
 public class RandomStrategy extends ComputerPlayer {
 
-    GameManager game = new GameManager();
+    private GameManager game;
     //we need to add getDeck and getGrid to GameManager:
     Deck deck = game.getDeck();
     Grid grid = getGrid();
 
 
-    public RandomStrategy(Color color, String name, String title) {
+    public RandomStrategy(Color color, String name, String title, GameManager game) {
         super(color, name, title);
+        this.game = game;
+    }
+
+    public GameManager getGame() {
+        return game;
     }
 
     private static int randomNum(int x) {
