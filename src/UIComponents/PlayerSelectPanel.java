@@ -53,10 +53,10 @@ public class PlayerSelectPanel extends JPanel {
 		inputPanel.setLayout(card);
 
 		
-		String[]choices = {"Random Strategy", "Skilled Strategy"};
+		String[]choices = {"None"};
 		//TODO: make JCombobox use Strategy instead of String?
 		computerBox = new JComboBox<String>(choices);
-		computerBox.setSelectedItem("Skilled Strategy");
+		computerBox.setSelectedItem("None");
 		textBox = new NameTextField("Player " + playerNo);
 		noneBox = new JLabel("---", SwingConstants.CENTER);
 

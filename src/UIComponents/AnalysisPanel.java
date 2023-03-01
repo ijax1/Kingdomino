@@ -44,10 +44,11 @@ public class AnalysisPanel extends JPanel {
 		//setBackground(OurColors.BACKGROUND);
 		GridBagConstraints c = new GridBagConstraints();
 		
-		PlayerSelectPanel player1 = new PlayerSelectPanel(OurColors.RED, 1, PlayerSelectPanel.HUMAN);
-		PlayerSelectPanel player2 = new PlayerSelectPanel(OurColors.BLUE, 2, PlayerSelectPanel.COMPUTER);
-		PlayerSelectPanel player3 = new PlayerSelectPanel(OurColors.GREEN, 3, PlayerSelectPanel.COMPUTER);
-		PlayerSelectPanel player4 = new PlayerSelectPanel(OurColors.YELLOW, 4, PlayerSelectPanel.COMPUTER);
+		JPanel box1 = new JPanel();
+		JPanel box2 = new JPanel();
+		JPanel box3 = new JPanel();
+		JPanel box4 = new JPanel();
+
 		//JButton scrollB = new JButton("Quiteth");
 		JLabel scroll = new JLabel("Kingdomino", SwingConstants.CENTER);
 		scroll.setFont(Resources.getMedievalFont(50));
@@ -90,20 +91,20 @@ public class AnalysisPanel extends JPanel {
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 1;
-		g.setConstraints(player1, c);
-		add(player1);
+		g.setConstraints(box1, c);
+		add(box1);
 		c.gridx = 1;
 		c.gridy = 1;
-		g.setConstraints(player2, c);
-		add(player2);
+		g.setConstraints(box2, c);
+		add(box2);
 		c.gridx = 2;
 		c.gridy = 1;
-		g.setConstraints(player3, c);
-		add(player3);
+		g.setConstraints(box3, c);
+		add(box3);
 		c.gridx = 3;
 		c.gridy = 1;
-		g.setConstraints(player4, c);
-		add(player4);
+		g.setConstraints(box4, c);
+		add(box4);
 		c.ipady = 20;
 		c.gridx = 0;
 		c.gridy = 2;

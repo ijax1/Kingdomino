@@ -197,7 +197,8 @@ public class Polygon {
     public Polygon duplicatePolygon(Coordinate c){
       Coordinate[] temp = new Coordinate[points.length];
       System.arraycopy(points, 0, temp, 0, points.length);
-      Polygon p = new Polygon(temp, c);
+      Polygon p = new Polygon(temp, center);
+      p.moveTo(c);
       p.setColor(this.color);
       return p;
     };
@@ -211,5 +212,4 @@ public class Polygon {
         }
         return ret.toString();
     }
-
 }

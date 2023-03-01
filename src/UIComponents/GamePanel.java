@@ -20,8 +20,8 @@ import Backend.Player;
 import UIComponents.Render.Coordinate;
 import resources.OurColors;
 import resources.Resources;
-class Dummy extends Component {
-	Dummy(Coordinate position, Kingdomino k) {
+class DummyComp extends Component {
+	DummyComp(Coordinate position, Kingdomino k) {
 		super(position, k);
 		// TODO Auto-generated constructor stub
 	}
@@ -60,6 +60,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private int mousex, mousey;
 	private PlayerTabGroup group;
 	private PlayerTabButton button;
+	private Banner banner;
 	
 	public GamePanel(ArrayList<Player> players, Kingdomino k) {
 		setPreferredSize(new Dimension(1280,720));
@@ -70,9 +71,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		addKeyListener(this);
 		medieval = Resources.loadFont("fonts/MedievalSharp-Regular.ttf", 100);
 		group = new PlayerTabGroup(players,k);
+		banner = new Banner(new Coordinate(800,100,0), k);
 		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
 		
 		components.add(group);
+		components.add(banner);
 		//components.add(new Hitbo)
 	}
 	public void paintComponent(Graphics g1) {
