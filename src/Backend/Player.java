@@ -17,6 +17,8 @@ public abstract class Player {
     private Grid grid;
     private Domino currentDomino;
     private Domino nextDomino;
+    private boolean placed;
+    private boolean selected;
 
     // Constructor
     public Player(Color color, String name, String title) {
@@ -30,7 +32,23 @@ public abstract class Player {
     // Abstract method to check if player is human
     abstract boolean isHuman();
 
-    // Getters for instance variables
+    // Getters and setters for instance variables\
+    public boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public boolean getPlaced() {
+        return placed;
+    }
+
+    public void setPlaced(boolean placed) {
+        this.placed = placed;
+    }
+
     public int getScore() {
         return score;
     }
