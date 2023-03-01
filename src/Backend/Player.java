@@ -37,6 +37,9 @@ public abstract class Player {
     public boolean getLegalMoves() {
         return legalMoves;
     }
+    public void setLegalMoves(boolean legalMove) {
+        this.legalMoves = legalMove;
+    }
     public boolean getSelected() {
         return selected;
     }
