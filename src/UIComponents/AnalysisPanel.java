@@ -38,6 +38,8 @@ public class AnalysisPanel extends JPanel {
 	BufferedImage computer;
 	BufferedImage none;
 	CloseButton close;
+	int width = 200;
+	int height = 500;
 	
 	public AnalysisPanel(GridBagLayout g) {
 		super(g);
@@ -45,9 +47,13 @@ public class AnalysisPanel extends JPanel {
 		GridBagConstraints c = new GridBagConstraints();
 		
 		JPanel box1 = new JPanel();
+		box2.setSize(width, height);
 		JPanel box2 = new JPanel();
+		box3.setSize(width, height);
 		JPanel box3 = new JPanel();
+		box3.setSize(width, height);
 		JPanel box4 = new JPanel();
+		box4.setSize(width, height);
 
 		//JButton scrollB = new JButton("Quiteth");
 		JLabel scroll = new JLabel("Kingdomino", SwingConstants.CENTER);
