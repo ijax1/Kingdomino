@@ -4,18 +4,15 @@ import java.util.ArrayList;
 
 public class RandomStrategy extends ComputerPlayer {
 	
-	Kingdomino kingdomino = new Kingdomino();
-	GameManager game = kingdomino.getManager();
-
-
-   
-    Deck deck = game.getDeck();
+	GameManager game;
+    Deck deck;
     Grid grid = getGrid();
 
 
     public RandomStrategy(Color color, String name, String title, GameManager game) {
         super(color, name, title);
         this.game = game;
+        deck = game.getDeck();
     }
 
     public GameManager getGame() {
