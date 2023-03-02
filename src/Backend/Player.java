@@ -1,13 +1,10 @@
 package Backend;
 
 import java.awt.Color;
-import java.util.Random;
 
 public abstract class Player {
     
-    // Class variables
-    static final String[] MEDIEVAL_TITLES = {"The Honorable", "The Great", "The Wise", "The Bold", "The Valiant", "The Chivalrous", "The Magnificent", "The Noble", "The Righteous", "The Sagacious"};
-
+    
     // Instance variables
     private String name;
     private int score;
@@ -76,18 +73,6 @@ public abstract class Player {
 
     public Domino getNextDomino() {
         return nextDomino;
-    }
-
-    // Generates a random medieval title
-    public String generateTitle() {
-        Random rand = new Random();
-        int randIndex = rand.nextInt(MEDIEVAL_TITLES.length);
-        return MEDIEVAL_TITLES[randIndex];
-    }
-
-    // Returns a temporary name for the AI
-    public String generateAIName() {
-        return "Computer";
     }
 
     // Places a domino on the grid at the given coordinates

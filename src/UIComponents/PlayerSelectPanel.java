@@ -173,7 +173,7 @@ public class PlayerSelectPanel extends JPanel {
 			return null;
 		} else if(computerButton.isSelected()) {
 			if(computerBox.getSelectedItem().equals("Random Strategy")) {
-				return new RandomStrategy();
+				return new RandomStrategy(color, "Random Strategy", P);
 			} else if(computerBox.getSelectedItem().equals("Skilled Strategy")) {
 				return new SkilledStrategy();
 			}
