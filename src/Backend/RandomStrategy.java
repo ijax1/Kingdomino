@@ -36,7 +36,7 @@ public class RandomStrategy extends ComputerPlayer {
 
 
     
-    public void calculatePlacement() {   	 
+    public void placeDomino() {   	 
       	 Domino domino = calculateChoice();
       	 
       	 //randomly set rotation of domino:
@@ -51,11 +51,6 @@ public class RandomStrategy extends ComputerPlayer {
       	 grid.placeDomino(placements.get(ranPlace).getX(),placements.get(ranPlace).getY(), domino);
    	}
 
-	@Override
-	public void placeDomino() {
-		// TODO Auto-generated method stub
-		
-	}  
 }
   
 
