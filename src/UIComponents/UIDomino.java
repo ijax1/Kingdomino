@@ -40,7 +40,7 @@ public class UIDomino extends Component{
                 new Coordinate(position.getX()+sideLen, position.getY()+sideLen/2.0,position.getZ()-sideLen/20),
                 new Coordinate(position.getX()-sideLen, position.getY()+sideLen/2.0,position.getZ()-sideLen/20)
         };
-        self = new RectangularPrism(new Coordinate(800,400,0),sideLen*2,10,sideLen);
+        self = new RectangularPrism(position,sideLen*2,10,sideLen);
         Color sideColor = new Color(123, 63, 0);
         Color backColor = new Color(123, 63, 0);
         self.getFace(0).setColor(sideColor);
@@ -48,8 +48,8 @@ public class UIDomino extends Component{
         self.getFace(3).setColor(sideColor);
         self.getFace(4).setColor(sideColor);
         self.getFace(5).setColor(backColor);
-        CompoundPolygon c = new CompoundPolygon(new Polygon[]{tiles[0].getPolygon(),tiles[1].getPolygon()},points,position);
-        self.setFace(2,new CompoundPolygon(new Polygon[]{tiles[0].getPolygon(),tiles[1].getPolygon()},points,position));
+        CompoundPolygon c = new CompoundPolygon(new Polygon[]{tiles[0].getPolygon().duplicatePolygon(getCenter()),tiles[1].getPolygon().duplicatePolygon(getCenter())},points,position);
+        self.setFace(2,new CompoundPolygon(new Polygon[]{tiles[0].getPolygon().duplicatePolygon(getCenter()),tiles[1].getPolygon().duplicatePolygon(getCenter())},points,position));
         try {
            self.setFace(5,new TexturedPolygon(self.getFace(5).getPoints(), self.getFace(5).getCenter(), ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\18.jpg"))));
         } catch(Exception e){;}
@@ -83,6 +83,9 @@ public class UIDomino extends Component{
 
     public void incrementRotation(double xRotation, double yRotation, double zRotation){
         self.incrementRotation(xRotation, yRotation, zRotation);
+        for(UITile t: tiles){
+            t.incrementRotation(xRotation, yRotation, zRotation);
+        }
     }
 
     public void rotateToNextPos(final int direction, final JPanel panel) {
@@ -120,5 +123,9 @@ public class UIDomino extends Component{
 
     public UITile[] getTiles(){
         return tiles;
+    }
+
+    public double getRotation(){
+        return currentRotation;
     }
 }

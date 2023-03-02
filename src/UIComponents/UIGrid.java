@@ -134,22 +134,47 @@ public class UIGrid {
         }
         c.render(g);
         if(dominoOnGrid(holding)){
-            UITile[] dominoTiles = holding.getTiles();
-            for(UITile t: dominoTiles){
-                Polygon p = t.getPolygon().duplicatePolygon(t.getCenter());
-                p.moveTo(center);
+            /*
+            Coordinate tileCenter = holding.getCenter();
+            int xMod = (int) Math.round((tileCenter.getX() - center.getX() + 50 - (50 * (gridWidth%2-1)))/tileSize);
+            int yMod = (int) Math.round((tileCenter.getY() - center.getY() - (50 * (gridWidth%2-1)))/tileSize);
+            g.clearRect(600,200,30,30);
+            g.drawString(xMod + " " + yMod, 600,200);
+            g.drawString("" + (tileCenter.getX() - center.getX() + 50) + " " + (tileCenter.getY() - center.getY()), 800,200);
+            Coordinate dest = new Coordinate(
+                    center.getX() + (tileSize * (xMod - 0.5)) + (50 * (gridWidth%2-1)),
+                    center.getY() + (tileSize * yMod) + (50 * (gridWidth%2-1)),
+                    0
+            );
+            UIDomino uid = new UIDomino(dest,null,null,null);
+            uid.incrementRotation(0,0,Math.toRadians(holding.getRotation()));
+            uid.draw((Graphics2D) g);
+            */
+            Coordinate dominoCenter = new Coordinate(0,0,0);
+            double rotation = holding.getRotation();
+            double leftBound = center.getX() - tileSize * gridWidth * 0.5;
+            double topBound = center.getY() - tileSize * gridHeight * 0.5;
+            double xMod = 0.0;
+            double yMod = 0.0;
+            int i = 0;
+            for(UITile t: holding.getTiles()){
                 Coordinate tileCenter = t.getCenter();
-                int xMod = (int) (tileCenter.getX() - center.getX())/tileSize;
-                int yMod = (int) (tileCenter.getY() - center.getY())/tileSize;
-                Coordinate dest = new Coordinate(
-                        center.getX() + (tileSize * xMod),
-                        center.getY() + (tileSize * yMod),
-                        0
-                );
-                p.moveTo(dest);
-                p.render(g);
+                xMod += (int) Math.round((tileCenter.getX() - leftBound - (50 * (gridWidth%2-1)))/tileSize);
+                yMod += (int) Math.round((tileCenter.getY() - topBound - (50 * (gridHeight%2-1)))/tileSize);
+                g.drawString((int) Math.round((tileCenter.getX() - leftBound - (50 * (gridWidth%2-1)))/tileSize) + " " + (int) Math.round((tileCenter.getY() - topBound - (50 * (gridHeight%2-1)))/tileSize), 600 + (i * 100),200);
+                i++;
+
             }
+
+            xMod /= 2.0;
+            yMod /= 2.0;
+
+            Coordinate dest = new Coordinate(leftBound + xMod * tileSize - 50,topBound + yMod * tileSize - 50,0);
+            UIDomino uid = new UIDomino(dest,null,null,null);
+            uid.incrementRotation(0,0,Math.toRadians(holding.getRotation()));
+            uid.draw((Graphics2D) g);
         }
+        //cock
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.BLACK);
         ((Graphics2D) g).setStroke(new BasicStroke(2));

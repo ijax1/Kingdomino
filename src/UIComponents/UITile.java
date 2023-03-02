@@ -52,4 +52,9 @@ public class UITile {
         return this.tileCenter;
     }
 
+    public void incrementRotation(double xRotation, double yRotation, double zRotation){
+        p.incrementRotation(xRotation, yRotation, zRotation);
+        tileCenter = Coordinate.rotateAbout(p.getCenter(), tileCenter, xRotation, yRotation, zRotation);
+    }
+
 }
