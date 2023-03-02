@@ -4,8 +4,15 @@ import java.awt.Color;
 
 abstract class ComputerPlayer extends Player {
 
-	public ComputerPlayer(Color color, String name, String title) {
+	private final GameManager game;
+
+	public ComputerPlayer(Color color, String name, String title, GameManager game) {
 		super(color, title, title);
+		this.game = game;
+	}
+
+	public GameManager getGame() {
+		return game;
 	}
 	
 	public boolean isHuman() {
@@ -13,6 +20,6 @@ abstract class ComputerPlayer extends Player {
 	}
 
 	abstract public void placeDomino();
-	abstract void calculatePlacement();
-	
+	abstract public void setNextDomino();
+
 }

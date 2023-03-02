@@ -14,18 +14,18 @@ public class SkilledStrategy extends ComputerPlayer {
     }
 
 //    @Override
-//    Domino calculateChoice() {
-//
-//        // need access to game manager
-//        GameManager g = getGame();
-//        Domino[] dominos = g.getDeck().getDominoesToSelect();
-//        // what?
-//    }
+    private Domino calculateChoice() {
+
+        // need access to game manager
+        GameManager g = getGame();
+        Domino[] dominos = g.getDeck().getDominoesToSelect();
+        // what?
+    }
 
 
 
     @Override
-    void calculatePlacement() {
+    public void calculatePlacement() {
         Grid grid = getGrid();
         Domino domino = getNextDomino();
         ArrayList<GridPosition> positions = grid.availableSpaces(domino);
