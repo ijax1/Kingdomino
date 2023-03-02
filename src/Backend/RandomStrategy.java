@@ -10,7 +10,7 @@ public class RandomStrategy extends ComputerPlayer {
 
 
     public RandomStrategy(Color color, String name, String title, GameManager game) {
-        super(color, name, title);
+        super(color, name, title, game);
         this.game = game;
         deck = game.getDeck();
     }
@@ -24,17 +24,17 @@ public class RandomStrategy extends ComputerPlayer {
         return num;
     }
 
-    Domino calculateChoice() {
+    public void calculateChoice() {
         Domino[] choices = deck.getDominoesToSelect();
         int ranChoice = randomNum(4);
         Domino chosenDomino = choices[ranChoice];
-        return chosenDomino;
+        setNextDomino(chosenDomino);
     }
 
 
     
     public void placeDomino() {   	 
-      	 Domino domino = calculateChoice();
+      	 Domino domino = getNextDomino();
       	 
       	 //randomly set rotation of domino:
       	 int ranRot = randomNum(3)*90;
