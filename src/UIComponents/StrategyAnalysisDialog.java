@@ -2,21 +2,16 @@ package UIComponents;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dialog.ModalityType;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.RootPaneContainer;
-import javax.swing.SwingUtilities;
 
 import resources.OurColors;
 import resources.Resources;
@@ -25,7 +20,7 @@ import resources.Resources;
 public class StrategyAnalysisDialog extends JDialog {
 	private JPanel tintPane;
 	private Color tintColor = new Color(0,0,0,125);
-	public ErrorDialog(JFrame root) {
+	public StrategyAnalysisDialog(JFrame root) {
 		//jdialog with no name
 		super(root, "", ModalityType.DOCUMENT_MODAL);
 		
@@ -98,8 +93,10 @@ public class StrategyAnalysisDialog extends JDialog {
         titlePanel.add(titleLabel);
         
         bodyPanel.add(bodyLabel, BorderLayout.PAGE_START);
-        bodyPanel.add(button, BorderLayout.LINE_END);
-        
+        bodyPanel.add(button, BorderLayout.LINE_START);
+        bodyPanel.add(button2, BorderLayout.CENTER);
+        bodyPanel.add(button3, BorderLayout.LINE_END);
+
         dialogPanel.add(titlePanel);
         dialogPanel.add(bodyPanel);
         

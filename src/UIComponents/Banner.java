@@ -56,7 +56,7 @@ public class Banner extends Component {
         ActionListener task = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				draw();
+				
 				
 			}
         };

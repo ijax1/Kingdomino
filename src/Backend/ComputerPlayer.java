@@ -20,6 +20,7 @@ abstract class ComputerPlayer extends Player {
 	}
 
 	abstract public void placeDomino();
+
 	abstract public void calculateChoice();
 
 }

@@ -13,7 +13,7 @@
 
 // 	public void doAction() {
 //     //are we changing game by changing panel? 
-// 		getGame().setPanel(); 
+// 		getGame().changePanel(GameState.PLAYER_TURN);
 // 	}
   
 //   public boolean onComponent(Coordinate c) {
