@@ -25,7 +25,7 @@ public class GameManager {
         this.game = game;
         firstTurn = true;
         state = GameState.INITIAL;
-        deck = new Deck();
+//        deck = new Deck();
         players = new ArrayList<>();
         currentPlayer = 0;
     }
@@ -38,14 +38,14 @@ public class GameManager {
         this.state = state;
         if (state == GameState.INITIAL) {
             game.changePanel(GameState.INITIAL);
-            deck = new Deck();
+//            deck = new Deck();
             players = new ArrayList<Player>();
             currentPlayer = 0;
         } else if (state == GameState.PLAYER_TURN) {
             game.changePanel(GameState.PLAYER_TURN);
-            while (play continues) {
-                turn();
-            }
+//            while (play continues) {
+//                turn();
+//            }
         } else if (state == GameState.END_ROUND) {
             game.changePanel(GameState.END_ROUND);
         } else if (state == GameState.TALLY_SCORE) {
@@ -62,9 +62,9 @@ public class GameManager {
         for (int i = 0; i < players.size(); i++) {
             currentPlayer = i;
             Player current = players.get(currentPlayer);
-            while (!current.getSelected()) {}
+            while (!current.hasSelected()) {}
             if (firstTurn) {
-                while (!current.getPlaced()) {}
+                while (!current.hasPlaced()) {}
             }
             current.setSelected(false);
             current.setPlaced(false);

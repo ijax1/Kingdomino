@@ -40,16 +40,16 @@ public class AnalysisPanel extends JPanel {
 	CloseButton close;
 	int width = 200;
 	int height = 500;
-	
+
 	public AnalysisPanel(GridBagLayout g) {
 		super(g);
 		//setBackground(OurColors.BACKGROUND);
 		GridBagConstraints c = new GridBagConstraints();
-		
+
 		JPanel box1 = new JPanel();
-		box2.setSize(width, height);
+		box1.setSize(width, height);
 		JPanel box2 = new JPanel();
-		box3.setSize(width, height);
+		box2.setSize(width, height);
 		JPanel box3 = new JPanel();
 		box3.setSize(width, height);
 		JPanel box4 = new JPanel();
@@ -65,7 +65,7 @@ public class AnalysisPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
-			}	
+			}
 		});
 		play.addActionListener(new ActionListener() {
 			@Override
@@ -73,18 +73,18 @@ public class AnalysisPanel extends JPanel {
 				/*
 				changePanel(GameState.PLAYER_TURN);
 				 */
-			}	
+			}
 		});
-		
-		//close = new CloseButton(new Coordinate(1200,800,0), null);	
-		
-		//Settings for whole layout 
+
+		//close = new CloseButton(new Coordinate(1200,800,0), null);
+
+		//Settings for whole layout
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx=0.5;
 		c.gridheight = 1;
 		c.insets = new Insets(10,10,10,10);
 		c.anchor = GridBagConstraints.CENTER;
-		
+
 		//Settings for individual components
 		c.gridwidth = 4;
 		c.weighty = 0;	//Title can get cut off
@@ -117,7 +117,7 @@ public class AnalysisPanel extends JPanel {
 		c.gridwidth = 2;
 		g.setConstraints(exit, c);
 		add(exit);
-		
+
 		c.gridx = 2;
 		c.gridy = 2;
 		c.gridwidth = 2;

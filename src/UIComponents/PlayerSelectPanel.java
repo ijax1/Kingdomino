@@ -17,6 +17,11 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import Backend.HumanPlayer;
+import Backend.Kingdomino;
+import Backend.Player;
+import Backend.RandomStrategy;
+import Backend.SkilledStrategy;
 import resources.Resources;
 
 public class PlayerSelectPanel extends JPanel {
@@ -43,7 +48,7 @@ public class PlayerSelectPanel extends JPanel {
 	
 	private JLabel avatarHolder;
 	
-	public PlayerSelectPanel(Color color, int playerNo, String defaultPlayer) {
+	public PlayerSelectPanel(Color color, int playerNo, String defaultPlayer, Kingdomino k) {
 		
 		setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 		setBackground(color);
@@ -163,7 +168,6 @@ public class PlayerSelectPanel extends JPanel {
 	 * 
 	 * @return the new player, null if "None" option selected
 	 */
-	/*
 	public Player createPlayer() {
 		if(noneButton.isSelected()) {
 			return null;
@@ -173,9 +177,8 @@ public class PlayerSelectPanel extends JPanel {
 			} else if(computerBox.getSelectedItem().equals("Skilled Strategy")) {
 				return new SkilledStrategy();
 			}
-		} else if(playerButton.isSelected()) {
+		} else if(humanButton.isSelected()) {
 			return new HumanPlayer(color, textBox.getText());
 		}
 	}
-	*/
 }

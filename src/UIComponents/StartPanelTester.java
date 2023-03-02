@@ -1,9 +1,10 @@
 package UIComponents;
 
 import java.awt.GridBagLayout;
+
 import javax.swing.JFrame;
 
-import resources.Resources;
+import Backend.Kingdomino;
 
 public class StartPanelTester {
 	
@@ -12,10 +13,9 @@ public class StartPanelTester {
 	}
 	public void runGUI() {
 		JFrame frame = new JFrame(getClass().getName());
-		StartPanel panel = new StartPanel(new GridBagLayout());
+		StartPanel panel = new StartPanel(new GridBagLayout(), new Kingdomino());
 		frame.setSize(1280,720);
 		frame.add(panel);
-		
 
 		
 		//frame.pack();

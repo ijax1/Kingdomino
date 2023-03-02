@@ -11,6 +11,20 @@ public class Grid {
         grid = new Tile[9][9];
     }
 
+    Grid(Tile[][] initialGrid) {
+        grid = initialGrid;
+    }
+
+    public Grid copy() {
+        Tile[][] newGrid = new Tile[9][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                newGrid[i][j] = grid[i][j];
+            }
+        }
+        return new Grid(newGrid);
+    }
+
     private int[] findCenter() {
         int sumX = 0;
         int sumY = 0;
@@ -38,9 +52,12 @@ public class Grid {
         return grid[x][y];
     }
 
+    public Tile getTile(GridPosition pos) {
+        return grid[pos.getX()][pos.getY()];
+    }
+
     public ArrayList<GridPosition> availableSpaces(Domino domino) {
         ArrayList<GridPosition> positions = new ArrayList<>();
-        boolean[][] spaces = new boolean[9][9];
         int[] relPos = relPos(domino);
         int changeX = relPos[0];
         int changeY = relPos[1];
@@ -49,11 +66,26 @@ public class Grid {
                 if (isValidPos(i + changeX, j + changeY)
                         && grid[i][j] == null
                         && grid[i + changeX][j + changeY] == null) {
-                    positions.add(new GridPosition(i,j));
+                    positions.add(new GridPosition(i, j));
                 }
             }
         }
         return positions;
+    }
+
+    public boolean[][] availableSpacesGrid(Domino domino) {
+        boolean[][] spaces = new boolean[9][9];
+        int[] relPos = relPos(domino);
+        int changeX = relPos[0];
+        int changeY = relPos[1];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                spaces[i][j] = isValidPos(i + changeX, j + changeY)
+                        && grid[i][j] == null
+                        && grid[i + changeX][j + changeY] == null;
+            }
+        }
+        return spaces;
     }
 
     // relative position for tile 2 where tile 1 is (0,0)
@@ -108,7 +140,7 @@ public class Grid {
 
     private void findRegion(boolean[][] covered, boolean[][] coveredTiles, int x, int y, Region region) {
         if (!covered[x][y] && grid[x][y] != null && grid[x][y].getLandType() == region.getLandType()) {
-            region.addPosition(new GridPosition(x,y));
+            region.addPosition(new GridPosition(x, y));
 
             covered[x][y] = true;
             coveredTiles[x][y] = true;

@@ -9,7 +9,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import Backend.GameManager.GameState;
 import UIComponents.GamePanel;
+//import Backend.GameManager.GameState;
+//import UIComponents.GamePanel;
 import UIComponents.PodiumPanel;
 import UIComponents.StartPanel;
 import resources.Resources;
@@ -18,17 +21,17 @@ import resources.Resources;
 public class Kingdomino {
     private JPanel currentPanel;
     final private StartPanel startPanel;
-    final private GamePanel gamePanel;
-    final private PodiumPanel podiumPanel;
+    //final private GamePanel gamePanel;
+    //final private PodiumPanel podiumPanel;
     final private GameManager manager;
     private JFrame frame;
-
+    
     public Kingdomino() {
         manager = new GameManager(this);
         GridBagLayout gb = new GridBagLayout();
-        startPanel = new StartPanel(gb);
-        gamePanel = new GamePanel(new ArrayList<Player>(), this);
-        podiumPanel = new PodiumPanel();
+        startPanel = new StartPanel(gb, this);
+        //gamePanel = new GamePanel(new ArrayList<Player>(), this);
+        //podiumPanel = new PodiumPanel(this);
         setUpFrame();
     }
 
@@ -45,22 +48,23 @@ public class Kingdomino {
     }
 
     public GameManager getManager() {return manager;}
-    /*
+
     public void changePanel(GameState state) {
 
         JPanel newPanel;
-        if (state == GameState.INITIAL)
+        if (state == GameState.INITIAL) {
             newPanel = startPanel;
-        else if (state == GameState.PLAYER_TURN)
-            newPanel = gamePanel;
-        else if (state == ENDSCREEN)
-            newPanel = podiumPanel;
-        else
+//        } else if (state == GameState.PLAYER_TURN) {
+//            newPanel = gamePanel;
+//        } else if (state == GameState.ENDSCREEN) {
+//            newPanel = podiumPanel;
+        } else {
             newPanel = currentPanel;
+        }
         frame.setContentPane(newPanel);
     }
 
-     */
+
 
     public static void main(String[] args) {
     	SwingUtilities.invokeLater(new Runnable() {

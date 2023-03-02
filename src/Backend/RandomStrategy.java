@@ -6,12 +6,20 @@ public class RandomStrategy extends ComputerPlayer {
 	
 	Kingdomino kingdomino = new Kingdomino();
 	GameManager game = kingdomino.getManager();
+
+
+   
     Deck deck = game.getDeck();
     Grid grid = getGrid();
 
 
-    public RandomStrategy(Color color, String name, String title) {
+    public RandomStrategy(Color color, String name, String title, GameManager game) {
         super(color, name, title);
+        this.game = game;
+    }
+
+    public GameManager getGame() {
+        return game;
     }
 
     private static int randomNum(int x) {
@@ -41,7 +49,13 @@ public class RandomStrategy extends ComputerPlayer {
       	 
       	 //calls placeDomino:
       	 grid.placeDomino(placements.get(ranPlace).getX(),placements.get(ranPlace).getY(), domino);
-   	}  
+   	}
+
+	@Override
+	public void placeDomino() {
+		// TODO Auto-generated method stub
+		
+	}  
 }
   
 

@@ -12,7 +12,7 @@ public class PlayerTabGroup extends Component {
     private final ArrayList<PlayerTabButton> group;
     private PlayerTabButton selected;
     private int selectedIndex;
-    private Graphics2D graphics; 
+    private Graphics2D graphics;
 
     PlayerTabGroup(ArrayList<Player> players, Kingdomino k) {
     	super(new Coordinate(0,160,0), k);
@@ -33,7 +33,7 @@ public class PlayerTabGroup extends Component {
         b.show();
         for (PlayerTabButton button: group) {
             if (button.getPlayer() != b.getPlayer()) {
-                button.minimize();
+//                button.minimize();
             } else {
                 selectedIndex = group.indexOf(button);
             }
@@ -56,13 +56,13 @@ public class PlayerTabGroup extends Component {
                 }
             }
         }
-	setSelected(group.get(0);
+//	setSelected(group.get(0);
     }
 
 	@Override
 	public void setPosition(Coordinate coordinate) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -92,9 +92,9 @@ public class PlayerTabGroup extends Component {
         }
 	}
 
-	// trying to reduce the amount of times it needs to redraw? 
+	// trying to reduce the amount of times it needs to redraw?
 	// when integrating, should run playerTabButton whenClicked() first bc it is updating information used by playertabgroup
-	// actually when we add viewed player this whenclicked() will look differently. 
+	// actually when we add viewed player this whenclicked() will look differently.
 	@Override
 	public void whenClicked() {
 // 	for (PlayerTabButton buttons: group) {
@@ -105,7 +105,7 @@ public class PlayerTabGroup extends Component {
 // 			}
 // 		}
 // 	}
-		
+
 	// shoudl look smth like this instead in theory ????
 // 	if (getGame().getManager().getViewedPlayer() != selected.player()) {
 // 		draw(graphics)

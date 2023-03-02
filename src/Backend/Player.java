@@ -1,7 +1,5 @@
 package Backend;
 
-import UIComponents.*;
-
 import java.awt.Color;
 import java.util.Random;
 
@@ -19,6 +17,7 @@ public abstract class Player {
     private Domino nextDomino;
     private boolean placed;
     private boolean selected;
+    private boolean legalMoves;
 
     // Constructor
     public Player(Color color, String name, String title) {
@@ -33,7 +32,13 @@ public abstract class Player {
     abstract boolean isHuman();
 
     // Getters and setters for instance variables\
-    public boolean getSelected() {
+    public boolean getLegalMoves() {
+        return legalMoves;
+    }
+    public void setLegalMoves(boolean legalMove) {
+        this.legalMoves = legalMove;
+    }
+    public boolean hasSelected() {
         return selected;
     }
 
@@ -41,7 +46,7 @@ public abstract class Player {
         this.selected = selected;
     }
 
-    public boolean getPlaced() {
+    public boolean hasPlaced() {
         return placed;
     }
 
@@ -87,14 +92,14 @@ public abstract class Player {
 
     // Places a domino on the grid at the given coordinates
     public void placeDomino(int x, int y, Domino domino) {
-        if (grid.availableSpaces(domino)[x][y]) {
+        if (grid.availableSpacesGrid(domino)[x][y]) {
             grid.placeDomino(x, y, domino);
         } else {
             // Activate message box
         }
     }
     // Sets the next domino to be played
-    public void selectDomino(Domino domino) {
+    public void setNextDomino(Domino domino) {
         this.nextDomino = domino;
     }
 

@@ -1,8 +1,5 @@
 package UIComponents;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
@@ -11,43 +8,43 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
+import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 
-import UIComponents.Render.Coordinate;
+import Backend.GameManager;
+import Backend.GameManager.GameState;
+import Backend.Kingdomino;
+import Backend.Player;
 import resources.OurColors;
 import resources.Resources;
 
 @SuppressWarnings("serial")
 public class StartPanel extends JPanel {
-	BufferedImage player;
-	BufferedImage computer;
-	BufferedImage none;
-	CloseButton close;
+	private BufferedImage player;
+	private BufferedImage computer;
+	private BufferedImage none;
+	private CloseButton close;
+	private JFrame root;
+	GameManager gm;
 	
-	public StartPanel(GridBagLayout g) {
+	private PlayerSelectPanel[]playerPanels = new PlayerSelectPanel[4];
+	
+	public StartPanel(GridBagLayout g, Kingdomino k) {
 		super(g);
 		//setBackground(OurColors.BACKGROUND);
 		GridBagConstraints c = new GridBagConstraints();
+		gm = k.getManager();
+		root = (JFrame) SwingUtilities.getWindowAncestor(this);
+		playerPanels[0] = new PlayerSelectPanel(OurColors.RED, 1, PlayerSelectPanel.HUMAN, k);
+		playerPanels[1] = new PlayerSelectPanel(OurColors.BLUE, 2, PlayerSelectPanel.COMPUTER, k);
+		playerPanels[2] = new PlayerSelectPanel(OurColors.GREEN, 3, PlayerSelectPanel.COMPUTER, k);
+		playerPanels[3] = new PlayerSelectPanel(OurColors.YELLOW, 4, PlayerSelectPanel.COMPUTER, k);
 		
-		PlayerSelectPanel player1 = new PlayerSelectPanel(OurColors.RED, 1, PlayerSelectPanel.HUMAN);
-		PlayerSelectPanel player2 = new PlayerSelectPanel(OurColors.BLUE, 2, PlayerSelectPanel.COMPUTER);
-		PlayerSelectPanel player3 = new PlayerSelectPanel(OurColors.GREEN, 3, PlayerSelectPanel.COMPUTER);
-		PlayerSelectPanel player4 = new PlayerSelectPanel(OurColors.YELLOW, 4, PlayerSelectPanel.COMPUTER);
 		//JButton scrollB = new JButton("Quiteth");
 		JLabel scroll = new JLabel("Kingdomino", SwingConstants.CENTER);
 		scroll.setFont(Resources.getMedievalFont(50));
@@ -63,9 +60,14 @@ public class StartPanel extends JPanel {
 		play.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*
-				changePanel(GameState.PLAYER_TURN);
-				 */
+				
+				ArrayList<Player> players = getAllPlayers();
+				if(players.size() < 2) {
+					new ErrorDialog(root);
+				} else {
+					gm.setPlayers(players);
+					gm.setGameState(GameState.PLAYER_TURN);
+				}
 			}	
 		});
 		
@@ -90,20 +92,20 @@ public class StartPanel extends JPanel {
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 1;
-		g.setConstraints(player1, c);
-		add(player1);
+		g.setConstraints(playerPanels[0], c);
+		add(playerPanels[0]);
 		c.gridx = 1;
 		c.gridy = 1;
-		g.setConstraints(player2, c);
-		add(player2);
+		g.setConstraints(playerPanels[1], c);
+		add(playerPanels[1]);
 		c.gridx = 2;
 		c.gridy = 1;
-		g.setConstraints(player3, c);
-		add(player3);
+		g.setConstraints(playerPanels[2], c);
+		add(playerPanels[2]);
 		c.gridx = 3;
 		c.gridy = 1;
-		g.setConstraints(player4, c);
-		add(player4);
+		g.setConstraints(playerPanels[3], c);
+		add(playerPanels[3]);
 		c.ipady = 20;
 		c.gridx = 0;
 		c.gridy = 2;
@@ -136,10 +138,14 @@ public class StartPanel extends JPanel {
 		//g.drawImage(player, 100,100,200,200, null);
 		//g.drawImage(player, 100,100,100,100,null);
 	}
-	private BufferedImage tint(BufferedImage img, Color color) {
-		Graphics2D g2 = img.createGraphics();
-		//g2.setXORMode(color);
-		//g2.fillRect(0,0,img.getWidth(), img.getHeight());
-		return img;
+	private ArrayList<Player> getAllPlayers(){
+		ArrayList<Player>players = new ArrayList<Player>();
+		for(PlayerSelectPanel panel: playerPanels) {
+			Player newPlayer = panel.createPlayer();
+			if(newPlayer != null) {
+				players.add(newPlayer);
+			}
+		}
+		return players;
 	}
 }

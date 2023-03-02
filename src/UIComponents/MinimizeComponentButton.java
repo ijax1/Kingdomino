@@ -9,13 +9,14 @@ import java.util.ArrayList;
 
 public class MinimizeComponentButton extends Button{
 
+    private final Coordinate minimizedPosition = new Coordinate(200, 1200, 0);
     Graphics2D graphics;
-    ArrayList<Component> components;
+    private final MessageTextBox textBox;
 
-    MinimizeComponentButton(Coordinate position, Kingdomino k, Graphics2D g, ArrayList<Component> c) {
+    MinimizeComponentButton(Coordinate position, Kingdomino k, Graphics2D g, MessageTextBox textBox) {
         super(position, k);
         graphics = g;
-        components = c;
+        this.textBox = textBox;
     }
 
     // action = if already minimized - set to not minimized, vice versa
@@ -24,22 +25,13 @@ public class MinimizeComponentButton extends Button{
     public void doAction() {
         if (getMinimized()) {
             show();
-            for (Component c: components) {
-                c.show();
-            }
-            // need to set coordinate based on location of button
-            //super.setPosition(new Coordinate())
+            textBox.show();
         } else {
             minimize();
-            for (Component c: components) {
-                c.minimize();
-            }
-            //super.setPosition(new Coordinate())
+            textBox.minimize();
         }
 
-        for (Component c: components) {
-            c.draw(graphics);
-        }
+        textBox.draw(graphics);
 
         //need to minimize message box, but need to get the instance of the message box somehow
     }
@@ -62,11 +54,15 @@ public class MinimizeComponentButton extends Button{
     private double[][] getPoints() {
         double tipX = getPosition().getX();
         double tipY = getPosition().getY();
-        double[] xPoints = {tipX, tipX-10, tipX+10};
+
         double yConstant = -10;
         if (getMinimized()) {
             yConstant = 10;
+            tipX = minimizedPosition.getX();
+            tipY = minimizedPosition.getY();
         }
+
+        double[] xPoints = {tipX, tipX-10, tipX+10};
         double[] yPoints = {tipY, tipY+yConstant, tipY+yConstant};
 
         return new double[][]{xPoints, yPoints};

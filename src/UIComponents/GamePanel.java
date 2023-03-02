@@ -20,35 +20,7 @@ import Backend.Player;
 import UIComponents.Render.Coordinate;
 import resources.OurColors;
 import resources.Resources;
-class DummyComp extends Component {
-	DummyComp(Coordinate position, Kingdomino k) {
-		super(position, k);
-		// TODO Auto-generated constructor stub
-	}
 
-	@Override
-	public void setPosition(Coordinate coordinate) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean onComponent(Coordinate c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void draw(Graphics2D g) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void whenClicked() {
-		// TODO Auto-generated method stub
-		
-	}};
 public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 	private static final long serialVersionUID = 7381080659172927952L;
 	private ArrayList<Component>components = new ArrayList<Component>();
@@ -61,7 +33,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private PlayerTabGroup group;
 	private PlayerTabButton button;
 	private Banner banner;
-	
+
 	public GamePanel(ArrayList<Player> players, Kingdomino k) {
 		setPreferredSize(new Dimension(1280,720));
 		setOpaque(true);
@@ -73,14 +45,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		group = new PlayerTabGroup(players,k);
 		banner = new Banner(new Coordinate(800,100,0), k);
 		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
-		
+
 		components.add(group);
 		components.add(banner);
 		//components.add(new Hitbo)
 	}
 	public void paintComponent(Graphics g1) {
 		Graphics2D g = (Graphics2D) g1;
-		
+
 		applyHints(g);
 		g.setColor(OurColors.BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
@@ -115,14 +87,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 	private void drawBg(Graphics2D g) {
-		
+
 
 	}
 	private void drawStaticTiles() {
-		
+
 	}
 	public void drawError(String header, String message) {
-		
+
 	}
 
 	//Mouse, Key Event Handlers
@@ -130,10 +102,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		
+
 		//TODO: this won't work, just a placeholder.
 		Coordinate mouse = new Coordinate(x,y,0);
-		
+
 		for(Component component: components) {
 			if (component instanceof Button){
 				//this won't work either, just a placeholder
@@ -154,13 +126,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
 	}
 	public void mouseEvent(boolean isClicked, boolean isDragged, boolean isScrolling) {
-		
+
 	}
 	public void keyEvent(int keyCode) {
-		
+
 	}
-	
-	
+
+
 	//Empty methods
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -169,7 +141,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void mouseMoved(MouseEvent e) {
 	}
 	@Override
-	public void mousePressed(MouseEvent e) {	
+	public void mousePressed(MouseEvent e) {
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {

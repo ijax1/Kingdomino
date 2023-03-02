@@ -11,9 +11,8 @@ abstract class ComputerPlayer extends Player {
 	public boolean isHuman() {
 		return false;
 	}
-	
-	abstract Domino calculateChoice();
-	
+
+	abstract public void placeDomino();
 	abstract void calculatePlacement();
 	
 }
