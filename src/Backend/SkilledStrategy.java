@@ -4,8 +4,10 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class SkilledStrategy extends ComputerPlayer {
-    public SkilledStrategy(Color color, String name, String title) {
-        super(color, name, title);
+
+
+    public SkilledStrategy(Color color, String name, String title, GameManager game) {
+        super(color, name, title, game);
     }
 
     @Override
@@ -13,19 +15,24 @@ public class SkilledStrategy extends ComputerPlayer {
 
     }
 
-//    @Override
-//    Domino calculateChoice() {
-//
-//        // need access to game manager
-//        GameManager g = getGame();
-//        Domino[] dominos = g.getDeck().getDominoesToSelect();
-//        // what?
-//    }
+    @Override
+    public void setNextDomino() {
+
+    }
+
+    //    @Override
+    private Domino calculateChoice() {
+
+        // need access to game manager
+        GameManager g = getGame();
+        Domino[] dominos = g.getDeck().getDominoesToSelect();
+        // what?
+    }
 
 
 
     @Override
-    void calculatePlacement() {
+    public void calculatePlacement() {
         Grid grid = getGrid();
         Domino domino = getNextDomino();
         ArrayList<GridPosition> positions = grid.availableSpaces(domino);

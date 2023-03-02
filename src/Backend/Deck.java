@@ -13,7 +13,7 @@ class Deck {
 
 
     //Create deck and shuffles
-    public Deck(boolean isTwoPlayer) {
+    public Deck() {
 
         this.dominoesToSelect = new Domino[]{null, null, null, null};
         this.selected = new boolean[]{false, false, false, false};
@@ -24,10 +24,10 @@ class Deck {
             //deck.add(d);
         }
 
-        if (isTwoPlayer) {
+        //if (isTwoPlayer) {
             // take first half of card
             //this.deck = deck.subList(0, deck.size() / 2);
-        }
+        //}
 
         // shuffle the deck
         this.shuffleDeck();

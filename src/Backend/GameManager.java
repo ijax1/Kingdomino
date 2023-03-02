@@ -38,14 +38,14 @@ public class GameManager {
         this.state = state;
         if (state == GameState.INITIAL) {
             game.changePanel(GameState.INITIAL);
-//            deck = new Deck();
+            deck = new Deck();
             players = new ArrayList<Player>();
             currentPlayer = 0;
         } else if (state == GameState.PLAYER_TURN) {
             game.changePanel(GameState.PLAYER_TURN);
-//            while (play continues) {
-//                turn();
-//            }
+            while (!deck.isEmpty()) {
+                turn();
+            }
         } else if (state == GameState.END_ROUND) {
             game.changePanel(GameState.END_ROUND);
         } else if (state == GameState.TALLY_SCORE) {
