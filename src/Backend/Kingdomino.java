@@ -9,8 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import Backend.GameManager.GameState;
-import UIComponents.GamePanel;
+//import Backend.GameManager.GameState;
+//import UIComponents.GamePanel;
 import UIComponents.PodiumPanel;
 import UIComponents.StartPanel;
 import resources.Resources;

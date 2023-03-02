@@ -26,7 +26,7 @@ public class GamePanelTester {
 		frame.add(panel);
 		//panel.add(new UIDomino());
 		//panel.add(new UIGrid());
-		
+
 		//frame.pack();
 		frame.setVisible(true);
 		panel.repaint();

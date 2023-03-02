@@ -4,9 +4,9 @@ import Backend.Kingdomino;
 import Backend.Player;
 import UIComponents.Render.Coordinate;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 
-public class PlayerTabButton extends Button{
+public class PlayerTabButton extends Button {
     Player player;
     private double width = 50;
     private final double height = 100;
@@ -16,7 +16,7 @@ public class PlayerTabButton extends Button{
         super(position, k);
         player = p;
     }
-    
+
 //     public boolean isSelected() {
 //         return selected;
 //     }
