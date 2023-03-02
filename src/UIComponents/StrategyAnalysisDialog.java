@@ -97,6 +97,7 @@ public class StrategyAnalysisDialog extends JDialog {
         bodyPanel.add(button2, BorderLayout.CENTER);
         bodyPanel.add(button3, BorderLayout.LINE_END);
         
+        
         dialogPanel.add(titlePanel);
         dialogPanel.add(bodyPanel);
         
