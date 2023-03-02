@@ -97,18 +97,24 @@ public class PlayerTabGroup extends Component {
 	// actually when we add viewed player this whenclicked() will look differently.
 	@Override
 	public void whenClicked() {
-// 	for (PlayerTabButton buttons: group) {
-// 		if (button.isSelected == true) {
-// 			if (selected != button) {
-// 				setSelected(button);
-// 				g.draw()
-// 			}
-// 		}
-// 	}
+	boolean run = false;
+	for (PlayerTabButton button: group) {
+		if (button.isSelected() == true) {
+			if (button != selected) {
+				setSelected(button);
+				run = true;
+			}
+		}
+	}
+	if (run) {
+		draw(graphics); 
+	}
 
 	// shoudl look smth like this instead in theory ????
+		
 // 	if (getGame().getManager().getViewedPlayer() != selected.player()) {
-// 		draw(graphics)
+// 		setSelected(); 
+// 		draw(graphics) 
 // 	}
 	}
 
