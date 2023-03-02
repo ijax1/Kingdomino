@@ -30,10 +30,9 @@ public class PlayerTabGroup extends Component {
 
     public void setSelected(PlayerTabButton b) {
         selected = b;
-        b.show();
         for (PlayerTabButton button: group) {
             if (button.getPlayer() != b.getPlayer()) {
-//                button.minimize();
+                button.minimize();
             } else {
                 selectedIndex = group.indexOf(button);
             }
@@ -99,7 +98,7 @@ public class PlayerTabGroup extends Component {
 	public void whenClicked() {
 	boolean run = false;
 	for (PlayerTabButton button: group) {
-		if (button.isSelected() == true) {
+		if (button.getMinimized() == false) {
 			if (button != selected) {
 				setSelected(button);
 				run = true;
