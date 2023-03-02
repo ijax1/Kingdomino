@@ -20,7 +20,7 @@ public class Tile{
 	Land getLandType() {
 		return landType;
 	}
-	enum Land{
+	public enum Land{
 		FOREST{
 			public Color getColor(){
 				return new Color(40,80,40);
