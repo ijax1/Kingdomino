@@ -1,7 +1,6 @@
 package UIComponents;
 
 import java.awt.Color;
-import java.awt.*;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -21,35 +20,7 @@ import Backend.Player;
 import UIComponents.Render.Coordinate;
 import resources.OurColors;
 import resources.Resources;
-class DummyComp extends Component {
-	DummyComp(Coordinate position, Kingdomino k) {
-		//super(position, k);
-		// TODO Auto-generated constructor stub
-	}
 
-	@Override
-	public void setPosition(Coordinate coordinate) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean onComponent(Coordinate c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void draw(Graphics2D g) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void whenClicked() {
-		// TODO Auto-generated method stub
-
-	}};
 public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 	private static final long serialVersionUID = 7381080659172927952L;
 	private ArrayList<Component>components = new ArrayList<Component>();
