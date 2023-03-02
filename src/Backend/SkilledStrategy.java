@@ -4,8 +4,10 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class SkilledStrategy extends ComputerPlayer {
-    public SkilledStrategy(Color color, String name, String title) {
-        super(color, name, title);
+
+
+    public SkilledStrategy(Color color, String name, String title, GameManager game) {
+        super(color, name, title, game);
     }
 
     @Override
@@ -13,7 +15,12 @@ public class SkilledStrategy extends ComputerPlayer {
 
     }
 
-//    @Override
+    @Override
+    public void setNextDomino() {
+
+    }
+
+    //    @Override
     private Domino calculateChoice() {
 
         // need access to game manager
