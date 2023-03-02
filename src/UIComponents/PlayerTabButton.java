@@ -10,22 +10,16 @@ public class PlayerTabButton extends Button {
     Player player;
     private double width = 50;
     private final double height = 100;
-    //private boolean selected = false;
 
     PlayerTabButton(Coordinate position, Kingdomino k, Player p) {
         super(position, k);
         player = p;
     }
 
-//     public boolean isSelected() {
-//         return selected;
-//     }
-
     public void doAction() {
-//         if (!selected) {
-//             super.show();
-//             selected = true;
-//         }
+        if (getMinimized()) {
+            super.show();
+        }
         // will need to update to match once integrated
 //         if (getGame().getGamePanel().getViewedPlayer() != player) {
 //             super.show();
@@ -49,7 +43,7 @@ public class PlayerTabButton extends Button {
         g.setColor(player.getColor());
 
         width = 50;
-        if(!super.isMinimized()) {
+        if(!super.getMinimized()) {
             width += 25;
         }
 
