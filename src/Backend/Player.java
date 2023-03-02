@@ -55,7 +55,7 @@ public abstract class Player {
     }
 
     public int getScore() {
-        return score;
+        return grid.calculateScore();
     }
 
     public Color getColor() {
