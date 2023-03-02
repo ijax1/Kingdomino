@@ -154,16 +154,36 @@ public class ErrorDialog extends JDialog {
 
         
         
-		JLabel titleLabel = new JLabel("THOU HAST TRANSGRESSED!");
+		JLabel titleLabel = new JLabel("Strategy Analysis");
 		titleLabel.setFont(Resources.getMedievalFont(30));
         //the font color is set in foreground
 		titleLabel.setForeground(OurColors.FONT_LIGHT);
 		
-		JLabel bodyLabel = new JLabel("Please select two or more players to begin, my liege!");
+		JLabel bodyLabel = new JLabel("Chooseth thy analysis speed, your eminence.");
 		bodyLabel.setFont(Resources.getMedievalFont(18));
 		bodyLabel.setForeground(OurColors.FONT_DARK);
 		    
-        JButton button = new JButton("OK");
+        JButton button = new JButton("RETURNETH");
+        button.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		setVisible(false);
+        		tintPane.setVisible(false);
+        		dispose();
+        	}
+        });
+
+        JButton button2 = new JButton("SLOW AS A TORTOISE");
+        button.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		setVisible(false);
+        		tintPane.setVisible(false);
+        		dispose();
+        	}
+        });
+
+        JButton button3 = new JButton("QUICK AS A HARE");
         button.addActionListener(new ActionListener() {
         	@Override
         	public void actionPerformed(ActionEvent e) {
