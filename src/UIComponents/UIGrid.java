@@ -134,22 +134,33 @@ public class UIGrid {
         }
         c.render(g);
         if(dominoOnGrid(holding)){
-            UITile[] dominoTiles = holding.getTiles();
-            for(UITile t: dominoTiles){
-                Polygon p = t.getPolygon().duplicatePolygon(t.getCenter());
-                p.moveTo(center);
+
+            Coordinate dominoCenter = new Coordinate(0,0,0);
+            double rotation = holding.getRotation();
+            double leftBound = center.getX() - tileSize * gridWidth * 0.5;
+            double topBound = center.getY() - tileSize * gridHeight * 0.5;
+            double xMod = 0.0;
+            double yMod = 0.0;
+            int i = 0;
+            for(UITile t: holding.getTiles()){
                 Coordinate tileCenter = t.getCenter();
-                int xMod = (int) (tileCenter.getX() - center.getX())/tileSize;
-                int yMod = (int) (tileCenter.getY() - center.getY())/tileSize;
-                Coordinate dest = new Coordinate(
-                        center.getX() + (tileSize * xMod),
-                        center.getY() + (tileSize * yMod),
-                        0
-                );
-                p.moveTo(dest);
-                p.render(g);
+                xMod += (int) Math.round((tileCenter.getX() - leftBound - (50 * (gridWidth%2-1)))/tileSize);
+                yMod += (int) Math.round((tileCenter.getY() - topBound - (50 * (gridHeight%2-1)))/tileSize);
+                g.drawString((int) Math.round((tileCenter.getX() - leftBound - (50 * (gridWidth%2-1)))/tileSize) + " " + (int) Math.round((tileCenter.getY() - topBound - (50 * (gridHeight%2-1)))/tileSize), 600 + (i * 100),200);
+                i++;
+
             }
+
+            xMod /= 2.0;
+            yMod /= 2.0;
+
+            Coordinate dest = new Coordinate(leftBound + xMod * tileSize - 50,topBound + yMod * tileSize - 50,0);
+            holding.moveTo(dest);
+            UIDomino uid = new UIDomino(dest,null,null,null);
+            uid.incrementRotation(0,0,holding.getRotation());
+            uid.draw((Graphics2D) g);
         }
+
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.BLACK);
         ((Graphics2D) g).setStroke(new BasicStroke(2));
@@ -252,7 +263,7 @@ public class UIGrid {
         this.holding = d;
     }
 
-    private boolean dominoOnGrid(UIDomino d){
+    public boolean dominoOnGrid(UIDomino d){
         if(d != null) {
             UITile[] tiles = d.getTiles();
             boolean onGrid = true;

@@ -32,11 +32,13 @@ public class SkilledStrategy extends ComputerPlayer {
             }
         }
         setNextDomino(bestDomino);
+        setSelected(true);
     }
 
     @Override
     public void placeDomino() {
         getGrid().placeDomino(bestPos.getX(), bestPos.getY(), getNextDomino());
+        setPlaced(true);
     }
 
 }
