@@ -21,6 +21,6 @@ public class StartPanelTester {
 		//frame.pack();
 		frame.setVisible(true);
 		panel.repaint();
-		new ErrorDialog(frame);
+		new StrategyAnalysisDialog(frame);
 	}
 }

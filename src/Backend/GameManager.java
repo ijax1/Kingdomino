@@ -10,6 +10,7 @@ public class GameManager {
     private Deck deck;
     private Kingdomino game;
     private boolean fastMode;
+    private boolean strategy;
 
     public enum GameState {
         INITIAL,
@@ -43,8 +44,14 @@ public class GameManager {
             currentPlayer = 0;
         } else if (state == GameState.PLAYER_TURN) {
             game.changePanel(GameState.PLAYER_TURN);
-            while (!deck.isEmpty()) {
-                turn();
+            if (!strategy) {
+                while (!deck.isEmpty()) {
+                    turn();
+                }
+            } else if (!fastMode) {
+
+            } else {
+
             }
         } else if (state == GameState.END_ROUND) {
             game.changePanel(GameState.END_ROUND);
