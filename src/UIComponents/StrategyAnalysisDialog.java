@@ -83,6 +83,7 @@ public class StrategyAnalysisDialog extends JDialog {
                 //make sure user enter an int
                 int input = textfield.getText();
                 //**call game manager with the number of games*
+                
         		dispose();
         	}
         });
@@ -96,6 +97,7 @@ public class StrategyAnalysisDialog extends JDialog {
                 //make sure user enter an int
                 int input = textfield.getText();
                 //**call game manager with the number of games*
+                
         		dispose();
         	}
         });
