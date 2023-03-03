@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class RectangularPrism extends Polyhedron{
     private Polygon[] faces;
     private Coordinate center;
-    private double length, width, height;
+    private final double length, width, height;
 
     private TransformationManager tm = new TransformationManager(new double[3], new double[3]);
 

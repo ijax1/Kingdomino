@@ -23,11 +23,13 @@ import Backend.Player;
 import Backend.RandomStrategy;
 import Backend.SkilledStrategy;
 import resources.Resources;
+import resources.Titles;
 
 public class PlayerSelectPanel extends JPanel {
 	public static final String COMPUTER = "COMPUTER";
 	public static final String HUMAN = "HUMAN";
 	public static final String NONE = "NONE";
+	private Color color;
 	private JPanel inputPanel;
 	private CardLayout card;
 	private JTextField textBox;
@@ -52,6 +54,7 @@ public class PlayerSelectPanel extends JPanel {
 		
 		setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 		setBackground(color);
+		this.color = color;
 		
 		inputPanel = new JPanel();
 		card = new CardLayout();
@@ -173,7 +176,7 @@ public class PlayerSelectPanel extends JPanel {
 			return null;
 		} else if(computerButton.isSelected()) {
 			if(computerBox.getSelectedItem().equals("Random Strategy")) {
-				return new RandomStrategy(color, "Random Strategy", P);
+				return new RandomStrategy(color, Titles.generateName(), Titles.generateBadTitle());
 			} else if(computerBox.getSelectedItem().equals("Skilled Strategy")) {
 				return new SkilledStrategy();
 			}

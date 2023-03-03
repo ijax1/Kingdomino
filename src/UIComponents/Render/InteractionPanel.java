@@ -25,18 +25,6 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
         g.clearRect(0,0,10000,10000);
         grid.render(g, dragging);
         d.draw((Graphics2D) g);
-        //r.render(g);
-        /*
-        try{
-        TexturedPolygon tp = new TexturedPolygon(new Coordinate[]{
-                new Coordinate(200,200,0),
-                new Coordinate(400,200,0),
-                new Coordinate(300,400,0)
-        }, new Coordinate(300,300,0), ImageIO.read(new File("C:\\Users\\jonat\\Downloads\\obamba.jpg")));
-        tp.render(g);
-        }catch(Exception e){}
-        */
-
     }
 
     @Override
@@ -77,6 +65,11 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
         if(dragging) {
             if (e.getButton() == MouseEvent.BUTTON1){
                 dragging = false;
+                if(grid.dominoOnGrid(d)) {
+                    d.minimize();
+                }
+                else
+                    d.show();
             }
         }
         draggingCube = false;
@@ -97,7 +90,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
     public void mouseDragged(MouseEvent e) {
         if(dragging) {
             d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
-            if(grid.onGrid(new Coordinate(e.getX(), e.getY(), 0))) {
+            if(grid.dominoOnGrid(d)) {
                 d.minimize();
             }
             else
@@ -126,6 +119,14 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
             d.incrementRotation(direction * Math.PI/20,direction * Math.PI/30,direction * Math.PI/20);
             repaint();
         }
+    }
+
+    public void checkDomino(){
+        if(grid.dominoOnGrid(d)) {
+            d.minimize();
+        }
+        else
+            d.show();
     }
 
     public static void main(String[] args) throws IOException {

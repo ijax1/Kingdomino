@@ -26,7 +26,7 @@ public class MessageTextBox extends Component {
             g.setColor(Color.white);
             g.drawString("MESSAGE", (int) getPosition().getX(), 1200);
         } else {
-            g.draw(getPosition().getX(), getPosition().getY(), 500, 200);
+            //g.draw(getPosition().getX(), getPosition().getY(), 500, 200);
         }
     }
 
