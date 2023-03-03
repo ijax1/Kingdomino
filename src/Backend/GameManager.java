@@ -28,7 +28,7 @@ public class GameManager {
         state = GameState.INITIAL;
         reset();
     }
-
+    
     public GameState getGameState() {
         return state;
     }
