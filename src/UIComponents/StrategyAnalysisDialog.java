@@ -35,6 +35,10 @@ public class StrategyAnalysisDialog extends JDialog {
                 super.paintComponent(g);
             }
         };
+
+        //input pannel for funer of games users want to run
+        NumberFormat intFormat = NumberFormat.getIntegerInstance();
+        JFormattedTextField textfield = new JFormattedTextField(intFormat);
   
         //just a panel to hold titlePanel and bodyPanel
         JPanel dialogPanel = new JPanel();
@@ -76,6 +80,9 @@ public class StrategyAnalysisDialog extends JDialog {
         	public void actionPerformed(ActionEvent e) {
         		setVisible(false);
         		tintPane.setVisible(false);
+                //make sure user enter an int
+                int input = textfield.getText();
+                //**call game manager with the number of games*
         		dispose();
         	}
         });
@@ -86,6 +93,9 @@ public class StrategyAnalysisDialog extends JDialog {
         	public void actionPerformed(ActionEvent e) {
         		setVisible(false);
         		tintPane.setVisible(false);
+                //make sure user enter an int
+                int input = textfield.getText();
+                //**call game manager with the number of games*
         		dispose();
         	}
         });
@@ -93,6 +103,7 @@ public class StrategyAnalysisDialog extends JDialog {
         titlePanel.add(titleLabel);
         
         bodyPanel.add(bodyLabel, BorderLayout.PAGE_START);
+        bodyPanel.add(textfield, BorderLayout.CENTER);
         bodyPanel.add(button, BorderLayout.LINE_START);
         bodyPanel.add(button2, BorderLayout.CENTER);
         bodyPanel.add(button3, BorderLayout.LINE_END);
