@@ -6,10 +6,13 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import Backend.GameManager;
 import resources.Resources;
 
 public class TopScroll extends JPanel {
-	public TopScroll() {
+	private String title;
+	private String subtitle;
+	public TopScroll(String title, String subtitle, GameManager gm) {
 		setPreferredSize(new Dimension(500,100));
 	}
 	@Override
