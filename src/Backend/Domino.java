@@ -41,6 +41,10 @@ public class Domino implements Comparable<Domino>{
     public int compareTo(Domino d) {
         return this.getValue() - d.getValue();
     }
+    
+    public String toString() {
+    	return tiles[0] + "|" + tiles[1];
+    }
 
     public int getRotation(){
         return rotation;

@@ -64,6 +64,10 @@ public abstract class Player {
     public String getName() {
         return name;
     }
+    
+    public String getTitle() {
+    	return title;
+    }
 
     public Grid getGrid() {
         return grid;
@@ -91,7 +95,7 @@ public abstract class Player {
     }
     @Override
     public String toString() {
-    	return name + " Score: " + score;
+    	return name + " Score: " + score + " Domino:" + currentDomino + " Next:" + nextDomino;
     }
 
 }
