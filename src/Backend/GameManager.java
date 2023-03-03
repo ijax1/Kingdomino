@@ -11,6 +11,7 @@ public class GameManager {
     private Kingdomino game;
     private boolean fastMode;
     private boolean strategy;
+    private int numGames;
 
     public enum GameState {
         INITIAL,
@@ -33,6 +34,10 @@ public class GameManager {
 
     public GameState getGameState() {
         return state;
+    }
+
+    public void setNumGames(int numGames) {
+        this.numGames = numGames;
     }
 
     public void setGameState(GameState state) {
