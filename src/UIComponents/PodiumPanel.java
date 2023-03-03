@@ -1,7 +1,8 @@
  package UIComponents;
 
-import java.awt.*;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import Backend.Kingdomino;
 
 @SuppressWarnings("serial")
@@ -11,7 +12,7 @@ public class PodiumPanel extends JPanel {
 	}
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Podium Panel");
-		PodiumPanel panel = new PodiumPanel(new GridBagLayout(), new Kingdomino());
+		PodiumPanel panel = new PodiumPanel(new Kingdomino());
 		frame.setSize(1280,720);
 		frame.add(panel);
 

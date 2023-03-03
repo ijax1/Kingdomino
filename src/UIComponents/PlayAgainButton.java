@@ -1,20 +1,25 @@
+package UIComponents;
+
+import Backend.GameManager.GameState;
+import Backend.Kingdomino;
+import UIComponents.Render.Coordinate;
 
 // package UIComponents;
 // import Backend.Kingdomino;
 // import UIComponents.Render.Coordinate;
 
-// public class PlayButton extends Button{
-//    private final double width = 100;
-//    private final double height = 50;
+ public class PlayAgainButton extends Button{
+    private final double width = 100;
+    private final double height = 50;
 
-// 	PlayButton(Coordinate position, Kingdomino k) {
-// 		super(position, k);
-// 		// TODO Auto-generated constructor stub
-// 	}
+ 	PlayAgainButton(Coordinate position, Kingdomino k) {
+ 		super(position, k);
+ 		// TODO Auto-generated constructor stub
+ 	}
 
-// 	public void doAction() {
-// 		getGame().changePanel(GameState.INITIAL);
-// 	}
+ 	public void doAction() {
+ 		getGame().changePanel(GameState.INITIAL);
+ 	}
   
 //   public boolean onComponent(Coordinate c) {
 //     return ((c.getX() > 0 && c.getX() < width) &&
@@ -35,4 +40,4 @@
 //         g.drawString("PLAYETH ONCE MORE",(int) xStart+10,(int) yStart+10);
 //     }
   
-// }
+ }
