@@ -3,17 +3,12 @@ package Backend;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import Backend.GameManager.GameState;
-import UIComponents.GamePanel;
-//import Backend.GameManager.GameState;
-//import UIComponents.GamePanel;
-import UIComponents.PodiumPanel;
 import UIComponents.StartPanel;
 import resources.Resources;
 
@@ -45,6 +40,9 @@ public class Kingdomino {
         frame.pack();
         //frame.setResizable(false);
         frame.setVisible(true);
+    }
+    public JFrame getFrame() {
+    	return frame;
     }
 
     public GameManager getManager() {return manager;}
