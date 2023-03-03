@@ -1,6 +1,6 @@
 package Backend;
 
-public class HumanPlayer extends Player{
+public class HumanPlayer extends Player {
 
 	public HumanPlayer() {
 
