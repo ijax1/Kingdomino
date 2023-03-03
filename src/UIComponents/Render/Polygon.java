@@ -112,8 +112,8 @@ public class Polygon {
         int[] xPoints = new int[numPoints];
         int[] yPoints = new int[numPoints];
         for(int i = 0; i < points.length; i++){
-            xPoints[i] = (int) points[i].getX();
-            yPoints[i] = (int) points[i].getY();
+            xPoints[i] = (int) Math.round(points[i].getX());
+            yPoints[i] = (int) Math.round(points[i].getY());
         }
         xPoints[points.length] = xPoints[0];
         yPoints[points.length] = yPoints[0];

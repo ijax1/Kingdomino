@@ -134,22 +134,7 @@ public class UIGrid {
         }
         c.render(g);
         if(dominoOnGrid(holding)){
-            /*
-            Coordinate tileCenter = holding.getCenter();
-            int xMod = (int) Math.round((tileCenter.getX() - center.getX() + 50 - (50 * (gridWidth%2-1)))/tileSize);
-            int yMod = (int) Math.round((tileCenter.getY() - center.getY() - (50 * (gridWidth%2-1)))/tileSize);
-            g.clearRect(600,200,30,30);
-            g.drawString(xMod + " " + yMod, 600,200);
-            g.drawString("" + (tileCenter.getX() - center.getX() + 50) + " " + (tileCenter.getY() - center.getY()), 800,200);
-            Coordinate dest = new Coordinate(
-                    center.getX() + (tileSize * (xMod - 0.5)) + (50 * (gridWidth%2-1)),
-                    center.getY() + (tileSize * yMod) + (50 * (gridWidth%2-1)),
-                    0
-            );
-            UIDomino uid = new UIDomino(dest,null,null,null);
-            uid.incrementRotation(0,0,Math.toRadians(holding.getRotation()));
-            uid.draw((Graphics2D) g);
-            */
+
             Coordinate dominoCenter = new Coordinate(0,0,0);
             double rotation = holding.getRotation();
             double leftBound = center.getX() - tileSize * gridWidth * 0.5;
@@ -170,11 +155,12 @@ public class UIGrid {
             yMod /= 2.0;
 
             Coordinate dest = new Coordinate(leftBound + xMod * tileSize - 50,topBound + yMod * tileSize - 50,0);
+            holding.moveTo(dest);
             UIDomino uid = new UIDomino(dest,null,null,null);
-            uid.incrementRotation(0,0,Math.toRadians(holding.getRotation()));
+            uid.incrementRotation(0,0,holding.getRotation());
             uid.draw((Graphics2D) g);
         }
-        //cock
+
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.BLACK);
         ((Graphics2D) g).setStroke(new BasicStroke(2));
@@ -277,7 +263,7 @@ public class UIGrid {
         this.holding = d;
     }
 
-    private boolean dominoOnGrid(UIDomino d){
+    public boolean dominoOnGrid(UIDomino d){
         if(d != null) {
             UITile[] tiles = d.getTiles();
             boolean onGrid = true;
