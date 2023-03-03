@@ -1,6 +1,5 @@
 package UIComponents;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -17,10 +16,11 @@ public class GamePanelTester {
 	public void runGUI() {
 		JFrame frame = new JFrame(getClass().getName());
 		ArrayList<Player>fakePlayers = new ArrayList<Player>(4);
-		fakePlayers.add(new RandomStrategy(OurColors.RED, "Don Quixote", "The Ingenious"));
-		fakePlayers.add(new RandomStrategy(OurColors.BLUE, "King Arthur", "The Round"));
-		fakePlayers.add(new RandomStrategy(OurColors.GREEN, "Sir Gawain", "The Green"));
-		fakePlayers.add(new RandomStrategy(OurColors.YELLOW, "Ian Jackson", "The Glorious"));
+		Kingdomino k = new 
+		fakePlayers.add(new RandomStrategy(OurColors.RED, "Don Quixote", "The Ingenious", gm));
+		fakePlayers.add(new RandomStrategy(OurColors.BLUE, "King Arthur", "The Round", gm));
+		fakePlayers.add(new RandomStrategy(OurColors.GREEN, "Sir Gawain", "The Green", gm));
+		fakePlayers.add(new RandomStrategy(OurColors.YELLOW, "Ian Jackson", "The Glorious", gm));
 		GamePanel panel = new GamePanel(fakePlayers,new Kingdomino());
 		frame.setSize(1280,720);
 		frame.add(panel);

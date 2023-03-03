@@ -176,16 +176,19 @@ public class PlayerSelectPanel extends JPanel {
 	 */
 	public Player createPlayer() {
 		GameManager gm = k.getManager();
+		Titles t = new Titles();
 		if(noneButton.isSelected()) {
 			return null;
 		} else if(computerButton.isSelected()) {
 			if(computerBox.getSelectedItem().equals("Random Strategy")) {
-				return new RandomStrategy(color, Titles.generateName(), Titles.generateBadTitle(), gm);
+				return new RandomStrategy(color, t.generateName(), t.generateBadTitle(), gm);
 			} else if(computerBox.getSelectedItem().equals("Skilled Strategy")) {
-				return new SkilledStrategy(color, Titles.generateName(), Titles.generateTitle(), gm);
+				return new SkilledStrategy(color, t.generateName(), t.generateTitle(), gm);
 			}
 		} else if(humanButton.isSelected()) {
-			return new HumanPlayer(color, textBox.getText(), Titles.generateTitle(), gm);
+			return new HumanPlayer(color, textBox.getText(), t.generateTitle(), gm);		} else {
 		}
+		//should never happen
+		return null;
 	}
 }
