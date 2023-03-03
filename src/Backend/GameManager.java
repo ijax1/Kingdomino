@@ -25,11 +25,8 @@ public class GameManager {
 
     public GameManager(Kingdomino game) {
         this.game = game;
-        firstTurn = true;
         state = GameState.INITIAL;
-//        deck = new Deck();
-        players = new ArrayList<>();
-        currentPlayer = 0;
+        reset();
     }
 
     public GameState getGameState() {
@@ -44,9 +41,7 @@ public class GameManager {
         this.state = state;
         if (state == GameState.INITIAL) {
             game.changePanel(GameState.INITIAL);
-            deck = new Deck();
-            players = new ArrayList<Player>();
-            currentPlayer = 0;
+            reset();
         } else if (state == GameState.PLAYER_TURN) {
             game.changePanel(GameState.PLAYER_TURN);
             if (!strategy) {
@@ -145,5 +140,12 @@ public class GameManager {
                 }
             }
         }
+    }
+
+    private void reset() {
+        firstTurn = true;
+        deck = new Deck();
+        players = new ArrayList<Player>();
+        currentPlayer = 0;
     }
 }
