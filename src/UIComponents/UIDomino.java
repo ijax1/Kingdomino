@@ -125,10 +125,8 @@ public class UIDomino extends Component{
                     currentRotation += rotIncrement * direction;
                     incrementRotation(0, 0, direction * rotIncrement);
                     panel.repaint();
-                    panel.checkDomino();
                     if (almostEqual(Math.abs(currentRotation%(2*Math.PI) - rotateTo%(2*Math.PI)), 0, 1e-4) || almostEqual(Math.abs(currentRotation%(2*Math.PI) - rotateTo%(2*Math.PI)), 2*Math.PI, 1e-4)) {
 
-                        System.out.println(Math.toDegrees(currentRotation));
                         rotateTo %= (2*Math.PI);
                         currentRotation = rotateTo;
                         timer.stop();
