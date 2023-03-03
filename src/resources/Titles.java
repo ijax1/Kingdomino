@@ -18,9 +18,9 @@ public class Titles {
     		"Helen",
     		"Hildegund",
     };
-    private ArrayList<String> titles;
-    private ArrayList<String> badTitles;
-    private ArrayList<String> names;
+    private ArrayList<String> titles = new ArrayList<String>();
+    private ArrayList<String> badTitles = new ArrayList<String>();
+    private ArrayList<String> names = new ArrayList<String>();
 	public Titles() {
 		Collections.addAll(titles, MEDIEVAL_TITLES);
 		Collections.addAll(badTitles, RANDOM_TITLES);
