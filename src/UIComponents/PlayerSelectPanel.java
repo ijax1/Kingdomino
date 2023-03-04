@@ -30,6 +30,7 @@ public class PlayerSelectPanel extends JPanel {
 	public static final String COMPUTER = "COMPUTER";
 	public static final String HUMAN = "HUMAN";
 	public static final String NONE = "NONE";
+
 	private Color color;
 	private JPanel inputPanel;
 	private CardLayout card;
@@ -64,10 +65,10 @@ public class PlayerSelectPanel extends JPanel {
 		inputPanel.setLayout(card);
 
 		
-		String[]choices = {"None"};
+		String[]choices = {"Random Strategy", "Skilled Strategy"};
 		//TODO: make JCombobox use Strategy instead of String?
 		computerBox = new JComboBox<String>(choices);
-		computerBox.setSelectedItem("None");
+		computerBox.setSelectedItem("Skilled Strategy");
 		textBox = new NameTextField("Player " + playerNo);
 		noneBox = new JLabel("---", SwingConstants.CENTER);
 
@@ -174,9 +175,8 @@ public class PlayerSelectPanel extends JPanel {
 	 * 
 	 * @return the new player, null if "None" option selected
 	 */
-	public Player createPlayer() {
+	public Player createPlayer(Titles t) {
 		GameManager gm = k.getManager();
-		Titles t = new Titles();
 		if(noneButton.isSelected()) {
 			return null;
 		} else if(computerButton.isSelected()) {

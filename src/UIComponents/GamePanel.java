@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import Backend.GameManager;
 import Backend.Kingdomino;
 import Backend.Player;
 import UIComponents.Render.Coordinate;
@@ -33,16 +34,18 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private PlayerTabGroup group;
 	private PlayerTabButton button;
 	private Banner banner;
+	private GameManager gm;
 
-	public GamePanel(ArrayList<Player> players, Kingdomino k) {
+	public GamePanel(Kingdomino k) {
 		setPreferredSize(new Dimension(1280,720));
 		setOpaque(true);
 		setBackground(new Color(100,100,100));
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
+		gm = k.getManager();
 		medieval = Resources.loadFont("fonts/MedievalSharp-Regular.ttf", 100);
-		group = new PlayerTabGroup(players,k);
+		group = new PlayerTabGroup(gm.getPlayers(),k);
 		banner = new Banner(new Coordinate(800,100,0), k);
 		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
 

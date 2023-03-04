@@ -20,6 +20,7 @@ import Backend.Kingdomino;
 import Backend.Player;
 import resources.OurColors;
 import resources.Resources;
+import resources.Titles;
 
 @SuppressWarnings("serial")
 public class StartPanel extends JPanel {
@@ -28,13 +29,15 @@ public class StartPanel extends JPanel {
 	private BufferedImage none;
 	private CloseButton close;
 	GameManager gm;
+	private final Kingdomino k;
 	
 	private PlayerSelectPanel[]playerPanels = new PlayerSelectPanel[4];
 	
-	public StartPanel(GridBagLayout g, Kingdomino k) {
+	public StartPanel(GridBagLayout g, Kingdomino kdomino) {
 		super(g);
 		//setBackground(OurColors.BACKGROUND);
 		GridBagConstraints c = new GridBagConstraints();
+		k = kdomino;
 		gm = k.getManager();
 		playerPanels[0] = new PlayerSelectPanel(OurColors.RED, 1, PlayerSelectPanel.HUMAN, k);
 		playerPanels[1] = new PlayerSelectPanel(OurColors.BLUE, 2, PlayerSelectPanel.COMPUTER, k);
@@ -136,8 +139,9 @@ public class StartPanel extends JPanel {
 	}
 	private ArrayList<Player> getAllPlayers(){
 		ArrayList<Player>players = new ArrayList<Player>();
+		Titles t = new Titles();
 		for(PlayerSelectPanel panel: playerPanels) {
-			Player newPlayer = panel.createPlayer();
+			Player newPlayer = panel.createPlayer(t);
 			if(newPlayer != null) {
 				players.add(newPlayer);
 			}

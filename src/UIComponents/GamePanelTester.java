@@ -23,7 +23,7 @@ public class GamePanelTester {
 		fakePlayers.add(new RandomStrategy(OurColors.BLUE, "King Arthur", "The Round", gm));
 		fakePlayers.add(new RandomStrategy(OurColors.GREEN, "Sir Gawain", "The Green", gm));
 		fakePlayers.add(new RandomStrategy(OurColors.YELLOW, "Ian Jackson", "The Glorious", gm));
-		GamePanel panel = new GamePanel(fakePlayers,k);
+		GamePanel panel = new GamePanel(k);
 		frame.setSize(1280,720);
 		frame.add(panel);
 		//panel.add(new UIDomino());

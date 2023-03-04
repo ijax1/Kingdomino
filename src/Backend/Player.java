@@ -95,7 +95,7 @@ public abstract class Player {
     }
     @Override
     public String toString() {
-    	return name + " Score: " + score + " Domino:" + currentDomino + " Next:" + nextDomino;
+    	return name + "(" + title + ") Score: " + score + " Domino: " + currentDomino + " Next: " + nextDomino;
     }
 
 }
