@@ -80,7 +80,11 @@ public class Tile{
 	}
 	@Override
 	public String toString() {
-		return landType.toString() + crowns;
+		if(crowns==0) {
+			return landType.toString() + "-";
+		} else {
+			return landType.toString() + crowns;
+		}
 	}
 
 }

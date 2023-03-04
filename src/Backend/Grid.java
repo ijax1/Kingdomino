@@ -7,11 +7,11 @@ import Backend.Tile.Land;
 public class Grid {
     private Tile[][] grid;
 
-    Grid() {
+    public Grid() {
         grid = new Tile[9][9];
     }
 
-    Grid(Tile[][] initialGrid) {
+    public Grid(Tile[][] initialGrid) {
         grid = initialGrid;
     }
 
@@ -180,5 +180,21 @@ public class Grid {
             numCrowns += currTile.getCrowns();
         }
         return numTiles * numCrowns;
+    }
+    @Override
+    public String toString() {
+    	String output = "";
+    	for(int i=0; i<grid.length; i++) {
+    		for(int j=0; j<grid.length; j++) {
+    			if(grid[i][j]==null) {
+    				output+="--";
+    			} else {
+    				output+=grid[i][j].toString();
+    			}
+    			output+=" ";
+    		}
+    		output+="\n";
+    	}
+    	return output;
     }
 }
