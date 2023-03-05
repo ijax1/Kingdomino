@@ -2,10 +2,14 @@ package Backend;
 
 import java.util.ArrayList;
 
+import Tests.TestPlayer;
+import resources.OurColors;
+
 public class GameManager {
     private boolean firstTurn;
     private GameState state;
-    private ArrayList<Player> players;
+    private ArrayList<Player> players = new ArrayList<Player>(4);
+    
     private int currentPlayer;
     private Deck deck;
     private Kingdomino game;
@@ -26,6 +30,10 @@ public class GameManager {
     public GameManager(Kingdomino game) {
         this.game = game;
         state = GameState.INITIAL;
+        players.add(new TestPlayer(OurColors.RED, "Don Quixote", "The Ingenious"));
+    	players.add(new TestPlayer(OurColors.BLUE, "King Arthur", "The Round"));
+    	players.add(new TestPlayer(OurColors.GREEN, "Sir Gawain", "The Green"));
+    	players.add(new TestPlayer(OurColors.YELLOW, "Ian Jackson", "The Glorious"));
         reset();
     }
     
@@ -69,10 +77,10 @@ public class GameManager {
         for (int i = 0; i < players.size(); i++) {
             currentPlayer = i;
             Player current = players.get(currentPlayer);
-            while (!current.hasSelected()) {}
-            if (firstTurn) {
-                while (!current.hasPlaced()) {}
-            }
+//            while (!current.hasSelected()) {}
+//            if (firstTurn) {
+//                while (!current.hasPlaced()) {}
+//            }
             current.setSelected(false);
             current.setPlaced(false);
         }
@@ -141,11 +149,11 @@ public class GameManager {
             }
         }
     }
-
+    //Doesn't reset the players
     private void reset() {
         firstTurn = true;
         deck = new Deck();
-        players = new ArrayList<Player>();
+        //players = new ArrayList<Player>();
         currentPlayer = 0;
     }
 }

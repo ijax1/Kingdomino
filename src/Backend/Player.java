@@ -28,7 +28,7 @@ public abstract class Player {
     }
 
     // Abstract method to check if player is human
-    abstract boolean isHuman();
+    public abstract boolean isHuman();
 
     // Getters and setters for instance variables\
     public boolean getLegalMoves() {

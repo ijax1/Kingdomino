@@ -15,7 +15,7 @@ public class HumanPlayer extends Player {
 		return game;
 	}
 	
-	boolean isHuman() {
+	public boolean isHuman() {
 		return true;
 	}
 }

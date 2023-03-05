@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private Banner banner;
 	private GameManager gm;
 
-	public GamePanel(Kingdomino k) {
+	public GamePanel(ArrayList<Player> tempPlayers, Kingdomino k) {
 		setPreferredSize(new Dimension(1280,720));
 		setOpaque(true);
 		setBackground(new Color(100,100,100));
@@ -45,7 +45,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		addKeyListener(this);
 		gm = k.getManager();
 		medieval = Resources.loadFont("fonts/MedievalSharp-Regular.ttf", 100);
-		group = new PlayerTabGroup(gm.getPlayers(),k);
+		group = new PlayerTabGroup(tempPlayers,k);
 		banner = new Banner(new Coordinate(800,100,0), k);
 		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
 

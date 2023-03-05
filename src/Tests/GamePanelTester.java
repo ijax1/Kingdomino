@@ -1,13 +1,15 @@
-package UIComponents;
+package Tests;
 
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 import Backend.GameManager;
+import Backend.GameManager.GameState;
 import Backend.Kingdomino;
 import Backend.Player;
 import Backend.RandomStrategy;
+import UIComponents.GamePanel;
 import resources.OurColors;
 
 public class GamePanelTester {
@@ -18,12 +20,14 @@ public class GamePanelTester {
 		JFrame frame = new JFrame(getClass().getName());
 		ArrayList<Player>fakePlayers = new ArrayList<Player>(4);
 		Kingdomino k = new Kingdomino();
+		k.changePanel(GameState.PLAYER_TURN);
 		GameManager gm = k.getManager();
-		fakePlayers.add(new RandomStrategy(OurColors.RED, "Don Quixote", "The Ingenious", gm));
-		fakePlayers.add(new RandomStrategy(OurColors.BLUE, "King Arthur", "The Round", gm));
-		fakePlayers.add(new RandomStrategy(OurColors.GREEN, "Sir Gawain", "The Green", gm));
-		fakePlayers.add(new RandomStrategy(OurColors.YELLOW, "Ian Jackson", "The Glorious", gm));
-		GamePanel panel = new GamePanel(k);
+		
+		fakePlayers.add(new TestPlayer(OurColors.RED, "Don Quixote", "The Ingenious"));
+		fakePlayers.add(new TestPlayer(OurColors.BLUE, "King Arthur", "The Round"));
+		fakePlayers.add(new TestPlayer(OurColors.GREEN, "Sir Gawain", "The Green"));
+		fakePlayers.add(new TestPlayer(OurColors.YELLOW, "Ian Jackson", "The Glorious"));
+		GamePanel panel = new GamePanel(fakePlayers, k);
 		frame.setSize(1280,720);
 		frame.add(panel);
 		//panel.add(new UIDomino());

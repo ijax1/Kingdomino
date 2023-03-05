@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import Backend.Domino;
+import Backend.Grid;
 
 public class UIGrid {
     private final int width;

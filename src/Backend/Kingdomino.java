@@ -1,5 +1,6 @@
 package Backend;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
@@ -16,27 +17,35 @@ import resources.Resources;
 
 
 public class Kingdomino {
-    private JPanel currentPanel;
+    
+    final private JPanel basePanel;
     final private StartPanel startPanel;
     final private GamePanel gamePanel;
     final private PodiumPanel podiumPanel;
     final private GameManager manager;
+    final private CardLayout panels = new CardLayout();
     private JFrame frame;
     
     public Kingdomino() {
         manager = new GameManager(this);
         GridBagLayout gb = new GridBagLayout();
+        basePanel = new JPanel(panels);
+        
         startPanel = new StartPanel(gb, this);
-        gamePanel = new GamePanel(this);
+        gamePanel = new GamePanel(manager.getPlayers(), this);
         podiumPanel = new PodiumPanel(this);
+        
+        basePanel.add(startPanel, "Start Panel");
+        basePanel.add(gamePanel, "Game Panel");
+        basePanel.add(podiumPanel, "Podium Panel");
         setUpFrame();
     }
 
     private void setUpFrame() {
         frame = new JFrame("Kingdomino");
-        currentPanel = startPanel;
+        
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setContentPane(currentPanel);
+        frame.setContentPane(basePanel);
         frame.setPreferredSize(screenSize);
         frame.setIconImage(Resources.loadImage("crown.ico"));
         frame.pack();
@@ -51,17 +60,16 @@ public class Kingdomino {
 
     public void changePanel(GameState state) {
 
-        JPanel newPanel;
         if (state == GameState.INITIAL) {
-            newPanel = startPanel;
+            panels.show(basePanel, "Start Panel");
         } else if (state == GameState.PLAYER_TURN) {
-            newPanel = gamePanel;
+        	panels.show(basePanel, "Game Panel");
         } else if (state == GameState.ENDSCREEN) {
-            newPanel = podiumPanel;
+        	panels.show(basePanel, "Podium Panel");
         } else {
-            newPanel = currentPanel;
+            //keep panel
         }
-        frame.setContentPane(newPanel);
+        
     }
 
 

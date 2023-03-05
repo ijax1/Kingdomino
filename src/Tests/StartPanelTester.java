@@ -1,10 +1,11 @@
-package UIComponents;
+package Tests;
 
 import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
 
 import Backend.Kingdomino;
+import UIComponents.*;
 
 public class StartPanelTester {
 	
@@ -21,6 +22,6 @@ public class StartPanelTester {
 		//frame.pack();
 		frame.setVisible(true);
 		panel.repaint();
-		new StrategyAnalysisDialog(frame);
+		//new StrategyAnalysisDialog(frame);
 	}
 }
