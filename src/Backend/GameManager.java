@@ -87,6 +87,9 @@ public class GameManager {
         updateTurnOrder();
         firstTurn = false;
     }
+    public void nextPlayer() {
+    	
+    }
 
     public boolean getFirstTurn() {
         return firstTurn;

@@ -64,10 +64,20 @@ public class StartPanel extends JPanel {
 				if(players.size() < 2) {
 					new ErrorDialog(k.getFrame());
 				} else {
-					gm.setPlayers(players);
-					gm.setGameState(GameState.PLAYER_TURN);
+					boolean finished = false;
+					for(Player p: players) {
+						if(p.isHuman()) {
+							gm.setPlayers(players);
+							gm.setGameState(GameState.PLAYER_TURN);
+							finished = true;
+						}
+					}
+					if(!finished) {
+						//only computer players
+						new StrategyAnalysisDialog(k.getFrame());
+					}
 				}
-			}	
+			}
 		});
 		
 		//close = new CloseButton(new Coordinate(1200,800,0), null);	

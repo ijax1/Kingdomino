@@ -57,7 +57,7 @@ public class StrategyAnalysisDialog extends JDialog {
 
         
         
-		JLabel titleLabel = new JLabel("Strategy Analysis");
+		JLabel titleLabel = new JLabel("NO HUMAN PLAYERS SELECTED!");
 		titleLabel.setFont(Resources.getMedievalFont(30));
         //the font color is set in foreground
 		titleLabel.setForeground(OurColors.FONT_LIGHT);
