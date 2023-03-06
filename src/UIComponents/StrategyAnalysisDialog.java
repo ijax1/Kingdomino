@@ -22,7 +22,9 @@ import resources.Resources;
 public class StrategyAnalysisDialog extends JDialog {
 	private JPanel tintPane;
 	private Color tintColor = new Color(0,0,0,125);
-	public StrategyAnalysisDialog(JFrame root) {
+    GameManager manager;
+	public StrategyAnalysisDialog(JFrame root, Kingdomino dom) {
+        this.manager = dom.getManager();
 		//jdialog with no name
 		super(root, "", ModalityType.DOCUMENT_MODAL);
 		
@@ -85,7 +87,8 @@ public class StrategyAnalysisDialog extends JDialog {
                 //make sure user enter an int
                 int input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
-                GameManager.setNumGames(input);
+                manager.setNumGames(input);
+                manager.slowMode();
         		dispose();
         	}
         });
@@ -99,7 +102,8 @@ public class StrategyAnalysisDialog extends JDialog {
                 //make sure user enter an int
                 int input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
-                
+                manager.setNumGames(input);
+                manager.fastMode();
         		dispose();
         	}
         });
