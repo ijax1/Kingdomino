@@ -17,7 +17,11 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import Backend.*;
+import Backend.Domino;
+import Backend.GameManager;
+import Backend.Kingdomino;
+import Backend.Player;
+import Backend.Tile;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.RectangularPrism;
 import resources.OurColors;

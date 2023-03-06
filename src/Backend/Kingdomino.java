@@ -4,9 +4,14 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import Backend.GameManager.GameState;
@@ -51,6 +56,17 @@ public class Kingdomino {
         frame.pack();
         //frame.setResizable(false);
         frame.setVisible(true);
+        
+        frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel"); //$NON-NLS-1$
+        frame.getRootPane().getActionMap().put("Cancel", new AbstractAction()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                System.exit(0);
+                //framename.setVisible(false);
+            }
+        });
     }
     public JFrame getFrame() {
     	return frame;
