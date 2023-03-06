@@ -40,7 +40,7 @@ public class StrategyAnalysisDialog extends JDialog {
 
         //input pannel for funer of games users want to run
         NumberFormat intFormat = NumberFormat.getIntegerInstance();
-        JFormattedTextField textfield = new JFormattedTextField(intFormat);
+        final JFormattedTextField textfield = new JFormattedTextField(intFormat);
   
         //just a panel to hold titlePanel and bodyPanel
         JPanel dialogPanel = new JPanel();
@@ -83,7 +83,7 @@ public class StrategyAnalysisDialog extends JDialog {
         		setVisible(false);
         		tintPane.setVisible(false);
                 //make sure user enter an int
-                int input = textfield.getText();
+                int input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
                 
         		dispose();
@@ -97,7 +97,7 @@ public class StrategyAnalysisDialog extends JDialog {
         		setVisible(false);
         		tintPane.setVisible(false);
                 //make sure user enter an int
-                int input = textfield.getText();
+                int input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
                 
         		dispose();

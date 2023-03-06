@@ -17,9 +17,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import Backend.GameManager;
-import Backend.Kingdomino;
-import Backend.Player;
+import Backend.*;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.RectangularPrism;
 import resources.OurColors;
@@ -203,7 +201,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
                 d.show();
             repaint();
 
-            grid.holdDomino(d);
+            grid.holdDomino(d, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.FOREST,0),4));
         }
 
         if(draggingCube) {
