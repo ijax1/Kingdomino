@@ -19,6 +19,7 @@ import Backend.GameManager;
 import Backend.Kingdomino;
 import Backend.Player;
 import UIComponents.Render.Coordinate;
+import UIComponents.Render.RectangularPrism;
 import resources.OurColors;
 import resources.Resources;
 
@@ -32,9 +33,19 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private UIDomino domino;
 	private int mousex, mousey;
 	private PlayerTabGroup group;
-	private PlayerTabButton button;
+	private PlayerTabButton playerTab;
 	private Banner banner;
+	private FinishTurnButton finishTurn;
+	private MessageTextBox textBox;
+	private MinimizeComponentButton minimizeComp;
 	private GameManager gm;
+	
+	//From InteractionPanel
+	UIDomino d = new UIDomino(new Coordinate(400,400,0),null,new Color(0,255,0),new Color(255,0,255));
+    UIGrid grid = new UIGrid(new Coordinate(800,600,0),null);
+    RectangularPrism r = new RectangularPrism(new Coordinate(200,200,200),100,200,25);
+    boolean dragging = false;
+    boolean draggingCube = false;
 
 	public GamePanel(ArrayList<Player> tempPlayers, Kingdomino k) {
 		setPreferredSize(new Dimension(1280,720));
@@ -44,13 +55,28 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		addMouseMotionListener(this);
 		addKeyListener(this);
 		gm = k.getManager();
-		medieval = Resources.loadFont("fonts/MedievalSharp-Regular.ttf", 100);
+		medieval = Resources.getMedievalFont(20);
+		medievalLg = Resources.getMedievalFont(100);
+		
+
+	    
 		group = new PlayerTabGroup(tempPlayers,k);
-		banner = new Banner(new Coordinate(800,100,0), k);
+		banner = new Banner(new Coordinate(1100,100,0), k);
+		finishTurn = new FinishTurnButton(new Coordinate(0,0,0),k);
+		
+		textBox = new MessageTextBox(new Coordinate(200,400,0),k);
+		//TODO: sorry, i can't provide a graphics to pass in here
+		//and this can be switched to relative coordinates
+		minimizeComp = new MinimizeComponentButton(new Coordinate(200,400,0), k, null, textBox);
+		textBox.minimize();
+		
 		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
 
 		components.add(group);
 		components.add(banner);
+		components.add(finishTurn);
+		components.add(textBox);
+		components.add(minimizeComp);
 		//components.add(new Hitbo)
 	}
 	public void paintComponent(Graphics g1) {
@@ -61,21 +87,30 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(OurColors.BACKGROUND_CIRCLE);
 		g.fillOval(100,50,getWidth()-200, getHeight()-100);
+		
+        //From InteractionPanel
+        grid.render(g, dragging);
+        checkDomino();
+        d.draw((Graphics2D) g);
+        
 		//close.draw((Graphics2D) g.create());
 		//AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
 		//g.setComposite(ac);
 		//player = tint(player, new Color(0xe06666));
 		//g.drawImage(player, 100,100,200,200, null);
 		//g.drawImage(player, 100,100,100,100,null);
-		if(medieval==null)System.out.println("true");
-		g.setFont(medievalLg);
+		g.setFont(medieval);
 //		g.drawString("Hello world", 200,200);
 //		g.fillOval(500, 500, 10, 10);
 //		g.drawRect(480, 480, 40, 40);
 		for(Component component: components) {
 			//TODO: currently, every component uses the same graphics object. Is this ok?
 			//We may need to copy the graphics object using g.create() or g.copyarea()
-			component.draw((Graphics2D) g.create());
+			Graphics2D componentg = (Graphics2D) g.create();
+			double x = component.getPosition().getX();
+			double y = component.getPosition().getY();
+			componentg.translate(x,y);
+			component.draw(componentg);
 		}
 	}
     public static void applyHints(Graphics2D g2d) {
@@ -101,19 +136,20 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 
 	//Mouse, Key Event Handlers
+
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mouseReleased(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-
+		System.out.println("Clicked at " + "X: " + x + ", Y:" + y);
 		//TODO: this won't work, just a placeholder.
-		Coordinate mouse = new Coordinate(x,y,0);
+		Coordinate mouseCoord = new Coordinate(x,y,0);
 
 		for(Component component: components) {
 			if (component instanceof Button){
 				//this won't work either, just a placeholder
-				if(component.getPosition().equals(mouse)) {
-				component.whenClicked();
+				if(component.onComponent(mouseCoord)) {
+					component.whenClicked();
 				}
 			}
 		}
@@ -138,6 +174,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	//Empty methods
 	@Override
+	public void mouseClicked(MouseEvent e) {
+		//this method is annoying, it only counts as clicked if you don't
+		//move your mouse as all, i'm not using it
+
+	}
+	@Override
 	public void keyReleased(KeyEvent e) {
 	}
 	@Override
@@ -146,9 +188,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	@Override
 	public void mousePressed(MouseEvent e) {
 	}
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
+
 	@Override
 	public void mouseEntered(MouseEvent e) {
 	}

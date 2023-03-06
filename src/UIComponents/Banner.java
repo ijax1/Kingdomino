@@ -8,15 +8,19 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import Backend.Kingdomino;
+import Backend.GameManager.GameState;
 import UIComponents.Render.Coordinate;
 import resources.OurColors;
 
 public class Banner extends Component {
 	private boolean minimized;
-	private DominoButton[] buttons;
+	private DominoButton[] buttons = new DominoButton[4];
 	Banner(Coordinate position, Kingdomino k) {
 		super(position, k);
-		// TODO Auto-generated constructor stub
+		buttons[0] = new DominoButton(new Coordinate(200,50,0), k);
+		buttons[1] = new DominoButton(new Coordinate(200,50,0), k);
+		buttons[2] = new DominoButton(new Coordinate(200,50,0), k);
+		buttons[3] = new DominoButton(new Coordinate(200,50,0), k);
 	}
 
 	@Override
@@ -48,7 +52,13 @@ public class Banner extends Component {
 		g.fillRect(0,10,350,20);
 		g.setColor(OurColors.ACCENT_COLOR);
 		g.fillOval(0,0,40,40);
-		if()
+		if(getManager().getGameState() == GameState.PLAYER_TURN) {
+			
+		} else if(getManager().getGameState() == GameState.TALLY_SCORE) {
+			
+		} else {
+			//don't draw? this should never happen though
+		}
 	}
 	
 	@Override

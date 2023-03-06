@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Tests.TestPlayer;
 import resources.OurColors;
+import resources.Titles;
 
 public class GameManager {
     private boolean firstTurn;
@@ -30,10 +31,13 @@ public class GameManager {
     public GameManager(Kingdomino game) {
         this.game = game;
         state = GameState.INITIAL;
-        players.add(new TestPlayer(OurColors.RED, "Don Quixote", "The Ingenious"));
-    	players.add(new TestPlayer(OurColors.BLUE, "King Arthur", "The Round"));
-    	players.add(new TestPlayer(OurColors.GREEN, "Sir Gawain", "The Green"));
-    	players.add(new TestPlayer(OurColors.YELLOW, "Ian Jackson", "The Glorious"));
+        
+        //making default players:
+        Titles t = new Titles();
+        players.add(new HumanPlayer(OurColors.RED, "Player 1", t.generateTitle(), this));
+    	players.add(new SkilledStrategy(OurColors.BLUE, "Player 2", t.generateTitle(), this));
+    	players.add(new SkilledStrategy(OurColors.GREEN, "Player 3", t.generateTitle(), this));
+    	players.add(new SkilledStrategy(OurColors.YELLOW, "Player 4", t.generateTitle(), this));
         reset();
     }
     

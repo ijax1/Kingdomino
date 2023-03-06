@@ -18,19 +18,24 @@ public class FinishTurnButton extends Button{
         // need to set current Player through the game manager
         // need access to get maanger through kingDomnio
         // need access to set currentPlayer int in gameManager
-
+    	System.out.println("Finish Turn button clicked");
         getGame().getManager().setCurrentPlayer();
     }
 
     public boolean onComponent(Coordinate c) {
         // only doing it based off if you clicke on the centerpiece
+    	//relative coordinates work here
         return ((c.getX() > 0 && c.getX() < width) &&
-                (c.getY() > getPosition().getY() && c.getY() < getPosition().getY() + height));
+                (c.getY() > 0 && c.getY() < height));
     }
 
     public void draw(Graphics2D g) {
-        double xStart = super.getPosition().getX();
-        double yStart = super.getPosition().getY();
+    	//starting from relative coordinates work
+//        double xStart = super.getPosition().getX();
+//        double yStart = super.getPosition().getY();
+    	
+    	double xStart = 0;
+    	double yStart = 0;
 
         // drawing banner shape
         // purple squares

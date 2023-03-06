@@ -7,7 +7,7 @@ import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
 
 public abstract class Component {
-    private boolean minimized;
+    private boolean minimized = false;
     private Coordinate position;
     private Kingdomino game;
     private GameManager gm;
@@ -19,11 +19,11 @@ public abstract class Component {
     }
 
     public void minimize(){
-        minimized = false;
+        minimized = true;
     }
 
     public void show(){
-        minimized = true;
+        minimized = false;
     }
 
     public Coordinate getPosition(){

@@ -13,24 +13,25 @@ public class DominoButton extends Button {
    private boolean locked; 
    private int width = 100, height = 50; 
   
-   DominoButton(Coordinate c, Kingdomino k, Graphics2D g) {
+   DominoButton(Coordinate c, Kingdomino k) {
      super(c, k);
      locked = false;
      p = null; 
    }
-  
+   @Override
    public void doAction() {
      if (!locked) {
 //       p = getGame().getCurrentPlayer(); 
 //       draw(graphics)
      }
    }
-
-   public boolean onCOmponent(Coordinate c) {
+   
+   @Override
+   public boolean onComponent(Coordinate c) {
      return ((c.getX() > 0 && c.getX() < width) &&
               (c.getY() > getPosition().getY() && c.getY() < getPosition().getY() + height));
    }
-  
+   @Override
    public void draw(Graphics2D g) {
      graphics = g; 
    // drawing tiles based on images;
