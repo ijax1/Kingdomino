@@ -55,6 +55,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		setBackground(new Color(100,100,100));
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		addMouseWheelListener(this);
 		addKeyListener(this);
 		gm = k.getManager();
 		medieval = Resources.getMedievalFont(20);
@@ -91,6 +92,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(OurColors.BACKGROUND_CIRCLE);
 		g.fillOval(100,50,getWidth()-200, getHeight()-100);
+		
+		System.out.println("dragging: " + dragging);
 		
         //From InteractionPanel
 		//TODO: Note that UIGrid is not a component. make it one?
@@ -188,7 +191,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void mouseDragged(MouseEvent e) {
 		mousex = e.getX();
 		mousey = e.getY();
-		System.out.println("mousex: "+mousex + " mousey: "+mousey);
+		//System.out.println("mousex: "+mousex + " mousey: "+mousey);
 		
 		//From InteractionPanel
         if(dragging) {
@@ -215,6 +218,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		//From InteractionPanel
         if(dragging) {
+        	System.out.println("mouse wheel");
             double direction = Math.signum(e.getWheelRotation());
             d.incrementRotation(direction * Math.PI/20,direction * Math.PI/30,direction * Math.PI/20);
             repaint();
