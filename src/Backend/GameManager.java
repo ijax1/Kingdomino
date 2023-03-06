@@ -8,7 +8,7 @@ import resources.Titles;
 public class GameManager {
     private boolean firstTurn;
     private GameState state;
-    private ArrayList<Player> players;
+    private ArrayList<Player> players = new ArrayList<Player>(4);
     private int currPlayerIdx;
     private Deck deck;
     private Kingdomino game;
