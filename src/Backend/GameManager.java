@@ -1,12 +1,11 @@
 package Backend;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import javax.swing.Timer;
-
 import resources.OurColors;
 import resources.Titles;
+
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class GameManager {
     private boolean firstTurn;
@@ -35,9 +34,9 @@ public class GameManager {
         //making default players:
         Titles t = new Titles();
         players.add(new HumanPlayer(OurColors.RED, "Player 1", t.generateTitle(), this));
-    	players.add(new SkilledStrategy(OurColors.BLUE, "Player 2", t.generateTitle(), this));
-    	players.add(new SkilledStrategy(OurColors.GREEN, "Player 3", t.generateTitle(), this));
-    	players.add(new SkilledStrategy(OurColors.YELLOW, "Player 4", t.generateTitle(), this));
+        players.add(new SkilledStrategy(OurColors.BLUE, "Player 2", t.generateTitle(), this));
+        players.add(new SkilledStrategy(OurColors.GREEN, "Player 3", t.generateTitle(), this));
+        players.add(new SkilledStrategy(OurColors.YELLOW, "Player 4", t.generateTitle(), this));
         reset();
     }
 
@@ -49,7 +48,7 @@ public class GameManager {
         this.numGames = numGames;
     }
 
-    public void setGameState(GameState state) {
+    public void setGameState(GameState state) throws InterruptedException {
         this.state = state;
         game.changePanel(state);
 
@@ -61,25 +60,31 @@ public class GameManager {
             setResults();
     }
 
-    private void initPlayerTurns() {
+    private void initPlayerTurns() throws InterruptedException {
         if (!strategyMode) {
             while (!deck.isEmpty()) {
                 turn();
             }
         } else if (isFastMode) {
-            fastMode();
-
+            turn();
         } else {
             slowMode();
         }
     }
 
-    private void fastMode() {
-
-    }
-
-    private void slowMode() {
-
+    private void slowMode() throws InterruptedException {
+        for (int i = 0; i < players.size(); i++) {
+            currPlayerIdx = i;
+            Player currentPlayer = players.get(currPlayerIdx);
+            TimeUnit.SECONDS.sleep(1);
+            ((ComputerPlayer) currentPlayer).calculateChoice();
+            TimeUnit.SECONDS.sleep(1);
+            ((ComputerPlayer) currentPlayer).placeDomino();
+            currentPlayer.setSelected(false);
+            currentPlayer.setPlaced(false);
+        }
+        updateTurnOrder();
+        firstTurn = false;
     }
 
     private void turn() {
@@ -97,12 +102,12 @@ public class GameManager {
                 });
                 timer1.start();
 
-                Timer timer2 = new Timer(1,null);
+                Timer timer2 = new Timer(1, null);
                 timer2.addActionListener(e -> {
-                    if(currentPlayer.hasPlaced())
+                    if (currentPlayer.hasPlaced())
                         timer2.stop();
                 });
-                if(!firstTurn)
+                if (!firstTurn)
                     timer2.start();
             }
             currentPlayer.setSelected(false);
