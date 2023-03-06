@@ -15,15 +15,17 @@ public abstract class Component {
     Component(Coordinate position, Kingdomino k){
         this.position = position;
         this.game = k;
-        this.gm = k.getManager();
+        if(k!=null) {
+        	this.gm = k.getManager();
+        }
     }
-
+    //TODO: these are backwards, ask jonathan how to fix
     public void minimize(){
-        minimized = true;
+        minimized = false;
     }
 
     public void show(){
-        minimized = false;
+        minimized = true;
     }
 
     public Coordinate getPosition(){
