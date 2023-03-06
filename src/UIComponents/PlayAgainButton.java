@@ -1,27 +1,9 @@
 package UIComponents;
-<<<<<<< HEAD
-
-import Backend.Kingdomino;
-import UIComponents.Render.Coordinate;
-=======
->>>>>>> branch 'master' of https://github.com/ijax1/Kingdomino
 
 import Backend.GameManager.GameState;
 import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
 
-<<<<<<< HEAD
-	PlayAgainButton(Coordinate position, Kingdomino k) {
-		super(position, k);
-		// TODO Auto-generated constructor stub
-	}
-
-	public void doAction() {
-		getGame().play();
-	}
-	
-}
-=======
 // package UIComponents;
 // import Backend.Kingdomino;
 // import UIComponents.Render.Coordinate;
@@ -59,4 +41,3 @@ import UIComponents.Render.Coordinate;
 //     }
   
  }
->>>>>>> branch 'master' of https://github.com/ijax1/Kingdomino
