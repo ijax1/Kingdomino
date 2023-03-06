@@ -8,22 +8,50 @@ import Backend.Player;
 import UIComponents.Render.Coordinate;
 
 public class DominoButton extends Button {
+   private Domino domino; 
+   private ArrayList<DominoButton> dominoes; 
    private Graphics graphics;
-   private Player p;
-   private boolean locked; 
+   private Player player;
+   private boolean locked;
    private int width = 100, height = 50; 
   
-   DominoButton(Coordinate c, Kingdomino k) {
+   DominoButton(Coordinate c, Kingdomino k, Domino d, ArrayList<DominoButton> dominoes) {
      super(c, k);
+      // need for information on what to draw later 
+     domino = d; 
+     this.dominoes = dominoes; 
      locked = false;
-     p = null; 
+     player = null; 
    }
    @Override
    public void doAction() {
      if (!locked) {
-//       p = getGame().getCurrentPlayer(); 
-//       draw(graphics)
+      p = getGame().getCurrentPlayer(); 
+      draw(graphics)
      }
+      
+     // removing any other button that may have the same player highlight 
+     for (DominoButton db: dominoes) {
+        if (!db.getLocked()) {
+         db.removePlayer(); 
+         db.draw(graphics);
+        }
+     }
+   }
+   
+   
+   public void removePlayer() {
+      p = null; 
+   }
+      
+   // after turn finishs, will call setLocked on the domino button that has the same player instance as curretn player
+   public void setLocked() {
+      locked = true; 
+      p.setNextDomino(domino); 
+   }
+   
+   public boolean getLocked() {
+      return locked; 
    }
    
    @Override
@@ -39,8 +67,7 @@ public class DominoButton extends Button {
      // drawing outline when clicked; 
      if (p != null) {
        g.setColor(p.getColor());
-//       g.drawRect(getPosition.getX(), getPosition.getY(), width, height);
-      
+       g.drawRect(getPosition.getX(), getPosition.getY(), width, height);
      }
    }
  }
