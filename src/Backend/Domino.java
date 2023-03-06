@@ -6,7 +6,7 @@ public class Domino implements Comparable<Domino>{
     private int rotation;
     private boolean draggable;
 
-    Domino(Tile first, Tile second, int value){
+    public Domino(Tile first, Tile second, int value){
         this.tiles[0] = first;
         this.tiles[1] = second;
         this.dominoValue = value;
@@ -40,6 +40,10 @@ public class Domino implements Comparable<Domino>{
     @Override
     public int compareTo(Domino d) {
         return this.getValue() - d.getValue();
+    }
+    
+    public String toString() {
+    	return tiles[0] + "|" + tiles[1];
     }
 
     public int getRotation(){

@@ -24,7 +24,7 @@ public class MessageTextBox extends Component {
         //filler dimensions rn
         if (getMinimized()) {
             g.setColor(Color.white);
-            g.drawString("MESSAGE", (int) getPosition().getX(), 1200);
+            g.drawString("MESSAGE", 50,100);
         } else {
             //g.draw(getPosition().getX(), getPosition().getY(), 500, 200);
         }

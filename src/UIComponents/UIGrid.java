@@ -5,8 +5,10 @@ import UIComponents.Render.Polygon;
 import javax.sound.sampled.Line;
 import java.awt.*;
 import java.util.ArrayList;
+import Backend.*;
 
 import Backend.Domino;
+import Backend.Grid;
 
 public class UIGrid {
     private final int width;
@@ -20,11 +22,25 @@ public class UIGrid {
     private int tileSize = 100;
 
     private UIDomino holding;
+    private Domino ref;
 
     public UIGrid(Coordinate center, Grid g){
         this.width = 0;
         this. height = 0;
         this.center = center;
+        /*
+        Tile[][] tileList = g.getTiles();
+        g.placeDomino(4,2, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.MINE,0),4));
+        g.placeDomino(4,3, new Domino(new Tile(Tile.Land.WHEAT,0), new Tile(Tile.Land.PASTURE,0),4));
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                if(tileList[i][j] != null){
+                    tiles[i][j] = new UITile(tileList[i][j].getColor(), center.translatedBy((j-4)*100, (i-4)*100,0), 50, center);
+                }
+            }
+        }
+
+         */
         tiles[4][4] = new UITile(Color.GRAY, center, 50, center);
         tiles[3][4] = new UITile(Color.BLUE, center.translatedBy(0,-100,0), 50, center);
         tiles[3][5] = new UITile(Color.RED, center.translatedBy(100,-100,0), 50, center);
@@ -33,6 +49,7 @@ public class UIGrid {
         tiles[2][4] = new UITile(Color.GREEN, center.translatedBy(0,-200,0), 50, center);
         tiles[1][2] = new UITile(Color.YELLOW, center.translatedBy(-200,-300,0), 50, center);
         //tiles[2][6] = new UITile(Color.YELLOW, center.translatedBy(200,-300,0), 50, center);
+
         recenter();
     }
 
@@ -117,6 +134,7 @@ public class UIGrid {
         CompoundPolygon c = new CompoundPolygon(polygons,points,center);
 
         if(showGridLines){
+            g.setColor(Color.BLACK);
             int widthAllowed = 7-Math.abs(3-gridWidth);
             int heightAllowed = 7-Math.abs(3-gridHeight);
 
@@ -156,7 +174,7 @@ public class UIGrid {
 
             Coordinate dest = new Coordinate(leftBound + xMod * tileSize - 50,topBound + yMod * tileSize - 50,0);
             holding.moveTo(dest);
-            UIDomino uid = new UIDomino(dest,null,null,null);
+            UIDomino uid = new UIDomino(dest,null,ref);
             uid.incrementRotation(0,0,holding.getRotation());
             uid.draw((Graphics2D) g);
         }
@@ -259,8 +277,9 @@ public class UIGrid {
         return height;
     }
 
-    public void holdDomino(UIDomino d){
+    public void holdDomino(UIDomino d, Domino ref){
         this.holding = d;
+        this.ref = ref;
     }
 
     public boolean dominoOnGrid(UIDomino d){

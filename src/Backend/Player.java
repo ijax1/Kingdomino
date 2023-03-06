@@ -7,6 +7,7 @@ public abstract class Player {
     
     // Instance variables
     private String name;
+    private String title;
     private int score;
     private Color color;
     private Grid grid;
@@ -20,13 +21,14 @@ public abstract class Player {
     public Player(Color color, String name, String title) {
         this.color = color;
         this.name = name;
+        this.title = title;
         this.score = 0;
         // Create empty grid
         this.grid = new Grid();
     }
 
     // Abstract method to check if player is human
-    abstract boolean isHuman();
+    public abstract boolean isHuman();
 
     // Getters and setters for instance variables\
     public boolean getLegalMoves() {
@@ -62,6 +64,10 @@ public abstract class Player {
     public String getName() {
         return name;
     }
+    
+    public String getTitle() {
+    	return title;
+    }
 
     public Grid getGrid() {
         return grid;
@@ -86,6 +92,10 @@ public abstract class Player {
     // Sets the next domino to be played
     public void setNextDomino(Domino domino) {
         this.nextDomino = domino;
+    }
+    @Override
+    public String toString() {
+    	return name + "(" + title + ") Score: " + score + " Domino: " + currentDomino + " Next: " + nextDomino;
     }
 
 }

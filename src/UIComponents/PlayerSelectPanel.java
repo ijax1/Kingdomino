@@ -17,6 +17,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import Backend.GameManager;
 import Backend.HumanPlayer;
 import Backend.Kingdomino;
 import Backend.Player;
@@ -29,6 +30,7 @@ public class PlayerSelectPanel extends JPanel {
 	public static final String COMPUTER = "COMPUTER";
 	public static final String HUMAN = "HUMAN";
 	public static final String NONE = "NONE";
+
 	private Color color;
 	private JPanel inputPanel;
 	private CardLayout card;
@@ -49,22 +51,24 @@ public class PlayerSelectPanel extends JPanel {
 	private ImageIcon noneIcon;
 	
 	private JLabel avatarHolder;
-	
+	private Kingdomino k;
+
 	public PlayerSelectPanel(Color color, int playerNo, String defaultPlayer, Kingdomino k) {
 		
 		setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 		setBackground(color);
 		this.color = color;
-		
+		this.k = k;
+
 		inputPanel = new JPanel();
 		card = new CardLayout();
 		inputPanel.setLayout(card);
 
 		
-		String[]choices = {"None"};
+		String[]choices = {"Random Strategy", "Skilled Strategy"};
 		//TODO: make JCombobox use Strategy instead of String?
 		computerBox = new JComboBox<String>(choices);
-		computerBox.setSelectedItem("None");
+		computerBox.setSelectedItem("Skilled Strategy");
 		textBox = new NameTextField("Player " + playerNo);
 		noneBox = new JLabel("---", SwingConstants.CENTER);
 
@@ -171,17 +175,20 @@ public class PlayerSelectPanel extends JPanel {
 	 * 
 	 * @return the new player, null if "None" option selected
 	 */
-	public Player createPlayer() {
+	public Player createPlayer(Titles t) {
+		GameManager gm = k.getManager();
 		if(noneButton.isSelected()) {
 			return null;
 		} else if(computerButton.isSelected()) {
 			if(computerBox.getSelectedItem().equals("Random Strategy")) {
-				return new RandomStrategy(color, Titles.generateName(), Titles.generateBadTitle());
+				return new RandomStrategy(color, t.generateName(), t.generateBadTitle(), gm);
 			} else if(computerBox.getSelectedItem().equals("Skilled Strategy")) {
-				return new SkilledStrategy();
+				return new SkilledStrategy(color, t.generateName(), t.generateTitle(), gm);
 			}
 		} else if(humanButton.isSelected()) {
-			return new HumanPlayer(color, textBox.getText());
+			return new HumanPlayer(color, textBox.getText(), t.generateTitle(), gm);		} else {
 		}
+		//should never happen
+		return null;
 	}
 }

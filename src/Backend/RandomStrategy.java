@@ -48,8 +48,9 @@ public class RandomStrategy extends ComputerPlayer {
       	 grid.placeDomino(placements.get(ranPlace).getX(),placements.get(ranPlace).getY(), domino);
    	}
 
+
 }
-  
+
 
 
 

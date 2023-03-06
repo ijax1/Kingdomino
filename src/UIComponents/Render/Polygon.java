@@ -1,8 +1,5 @@
 package UIComponents.Render;
 
-import sun.security.util.PolicyUtil;
-
-import javax.sound.sampled.Line;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 

@@ -45,25 +45,25 @@ class Deck {
             new Domino(new Tile(FOREST, 1), new Tile(WHEAT, 0), 27),
             new Domino(new Tile(FOREST, 1), new Tile(LAKE, 0), 28),
             new Domino(new Tile(FOREST, 1), new Tile(PASTURE, 0), 29),
-            new Domino(new Tile(LAKE, 1), new Tile(LAKE, 0), 30),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino(),
-            new Domino()
+            new Domino(new Tile(LAKE, 1), new Tile(WHEAT, 0), 30),
+            new Domino(new Tile(LAKE, 1), new Tile(WHEAT, 0), 31),
+            new Domino(new Tile(LAKE, 1), new Tile(FOREST, 0), 32),
+            new Domino(new Tile(LAKE, 1), new Tile(FOREST, 0), 33),
+            new Domino(new Tile(LAKE, 1), new Tile(FOREST, 0), 34),
+            new Domino(new Tile(LAKE, 1), new Tile(FOREST, 0), 35),
+            new Domino(new Tile(WHEAT, 0), new Tile(PASTURE, 1), 36),
+            new Domino(new Tile(PASTURE, 0), new Tile(SWAMP, 1), 39),
+            new Domino(new Tile(MINE, 1), new Tile(WHEAT, 0), 40),
+            new Domino(new Tile(WHEAT, 1), new Tile(SWAMP, 2), 43),
+            new Domino(new Tile(LAKE, 0), new Tile(PASTURE, 1), 37),
+            new Domino(new Tile(WHEAT, 0), new Tile(SWAMP, 1), 38),
+            new Domino(new Tile(WHEAT, 0), new Tile(PASTURE, 2), 41),
+            new Domino(new Tile(LAKE, 0), new Tile(PASTURE, 2), 42),
+            new Domino(new Tile(PASTURE, 0), new Tile(SWAMP, 2), 44),
+            new Domino(new Tile(MINE, 2), new Tile(WHEAT, 0), 45),
+            new Domino(new Tile(SWAMP, 0), new Tile(MINE, 2), 46),
+            new Domino(new Tile(SWAMP, 0), new Tile(MINE, 2), 47),
+            new Domino(new Tile(WHEAT, 0), new Tile(MINE, 3), 48)
     };
 
     //Instance Variables
@@ -80,8 +80,7 @@ class Deck {
 
         // create a deck of 48 random dominos
         for (int i = 0; i < 48; i++) {
-            Domino d = new Domino();
-            //deck.add(d);
+            deck.add(STARTING_DECK[i]);
         }
 
         //if (isTwoPlayer) {

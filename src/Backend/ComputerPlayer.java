@@ -7,7 +7,7 @@ abstract class ComputerPlayer extends Player {
 	private final GameManager game;
 
 	public ComputerPlayer(Color color, String name, String title, GameManager game) {
-		super(color, title, title);
+		super(color, name, title);
 		this.game = game;
 	}
 

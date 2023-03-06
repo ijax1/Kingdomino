@@ -6,9 +6,11 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,6 +37,10 @@ public class StrategyAnalysisDialog extends JDialog {
                 super.paintComponent(g);
             }
         };
+
+        //input pannel for funer of games users want to run
+        NumberFormat intFormat = NumberFormat.getIntegerInstance();
+        final JFormattedTextField textfield = new JFormattedTextField(intFormat);
   
         //just a panel to hold titlePanel and bodyPanel
         JPanel dialogPanel = new JPanel();
@@ -51,7 +57,7 @@ public class StrategyAnalysisDialog extends JDialog {
 
         
         
-		JLabel titleLabel = new JLabel("Strategy Analysis");
+		JLabel titleLabel = new JLabel("NO HUMAN PLAYERS SELECTED!");
 		titleLabel.setFont(Resources.getMedievalFont(30));
         //the font color is set in foreground
 		titleLabel.setForeground(OurColors.FONT_LIGHT);
@@ -76,6 +82,10 @@ public class StrategyAnalysisDialog extends JDialog {
         	public void actionPerformed(ActionEvent e) {
         		setVisible(false);
         		tintPane.setVisible(false);
+                //make sure user enter an int
+                int input = Integer.parseInt(textfield.getText());
+                //**call game manager with the number of games*
+                
         		dispose();
         	}
         });
@@ -86,6 +96,10 @@ public class StrategyAnalysisDialog extends JDialog {
         	public void actionPerformed(ActionEvent e) {
         		setVisible(false);
         		tintPane.setVisible(false);
+                //make sure user enter an int
+                int input = Integer.parseInt(textfield.getText());
+                //**call game manager with the number of games*
+                
         		dispose();
         	}
         });
@@ -93,6 +107,7 @@ public class StrategyAnalysisDialog extends JDialog {
         titlePanel.add(titleLabel);
         
         bodyPanel.add(bodyLabel, BorderLayout.PAGE_START);
+        bodyPanel.add(textfield, BorderLayout.CENTER);
         bodyPanel.add(button, BorderLayout.LINE_START);
         bodyPanel.add(button2, BorderLayout.CENTER);
         bodyPanel.add(button3, BorderLayout.LINE_END);

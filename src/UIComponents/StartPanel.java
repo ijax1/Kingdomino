@@ -10,11 +10,9 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 import Backend.GameManager;
 import Backend.GameManager.GameState;
@@ -22,6 +20,7 @@ import Backend.Kingdomino;
 import Backend.Player;
 import resources.OurColors;
 import resources.Resources;
+import resources.Titles;
 
 @SuppressWarnings("serial")
 public class StartPanel extends JPanel {
@@ -29,17 +28,17 @@ public class StartPanel extends JPanel {
 	private BufferedImage computer;
 	private BufferedImage none;
 	private CloseButton close;
-	private JFrame root;
 	GameManager gm;
+	private final Kingdomino k;
 	
 	private PlayerSelectPanel[]playerPanels = new PlayerSelectPanel[4];
 	
-	public StartPanel(GridBagLayout g, Kingdomino k) {
+	public StartPanel(GridBagLayout g, Kingdomino kdomino) {
 		super(g);
 		//setBackground(OurColors.BACKGROUND);
 		GridBagConstraints c = new GridBagConstraints();
+		k = kdomino;
 		gm = k.getManager();
-		root = (JFrame) SwingUtilities.getWindowAncestor(this);
 		playerPanels[0] = new PlayerSelectPanel(OurColors.RED, 1, PlayerSelectPanel.HUMAN, k);
 		playerPanels[1] = new PlayerSelectPanel(OurColors.BLUE, 2, PlayerSelectPanel.COMPUTER, k);
 		playerPanels[2] = new PlayerSelectPanel(OurColors.GREEN, 3, PlayerSelectPanel.COMPUTER, k);
@@ -63,12 +62,22 @@ public class StartPanel extends JPanel {
 				
 				ArrayList<Player> players = getAllPlayers();
 				if(players.size() < 2) {
-					new ErrorDialog(root);
+					new ErrorDialog(k.getFrame());
 				} else {
-					gm.setPlayers(players);
-					gm.setGameState(GameState.PLAYER_TURN);
+					boolean finished = false;
+					for(Player p: players) {
+						if(p.isHuman()) {
+							gm.setPlayers(players);
+							gm.setGameState(GameState.PLAYER_TURN);
+							finished = true;
+						}
+					}
+					if(!finished) {
+						//only computer players
+						new StrategyAnalysisDialog(k.getFrame());
+					}
 				}
-			}	
+			}
 		});
 		
 		//close = new CloseButton(new Coordinate(1200,800,0), null);	
@@ -140,12 +149,14 @@ public class StartPanel extends JPanel {
 	}
 	private ArrayList<Player> getAllPlayers(){
 		ArrayList<Player>players = new ArrayList<Player>();
+		Titles t = new Titles();
 		for(PlayerSelectPanel panel: playerPanels) {
-			Player newPlayer = panel.createPlayer();
+			Player newPlayer = panel.createPlayer(t);
 			if(newPlayer != null) {
 				players.add(newPlayer);
 			}
 		}
+		System.out.println(players);
 		return players;
 	}
 }
