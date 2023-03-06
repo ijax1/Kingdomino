@@ -90,16 +90,20 @@ public class GameManager {
                 ((ComputerPlayer) currentPlayer).calculateChoice();
                 ((ComputerPlayer) currentPlayer).placeDomino();
             } else {
-                Timer timer = new Timer(1, null);
-                timer.addActionListener(e -> {
+                Timer timer1 = new Timer(1, null);
+                timer1.addActionListener(e -> {
                     if (currentPlayer.hasSelected())
-                        timer.stop();
+                        timer1.stop();
                 });
-                if (!firstTurn) {
-                    timer.start();
-                    if (currentPlayer.hasPlaced())
-                        timer.stop();
-                }
+                timer1.start();
+
+                Timer timer2 = new Timer(1,null);
+                timer2.addActionListener(e -> {
+                    if(currentPlayer.hasPlaced())
+                        timer2.stop();
+                });
+                if(!firstTurn)
+                    timer2.start();
             }
             currentPlayer.setSelected(false);
             currentPlayer.setPlaced(false);
