@@ -1,5 +1,5 @@
 package UIComponents.Render;
-
+import Backend.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -8,8 +8,10 @@ import java.io.IOException;
 import UIComponents.*;
 
 public class InteractionPanel extends DynamicPanel implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
-    UIDomino d = new UIDomino(new Coordinate(400,400,0),null,new Color(0,255,0),new Color(255,0,255));
-    UIGrid grid = new UIGrid(new Coordinate(800,600,0),null);
+    Domino domino = new Domino(new Tile(Tile.Land.LAKE,0),new Tile(Tile.Land.PASTURE,0),13);
+    UIDomino d = new UIDomino(new Coordinate(400,400,0),null,domino);
+    Tile[][] init = {};
+    UIGrid grid = new UIGrid(new Coordinate(800,600,0),new Grid(init));
     RectangularPrism r = new RectangularPrism(new Coordinate(200,200,200),100,200,25);
     boolean dragging = false;
     boolean draggingCube = false;
@@ -98,7 +100,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
                 d.show();
             repaint();
 
-            grid.holdDomino(d);
+            grid.holdDomino(d, domino);
         }
 
         if(draggingCube) {

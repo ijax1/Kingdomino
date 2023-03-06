@@ -1,4 +1,4 @@
-package UIComponents;
+/*package UIComponents;
 
 import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
@@ -91,3 +91,4 @@ public class MinimizeComponentButton extends Button{
     }
 
 }
+*/

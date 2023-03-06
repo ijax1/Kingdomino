@@ -197,4 +197,8 @@ public class Grid {
     	}
     	return output;
     }
+
+    public Tile[][] getTiles(){
+        return grid;
+    }
 }

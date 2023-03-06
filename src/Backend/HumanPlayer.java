@@ -14,8 +14,9 @@ public class HumanPlayer extends Player {
 	public GameManager getGame() {
 		return game;
 	}
-	
+
 	public boolean isHuman() {
 		return true;
 	}
+
 }

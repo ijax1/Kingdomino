@@ -5,6 +5,7 @@ import UIComponents.Render.Polygon;
 import javax.sound.sampled.Line;
 import java.awt.*;
 import java.util.ArrayList;
+import Backend.*;
 
 import Backend.Domino;
 import Backend.Grid;
@@ -21,11 +22,18 @@ public class UIGrid {
     private int tileSize = 100;
 
     private UIDomino holding;
+    private Domino ref;
 
     public UIGrid(Coordinate center, Grid g){
         this.width = 0;
         this. height = 0;
         this.center = center;
+        Tile[][] tileList = g.getTiles();
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                
+            }
+        }
         tiles[4][4] = new UITile(Color.GRAY, center, 50, center);
         tiles[3][4] = new UITile(Color.BLUE, center.translatedBy(0,-100,0), 50, center);
         tiles[3][5] = new UITile(Color.RED, center.translatedBy(100,-100,0), 50, center);
@@ -157,7 +165,7 @@ public class UIGrid {
 
             Coordinate dest = new Coordinate(leftBound + xMod * tileSize - 50,topBound + yMod * tileSize - 50,0);
             holding.moveTo(dest);
-            UIDomino uid = new UIDomino(dest,null,null,null);
+            UIDomino uid = new UIDomino(dest,null,ref);
             uid.incrementRotation(0,0,holding.getRotation());
             uid.draw((Graphics2D) g);
         }
@@ -260,8 +268,9 @@ public class UIGrid {
         return height;
     }
 
-    public void holdDomino(UIDomino d){
+    public void holdDomino(UIDomino d, Domino ref){
         this.holding = d;
+        this.ref = ref;
     }
 
     public boolean dominoOnGrid(UIDomino d){

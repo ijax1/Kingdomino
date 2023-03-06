@@ -52,14 +52,14 @@ public class PlayerSelectPanel extends JPanel {
 	
 	private JLabel avatarHolder;
 	private Kingdomino k;
-	
+
 	public PlayerSelectPanel(Color color, int playerNo, String defaultPlayer, Kingdomino k) {
 		
 		setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 		setBackground(color);
 		this.color = color;
 		this.k = k;
-		
+
 		inputPanel = new JPanel();
 		card = new CardLayout();
 		inputPanel.setLayout(card);

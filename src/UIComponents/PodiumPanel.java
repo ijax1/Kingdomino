@@ -109,8 +109,8 @@ public class PodiumPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -124,6 +124,13 @@ public class PodiumPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
+
+	}
+	public static void main(String[] args) {
+		JFrame frame = new JFrame("Podium Panel");
+		PodiumPanel panel = null;//new PodiumPanel(new GridBagLayout(), new Kingdomino());
+		frame.setSize(1280,720);
+		frame.add(panel);
 
 	}
 }

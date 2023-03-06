@@ -10,7 +10,7 @@ public class GameManager {
     private boolean firstTurn;
     private GameState state;
     private ArrayList<Player> players = new ArrayList<Player>(4);
-    
+
     private int currentPlayer;
     private Deck deck;
     private Kingdomino game;
@@ -31,7 +31,7 @@ public class GameManager {
     public GameManager(Kingdomino game) {
         this.game = game;
         state = GameState.INITIAL;
-        
+
         //making default players:
         Titles t = new Titles();
         players.add(new HumanPlayer(OurColors.RED, "Player 1", t.generateTitle(), this));
@@ -40,7 +40,7 @@ public class GameManager {
     	players.add(new SkilledStrategy(OurColors.YELLOW, "Player 4", t.generateTitle(), this));
         reset();
     }
-    
+
     public GameState getGameState() {
         return state;
     }
@@ -92,7 +92,7 @@ public class GameManager {
         firstTurn = false;
     }
     public void nextPlayer() {
-    	
+
     }
 
     public boolean getFirstTurn() {

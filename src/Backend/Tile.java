@@ -19,6 +19,10 @@ public class Tile{
 	public Land getLandType() {
 		return landType;
 	}
+
+	public Color getColor(){
+		return landType.getColor();
+	}
 	public enum Land{
 		FOREST{
 			public Color getColor(){
@@ -30,7 +34,7 @@ public class Tile{
 		},
 		LAKE{
 			public Color getColor(){
-				return new Color(40,80,40);
+				return new Color(20,80,180);
 			}
 			public String toString() {
 				return "L";

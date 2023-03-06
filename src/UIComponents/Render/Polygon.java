@@ -1,6 +1,5 @@
 package UIComponents.Render;
 
-import javax.sound.sampled.Line;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
