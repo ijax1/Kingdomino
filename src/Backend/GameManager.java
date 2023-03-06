@@ -6,11 +6,11 @@ public class GameManager {
     private boolean firstTurn;
     private GameState state;
     private ArrayList<Player> players;
-    private int currentPlayer;
+    private int currPlayerIdx;
     private Deck deck;
     private Kingdomino game;
-    private boolean fastMode;
-    private boolean strategy;
+    private boolean isFastMode;
+    private boolean strategyMode;
     private int numGames;
 
     public enum GameState {
@@ -39,42 +39,49 @@ public class GameManager {
 
     public void setGameState(GameState state) {
         this.state = state;
+        game.changePanel(state);
+
         if (state == GameState.INITIAL) {
-            game.changePanel(GameState.INITIAL);
             reset();
         } else if (state == GameState.PLAYER_TURN) {
-            game.changePanel(GameState.PLAYER_TURN);
-            if (!strategy) {
-                while (!deck.isEmpty()) {
-                    turn();
-                }
-            } else if (!fastMode) {
-
-            } else {
-
-            }
-        } else if (state == GameState.END_ROUND) {
-            game.changePanel(GameState.END_ROUND);
-        } else if (state == GameState.TALLY_SCORE) {
-            game.changePanel(GameState.TALLY_SCORE);
-        } else if (state == GameState.ENDSCREEN) {
+            initPlayerTurns();
+        } else if (state == GameState.ENDSCREEN)
             setResults();
-            game.changePanel(GameState.ENDSCREEN);
-        } else if (state == GameState.STRATEGY) {
-            game.changePanel(GameState.STRATEGY);
+    }
+
+    private void initPlayerTurns() {
+        if (!strategyMode) {
+            while (!deck.isEmpty()) {
+                turn();
+            }
+        } else if (isFastMode) {
+            fastMode();
+        } else {
+            slowMode();
         }
+    }
+
+    private void fastMode() {
+
+    }
+
+    private void slowMode() {
+
     }
 
     private void turn() {
         for (int i = 0; i < players.size(); i++) {
-            currentPlayer = i;
-            Player current = players.get(currentPlayer);
-            while (!current.hasSelected()) {}
-            if (firstTurn) {
-                while (!current.hasPlaced()) {}
+            currPlayerIdx = i;
+            Player currentPlayer = players.get(currPlayerIdx);
+
+            while (!currentPlayer.hasSelected()) {
             }
-            current.setSelected(false);
-            current.setPlaced(false);
+            if (firstTurn) {
+                while (!currentPlayer.hasPlaced()) {
+                }
+            }
+            currentPlayer.setSelected(false);
+            currentPlayer.setPlaced(false);
         }
         updateTurnOrder();
         firstTurn = false;
@@ -85,7 +92,7 @@ public class GameManager {
     }
 
     public void setMode(boolean fastMode) {
-        this.fastMode = fastMode;
+        this.isFastMode = fastMode;
     }
 
     public ArrayList<Player> getPlayers() {
@@ -94,19 +101,17 @@ public class GameManager {
 
     public void setPlayers(ArrayList<Player> players) {
         this.players.clear();
-        for (Player player : players) {
-            this.players.add(player);
-        }
+        this.players.addAll(players);
     }
 
     public Player getCurrentPlayer() {
-        return players.get(currentPlayer);
+        return players.get(currPlayerIdx);
     }
 
-    public void setCurrentPlayer() {
-        currentPlayer++;
-        if (currentPlayer>players.size()-1) {
-            currentPlayer = 0;
+    public void updateCurrentPlayer() {
+        currPlayerIdx++;
+        if (currPlayerIdx > players.size() - 1) {
+            currPlayerIdx = 0;
         }
     }
 
@@ -116,8 +121,8 @@ public class GameManager {
 
     public void updateTurnOrder() {
         ArrayList<Integer> dominoValues = new ArrayList<Integer>();
-        for (int i = 0; i < players.size(); i++) {
-            dominoValues.add(players.get(i).getNextDomino().getValue());
+        for (Player player : players) {
+            dominoValues.add(player.getNextDomino().getValue());
         }
         for (int i = 0; i < dominoValues.size() - 1; i++) {
             for (int j = 0; j < dominoValues.size() - 1 - i; j++) {
@@ -146,6 +151,6 @@ public class GameManager {
         firstTurn = true;
         deck = new Deck();
         players = new ArrayList<Player>();
-        currentPlayer = 0;
+        currPlayerIdx = 0;
     }
 }
