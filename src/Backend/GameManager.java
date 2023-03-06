@@ -2,6 +2,9 @@ package Backend;
 
 import java.util.ArrayList;
 
+import resources.OurColors;
+import resources.Titles;
+
 public class GameManager {
     private boolean firstTurn;
     private GameState state;
@@ -26,6 +29,12 @@ public class GameManager {
     public GameManager(Kingdomino game) {
         this.game = game;
         state = GameState.INITIAL;
+        //making default players:
+        Titles t = new Titles();
+        players.add(new HumanPlayer(OurColors.RED, "Player 1", t.generateTitle(), this));
+    	players.add(new SkilledStrategy(OurColors.BLUE, "Player 2", t.generateTitle(), this));
+    	players.add(new SkilledStrategy(OurColors.GREEN, "Player 3", t.generateTitle(), this));
+    	players.add(new SkilledStrategy(OurColors.YELLOW, "Player 4", t.generateTitle(), this));
         reset();
     }
 
