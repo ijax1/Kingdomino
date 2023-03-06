@@ -13,6 +13,7 @@ import resources.OurColors;
 
 public class Banner extends Component {
 	private boolean minimized;
+	private DominoButton[] buttons;
 	Banner(Coordinate position, Kingdomino k) {
 		super(position, k);
 		// TODO Auto-generated constructor stub
@@ -47,7 +48,7 @@ public class Banner extends Component {
 		g.fillRect(0,10,350,20);
 		g.setColor(OurColors.ACCENT_COLOR);
 		g.fillOval(0,0,40,40);
-		
+		if()
 	}
 	
 	@Override

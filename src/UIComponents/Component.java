@@ -15,6 +15,7 @@ public abstract class Component {
     Component(Coordinate position, Kingdomino k){
         this.position = position;
         this.game = k;
+        this.gm = k.getManager();
     }
 
     public void minimize(){
