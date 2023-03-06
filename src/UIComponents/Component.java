@@ -2,6 +2,7 @@ package UIComponents;
 
 import java.awt.Graphics2D;
 
+import Backend.GameManager;
 import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
 
@@ -9,7 +10,7 @@ public abstract class Component {
     private boolean minimized;
     private Coordinate position;
     private Kingdomino game;
-    //private GameManager gm;
+    private GameManager gm;
 
     Component(Coordinate position, Kingdomino k){
         this.position = position;
@@ -32,6 +33,9 @@ public abstract class Component {
 
     public Kingdomino getGame(){
         return game;
+    }
+    public GameManager getManager(){
+        return gm;
     }
 
     public abstract void setPosition(Coordinate coordinate);
