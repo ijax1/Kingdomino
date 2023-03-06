@@ -113,7 +113,7 @@ public class UIDomino extends Component{
         }
     }
 
-    public void rotateToNextPos(final int direction, final InteractionPanel panel) {
+    public void rotateToNextPos(final int direction, final JPanel panel) {
         rotateTo += (0.5*Math.PI) * direction;
         if (almostEqual(currentRotation%(2*Math.PI), (rotateTo-(0.5*Math.PI))%(2*Math.PI),1e-4)) {
             rotating = true;

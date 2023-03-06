@@ -11,6 +11,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -23,7 +25,7 @@ import UIComponents.Render.RectangularPrism;
 import resources.OurColors;
 import resources.Resources;
 
-public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
+public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
 	private static final long serialVersionUID = 7381080659172927952L;
 	private ArrayList<Component>components = new ArrayList<Component>();
 	private Font medieval;
@@ -41,8 +43,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private GameManager gm;
 	
 	//From InteractionPanel
-	UIDomino d = new UIDomino(new Coordinate(400,400,0),null,new Color(0,255,0),new Color(255,0,255));
-    UIGrid grid = new UIGrid(new Coordinate(800,600,0),null);
+	UIDomino d;
+    UIGrid grid;
     RectangularPrism r = new RectangularPrism(new Coordinate(200,200,200),100,200,25);
     boolean dragging = false;
     boolean draggingCube = false;
@@ -58,7 +60,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		medieval = Resources.getMedievalFont(20);
 		medievalLg = Resources.getMedievalFont(100);
 		
-
+		//From InteractionPanel
+		d = new UIDomino(new Coordinate(400,400,0),k,new Color(0,255,0),new Color(255,0,255));
+		grid = new UIGrid(new Coordinate(800,600,0),gm.getCurrentPlayer().getGrid());
 	    
 		group = new PlayerTabGroup(tempPlayers,k);
 		banner = new Banner(new Coordinate(1100,100,0), k);
@@ -89,6 +93,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		g.fillOval(100,50,getWidth()-200, getHeight()-100);
 		
         //From InteractionPanel
+		//TODO: Note that UIGrid is not a component. make it one?
         grid.render(g, dragging);
         checkDomino();
         d.draw((Graphics2D) g);
@@ -124,24 +129,49 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
-	private void drawBg(Graphics2D g) {
 
-
-	}
-	private void drawStaticTiles() {
-
-	}
-	public void drawError(String header, String message) {
-
-	}
+    public void checkDomino(){
+        if(grid.dominoOnGrid(d)) {
+            d.minimize();
+        }
+        else
+            d.show();
+    }
 
 	//Mouse, Key Event Handlers
-
+	@Override
+	public void mousePressed(MouseEvent e) {
+		//From InteractionPanel
+        if(d.onComponent(new Coordinate(e.getX(),e.getY(),0))) {
+            dragging = true;
+        }
+        if(dragging && e.getButton() == MouseEvent.BUTTON3){
+            d.rotateToNextPos(1,this);
+        }
+        if(r.intersects(new Coordinate(e.getX(), e.getY(), 0))){
+            draggingCube = true;
+        }
+	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
 		System.out.println("Clicked at " + "X: " + x + ", Y:" + y);
+		
+		//From InteractionPanel
+		if(dragging) {
+            if (e.getButton() == MouseEvent.BUTTON1){
+                dragging = false;
+                if(grid.dominoOnGrid(d)) {
+                    d.minimize();
+                }
+                else
+                    d.show();
+            }
+        }
+        draggingCube = false;
+        repaint();
+        
 		//TODO: this won't work, just a placeholder.
 		Coordinate mouseCoord = new Coordinate(x,y,0);
 
@@ -159,15 +189,57 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		mousex = e.getX();
 		mousey = e.getY();
 		System.out.println("mousex: "+mousex + " mousey: "+mousey);
+		
+		//From InteractionPanel
+        if(dragging) {
+            d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
+            if(grid.dominoOnGrid(d)) {
+                d.minimize();
+            }
+            else
+                d.show();
+            repaint();
+
+            grid.holdDomino(d);
+        }
+
+        if(draggingCube) {
+            r.moveTo(new Coordinate(e.getX(), e.getY(), 0));
+            r.incrementRotation(Math.PI / 20, Math.PI / 40,Math.PI / 50);
+            repaint();
+        }
+        
+	}
+	double xRotation = 0, yRotation = 0, zRotation = 0;
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		//From InteractionPanel
+        if(dragging) {
+            double direction = Math.signum(e.getWheelRotation());
+            d.incrementRotation(direction * Math.PI/20,direction * Math.PI/30,direction * Math.PI/20);
+            repaint();
+        }
+		
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
 		System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
 	}
+	
 	public void mouseEvent(boolean isClicked, boolean isDragged, boolean isScrolling) {
 
 	}
 	public void keyEvent(int keyCode) {
+
+	}
+	private void drawBg(Graphics2D g) {
+
+
+	}
+	private void drawStaticTiles() {
+
+	}
+	public void drawError(String header, String message) {
 
 	}
 
@@ -186,10 +258,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void mouseMoved(MouseEvent e) {
 	}
 	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-
-	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 	@Override
@@ -198,4 +266,5 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
+
 }
