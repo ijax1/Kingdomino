@@ -5,7 +5,7 @@ import Backend.Tile.Land;
 import java.util.ArrayList;
 
 public class Region {
-    private ArrayList<GridPosition> positions;
+    private ArrayList<GridPosition> positions = new ArrayList<GridPosition>();
     private Land landType;
 
     public ArrayList<GridPosition> getPositions() {
