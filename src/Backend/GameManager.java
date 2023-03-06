@@ -159,7 +159,7 @@ public class GameManager {
     private void reset() {
         firstTurn = true;
         deck = new Deck();
-        players = new ArrayList<Player>();
+        //players = new ArrayList<Player>();
         currPlayerIdx = 0;
     }
 }
