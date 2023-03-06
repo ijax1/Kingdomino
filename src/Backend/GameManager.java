@@ -1,6 +1,9 @@
 package Backend;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.Timer;
 
 public class GameManager {
     private boolean firstTurn;
@@ -56,6 +59,7 @@ public class GameManager {
             }
         } else if (isFastMode) {
             fastMode();
+
         } else {
             slowMode();
         }
@@ -73,11 +77,19 @@ public class GameManager {
         for (int i = 0; i < players.size(); i++) {
             currPlayerIdx = i;
             Player currentPlayer = players.get(currPlayerIdx);
-
-            while (!currentPlayer.hasSelected()) {
-            }
-            if (firstTurn) {
-                while (!currentPlayer.hasPlaced()) {
+            if (currentPlayer instanceof ComputerPlayer) {
+                ((ComputerPlayer) currentPlayer).calculateChoice();
+                ((ComputerPlayer) currentPlayer).placeDomino();
+            } else {
+                Timer timer = new Timer(1, null);
+                timer.addActionListener(e -> {
+                    if (currentPlayer.hasSelected())
+                        timer.stop();
+                });
+                if (!firstTurn) {
+                    timer.start();
+                    if (currentPlayer.hasPlaced())
+                        timer.stop();
                 }
             }
             currentPlayer.setSelected(false);
