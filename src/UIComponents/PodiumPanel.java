@@ -1,136 +1,120 @@
-package UIComponents;
+ package UIComponents;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.*;
+import java.awt.image.*;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.event.*;
 
 import Backend.GameManager;
+import Backend.GameManager.GameState;
 import Backend.Kingdomino;
-import UIComponents.Render.Coordinate;
+import Backend.Player;
 import resources.OurColors;
 import resources.Resources;
 
-@SuppressWarnings("serial")
-public class PodiumPanel extends JPanel implements MouseListener, MouseMotionListener {
-	private ArrayList<Component>components = new ArrayList<Component>();
-	private Font medievalLg;
+public class PodiumPanel extends JPanel {
+	private BufferedImage playerImg;
+	private BufferedImage computerImg;
+	private BufferedImage noneImg;
 	private CloseButton close;
-	private PlayAgainButton playAgain;
-	private GameManager gm;
-	public PodiumPanel(Kingdomino k) {
-		setPreferredSize(new Dimension(1280,720));
-		setOpaque(true);
-		setBackground(new Color(100,100,100));
-		addMouseListener(this);
-		addMouseMotionListener(this);
-		gm = k.getManager();
-		medievalLg = Resources.getMedievalFont(100);
-		close = new CloseButton(new Coordinate(300,100,0),k);
-		playAgain = new PlayAgainButton(new Coordinate(700,100,0),k);
-
-		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
-
-		components.add(close);
-		components.add(playAgain);
+	private JFrame root;
+	GameManager gm;
+	private PlayerSelectPanel[]playerPanels = new PlayerSelectPanel[4];
+	public PodiumPanel(GridBagLayout g, Kingdomino k) {
+//		super(g);
+//		GridBagConstraints c = new GridBagConstraints();
+//		gm = k.getManager();
+//		gm.getPlayers().get(0).getScore();
+//		
+//		playerPanels[0] = new PlayerSelectPanel(OurColors.RED, 1, PlayerSelectPanel.HUMAN, k);
+//		playerPanels[1] = new PlayerSelectPanel(OurColors.BLUE, 2, PlayerSelectPanel.COMPUTER, k);
+//		playerPanels[2] = new PlayerSelectPanel(OurColors.GREEN, 3, PlayerSelectPanel.COMPUTER, k);
+//		playerPanels[3] = new PlayerSelectPanel(OurColors.YELLOW, 4, PlayerSelectPanel.COMPUTER, k);
+//		//JButton scrollB = new JButton("Quiteth");
+//		JLabel scroll = new JLabel("Kingdomino", SwingConstants.CENTER);
+//		scroll.setFont(Resources.getMedievalFont(50));
+//		scroll.setForeground(OurColors.FONT_LIGHT);
+//		RoyalButton exit = new RoyalButton("Exiteth");
+//		RoyalButton play = new RoyalButton("Playeth");
+//		ImageIcon PodiumScreen = new ImageIcon("PodiumScreen.png");
+//		exit.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				System.exit(0);
+//			}	
+//		});
+//		play.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				ArrayList<Player> players = getAllPlayers();
+//				if(players.size() < 2) {
+//					new ErrorDialog(root);
+//				} else {
+//					gm.setPlayers(players);
+//					gm.setGameState(GameState.PLAYER_TURN);
+//				}
+//			}	
+//		});
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.weightx=0.5;
+//		c.gridheight = 1;
+//		c.insets = new Insets(10,10,10,10);
+//		c.anchor = GridBagConstraints.CENTER;
+//		c.ipady = 20;
+//		c.gridx = 0;
+//		c.gridy = 2;
+//		c.gridwidth = 2;
+//		g.setConstraints(exit, c);
+//		add(exit);
+//		
+//		c.gridx = 2;
+//		c.gridy = 2;
+//		c.gridwidth = 2;
+//		g.setConstraints(play, c);
+//		add(play);
+//		
+//
+//		c.gridx = 2;
+//		c.gridy = 2;
+//		c.gridwidth = 2;
+//		g.setConstraints(play, c);
+		
+		
+		
 	}
 	public void paintComponent(Graphics g1) {
-		Graphics2D g = (Graphics2D) g1;
-
+		Graphics2D g = (Graphics2D)g1;
 		GamePanel.applyHints(g);
+		BufferedImage img = Resources.loadImage("PodiumScreen.png");
+		Image newimg = img.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
 		g.setColor(OurColors.BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(OurColors.BACKGROUND_CIRCLE);
 		g.fillOval(100,50,getWidth()-200, getHeight()-100);
-
-		//g.setFont(medievalLg);
-		for(Component component: components) {
-			Graphics2D componentg = (Graphics2D) g.create();
-			double x = component.getPosition().getX();
-			double y = component.getPosition().getY();
-			componentg.translate(x,y);
-			component.draw(componentg);
-		}
+		g.drawImage(newimg, 0, 0, null);
 	}
-	public void drawError(String header, String message) {
-
-	}
-
-	//Mouse, Key Event Handlers
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
-		System.out.println("Clicked at " + "X: " + x + ", Y:" + y);
-		//TODO: this won't work, just a placeholder.
-		Coordinate mouseCoord = new Coordinate(x,y,0);
-
-		for(Component component: components) {
-			if (component instanceof Button){
-				//this won't work either, just a placeholder
-				if(component.onComponent(mouseCoord)) {
-					component.whenClicked();
-				}
+	private ArrayList<Player> getAllPlayers(){
+		ArrayList<Player>players = new ArrayList<Player>();
+		for(PlayerSelectPanel panel: playerPanels) {
+			Player newPlayer = panel.createPlayer();
+			if(newPlayer != null) {
+				players.add(newPlayer);
 			}
 		}
-	}
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		int mousex = e.getX();
-		int mousey = e.getY();
-		System.out.println("mousex: "+mousex + " mousey: "+mousey);
-	}
-	public void mouseEvent(boolean isClicked, boolean isDragged, boolean isScrolling) {
-
-	}
-	public void keyEvent(int keyCode) {
-
-	}
-
-
-	//Empty methods
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		//this method is annoying, it only counts as clicked if you don't
-		//move your mouse as all, i'm not using it
-
-	}
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		return players;
 	}
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Podium Panel");
-		PodiumPanel panel = null;//new PodiumPanel(new GridBagLayout(), new Kingdomino());
+		PodiumPanel panel = new PodiumPanel(new GridBagLayout(), new Kingdomino());
 		frame.setSize(1280,720);
 		frame.add(panel);
 
+		
+		//frame.pack();
+		frame.setVisible(true);
+		panel.repaint();
+		new ErrorDialog(frame);
 	}
 }
