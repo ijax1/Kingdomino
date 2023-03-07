@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class GameManager {
     private boolean firstTurn;
     private GameState state;
-    private ArrayList<Player> players = new ArrayList<>(4);
+    private ArrayList<Player> players;
     private int currPlayerIdx;
     private Deck deck;
     private Kingdomino game;
@@ -35,6 +35,7 @@ public class GameManager {
         state = GameState.INITIAL;
         //making default players:
         Titles t = new Titles();
+        players = new ArrayList<>(4);
         players.add(new HumanPlayer(OurColors.RED, "Player 1", t.generateTitle(), this));
         players.add(new SkilledStrategy(OurColors.BLUE, "Player 2", t.generateTitle(), this));
         players.add(new SkilledStrategy(OurColors.GREEN, "Player 3", t.generateTitle(), this));
@@ -62,7 +63,7 @@ public class GameManager {
             setResults();
     }
 
-    private void initPlayerTurns() throws InterruptedException {
+    private void initPlayerTurns() {
         while (!deck.isEmpty()) {
             if (!strategyMode || isFastMode) {
                 turn();
@@ -72,13 +73,21 @@ public class GameManager {
         }
     }
 
-    private void slowMode() throws InterruptedException {
+    private void slowMode() {
         for (int i = 0; i < players.size(); i++) {
             currPlayerIdx = i;
             Player currentPlayer = players.get(currPlayerIdx);
-            TimeUnit.SECONDS.sleep(1);
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception ignored) {
+
+            }
             ((ComputerPlayer) currentPlayer).calculateChoice();
-            TimeUnit.SECONDS.sleep(1);
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception ignored) {
+
+            }
             ((ComputerPlayer) currentPlayer).placeDomino();
             currentPlayer.setSelected(false);
             currentPlayer.setPlaced(false);
@@ -106,7 +115,7 @@ public class GameManager {
 
                 Timer timer2 = new Timer(1, null);
                 timer2.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e){
+                    public void actionPerformed(ActionEvent e) {
                         if (currentPlayer.hasPlaced())
                             timer2.stop();
                     }
