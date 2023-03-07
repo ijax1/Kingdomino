@@ -74,7 +74,7 @@ public class StartPanel extends JPanel {
 					}
 					if(!finished) {
 						//only computer players
-						new StrategyAnalysisDialog(k.getFrame());
+						new StrategyAnalysisDialog(k.getFrame(),k);
 					}
 				}
 			}

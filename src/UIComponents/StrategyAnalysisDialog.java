@@ -15,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Backend.GameManager;
+import Backend.Kingdomino;
 import resources.OurColors;
 import resources.Resources;
 
@@ -24,9 +26,9 @@ public class StrategyAnalysisDialog extends JDialog {
 	private Color tintColor = new Color(0,0,0,125);
     GameManager manager;
 	public StrategyAnalysisDialog(JFrame root, Kingdomino dom) {
-        this.manager = dom.getManager();
 		//jdialog with no name
 		super(root, "", ModalityType.DOCUMENT_MODAL);
+		this.manager = dom.getManager();
 		
 		//tintPane darkens the entire background when the dialog is open
         tintPane = new JPanel() {
@@ -88,7 +90,8 @@ public class StrategyAnalysisDialog extends JDialog {
                 int input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
                 manager.setNumGames(input);
-                manager.slowMode();
+                //slow mode
+                manager.setMode(false);
         		dispose();
         	}
         });
@@ -103,7 +106,8 @@ public class StrategyAnalysisDialog extends JDialog {
                 int input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
                 manager.setNumGames(input);
-                manager.fastMode();
+                //fast mode
+                manager.setMode(true);
         		dispose();
         	}
         });
