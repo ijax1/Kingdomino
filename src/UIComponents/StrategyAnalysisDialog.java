@@ -26,9 +26,11 @@ public class StrategyAnalysisDialog extends JDialog {
 	private Color tintColor = new Color(0,0,0,125);
     GameManager manager;
 	public StrategyAnalysisDialog(JFrame root, Kingdomino dom) {
-        this.manager = dom.getManager();
 		//jdialog with no name
 		super(root, "", ModalityType.DOCUMENT_MODAL);
+		
+		this.manager = dom.getManager();
+		
 		
 		//tintPane darkens the entire background when the dialog is open
         tintPane = new JPanel() {
