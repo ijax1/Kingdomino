@@ -47,6 +47,7 @@ public class Kingdomino {
 
     private void setUpFrame() {
         frame = new JFrame("Kingdomino");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
 //        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setContentPane(basePanel);
