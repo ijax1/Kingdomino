@@ -76,6 +76,7 @@ public class StrategyAnalysisDialog extends JDialog {
         	public void actionPerformed(ActionEvent e) {
                 System.out.println("returnteth clicked");
         		setVisible(false);
+                //no mode, return
         		tintPane.setVisible(false);
         		dispose();
         	}
