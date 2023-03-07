@@ -28,6 +28,7 @@ public class StrategyAnalysisDialog extends JDialog {
 	public StrategyAnalysisDialog(JFrame root, Kingdomino dom) {
 		//jdialog with no name
 		super(root, "", ModalityType.DOCUMENT_MODAL);
+		this.manager = dom.getManager();
 		
 		this.manager = dom.getManager();
 		
@@ -92,6 +93,8 @@ public class StrategyAnalysisDialog extends JDialog {
                 int input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
                 manager.setNumGames(input);
+
+                //slow mode
                 manager.setMode(false);
         		dispose();
         	}
@@ -107,6 +110,8 @@ public class StrategyAnalysisDialog extends JDialog {
                 int input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
                 manager.setNumGames(input);
+
+                //fast mode
                 manager.setMode(true);
         		dispose();
         	}
