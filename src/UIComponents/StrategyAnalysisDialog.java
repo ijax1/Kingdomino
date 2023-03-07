@@ -15,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Backend.GameManager;
+import Backend.Kingdomino;
 import resources.OurColors;
 import resources.Resources;
 
@@ -88,7 +90,7 @@ public class StrategyAnalysisDialog extends JDialog {
                 int input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
                 manager.setNumGames(input);
-                manager.slowMode();
+                manager.setMode(false);
         		dispose();
         	}
         });
@@ -103,7 +105,7 @@ public class StrategyAnalysisDialog extends JDialog {
                 int input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
                 manager.setNumGames(input);
-                manager.fastMode();
+                manager.setMode(true);
         		dispose();
         	}
         });
