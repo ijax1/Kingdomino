@@ -75,6 +75,7 @@ public class StrategyAnalysisDialog extends JDialog {
         	@Override
         	public void actionPerformed(ActionEvent e) {
         		setVisible(false);
+                //no mode, return
         		tintPane.setVisible(false);
         		dispose();
         	}
