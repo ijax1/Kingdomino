@@ -2,15 +2,18 @@ package UIComponents;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+
 
 import Backend.Kingdomino;
 import Backend.Player;
 import UIComponents.Render.Coordinate;
+import Backend.Domino;
 
 public class DominoButton extends Button {
    private Domino domino; 
    private ArrayList<DominoButton> dominoes; 
-   private Graphics graphics;
+   private Graphics2D graphics;
    private Player player;
    private boolean locked;
    private int width = 100, height = 50; 
@@ -26,8 +29,8 @@ public class DominoButton extends Button {
    @Override
    public void doAction() {
      if (!locked) {
-      p = getGame().getCurrentPlayer(); 
-      draw(graphics)
+      player = getManager().getCurrentPlayer();
+      draw(graphics);
      }
       
      // removing any other button that may have the same player highlight 
@@ -41,13 +44,13 @@ public class DominoButton extends Button {
    
    
    public void removePlayer() {
-      p = null; 
+      player = null;
    }
       
    // after turn finishs, will call setLocked on the domino button that has the same player instance as curretn player
    public void setLocked() {
       locked = true; 
-      p.setNextDomino(domino); 
+      player.setNextDomino(domino);
    }
    
    public boolean getLocked() {
@@ -65,9 +68,9 @@ public class DominoButton extends Button {
    // drawing tiles based on images;
     
      // drawing outline when clicked; 
-     if (p != null) {
-       g.setColor(p.getColor());
-       g.drawRect(getPosition.getX(), getPosition.getY(), width, height);
+     if (player != null) {
+       g.setColor(player.getColor());
+       g.drawRect((int) getPosition().getX(), (int) getPosition().getY(), width, height);
      }
    }
  }
