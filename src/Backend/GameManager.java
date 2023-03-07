@@ -4,13 +4,15 @@ import resources.OurColors;
 import resources.Titles;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class GameManager {
     private boolean firstTurn;
     private GameState state;
-    private ArrayList<Player> players = new ArrayList<Player>(4);
+    private ArrayList<Player> players = new ArrayList<>(4);
     private int currPlayerIdx;
     private Deck deck;
     private Kingdomino game;
@@ -61,14 +63,12 @@ public class GameManager {
     }
 
     private void initPlayerTurns() throws InterruptedException {
-        if (!strategyMode) {
-            while (!deck.isEmpty()) {
+        while (!deck.isEmpty()) {
+            if (!strategyMode || isFastMode) {
                 turn();
+            } else {
+                slowMode();
             }
-        } else if (isFastMode) {
-            turn();
-        } else {
-            slowMode();
         }
     }
 
@@ -96,16 +96,20 @@ public class GameManager {
                 ((ComputerPlayer) currentPlayer).placeDomino();
             } else {
                 Timer timer1 = new Timer(1, null);
-                timer1.addActionListener(e -> {
-                    if (currentPlayer.hasSelected())
-                        timer1.stop();
+                timer1.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (currentPlayer.hasSelected())
+                            timer1.stop();
+                    }
                 });
                 timer1.start();
 
                 Timer timer2 = new Timer(1, null);
-                timer2.addActionListener(e -> {
-                    if (currentPlayer.hasPlaced())
-                        timer2.stop();
+                timer2.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e){
+                        if (currentPlayer.hasPlaced())
+                            timer2.stop();
+                    }
                 });
                 if (!firstTurn)
                     timer2.start();
@@ -150,7 +154,7 @@ public class GameManager {
     }
 
     public void updateTurnOrder() {
-        ArrayList<Integer> dominoValues = new ArrayList<Integer>();
+        ArrayList<Integer> dominoValues = new ArrayList<>();
         for (Player player : players) {
             dominoValues.add(player.getNextDomino().getValue());
         }
