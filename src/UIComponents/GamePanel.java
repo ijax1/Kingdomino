@@ -181,12 +181,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		Coordinate mouseCoord = new Coordinate(x,y,0);
 
 		for(Component component: components) {
-			/*if (component instanceof Button){
+			if (component instanceof Button){
 				//this won't work either, just a placeholder
 				if(component.onComponent(mouseCoord)) {
 					component.whenClicked();
 				}
-			}*/
+			}
 		}
 	}
 	@Override

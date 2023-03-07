@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-import Backend.Kingdomino;
 import Backend.GameManager.GameState;
+import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
 import resources.OurColors;
 
@@ -17,10 +17,10 @@ public class Banner extends Component {
 	private DominoButton[] buttons = new DominoButton[4];
 	Banner(Coordinate position, Kingdomino k) {
 		super(position, k);
-		buttons[0] = new DominoButton(new Coordinate(200,50,0), k);
-		buttons[1] = new DominoButton(new Coordinate(200,50,0), k);
-		buttons[2] = new DominoButton(new Coordinate(200,50,0), k);
-		buttons[3] = new DominoButton(new Coordinate(200,50,0), k);
+//		buttons[0] = new DominoButton(new Coordinate(200,50,0), k);
+//		buttons[1] = new DominoButton(new Coordinate(200,50,0), k);
+//		buttons[2] = new DominoButton(new Coordinate(200,50,0), k);
+//		buttons[3] = new DominoButton(new Coordinate(200,50,0), k);
 	}
 
 	@Override
