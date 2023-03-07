@@ -3,7 +3,6 @@ package Backend;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -49,9 +48,10 @@ public class Kingdomino {
     private void setUpFrame() {
         frame = new JFrame("Kingdomino");
         
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setContentPane(basePanel);
-        frame.setPreferredSize(screenSize);
+//        frame.setPreferredSize(screenSize);
+        frame.setPreferredSize(new Dimension(1280,720));
         frame.setIconImage(Resources.loadImage("crown.ico"));
         frame.pack();
         //frame.setResizable(false);
