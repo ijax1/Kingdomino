@@ -17,7 +17,6 @@ public class GameManager {
     private Deck deck;
     private Kingdomino game;
     private boolean isFastMode;
-    private boolean strategyMode;
     private int numGames;
 
     public enum GameState {
@@ -64,6 +63,13 @@ public class GameManager {
     }
 
     private void initPlayerTurns() {
+        boolean strategyMode = true;
+        for (Player p : players) {
+            if (!(p instanceof ComputerPlayer)) {
+                strategyMode = false;
+                break;
+            }
+        }
         while (!deck.isEmpty()) {
             if (!strategyMode || isFastMode) {
                 turn();
