@@ -74,6 +74,7 @@ public class StrategyAnalysisDialog extends JDialog {
         button.addActionListener(new ActionListener() {
         	@Override
         	public void actionPerformed(ActionEvent e) {
+                System.out.println("returnteth clicked");
         		setVisible(false);
         		tintPane.setVisible(false);
         		dispose();
@@ -93,6 +94,7 @@ public class StrategyAnalysisDialog extends JDialog {
                 //slow mode
                 manager.setMode(false);
         		dispose();
+                manager.setGameState(GameManager.GameState.PLAYER_TURN);
         	}
         });
 
@@ -103,12 +105,14 @@ public class StrategyAnalysisDialog extends JDialog {
         		setVisible(false);
         		tintPane.setVisible(false);
                 //make sure user enter an int
+                //TODO: check if how this returns empty string
                 int input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
                 manager.setNumGames(input);
                 //fast mode
                 manager.setMode(true);
         		dispose();
+                manager.setGameState(GameManager.GameState.PLAYER_TURN);
         	}
         });
 

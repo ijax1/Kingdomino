@@ -68,12 +68,7 @@ public class StartPanel extends JPanel {
 					for(Player p: players) {
 						if(p.isHuman()) {
 							gm.setPlayers(players);
-							try {
-								gm.setGameState(GameState.PLAYER_TURN);
-							} catch (InterruptedException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
+							gm.setGameState(GameState.PLAYER_TURN);
 							finished = true;
 						}
 					}
