@@ -1,16 +1,16 @@
  package UIComponents;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.util.ArrayList;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 
-import javax.swing.*;
-import java.awt.event.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import Backend.GameManager;
-import Backend.GameManager.GameState;
 import Backend.Kingdomino;
-import Backend.Player;
 import resources.OurColors;
 import resources.Resources;
 
@@ -95,16 +95,16 @@ public class PodiumPanel extends JPanel {
 		g.fillOval(100,50,getWidth()-200, getHeight()-100);
 		g.drawImage(newimg, 0, 0, null);
 	}
-	private ArrayList<Player> getAllPlayers(){
-		ArrayList<Player>players = new ArrayList<Player>();
-		for(PlayerSelectPanel panel: playerPanels) {
-			Player newPlayer = panel.createPlayer();
-			if(newPlayer != null) {
-				players.add(newPlayer);
-			}
-		}
-		return players;
-	}
+//	private ArrayList<Player> getAllPlayers(){
+//		ArrayList<Player>players = new ArrayList<Player>();
+//		for(PlayerSelectPanel panel: playerPanels) {
+//			Player newPlayer = panel.createPlayer();
+//			if(newPlayer != null) {
+//				players.add(newPlayer);
+//			}
+//		}
+//		return players;
+//	}
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Podium Panel");
 		PodiumPanel panel = new PodiumPanel(new GridBagLayout(), new Kingdomino());
