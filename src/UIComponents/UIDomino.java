@@ -1,19 +1,23 @@
 package UIComponents;
 
-import Backend.Kingdomino;
-import UIComponents.Render.Coordinate;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import UIComponents.Render.*;
-import UIComponents.Render.Polygon;
-import Backend.*;
-
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+import Backend.Domino;
+import Backend.Kingdomino;
+import Backend.Tile;
+import UIComponents.Render.CompoundPolygon;
+import UIComponents.Render.Coordinate;
+import UIComponents.Render.Polygon;
+import UIComponents.Render.RectangularPrism;
+import UIComponents.Render.TexturedPolygon;
 
 public class UIDomino extends Component{
     private final UITile[] tiles = new UITile[2];
@@ -143,7 +147,6 @@ public class UIDomino extends Component{
             timer.start();
         }
     }
-
     public Coordinate getCenter() {
         return self.getCenter();
     }
@@ -179,5 +182,8 @@ public class UIDomino extends Component{
 
     public void setRef(Domino ref){
         this.ref = ref;
+    }
+    public Domino getRef() {
+    	return ref;
     }
 }

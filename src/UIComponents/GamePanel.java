@@ -71,7 +71,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		grid = new UIGrid(new Coordinate(200,300,0),gm.getCurrentPlayer().getGrid());
 	    
 		group = new PlayerTabGroup(tempPlayers,k);
-		banner = new Banner(new Coordinate(750,50,0), k);
+		banner = new Banner(new Coordinate(750,50,0), k, 4);
 		finishTurn = new FinishTurnButton(new Coordinate(640,620,0),k);
 		
 		
@@ -90,7 +90,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		components.add(minimizeComp);
 		components.addAll(group.getButtons());
 		components.addAll(banner.getButtons());
-		//components.add(new Hitbo)
+		components.add(d);
+		System.out.print(components);
 	}
 	public void paintComponent(Graphics g1) {
 		Graphics2D g = (Graphics2D) g1;
@@ -109,14 +110,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		//TODO: Note that UIGrid is not a component. make it one?
         grid.render(g, dragging);
         checkDomino();
-        d.draw((Graphics2D) g);
+        //moved UIDomino draw to the component loop
         
-		//close.draw((Graphics2D) g.create());
-		//AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
-		//g.setComposite(ac);
-		//player = tint(player, new Color(0xe06666));
-		//g.drawImage(player, 100,100,200,200, null);
-		//g.drawImage(player, 100,100,100,100,null);
 		g.setFont(medieval);
 //		g.drawString("Hello world", 200,200);
 //		g.fillOval(500, 500, 10, 10);
@@ -128,6 +123,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			double x = component.getPosition().getX();
 			double y = component.getPosition().getY();
 			//componentg.translate(x,y);
+			System.out.println(component);
 			component.draw(componentg);
 		}
 	}

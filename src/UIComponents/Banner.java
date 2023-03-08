@@ -8,23 +8,37 @@ import java.util.ArrayList;
 
 import javax.swing.Timer;
 
+import Backend.Domino;
 import Backend.GameManager.GameState;
 import Backend.Kingdomino;
+import Backend.Tile;
+import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
 import resources.OurColors;
 
 public class Banner extends Component {
 	private boolean minimized;
 	private final ArrayList<DominoButton> buttons = new ArrayList<DominoButton>();
-	Banner(Coordinate position, Kingdomino k) {
+	Banner(Coordinate position, Kingdomino k, int numButtons) {
 		super(position, k);
-		buttons.add(new DominoButton(new Coordinate(200,50,0), k));
-		buttons.add(new DominoButton(new Coordinate(200,150,0), k));
-		buttons.add(new DominoButton(new Coordinate(200,250,0), k));
-		buttons.add(new DominoButton(new Coordinate(200,350,0), k));
-//		buttons[1] = new DominoButton(new Coordinate(200,50,0), k);
-//		buttons[2] = new DominoButton(new Coordinate(200,50,0), k);
-//		buttons[3] = new DominoButton(new Coordinate(200,50,0), k);
+		double x = position.getX();
+		double y = position.getY();
+		
+		Domino tempDomino = new Domino(new Tile(Land.FOREST,0), new Tile(Land.LAKE, 1), 30);
+		int xOffset = 250;
+		int yOffset = 80;
+		for(int i=0; i<numButtons; i++) {
+			buttons.add(new DominoButton(new Coordinate(x+xOffset,y+yOffset,0), k, tempDomino));
+			yOffset += UITile.TILE_SIZE * 1.25;
+		}
+	}
+	public final ArrayList<DominoButton> getButtons() {
+		return buttons;
+	}
+	public void setDominoes(ArrayList<Domino>sorted) {
+		for(int i=0; i<sorted.size(); i++) {
+			buttons.get(i).setDomino(sorted.get(i));
+		}
 	}
 
 	@Override
