@@ -29,6 +29,8 @@ import resources.Resources;
 
 public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
 	private static final long serialVersionUID = 7381080659172927952L;
+
+	Domino ref = new Domino(new Tile(Tile.Land.LAKE,0),new Tile(Tile.Land.PASTURE,0),13);
 	private ArrayList<Component>components = new ArrayList<Component>();
 	private Font medieval;
 	private Font medievalLg;
@@ -65,7 +67,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		
 		//From InteractionPanel
 		d = new UIDomino(new Coordinate(400,400,0),k,new Color(0,255,0),new Color(255,0,255));
-		grid = new UIGrid(new Coordinate(300,200,0),gm.getCurrentPlayer().getGrid());
+		grid = new UIGrid(new Coordinate(500,800,0),gm.getCurrentPlayer().getGrid());
 	    
 		group = new PlayerTabGroup(tempPlayers,k);
 		banner = new Banner(new Coordinate(750,50,0), k);
@@ -198,17 +200,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		//System.out.println("mousex: "+mousex + " mousey: "+mousey);
 		
 		//From InteractionPanel
-        if(dragging) {
-            d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
-            if(grid.dominoOnGrid(d)) {
-                d.minimize();
-            }
-            else
-                d.show();
-            repaint();
+		if(dragging) {
+			d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
+			d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
+			repaint();
 
-            grid.holdDomino(d, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.FOREST,0),4));
-        }
+			grid.holdDomino(d, ref);
+		}
 
         if(draggingCube) {
             r.moveTo(new Coordinate(e.getX(), e.getY(), 0));

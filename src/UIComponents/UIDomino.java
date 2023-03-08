@@ -25,7 +25,7 @@ public class UIDomino extends Component{
 
     boolean rotating = false;
 
-    double sideLen = 100;
+    double sideLen = UITile.TILE_SIZE;
 
     Coordinate mouseLocation = new Coordinate(0,0,0);
 
@@ -63,7 +63,7 @@ public class UIDomino extends Component{
                 new Coordinate(position.getX()+sideLen, position.getY()+sideLen/2.0,position.getZ()-sideLen/20),
                 new Coordinate(position.getX()-sideLen, position.getY()+sideLen/2.0,position.getZ()-sideLen/20)
         };
-        self = new RectangularPrism(position,sideLen*2,10,sideLen);
+        self = new RectangularPrism(position,sideLen*2,sideLen/10,sideLen);
         Color sideColor = new Color(123, 63, 0);
         Color backColor = new Color(123, 63, 0);
         self.getFace(0).setColor(sideColor);

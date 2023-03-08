@@ -19,7 +19,7 @@ public class UIGrid {
      */
     private UITile[][] tiles = new UITile[9][9];
 
-    private int tileSize = 100;
+    private int tileSize = UITile.TILE_SIZE;
 
     private Grid grid;
 
@@ -42,7 +42,7 @@ public class UIGrid {
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 if(tileList[i][j] != null){
-                    tiles[i][j] = new UITile(tileList[i][j].getColor(), center.translatedBy((j-4)*100, (i-4)*100,0), 50, center);
+                    tiles[i][j] = new UITile(tileList[i][j].getColor(), center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
                 }
             }
         }
@@ -124,7 +124,6 @@ public class UIGrid {
         }
 
         g.setColor(Color.ORANGE);
-        g.drawOval((int) center.getX()-5, (int) center.getY()-5, 10,10);
     }
 
     private void drawGridLines(Graphics g){
@@ -140,11 +139,11 @@ public class UIGrid {
         int startY = (int) center.getY() - tileSize*(heightAllowed)/2;
         int endX = (int) center.getX() + tileSize*(widthAllowed)/2;
         int endY = (int) center.getY() + tileSize*(heightAllowed)/2;
-        for(int x = startX; x <= endX; x+=100) {
+        for(int x = startX; x <= endX; x+=tileSize) {
             g.drawLine(x, startY, x, endY);
         }
 
-        for(int y = startY; y <= endY; y+=100) {
+        for(int y = startY; y <= endY; y+=tileSize) {
             g.drawLine(startX, y, endX, y);
         }
     }
@@ -204,11 +203,11 @@ public class UIGrid {
             if(gridWidth % 2 == 0)
                 xMod += (int) Math.round((tileCenter.getX() - leftBound - (50 * (gridWidth%2-1)))/tileSize);
             else
-                xMod += (int) Math.round((Math.round(tileCenter.getX()) - leftBound - (50 * (gridWidth%2-1)))/tileSize);
+                xMod += (int) Math.round((Math.round(tileCenter.getX()) - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize);
             if(gridHeight % 2 == 0)
                 yMod += (int) Math.round((tileCenter.getY() - topBound - (50 * (gridHeight%2-1)))/tileSize);
             else
-                yMod += (int) Math.round((Math.round(tileCenter.getY()) - topBound - (50 * (gridHeight%2-1)))/tileSize);
+                yMod += (int) Math.round((Math.round(tileCenter.getY()) - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize);
 
             //g.drawString((int) Math.round((tileCenter.getX() - leftBound - (50 * (gridWidth%2-1)))/tileSize) + " " + (int) Math.round((tileCenter.getY() - topBound - (50 * (gridHeight%2-1)))/tileSize), 600 + (i * 100),200);
             i++;
@@ -222,8 +221,8 @@ public class UIGrid {
         int yIndex = (int) Math.floor(yMod);
         g.drawString(xIndex + " " + yIndex,600 + (i * 100),200);
         Coordinate dest = new Coordinate(
-                leftBound + xMod * tileSize - 50 + (tileSize*(gridWidth%2)),
-                topBound + yMod * tileSize - 50 + (tileSize*(gridHeight%2)),
+                leftBound + xMod * tileSize - tileSize/2 + (tileSize*(gridWidth%2)),
+                topBound + yMod * tileSize - tileSize/2 + (tileSize*(gridHeight%2)),
                 0);
         if(holding.isRotating()) {
             dest = holding.getCenter();
