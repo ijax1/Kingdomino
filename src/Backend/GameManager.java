@@ -110,6 +110,7 @@ public class GameManager {
                 ((ComputerPlayer) currentPlayer).calculateChoice();
                 ((ComputerPlayer) currentPlayer).placeDomino();
             } else {
+                /*
                 Timer timer1 = new Timer(1, null);
                 timer1.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -128,6 +129,8 @@ public class GameManager {
                 });
                 if (!firstTurn)
                     timer2.start();
+
+                 */
             }
             currentPlayer.setSelected(false);
             currentPlayer.setPlaced(false);
