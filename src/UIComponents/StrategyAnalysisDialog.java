@@ -28,6 +28,8 @@ public class StrategyAnalysisDialog extends JDialog {
 	public StrategyAnalysisDialog(JFrame root, Kingdomino dom) {
 		//jdialog with no name
 		super(root, "", ModalityType.DOCUMENT_MODAL);
+		this.manager = dom.getManager();		
+
 		this.manager = dom.getManager();
 
 		//tintPane darkens the entire background when the dialog is open
@@ -89,7 +91,8 @@ public class StrategyAnalysisDialog extends JDialog {
         		setVisible(false);
         		tintPane.setVisible(false);
                 //make sure user enter an int
-                int input = Integer.parseInt(textfield.getText());
+                int input = 1;
+                input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
                 manager.setNumGames(input);
                 //slow mode
@@ -107,9 +110,11 @@ public class StrategyAnalysisDialog extends JDialog {
         		tintPane.setVisible(false);
                 //make sure user enter an int
                 //TODO: check if how this returns empty string
-                int input = Integer.parseInt(textfield.getText());
+                int input = 1;
+        		input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
                 manager.setNumGames(input);
+
                 //fast mode
                 manager.setMode(true);
         		dispose();
@@ -120,7 +125,7 @@ public class StrategyAnalysisDialog extends JDialog {
         titlePanel.add(titleLabel);
         
         bodyPanel.add(bodyLabel, BorderLayout.PAGE_START);
-        bodyPanel.add(textfield, BorderLayout.CENTER);
+        bodyPanel.add(textfield, BorderLayout.SOUTH);
         bodyPanel.add(button, BorderLayout.LINE_START);
         bodyPanel.add(button2, BorderLayout.CENTER);
         bodyPanel.add(button3, BorderLayout.LINE_END);
