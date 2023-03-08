@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.Timer;
 
@@ -14,10 +15,13 @@ import resources.OurColors;
 
 public class Banner extends Component {
 	private boolean minimized;
-	private DominoButton[] buttons = new DominoButton[4];
+	private final ArrayList<DominoButton> buttons = new ArrayList<DominoButton>();
 	Banner(Coordinate position, Kingdomino k) {
 		super(position, k);
-//		buttons[0] = new DominoButton(new Coordinate(200,50,0), k);
+		buttons.add(new DominoButton(new Coordinate(200,50,0), k));
+		buttons.add(new DominoButton(new Coordinate(200,150,0), k));
+		buttons.add(new DominoButton(new Coordinate(200,250,0), k));
+		buttons.add(new DominoButton(new Coordinate(200,350,0), k));
 //		buttons[1] = new DominoButton(new Coordinate(200,50,0), k);
 //		buttons[2] = new DominoButton(new Coordinate(200,50,0), k);
 //		buttons[3] = new DominoButton(new Coordinate(200,50,0), k);

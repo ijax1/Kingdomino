@@ -1,28 +1,24 @@
 package UIComponents;
 
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 
-
+import Backend.Domino;
 import Backend.Kingdomino;
 import Backend.Player;
 import UIComponents.Render.Coordinate;
-import Backend.Domino;
 
 public class DominoButton extends Button {
    private Domino domino; 
-   private ArrayList<DominoButton> dominoes; 
+   //private ArrayList<DominoButton> dominoes; 
    private Graphics2D graphics;
    private Player player;
    private boolean locked;
    private int width = 100, height = 50; 
   
-   DominoButton(Coordinate c, Kingdomino k, Domino d, ArrayList<DominoButton> dominoes) {
+   DominoButton(Coordinate c, Kingdomino k, Domino d) {
      super(c, k);
       // need for information on what to draw later 
      domino = d; 
-     this.dominoes = dominoes; 
      locked = false;
      player = null; 
    }

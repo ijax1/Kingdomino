@@ -1,12 +1,13 @@
 package UIComponents;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.util.ArrayList;
+
 import Backend.Kingdomino;
 import Backend.Player;
 import UIComponents.Render.Coordinate;
-
-import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.awt.*;
 
 public class PlayerTabGroup extends Component {
     private final ArrayList<PlayerTabButton> group;
@@ -28,6 +29,9 @@ public class PlayerTabGroup extends Component {
         }
         System.out.println(players);
         selected = group.get(0);
+    }
+    public ArrayList<PlayerTabButton> getButtons() {
+    	return group;
     }
 
     public void setSelected(PlayerTabButton b) {
