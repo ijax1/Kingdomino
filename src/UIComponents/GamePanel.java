@@ -45,6 +45,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private MessageTextBox textBox;
 	private MinimizeComponentButton minimizeComp;
 	private GameManager gm;
+	private ArrayList<DominoButton>dominoButtons;
 	
 	//From InteractionPanel
 	UIDomino d;
@@ -67,11 +68,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		
 		//From InteractionPanel
 		d = new UIDomino(new Coordinate(400,400,0),k,new Color(0,255,0),new Color(255,0,255));
-		grid = new UIGrid(new Coordinate(500,800,0),gm.getCurrentPlayer().getGrid());
+		grid = new UIGrid(new Coordinate(200,300,0),gm.getCurrentPlayer().getGrid());
 	    
 		group = new PlayerTabGroup(tempPlayers,k);
 		banner = new Banner(new Coordinate(750,50,0), k);
 		finishTurn = new FinishTurnButton(new Coordinate(640,620,0),k);
+		
 		
 		textBox = new MessageTextBox(new Coordinate(200,400,0),k);
 		//TODO: sorry, i can't provide a graphics to pass in here
@@ -86,6 +88,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		components.add(finishTurn);
 		components.add(textBox);
 		components.add(minimizeComp);
+		components.addAll(group.getButtons());
+		components.addAll(banner.getButtons());
 		//components.add(new Hitbo)
 	}
 	public void paintComponent(Graphics g1) {
