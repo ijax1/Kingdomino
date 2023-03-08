@@ -1,5 +1,6 @@
 package Tests;
 
+import Backend.Domino;
 import Backend.Grid;
 import Backend.Tile;
 import Backend.Tile.Land;
@@ -45,7 +46,9 @@ public class GridTester {
 		testGrid[6][6] = new Tile(FOREST,1);
 				
 		Grid grid = new Grid(testGrid);
+		Domino lake = new Domino(new Tile(LAKE, 1), new Tile(FOREST,0), 35);
 		System.out.print(grid);
 		System.out.print("Score: " + grid.calculateScore());
+		System.out.print("Avail spaces: " + grid.availableSpaces(lake));
 	}
 }
