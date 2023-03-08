@@ -28,10 +28,7 @@ public class StrategyAnalysisDialog extends JDialog {
 	public StrategyAnalysisDialog(JFrame root, Kingdomino dom) {
 		//jdialog with no name
 		super(root, "", ModalityType.DOCUMENT_MODAL);
-		this.manager = dom.getManager();
-		
-		this.manager = dom.getManager();
-		
+		this.manager = dom.getManager();		
 		
 		//tintPane darkens the entire background when the dialog is open
         tintPane = new JPanel() {
@@ -92,8 +89,6 @@ public class StrategyAnalysisDialog extends JDialog {
         		setVisible(false);
         		tintPane.setVisible(false);
                 //make sure user enter an int
-        		String text = textfield.getText();
-        		System.out.println("TEST SLOW text: " + text);
                 int input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
                 manager.setNumGames(input);
