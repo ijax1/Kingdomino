@@ -30,12 +30,8 @@ public class FinishTurnButton extends Button{
     }
 
     public void draw(Graphics2D g) {
-    	//starting from relative coordinates work
-//        double xStart = super.getPosition().getX();
-//        double yStart = super.getPosition().getY();
-    	
-    	double xStart = 0;
-    	double yStart = 0;
+        double xStart = super.getPosition().getX();
+        double yStart = super.getPosition().getY();
 
         // drawing banner shape
         // purple squares

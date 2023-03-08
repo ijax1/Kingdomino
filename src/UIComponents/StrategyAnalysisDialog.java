@@ -29,7 +29,9 @@ public class StrategyAnalysisDialog extends JDialog {
 		//jdialog with no name
 		super(root, "", ModalityType.DOCUMENT_MODAL);
 		this.manager = dom.getManager();		
-		
+
+		this.manager = dom.getManager();
+
 		//tintPane darkens the entire background when the dialog is open
         tintPane = new JPanel() {
             //for some reason you need to do this instead of just setting the background, idk why

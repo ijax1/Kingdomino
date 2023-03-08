@@ -25,7 +25,11 @@ public class UIDomino extends Component{
 
     boolean rotating = false;
 
-    double sideLen = 100;
+    double sideLen = UITile.TILE_SIZE;
+
+    Coordinate mouseLocation = new Coordinate(0,0,0);
+
+    Domino ref;
 
 
     public UIDomino(Coordinate position, Kingdomino k, Color color1, Color color2) {
@@ -47,6 +51,7 @@ public class UIDomino extends Component{
 
         createPrism(0,0,0);
         super.show();
+        this.ref = d;
     }
 
     private void createPrism(double xRotation, double yRotation, double zRotation){
@@ -58,7 +63,7 @@ public class UIDomino extends Component{
                 new Coordinate(position.getX()+sideLen, position.getY()+sideLen/2.0,position.getZ()-sideLen/20),
                 new Coordinate(position.getX()-sideLen, position.getY()+sideLen/2.0,position.getZ()-sideLen/20)
         };
-        self = new RectangularPrism(position,sideLen*2,10,sideLen);
+        self = new RectangularPrism(position,sideLen*2,sideLen/10,sideLen);
         Color sideColor = new Color(123, 63, 0);
         Color backColor = new Color(123, 63, 0);
         self.getFace(0).setColor(sideColor);
@@ -88,6 +93,9 @@ public class UIDomino extends Component{
     public void draw(Graphics2D g) {
         if(super.isMinimized())
             self.render(g);
+        if(almostEqual(Math.abs(currentRotation%(2*Math.PI) - rotateTo%(2*Math.PI)), 0, 1e-4) ||
+                almostEqual(Math.abs(currentRotation%(2*Math.PI) - rotateTo%(2*Math.PI)), 2*Math.PI, 1e-4))
+            rotating = false;
     }
 
     @Override
@@ -104,12 +112,14 @@ public class UIDomino extends Component{
         for(UITile t: tiles){
             t.incrementRotation(xRotation, yRotation, zRotation);
         }
+
     }
 
     public void rotateToNextPos(final int direction, final JPanel panel) {
         rotateTo += (0.5*Math.PI) * direction;
         if (almostEqual(currentRotation%(2*Math.PI), (rotateTo-(0.5*Math.PI))%(2*Math.PI),1e-4)) {
             rotating = true;
+            final UIDomino domino = this;
             final Timer timer = new Timer(1, null);
             currentRotation = rotateTo - (0.5*Math.PI) * direction;
             timer.addActionListener(new ActionListener() {
@@ -118,12 +128,14 @@ public class UIDomino extends Component{
                     currentRotation += rotIncrement * direction;
                     incrementRotation(0, 0, direction * rotIncrement);
                     panel.repaint();
-                    if (almostEqual(Math.abs(currentRotation%(2*Math.PI) - rotateTo%(2*Math.PI)), 0, 1e-4) || almostEqual(Math.abs(currentRotation%(2*Math.PI) - rotateTo%(2*Math.PI)), 2*Math.PI, 1e-4)) {
-
+                    if (almostEqual(Math.abs(currentRotation%(2*Math.PI) - rotateTo%(2*Math.PI)), 0, 1e-4) ||
+                            almostEqual(Math.abs(currentRotation%(2*Math.PI) - rotateTo%(2*Math.PI)), 2*Math.PI, 1e-4)) {
                         rotateTo %= (2*Math.PI);
                         currentRotation = rotateTo;
+                        panel.repaint();
                         timer.stop();
-                        rotating = false;
+                        domino.moveTo(domino.getMouseLocation());
+                        ref.incrementRotation();
                     }
 
                 }
@@ -141,6 +153,9 @@ public class UIDomino extends Component{
             t.moveTo(c);
         self.moveTo(c);
     }
+    public boolean isRotating(){
+        return rotating;
+    }
 
     public UITile[] getTiles(){
         return tiles;
@@ -152,5 +167,17 @@ public class UIDomino extends Component{
 
     private static boolean almostEqual(double a, double b, double eps){
         return Math.abs(a-b)<eps;
+    }
+
+    public void setMouseLocation(Coordinate c){
+        this.mouseLocation = c;
+    }
+
+    public Coordinate getMouseLocation(){
+        return mouseLocation;
+    }
+
+    public void setRef(Domino ref){
+        this.ref = ref;
     }
 }

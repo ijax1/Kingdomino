@@ -144,10 +144,14 @@ public class Grid {
 
             covered[x][y] = true;
             coveredTiles[x][y] = true;
-            findRegion(covered, coveredTiles, x + 1, y, region);
-            findRegion(covered, coveredTiles, x - 1, y, region);
-            findRegion(covered, coveredTiles, x, y + 1, region);
-            findRegion(covered, coveredTiles, x, y - 1, region);
+            if (x + 1 < 9)
+                findRegion(covered, coveredTiles, x + 1, y, region);
+            if (0 <= x - 1)
+                findRegion(covered, coveredTiles, x - 1, y, region);
+            if (y + 1 < 9)
+                findRegion(covered, coveredTiles, x, y + 1, region);
+            if (0 <= y - 1)
+                findRegion(covered, coveredTiles, x, y - 1, region);
         } else {
             covered[x][y] = true;
         }
@@ -181,24 +185,25 @@ public class Grid {
         }
         return numTiles * numCrowns;
     }
+
     @Override
     public String toString() {
-    	String output = "";
-    	for(int i=0; i<grid.length; i++) {
-    		for(int j=0; j<grid.length; j++) {
-    			if(grid[i][j]==null) {
-    				output+="--";
-    			} else {
-    				output+=grid[i][j].toString();
-    			}
-    			output+=" ";
-    		}
-    		output+="\n";
-    	}
-    	return output;
+        String output = "";
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid.length; j++) {
+                if (grid[i][j] == null) {
+                    output += "--";
+                } else {
+                    output += grid[i][j].toString();
+                }
+                output += " ";
+            }
+            output += "\n";
+        }
+        return output;
     }
 
-    public Tile[][] getTiles(){
+    public Tile[][] getTiles() {
         return grid;
     }
 }
