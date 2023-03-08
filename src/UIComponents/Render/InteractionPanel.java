@@ -25,8 +25,9 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
 
     public void paintComponent(Graphics g){
         g.clearRect(0,0,10000,10000);
+        if(!d.isRotating())
+            checkDomino();
         grid.render(g, dragging);
-        checkDomino();
         d.draw((Graphics2D) g);
     }
 
@@ -93,11 +94,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
     public void mouseDragged(MouseEvent e) {
         if(dragging) {
             d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
-            if(grid.dominoOnGrid(d)) {
-                d.minimize();
-            }
-            else
-                d.show();
+            d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
             repaint();
 
             grid.holdDomino(d, domino);
