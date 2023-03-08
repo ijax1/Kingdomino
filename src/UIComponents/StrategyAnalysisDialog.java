@@ -22,17 +22,18 @@ import resources.Resources;
 
 @SuppressWarnings("serial")
 public class StrategyAnalysisDialog extends JDialog {
-	private JPanel tintPane;
-	private Color tintColor = new Color(0,0,0,125);
+    private JPanel tintPane;
+    private Color tintColor = new Color(0, 0, 0, 125);
     GameManager manager;
-	public StrategyAnalysisDialog(JFrame root, Kingdomino dom) {
-		//jdialog with no name
-		super(root, "", ModalityType.DOCUMENT_MODAL);
-		this.manager = dom.getManager();		
 
-		this.manager = dom.getManager();
+    public StrategyAnalysisDialog(JFrame root, Kingdomino dom) {
+        //jdialog with no name
+        super(root, "", ModalityType.DOCUMENT_MODAL);
+        this.manager = dom.getManager();
 
-		//tintPane darkens the entire background when the dialog is open
+        this.manager = dom.getManager();
+
+        //tintPane darkens the entire background when the dialog is open
         tintPane = new JPanel() {
             //for some reason you need to do this instead of just setting the background, idk why
             @Override
@@ -47,83 +48,59 @@ public class StrategyAnalysisDialog extends JDialog {
         //input pannel for funer of games users want to run
         NumberFormat intFormat = NumberFormat.getIntegerInstance();
         final JFormattedTextField textfield = new JFormattedTextField(intFormat);
-  
+
         //just a panel to hold titlePanel and bodyPanel
         JPanel dialogPanel = new JPanel();
-        dialogPanel.setLayout(new GridLayout(2,1));
-        
+        dialogPanel.setLayout(new GridLayout(2, 1));
+
         JPanel titlePanel = new JPanel();
         titlePanel.setBackground(OurColors.ERROR_HEADER);
         //the font color is set in foreground
         titlePanel.setForeground(OurColors.FONT_LIGHT);
-        
+
         JPanel bodyPanel = new JPanel();
         bodyPanel.setLayout(new BorderLayout());
         bodyPanel.setBackground(OurColors.ERROR_BODY);
 
-        
-        
-		JLabel titleLabel = new JLabel("NO HUMAN PLAYERS SELECTED!");
-		titleLabel.setFont(Resources.getMedievalFont(30));
+
+        JLabel titleLabel = new JLabel("NO HUMAN PLAYERS SELECTED!");
+        titleLabel.setFont(Resources.getMedievalFont(30));
         //the font color is set in foreground
-		titleLabel.setForeground(OurColors.FONT_LIGHT);
-		
-		JLabel bodyLabel = new JLabel("Chooseth thy analysis speed, your eminence.");
-		bodyLabel.setFont(Resources.getMedievalFont(18));
-		bodyLabel.setForeground(OurColors.FONT_DARK);
-		    
+        titleLabel.setForeground(OurColors.FONT_LIGHT);
+
+        JLabel bodyLabel = new JLabel("Chooseth thy analysis speed, your eminence.");
+        bodyLabel.setFont(Resources.getMedievalFont(18));
+        bodyLabel.setForeground(OurColors.FONT_DARK);
+
         JButton button = new JButton("RETURNETH");
         button.addActionListener(new ActionListener() {
-        	@Override
-        	public void actionPerformed(ActionEvent e) {
-                System.out.println("returnteth clicked");
-        		setVisible(false);
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
                 //no mode, return
-        		tintPane.setVisible(false);
-        		dispose();
-        	}
+                tintPane.setVisible(false);
+                dispose();
+            }
         });
 
         JButton button2 = new JButton("SLOW AS A TORTOISE");
-        button.addActionListener(new ActionListener() {
-        	@Override
-        	public void actionPerformed(ActionEvent e) {
-        		setVisible(false);
-        		tintPane.setVisible(false);
-                //make sure user enter an int
-                int input = 1;
-                input = Integer.parseInt(textfield.getText());
-                //**call game manager with the number of games*
-                manager.setNumGames(input);
-                //slow mode
-                manager.setMode(false);
-        		dispose();
-                manager.setGameState(GameManager.GameState.PLAYER_TURN);
-        	}
+        button2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                modeSelected(textfield, false);
+            }
         });
 
         JButton button3 = new JButton("QUICK AS A HARE");
-        button.addActionListener(new ActionListener() {
-        	@Override
-        	public void actionPerformed(ActionEvent e) {
-        		setVisible(false);
-        		tintPane.setVisible(false);
-                //make sure user enter an int
-                //TODO: check if how this returns empty string
-                int input = 1;
-        		input = Integer.parseInt(textfield.getText());
-                //**call game manager with the number of games*
-                manager.setNumGames(input);
-
-                //fast mode
-                manager.setMode(true);
-        		dispose();
-                manager.setGameState(GameManager.GameState.PLAYER_TURN);
-        	}
+        button3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                modeSelected(textfield, true);
+            }
         });
 
         titlePanel.add(titleLabel);
-        
+
         bodyPanel.add(bodyLabel, BorderLayout.PAGE_START);
         bodyPanel.add(textfield, BorderLayout.SOUTH);
         bodyPanel.add(button, BorderLayout.LINE_START);
@@ -132,18 +109,33 @@ public class StrategyAnalysisDialog extends JDialog {
 
         dialogPanel.add(titlePanel);
         dialogPanel.add(bodyPanel);
-        
+
         getContentPane().add(dialogPanel);
         setUndecorated(true);
         //Pack before centering
         pack();
         //Center dialog
         setLocationRelativeTo(root);
-        
+
         //Set glass pane visible
         tintPane.setOpaque(false);
         root.setGlassPane(tintPane);
         tintPane.setVisible(true);
         setVisible(true);
-	}
+    }
+
+    private void modeSelected(JFormattedTextField textField, boolean isFast) {
+        setVisible(false);
+        tintPane.setVisible(false);
+        //make sure user enter an int
+        int input = 1;
+        if (textField.getText() != null)
+            input = Integer.parseInt(textField.getText());
+        //**call game manager with the number of games*
+        manager.setNumGames(input);
+        //slow mode
+        manager.setMode(isFast);
+        manager.setGameState(GameManager.GameState.PLAYER_TURN);
+        dispose();
+    }
 }
