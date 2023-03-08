@@ -92,6 +92,8 @@ public class StrategyAnalysisDialog extends JDialog {
         		setVisible(false);
         		tintPane.setVisible(false);
                 //make sure user enter an int
+        		String text = textfield.getText();
+        		System.out.println("TEST SLOW text: " + text);
                 int input = Integer.parseInt(textfield.getText());
                 //**call game manager with the number of games*
                 manager.setNumGames(input);
