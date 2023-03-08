@@ -37,7 +37,8 @@ public class Banner extends Component {
 
 	@Override
 	public void draw(Graphics2D g) {
-		
+		Coordinate pos = super.getPosition();
+		g.translate(pos.getX(), pos.getY());
 		g.setColor(OurColors.BUTTON_COLOR.brighter());
 		int[] xPoints = {150,150,250,350,350};
 		int[] yPoints = {20,400,350,400,20};
