@@ -50,7 +50,7 @@ public class GameManager {
         this.numGames = numGames;
     }
 
-    public void setGameState(GameState state) throws InterruptedException {
+    public void setGameState(GameState state) {
         this.state = state;
         game.changePanel(state);
 
