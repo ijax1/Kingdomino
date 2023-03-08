@@ -201,11 +201,11 @@ public class UIGrid {
         for(UITile t: holding.getTiles()){
             Coordinate tileCenter = t.getCenter();
             if(gridWidth % 2 == 0)
-                xMod += (int) Math.round((tileCenter.getX() - leftBound - (50 * (gridWidth%2-1)))/tileSize);
+                xMod += (int) Math.round((tileCenter.getX() - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize);
             else
                 xMod += (int) Math.round((Math.round(tileCenter.getX()) - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize);
             if(gridHeight % 2 == 0)
-                yMod += (int) Math.round((tileCenter.getY() - topBound - (50 * (gridHeight%2-1)))/tileSize);
+                yMod += (int) Math.round((tileCenter.getY() - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize);
             else
                 yMod += (int) Math.round((Math.round(tileCenter.getY()) - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize);
 
@@ -219,7 +219,7 @@ public class UIGrid {
 
         int xIndex = (int) Math.floor(xMod);
         int yIndex = (int) Math.floor(yMod);
-        g.drawString(xIndex + " " + yIndex,600 + (i * 100),200);
+        //g.drawString(xIndex + " " + yIndex,600 + (i * 100),200);
         Coordinate dest = new Coordinate(
                 leftBound + xMod * tileSize - tileSize/2 + (tileSize*(gridWidth%2)),
                 topBound + yMod * tileSize - tileSize/2 + (tileSize*(gridHeight%2)),
@@ -227,7 +227,7 @@ public class UIGrid {
         if(holding.isRotating()) {
             dest = holding.getCenter();
         }
-        g.drawString(dest.toString(), 600,215);
+        //g.drawString(dest.toString(), 600,215);
         System.out.println(xIndex + " " + yIndex);
         System.out.println(ref.getRotation());
         for(boolean[] row: grid.availableSpacesGrid(ref)) {

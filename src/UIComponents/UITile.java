@@ -8,7 +8,7 @@ public class UITile {
     Polygon p;
 
     Coordinate tileCenter;
-    public static final int TILE_SIZE = 40;
+    public static final int TILE_SIZE = 150;
 
     public UITile(Color c, Coordinate tileCenter, int radius, Coordinate center){
         this.tileCenter = tileCenter;
