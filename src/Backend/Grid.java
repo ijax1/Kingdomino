@@ -80,9 +80,12 @@ public class Grid {
         int changeY = relPos[1];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                spaces[i][j] = isValidPos(i + changeX, j + changeY)
+                spaces[i][j] = isValidPos(i, j)
+                        && isValidPos(i + changeY, j + changeX)
                         && grid[i][j] == null
-                        && grid[i + changeX][j + changeY] == null;
+                        && grid[i + changeY][j + changeX] == null
+                        && (validTilePlacement(domino.getTiles()[0], i, j)
+                        || validTilePlacement(domino.getTiles()[1], i + changeY, j + changeX));
             }
         }
         return spaces;
@@ -98,7 +101,7 @@ public class Grid {
         } else if (rotation == 180) {
             deltaX = -1;
         }
-        if (rotation == 90) {
+        else if (rotation == 90) {
             deltaY = 1;
         } else if (rotation == 270) {
             deltaY = -1;
@@ -112,14 +115,29 @@ public class Grid {
         int deltaY = relPos[1];
         Tile[] tiles = domino.getTiles();
         if (isValidPos(x, y) && isValidPos(x + deltaX, y + deltaY)) {
-            grid[x][y] = tiles[0];
-            grid[x + deltaX][y + deltaY] = tiles[1];
+            grid[y][x] = tiles[0];
+            grid[y + deltaY][x + deltaX] = tiles[1];
             return true;
         } else return false;
     }
 
     private boolean isValidPos(int x, int y) {
         return 0 <= x && x < 9 && 0 <= y && y < 9;
+    }
+
+    private boolean validTilePlacement(Tile t, int x, int y){
+        for(int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if(i * j == 0 && i != j){
+
+                    if(isValidPos(x + j, y + i))
+                        if(grid[x+j][y+i] != null)
+                            if(grid[x+j][y+i].getLandType() == t.getLandType())
+                                return true;
+                }
+            }
+        }
+        return false;
     }
 
     public ArrayList<Region> getContiguous() {
@@ -190,7 +208,7 @@ public class Grid {
     public String toString() {
         String output = "";
         for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid.length; j++) {
+            for (int j = 0; j < grid[0].length; j++) {
                 if (grid[i][j] == null) {
                     output += "--";
                 } else {

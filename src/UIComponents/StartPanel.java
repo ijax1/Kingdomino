@@ -33,7 +33,7 @@ public class StartPanel extends JPanel {
 	
 	private PlayerSelectPanel[]playerPanels = new PlayerSelectPanel[4];
 	
-	public StartPanel(GridBagLayout g, Kingdomino kdomino) {
+	public StartPanel(GridBagLayout g, final Kingdomino kdomino) {
 		super(g);
 		//setBackground(OurColors.BACKGROUND);
 		GridBagConstraints c = new GridBagConstraints();

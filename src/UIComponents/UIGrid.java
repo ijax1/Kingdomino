@@ -198,6 +198,8 @@ public class UIGrid {
         double xMod = 0.0;
         double yMod = 0.0;
         int i = 0;
+        int tileZeroX = 0;
+        int tileZeroY = 0;
         for(UITile t: holding.getTiles()){
             Coordinate tileCenter = t.getCenter();
             if(gridWidth % 2 == 0)
@@ -210,6 +212,11 @@ public class UIGrid {
                 yMod += (int) Math.round((Math.round(tileCenter.getY()) - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize);
 
             //g.drawString((int) Math.round((tileCenter.getX() - leftBound - (50 * (gridWidth%2-1)))/tileSize) + " " + (int) Math.round((tileCenter.getY() - topBound - (50 * (gridHeight%2-1)))/tileSize), 600 + (i * 100),200);
+            if(i == 0){
+                tileZeroX = (int) (leftBound + xMod * tileSize - tileSize/2 + (tileSize*(gridWidth%2)));
+                tileZeroY = (int) (topBound + yMod * tileSize - tileSize/2 + (tileSize*(gridHeight%2)));
+            }
+
             i++;
 
         }
@@ -224,14 +231,18 @@ public class UIGrid {
                 leftBound + xMod * tileSize - tileSize/2 + (tileSize*(gridWidth%2)),
                 topBound + yMod * tileSize - tileSize/2 + (tileSize*(gridHeight%2)),
                 0);
+
         if(holding.isRotating()) {
             dest = holding.getCenter();
         }
         //g.drawString(dest.toString(), 600,215);
         System.out.println(xIndex + " " + yIndex);
         System.out.println(ref.getRotation());
-        for(boolean[] row: grid.availableSpacesGrid(ref)) {
-            for (boolean col : row) {
+        System.out.println(grid);
+
+        boolean[][] available = grid.availableSpacesGrid(ref);
+        for(boolean[] row: available){
+            for(boolean col: row) {
                 if(col)
                     System.out.print("T ");
                 else
@@ -240,10 +251,33 @@ public class UIGrid {
             System.out.println();
         }
         System.out.println();
+        System.out.println("INDEX: " +(xIndex-1) + " " + (yIndex-1));
+        g.drawString("INDEX: " +(xIndex-1) + " " + (yIndex-1), 600,215);
+
+        Coordinate tileCenter = holding.getTiles()[0].getCenter();
+        if(gridWidth % 2 == 0)
+            xMod = (int) Math.round((tileCenter.getX() - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize);
+        else
+            xMod = (int) Math.round((Math.round(tileCenter.getX()) - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize);
+        if(gridHeight % 2 == 0)
+            yMod = (int) Math.round((tileCenter.getY() - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize);
+        else
+            yMod = (int) Math.round((Math.round(tileCenter.getY()) - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize);
+        int checkIndexX = (int) Math.round(xMod);
+        int checkIndexY = (int) Math.round(yMod);
+
+        if(grid.availableSpacesGrid(ref)[checkIndexY-1][checkIndexX-1]){
             holding.moveTo(dest);
             UIDomino uid = new UIDomino(dest, null, ref);
             uid.incrementRotation(0, 0, holding.getRotation());
             uid.draw((Graphics2D) g);
+            g.drawOval(tileZeroX-5, tileZeroY-5, 10,10);
+        }
+        else{
+            UIDomino uid = new UIDomino(holding.getCenter(), null, ref);
+            uid.incrementRotation(0, 0, holding.getRotation());
+            uid.draw((Graphics2D) g);
+        }
 
     }
 
