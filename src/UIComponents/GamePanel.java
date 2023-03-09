@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private int mousex, mousey;
 	private PlayerTabGroup group;
 	private PlayerTabButton playerTab;
-	private int viewedPlayer;
+	private Player viewedPlayer;
 	private Banner banner;
 	private FinishTurnButton finishTurn;
 	private MessageTextBox textBox;
@@ -63,7 +63,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		addMouseWheelListener(this);
 		addKeyListener(this);
 		gm = k.getManager();
-		viewedPlayer = 0;
+		viewedPlayer = gm.getPlayers().get(0);
 		medieval = Resources.getMedievalFont(20);
 		medievalLg = Resources.getMedievalFont(100);
 		
@@ -79,7 +79,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		textBox = new MessageTextBox(new Coordinate(200,400,0),k);
 		//TODO: sorry, i can't provide a graphics to pass in here
 		//and this can be switched to relative coordinates
-		minimizeComp = new MinimizeComponentButton(new Coordinate(200,400,0), k, null, textBox);
+		minimizeComp = new MinimizeComponentButton(new Coordinate(400,600,0), k, null, textBox);
 		textBox.minimize();
 		
 		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
@@ -95,10 +95,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		System.out.print(components);
 	}
 	public Player getViewedPlayer() {
-		return gm.getPlayers().get(viewedPlayer);
+		return viewedPlayer;
 	}
-	public void setViewedPlayer(int playerIndex) {
-		viewedPlayer = playerIndex;
+	public void setViewedPlayer(Player player) {
+		viewedPlayer = player;
 		repaint();
 	}
 	public void paintComponent(Graphics g1) {
