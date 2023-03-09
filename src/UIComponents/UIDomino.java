@@ -85,6 +85,8 @@ public class UIDomino extends Component{
     }
     @Override
     public void setPosition(Coordinate coordinate) {
+        for(UITile t: tiles)
+            t.moveTo(coordinate);
         self.moveTo(coordinate);
     }
 
@@ -104,10 +106,6 @@ public class UIDomino extends Component{
 
     @Override
     public void whenClicked() {
-
-    }
-
-    public void whenDragged(){
 
     }
 

@@ -31,8 +31,8 @@ public class UIGrid extends Component{
 
     private boolean showGridLines = false;
 
-    public UIGrid(Coordinate center, Grid g){
-        super(center, null);
+    public UIGrid(Coordinate center, Kingdomino k, Grid g){
+        super(center, k);
         this.width = 0;
         this. height = 0;
         this.center = center;
@@ -75,6 +75,8 @@ public class UIGrid extends Component{
     public void addDominoToGrid(Domino d, Coordinate placed){
 
     }
+
+
 
     public UITile[][] getCenteredGrid(){
         int startX = -1;
@@ -384,7 +386,7 @@ public class UIGrid extends Component{
 
     @Override
     public void setPosition(Coordinate coordinate) {
-
+        this.center = coordinate;
     }
 
     @Override
