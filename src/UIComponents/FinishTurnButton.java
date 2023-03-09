@@ -25,8 +25,10 @@ public class FinishTurnButton extends Button{
     public boolean onComponent(Coordinate c) {
         // only doing it based off if you clicke on the centerpiece
     	//relative coordinates work here
-        return ((c.getX() > 0 && c.getX() < width) &&
-                (c.getY() > 0 && c.getY() < height));
+    	double x = getPosition().getX();
+    	double y = getPosition().getY();
+        return ((c.getX() > x && c.getX() < x+width) &&
+                (c.getY() > y && c.getY() < y+height));
     }
 
     public void draw(Graphics2D g) {

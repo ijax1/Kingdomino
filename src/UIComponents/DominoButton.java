@@ -24,6 +24,7 @@ public class DominoButton extends Button {
    }
    @Override
    public void doAction() {
+	 System.out.println("dominobutton clicked");
      if (!locked) {
       player = getManager().getCurrentPlayer();
       setLocked();
@@ -59,8 +60,10 @@ public class DominoButton extends Button {
    
    @Override
    public boolean onComponent(Coordinate c) {
-     return ((c.getX() > 0 && c.getX() < width) &&
-              (c.getY() > getPosition().getY() && c.getY() < getPosition().getY() + height));
+   	double x = getPosition().getX();
+   	double y = getPosition().getY();
+    return ((c.getX() > x && c.getX() < x+width) &&
+               (c.getY() > y && c.getY() < y+height));
    }
    @Override
    public void draw(Graphics2D g) {

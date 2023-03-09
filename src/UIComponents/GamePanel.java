@@ -40,6 +40,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private int mousex, mousey;
 	private PlayerTabGroup group;
 	private PlayerTabButton playerTab;
+	private Player viewedPlayer;
 	private Banner banner;
 	private FinishTurnButton finishTurn;
 	private MessageTextBox textBox;
@@ -63,6 +64,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		addMouseWheelListener(this);
 		addKeyListener(this);
 		gm = k.getManager();
+		viewedPlayer = tempPlayers.get(0);
 		medieval = Resources.getMedievalFont(20);
 		medievalLg = Resources.getMedievalFont(100);
 		
@@ -70,7 +72,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		d = new UIDomino(new Coordinate(400,400,0),k,new Color(0,255,0),new Color(255,0,255));
 		grid = new UIGrid(new Coordinate(200,300,0),gm.getCurrentPlayer().getGrid());
 	    
-		group = new PlayerTabGroup(tempPlayers,k);
+		group = new PlayerTabGroup(tempPlayers,k, this);
 		banner = new Banner(new Coordinate(750,50,0), k, 4);
 		finishTurn = new FinishTurnButton(new Coordinate(640,620,0),k);
 		
@@ -92,6 +94,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		components.addAll(banner.getButtons());
 		components.add(d);
 		System.out.print(components);
+	}
+	public Player getViewedPlayer() {
+		return viewedPlayer;
 	}
 	public void paintComponent(Graphics g1) {
 		Graphics2D g = (Graphics2D) g1;
@@ -117,14 +122,16 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 //		g.fillOval(500, 500, 10, 10);
 //		g.drawRect(480, 480, 40, 40);
 		for(Component component: components) {
-			//TODO: currently, every component uses the same graphics object. Is this ok?
-			//We may need to copy the graphics object using g.create() or g.copyarea()
-			Graphics2D componentg = (Graphics2D) g.create();
-			double x = component.getPosition().getX();
-			double y = component.getPosition().getY();
-			//componentg.translate(x,y);
-			System.out.println(component);
-			component.draw(componentg);
+			if(!component.isMinimized()) {
+				//TODO: currently, every component uses the same graphics object. Is this ok?
+				//We may need to copy the graphics object using g.create() or g.copyarea()
+				Graphics2D componentg = (Graphics2D) g.create();
+				double x = component.getPosition().getX();
+				double y = component.getPosition().getY();
+				//componentg.translate(x,y);
+				//System.out.println(component);
+				component.draw(componentg);
+			}
 		}
 	}
     public static void applyHints(Graphics2D g2d) {
