@@ -117,7 +117,7 @@ public class StrategyAnalysisDialog extends JDialog {
         });
 
         titlePanel.add(titleLabel);
-
+        
         
         //PANEL 1:
         bodyPanel.add(modeLabel, BorderLayout.PAGE_START);
@@ -138,14 +138,16 @@ public class StrategyAnalysisDialog extends JDialog {
         	inputError.setText("");
         }
         */
-
+        
+        //Adding components together:
+        //(NOTE: decided to switch where panels are added for the user's convenience)
         dialogPanel.add(titlePanel);
-        dialogPanel.add(bodyPanel);
         dialogPanel.add(bodyPanel2);
 
-        
+        dialogPanel.add(bodyPanel);
         getContentPane().add(dialogPanel);
         setUndecorated(true);
+        
         //Pack before centering
         pack();
         //Center dialog
