@@ -24,7 +24,6 @@ import Backend.Player;
 import Backend.Tile;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.RectangularPrism;
-import resources.OurColors;
 import resources.Resources;
 
 public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
@@ -55,7 +54,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     boolean dragging = false;
     boolean draggingCube = false;
 
-	public GamePanel(ArrayList<Player> tempPlayers, Kingdomino k) {
+	public GamePanel(Kingdomino k) {
 		setPreferredSize(new Dimension(1280,720));
 		setOpaque(true);
 		setBackground(new Color(100,100,100));
@@ -72,7 +71,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		d = new UIDomino(new Coordinate(400,400,0),k,new Color(0,255,0),new Color(255,0,255));
 		grid = new UIGrid(new Coordinate(200,300,0),gm.getCurrentPlayer().getGrid());
 	    
-		group = new PlayerTabGroup(tempPlayers,k, this);
+		group = new PlayerTabGroup(gm.getPlayers(),k, this);
 		banner = new Banner(new Coordinate(750,50,0), k, 4);
 		finishTurn = new FinishTurnButton(new Coordinate(640,620,0),k);
 		
@@ -98,15 +97,19 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public Player getViewedPlayer() {
 		return gm.getPlayers().get(viewedPlayer);
 	}
+	public void setViewedPlayer(int playerIndex) {
+		viewedPlayer = playerIndex;
+		repaint();
+	}
 	public void paintComponent(Graphics g1) {
 		Graphics2D g = (Graphics2D) g1;
-
+		Player p = getViewedPlayer();
 		applyHints(g);
 		Dimension size = super.getSize();
 		//g.scale(size.width/1280.0, size.width/720.0);
-		g.setColor(OurColors.BACKGROUND);
+		g.setColor(p.getColor().darker());
 		g.fillRect(0, 0, getWidth(), getHeight());
-		g.setColor(OurColors.BACKGROUND_CIRCLE);
+		g.setColor(p.getColor());
 		g.fillOval(100,50,getWidth()-200, getHeight()-100);
 		
 		System.out.println("dragging: " + dragging);
