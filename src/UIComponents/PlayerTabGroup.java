@@ -15,7 +15,7 @@ public class PlayerTabGroup extends Component {
     private int selectedIndex;
     private Graphics2D graphics;
 
-    PlayerTabGroup(ArrayList<Player> players, Kingdomino k) {
+    PlayerTabGroup(ArrayList<Player> players, Kingdomino k, GamePanel gp) {
     	super(new Coordinate(0,160,0), k);
         double x = 0;
         double y = 160;
@@ -23,7 +23,7 @@ public class PlayerTabGroup extends Component {
         group = new ArrayList<PlayerTabButton>();
         for (Player p: players) {
             Coordinate coord = new Coordinate(x, y,0);
-            group.add(new PlayerTabButton(coord, k, p));
+            group.add(new PlayerTabButton(coord, k, p, gp));
             //current height of each domino
             y += 100;
         }
