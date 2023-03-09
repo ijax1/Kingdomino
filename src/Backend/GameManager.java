@@ -1,13 +1,14 @@
 package Backend;
 
-import resources.OurColors;
-import resources.Titles;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.Timer;
+
+import resources.OurColors;
+import resources.Titles;
 
 public class GameManager {
     private boolean firstTurn;
@@ -181,6 +182,7 @@ public class GameManager {
     public void updateTurnOrder() {
         ArrayList<Integer> dominoValues = new ArrayList<>();
         for (Player player : players) {
+        	//TODO: player.getNextDomino() returns null on first turn
             dominoValues.add(player.getNextDomino().getValue());
         }
         for (int i = 0; i < dominoValues.size() - 1; i++) {
