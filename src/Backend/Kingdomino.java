@@ -36,7 +36,7 @@ public class Kingdomino {
         basePanel = new JPanel(panels);
         
         startPanel = new StartPanel(gb, this);
-        gamePanel = new GamePanel(manager.getPlayers(), this);
+        gamePanel = new GamePanel(this);
         podiumPanel = new PodiumPanel(new GridBagLayout(), this);
         
         basePanel.add(startPanel, "Start Panel");

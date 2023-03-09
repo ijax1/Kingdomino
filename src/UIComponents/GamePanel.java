@@ -24,7 +24,6 @@ import Backend.Player;
 import Backend.Tile;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.RectangularPrism;
-import resources.OurColors;
 import resources.Resources;
 
 public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
@@ -40,12 +39,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private int mousex, mousey;
 	private PlayerTabGroup group;
 	private PlayerTabButton playerTab;
-	private Player viewedPlayer;
+	private ArrayList<UIPlayer>uiPlayers = new ArrayList<UIPlayer>(4);
+	private int viewedPlayer;
 	private Banner banner;
 	private FinishTurnButton finishTurn;
 	private MessageTextBox textBox;
 	private MinimizeComponentButton minimizeComp;
 	private GameManager gm;
+	private Kingdomino k;
 	private ArrayList<DominoButton>dominoButtons;
 	
 	//From InteractionPanel
@@ -55,7 +56,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     boolean dragging = false;
     boolean draggingCube = false;
 
-	public GamePanel(ArrayList<Player> tempPlayers, Kingdomino k) {
+	public GamePanel(Kingdomino k) {
 		setPreferredSize(new Dimension(1280,720));
 		setOpaque(true);
 		setBackground(new Color(100,100,100));
@@ -64,15 +65,17 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		addMouseWheelListener(this);
 		addKeyListener(this);
 		gm = k.getManager();
-		viewedPlayer = tempPlayers.get(0);
+		this.k = k;
 		medieval = Resources.getMedievalFont(20);
 		medievalLg = Resources.getMedievalFont(100);
 		
 		//From InteractionPanel
 		d = new UIDomino(new Coordinate(400,400,0),k,new Color(0,255,0),new Color(255,0,255));
-		grid = new UIGrid(new Coordinate(200,300,0),gm.getCurrentPlayer().getGrid());
+		grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
+		updateUIPlayers();
+		//grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
 	    
-		group = new PlayerTabGroup(tempPlayers,k, this);
+		group = new PlayerTabGroup(gm.getPlayers(),k, this);
 		banner = new Banner(new Coordinate(750,50,0), k, 4);
 		finishTurn = new FinishTurnButton(new Coordinate(640,620,0),k);
 		
@@ -80,7 +83,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		textBox = new MessageTextBox(new Coordinate(200,400,0),k);
 		//TODO: sorry, i can't provide a graphics to pass in here
 		//and this can be switched to relative coordinates
-		minimizeComp = new MinimizeComponentButton(new Coordinate(200,400,0), k, null, textBox);
+		minimizeComp = new MinimizeComponentButton(new Coordinate(400,600,0), k, null, textBox);
 		textBox.minimize();
 		
 		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
@@ -95,24 +98,34 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		components.add(d);
 		System.out.print(components);
 	}
-	public Player getViewedPlayer() {
+	private void updateUIPlayers() {
+		Coordinate gridCenter = new Coordinate(200,300,0);
+		ArrayList<Player>players = gm.getPlayers();
+		for(int i=0; i<players.size(); i++) {
+			uiPlayers.add(new UIPlayer(gridCenter, k, players.get(i)));
+		}
+	}
+	public int getViewedPlayer() {
 		return viewedPlayer;
+	}
+	public void setViewedPlayer(int player) {
+		viewedPlayer = player;
+		repaint();
 	}
 	public void paintComponent(Graphics g1) {
 		Graphics2D g = (Graphics2D) g1;
-
+		Player p = gm.getPlayers().get(viewedPlayer);
 		applyHints(g);
 		Dimension size = super.getSize();
 		//g.scale(size.width/1280.0, size.width/720.0);
-		g.setColor(OurColors.BACKGROUND);
+		g.setColor(p.getColor().darker());
 		g.fillRect(0, 0, getWidth(), getHeight());
-		g.setColor(OurColors.BACKGROUND_CIRCLE);
+		g.setColor(p.getColor());
 		g.fillOval(100,50,getWidth()-200, getHeight()-100);
 		
 		System.out.println("dragging: " + dragging);
 		
         //From InteractionPanel
-		//TODO: Note that UIGrid is not a component. make it one?
         grid.render(g, dragging);
         checkDomino();
         //moved UIDomino draw to the component loop

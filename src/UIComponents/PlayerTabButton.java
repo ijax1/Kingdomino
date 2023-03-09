@@ -11,11 +11,13 @@ public class PlayerTabButton extends Button {
     private GamePanel gamePanel;
     private double width = 50;
     private final double height = 100;
+    private int index;
 
-    PlayerTabButton(Coordinate position, Kingdomino k, Player p, GamePanel gp) {
+    PlayerTabButton(Coordinate position, Kingdomino k, Player p, int index, GamePanel gp) {
         super(position, k);
         player = p;
         gamePanel = gp;
+        this.index = index;
     }
 
     public void doAction() {
@@ -24,9 +26,9 @@ public class PlayerTabButton extends Button {
             super.show();
         }
         //will need to update to match once integrated
-         if (gamePanel.getViewedPlayer() != player) {
+         if (gamePanel.getViewedPlayer() != index) {
              super.show();
-             //gamePanel.setViewedPlayer(player);
+             gamePanel.setViewedPlayer(index);
          }
     }
 

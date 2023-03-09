@@ -10,7 +10,7 @@ import Backend.*;
 import Backend.Domino;
 import Backend.Grid;
 
-public class UIGrid {
+public class UIGrid extends Component{
     private final int width;
     private final int height;
     private Coordinate center;
@@ -29,7 +29,10 @@ public class UIGrid {
     private UIDomino display;
     private Domino ref;
 
-    public UIGrid(Coordinate center, Grid g){
+    private boolean showGridLines = false;
+
+    public UIGrid(Coordinate center, Kingdomino k, Grid g){
+        super(center, k);
         this.width = 0;
         this. height = 0;
         this.center = center;
@@ -47,16 +50,24 @@ public class UIGrid {
             }
         }
 
-        //tiles[4][4] = new UITile(Color.GRAY, center, 50, center);
-        //tiles[3][4] = new UITile(Color.BLUE, center.translatedBy(0,-100,0), 50, center);
-        //tiles[3][5] = new UITile(Color.RED, center.translatedBy(100,-100,0), 50, center);
-        //tiles[4][5] = new UITile(Color.MAGENTA, center.translatedBy(100,0,0), 50, center);
-        //tiles[2][3] = new UITile(Color.GREEN, center.translatedBy(-100,-200,0), 50, center);
-        //tiles[2][4] = new UITile(Color.GREEN, center.translatedBy(0,-200,0), 50, center);
-        //tiles[1][2] = new UITile(Color.YELLOW, center.translatedBy(-200,-300,0), 50, center);
-        //tiles[2][6] = new UITile(Color.YELLOW, center.translatedBy(200,-300,0), 50, center);
+        recenter();
+    }
 
+    public UIGrid(Coordinate center, Player p){
+        super(center, null);
+        this.width = 0;
+        this. height = 0;
+        this.center = center;
+        this.grid = p.getGrid();
 
+        Tile[][] tileList = grid.getTiles();
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                if(tileList[i][j] != null){
+                    tiles[i][j] = new UITile(tileList[i][j].getColor(), center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
+                }
+            }
+        }
 
         recenter();
     }
@@ -64,6 +75,8 @@ public class UIGrid {
     public void addDominoToGrid(Domino d, Coordinate placed){
 
     }
+
+
 
     public UITile[][] getCenteredGrid(){
         int startX = -1;
@@ -211,7 +224,6 @@ public class UIGrid {
             else
                 yMod += (int) Math.round((Math.round(tileCenter.getY()) - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize);
 
-            //g.drawString((int) Math.round((tileCenter.getX() - leftBound - (50 * (gridWidth%2-1)))/tileSize) + " " + (int) Math.round((tileCenter.getY() - topBound - (50 * (gridHeight%2-1)))/tileSize), 600 + (i * 100),200);
             if(i == 0){
                 tileZeroX = (int) (leftBound + xMod * tileSize - tileSize/2 + (tileSize*(gridWidth%2)));
                 tileZeroY = (int) (topBound + yMod * tileSize - tileSize/2 + (tileSize*(gridHeight%2)));
@@ -235,24 +247,6 @@ public class UIGrid {
         if(holding.isRotating()) {
             dest = holding.getCenter();
         }
-        //g.drawString(dest.toString(), 600,215);
-        System.out.println(xIndex + " " + yIndex);
-        System.out.println(ref.getRotation());
-        System.out.println(grid);
-
-        boolean[][] available = grid.availableSpacesGrid(ref);
-        for(boolean[] row: available){
-            for(boolean col: row) {
-                if(col)
-                    System.out.print("T ");
-                else
-                    System.out.print("F ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println("INDEX: " +(xIndex-1) + " " + (yIndex-1));
-        g.drawString("INDEX: " +(xIndex-1) + " " + (yIndex-1), 600,215);
 
         Coordinate tileCenter = holding.getTiles()[0].getCenter();
         if(gridWidth % 2 == 0)
@@ -390,4 +384,42 @@ public class UIGrid {
         } return false;
     }
 
+    @Override
+    public void setPosition(Coordinate coordinate) {
+        this.center = coordinate;
+    }
+
+    @Override
+    public boolean onComponent(Coordinate c) {
+        int x = (int) c.getX();
+        int y = (int) c.getY();
+        int widthAllowed = 7-Math.abs(3-getWidth());
+        int heightAllowed = 7-Math.abs(3-getHeight());
+
+        int left = (int) center.getX() - tileSize*(widthAllowed)/2;
+        int bottom = (int) center.getY() - tileSize*(heightAllowed)/2;
+        int right = (int) center.getX() + tileSize*(widthAllowed)/2;
+        int top = (int) center.getY() + tileSize*(heightAllowed)/2;
+        if(left < x && x < right && bottom < y && y < top)
+            return true;
+        return false;
+    }
+
+    public void showGridLines(){
+        showGridLines = true;
+    }
+
+    public void hideGridLines(){
+        showGridLines = true;
+    }
+
+    @Override
+    public void draw(Graphics2D g) {
+        render(g, showGridLines);
+    }
+
+    @Override
+    public void whenClicked() {
+
+    }
 }

@@ -21,6 +21,6 @@ public class AnalysisPanelTester {
 		//frame.pack();
 		frame.setVisible(true);
 		panel.repaint();
-		new ErrorDialog(frame);
+		// new ErrorDialog(frame);
 	}
 }
