@@ -25,7 +25,8 @@ public class StrategyAnalysisDialog extends JDialog {
     private JPanel tintPane;
     private Color tintColor = new Color(0, 0, 0, 125);
     GameManager manager;
-
+    
+    //final static String ERROR_TEXT = "THOU HAST YET TO INFORM US OF AN APPROPRIATE AMOUNT OF GAMES TO PLAY!";
     public StrategyAnalysisDialog(JFrame root, Kingdomino dom) {
         //jdialog with no name
         super(root, "", ModalityType.DOCUMENT_MODAL);
@@ -44,33 +45,49 @@ public class StrategyAnalysisDialog extends JDialog {
                 super.paintComponent(g);
             }
         };
+        
+        
+        //JLabel inputError = new JLabel("");
 
         //input pannel for funer of games users want to run
         NumberFormat intFormat = NumberFormat.getIntegerInstance();
         final JFormattedTextField textfield = new JFormattedTextField(intFormat);
-
-        //just a panel to hold titlePanel and bodyPanel
+        
+        //just a panel to hold titlePanel, bodyPanel, & bodyPanel2
         JPanel dialogPanel = new JPanel();
-        dialogPanel.setLayout(new GridLayout(2, 1));
+        dialogPanel.setLayout(new GridLayout(3, 1));
 
         JPanel titlePanel = new JPanel();
         titlePanel.setBackground(OurColors.ERROR_HEADER);
         //the font color is set in foreground
         titlePanel.setForeground(OurColors.FONT_LIGHT);
-
+        
+        
+        //FIRST PANEL SET UP:(buttons)
         JPanel bodyPanel = new JPanel();
         bodyPanel.setLayout(new BorderLayout());
         bodyPanel.setBackground(OurColors.ERROR_BODY);
+        
+        //SECOND PANEL SET UP: (text input)
+        JPanel bodyPanel2 = new JPanel();
+        bodyPanel2.setLayout(new BorderLayout());
+        bodyPanel2.setBackground(OurColors.ERROR_BODY);
+        
 
-
+                
         JLabel titleLabel = new JLabel("NO HUMAN PLAYERS SELECTED!");
         titleLabel.setFont(Resources.getMedievalFont(30));
         //the font color is set in foreground
         titleLabel.setForeground(OurColors.FONT_LIGHT);
 
-        JLabel bodyLabel = new JLabel("Chooseth thy analysis speed, your eminence.");
-        bodyLabel.setFont(Resources.getMedievalFont(18));
-        bodyLabel.setForeground(OurColors.FONT_DARK);        
+        JLabel modeLabel = new JLabel("Chooseth thy analysis speed, your eminence.");
+        modeLabel.setFont(Resources.getMedievalFont(18));
+        modeLabel.setForeground(OurColors.FONT_DARK);  
+        
+        JLabel inputLabel = new JLabel("And how many games shall be played, my Lord?");
+        inputLabel.setFont(Resources.getMedievalFont(18));
+        inputLabel.setForeground(OurColors.FONT_DARK);
+        
         
         JButton button = new JButton("RETURNETH");
         button.addActionListener(new ActionListener() {
@@ -101,15 +118,32 @@ public class StrategyAnalysisDialog extends JDialog {
 
         titlePanel.add(titleLabel);
 
-        bodyPanel.add(bodyLabel, BorderLayout.PAGE_START);
-        bodyPanel.add(textfield, BorderLayout.SOUTH);
+        
+        //PANEL 1:
+        bodyPanel.add(modeLabel, BorderLayout.PAGE_START);
         bodyPanel.add(button, BorderLayout.LINE_START);
         bodyPanel.add(button2, BorderLayout.CENTER);
         bodyPanel.add(button3, BorderLayout.LINE_END);
+        
+        
+        //PANEL 2:
+        bodyPanel2.add(inputLabel, BorderLayout.PAGE_START); 
+        bodyPanel2.add(textfield, BorderLayout.SOUTH);
+		//bodyPanel.add(inputError, BorderLayout.SOUTH);
+
+        /*
+        if (!correctInput(textfield)) {
+			inputError.setText(ERROR_TEXT);
+        }else {
+        	inputError.setText("");
+        }
+        */
 
         dialogPanel.add(titlePanel);
         dialogPanel.add(bodyPanel);
+        dialogPanel.add(bodyPanel2);
 
+        
         getContentPane().add(dialogPanel);
         setUndecorated(true);
         //Pack before centering
@@ -123,13 +157,27 @@ public class StrategyAnalysisDialog extends JDialog {
         tintPane.setVisible(true);
         setVisible(true);
     }
-
+    
+    /*
+    private boolean correctInput(JFormattedTextField textField) {
+        boolean numbers = true;
+    	double input = 1;
+        try{
+			input = (Double.parseDouble(textField.getText()));
+		}catch (NumberFormatException ex) {
+			numbers = false;
+			System.out.println("Thou hast not entered an appropriate # of games." );
+		}	
+    	return numbers;
+    }
+    */
+    
     private void modeSelected(JFormattedTextField textField, boolean isFast) {
         setVisible(false);
         tintPane.setVisible(false);
+        
         //make sure user enter an int
         double input = 1;
-        //int input = 1;
         boolean games = true;
         try{
 			input = (Double.parseDouble(textField.getText()));
@@ -138,11 +186,9 @@ public class StrategyAnalysisDialog extends JDialog {
 			System.out.println("Thou hast not entered an appropriate # of games." );
 		}	
         
-        
-        //if (textField.getText() != null)
-            //input = Integer.parseInt(textField.getText());
+        //if num of games inputted in # format:
         if (games) {
-        	 //**call game manager with the number of games*
+        	//**call game manager with the number of games*
             manager.setNumGames((int)input);
             //slow mode
             manager.setMode(isFast);
