@@ -18,6 +18,7 @@ public class GameManager {
     private Kingdomino game;
     private boolean isFastMode;
     private int numGames;
+    private Domino[] dominoesToSelect;
 
     public enum GameState {
         INITIAL,
@@ -80,6 +81,7 @@ public class GameManager {
     }
 
     private void slowMode() {
+        dominoesToSelect = deck.getDominoesToSelect();
         for (int i = 0; i < players.size(); i++) {
             currPlayerIdx = i;
             Player currentPlayer = players.get(currPlayerIdx);
@@ -102,7 +104,12 @@ public class GameManager {
         firstTurn = false;
     }
 
+    public Domino[] getDominoesToSelect() {
+        return dominoesToSelect;
+    }
+
     private void turn() {
+        dominoesToSelect = deck.getDominoesToSelect();
         for (int i = 0; i < players.size(); i++) {
             currPlayerIdx = i;
             Player currentPlayer = players.get(currPlayerIdx);
@@ -110,7 +117,7 @@ public class GameManager {
                 ((ComputerPlayer) currentPlayer).calculateChoice();
                 ((ComputerPlayer) currentPlayer).placeDomino();
             } else {
-                /*
+
                 Timer timer1 = new Timer(1, null);
                 timer1.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -130,7 +137,7 @@ public class GameManager {
                 if (!firstTurn)
                     timer2.start();
 
-                 */
+
             }
             currentPlayer.setSelected(false);
             currentPlayer.setPlaced(false);
