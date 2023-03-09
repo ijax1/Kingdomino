@@ -26,9 +26,9 @@ public class PlayerTabButton extends Button {
             super.show();
         }
         //will need to update to match once integrated
-         if (gamePanel.getViewedPlayer() != player) {
+         if (gamePanel.getViewedPlayer() != index) {
              super.show();
-             gamePanel.setViewedPlayer(player);
+             gamePanel.setViewedPlayer(index);
          }
     }
 

@@ -40,12 +40,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private PlayerTabGroup group;
 	private PlayerTabButton playerTab;
 	private ArrayList<UIPlayer>uiPlayers = new ArrayList<UIPlayer>(4);
-	private UIPlayer viewedPlayer;
+	private int viewedPlayer;
 	private Banner banner;
 	private FinishTurnButton finishTurn;
 	private MessageTextBox textBox;
 	private MinimizeComponentButton minimizeComp;
 	private GameManager gm;
+	private Kingdomino k;
 	private ArrayList<DominoButton>dominoButtons;
 	
 	//From InteractionPanel
@@ -64,17 +65,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		addMouseWheelListener(this);
 		addKeyListener(this);
 		gm = k.getManager();
+		this.k = k;
 		medieval = Resources.getMedievalFont(20);
 		medievalLg = Resources.getMedievalFont(100);
 		
 		//From InteractionPanel
 		d = new UIDomino(new Coordinate(400,400,0),k,new Color(0,255,0),new Color(255,0,255));
-<<<<<<< HEAD
-		grid = new UIGrid(new Coordinate(200,300,0),gm.getCurrentPlayer().getGrid());
-		updateUIPlayers();
-=======
 		grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
->>>>>>> branch 'master' of https://github.com/ijax1/Kingdomino.git
+		updateUIPlayers();
+		//grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
 	    
 		group = new PlayerTabGroup(gm.getPlayers(),k, this);
 		banner = new Banner(new Coordinate(750,50,0), k, 4);
@@ -105,18 +104,17 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		for(int i=0; i<players.size(); i++) {
 			uiPlayers.add(new UIPlayer(gridCenter, k, players.get(i)));
 		}
-		viewedPlayer = uiPlayers.get(0);
 	}
-	public Player getViewedPlayer() {
-		return viewedPlayer.;
+	public int getViewedPlayer() {
+		return viewedPlayer;
 	}
-	public void setViewedPlayer(Player player) {
+	public void setViewedPlayer(int player) {
 		viewedPlayer = player;
 		repaint();
 	}
 	public void paintComponent(Graphics g1) {
 		Graphics2D g = (Graphics2D) g1;
-		Player p = getViewedPlayer();
+		Player p = gm.getPlayers().get(viewedPlayer);
 		applyHints(g);
 		Dimension size = super.getSize();
 		//g.scale(size.width/1280.0, size.width/720.0);
