@@ -70,8 +70,8 @@ public class StrategyAnalysisDialog extends JDialog {
 
         JLabel bodyLabel = new JLabel("Chooseth thy analysis speed, your eminence.");
         bodyLabel.setFont(Resources.getMedievalFont(18));
-        bodyLabel.setForeground(OurColors.FONT_DARK);
-
+        bodyLabel.setForeground(OurColors.FONT_DARK);        
+        
         JButton button = new JButton("RETURNETH");
         button.addActionListener(new ActionListener() {
             @Override
