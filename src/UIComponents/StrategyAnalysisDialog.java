@@ -128,14 +128,27 @@ public class StrategyAnalysisDialog extends JDialog {
         setVisible(false);
         tintPane.setVisible(false);
         //make sure user enter an int
-        int input = 1;
-        if (textField.getText() != null)
-            input = Integer.parseInt(textField.getText());
-        //**call game manager with the number of games*
-        manager.setNumGames(input);
-        //slow mode
-        manager.setMode(isFast);
-        manager.setGameState(GameManager.GameState.PLAYER_TURN);
-        dispose();
+        double input = 1;
+        //int input = 1;
+        boolean games = true;
+        try{
+			input = (Double.parseDouble(textField.getText()));
+		}catch (NumberFormatException ex) {
+			games = false;
+			System.out.println("Thou hast not entered an appropriate # of games." );
+		}	
+        
+        
+        //if (textField.getText() != null)
+            //input = Integer.parseInt(textField.getText());
+        if (games) {
+        	 //**call game manager with the number of games*
+            manager.setNumGames((int)input);
+            //slow mode
+            manager.setMode(isFast);
+            manager.setGameState(GameManager.GameState.PLAYER_TURN);
+            dispose();
+        }
+       
     }
 }
