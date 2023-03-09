@@ -39,7 +39,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private int mousex, mousey;
 	private PlayerTabGroup group;
 	private PlayerTabButton playerTab;
-	private Player viewedPlayer;
+	private ArrayList<UIPlayer>uiPlayers = new ArrayList<UIPlayer>(4);
+	private UIPlayer viewedPlayer;
 	private Banner banner;
 	private FinishTurnButton finishTurn;
 	private MessageTextBox textBox;
@@ -63,13 +64,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		addMouseWheelListener(this);
 		addKeyListener(this);
 		gm = k.getManager();
-		viewedPlayer = gm.getPlayers().get(0);
 		medieval = Resources.getMedievalFont(20);
 		medievalLg = Resources.getMedievalFont(100);
 		
 		//From InteractionPanel
 		d = new UIDomino(new Coordinate(400,400,0),k,new Color(0,255,0),new Color(255,0,255));
 		grid = new UIGrid(new Coordinate(200,300,0),gm.getCurrentPlayer().getGrid());
+		updateUIPlayers();
 	    
 		group = new PlayerTabGroup(gm.getPlayers(),k, this);
 		banner = new Banner(new Coordinate(750,50,0), k, 4);
@@ -94,8 +95,16 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		components.add(d);
 		System.out.print(components);
 	}
+	private void updateUIPlayers() {
+		Coordinate gridCenter = new Coordinate(200,300,0);
+		ArrayList<Player>players = gm.getPlayers();
+		for(int i=0; i<players.size(); i++) {
+			uiPlayers.add(new UIPlayer(gridCenter, k, players.get(i)));
+		}
+		viewedPlayer = uiPlayers.get(0);
+	}
 	public Player getViewedPlayer() {
-		return viewedPlayer;
+		return viewedPlayer.;
 	}
 	public void setViewedPlayer(Player player) {
 		viewedPlayer = player;
