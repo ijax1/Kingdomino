@@ -7,19 +7,24 @@ import UIComponents.Render.Coordinate;
 import java.awt.*;
 import java.rmi.server.UID;
 
+//TODO delete this class before turn in
 public class UIPlayer extends Component{
     private Player ref;
     private UIGrid grid;
     private UIDomino domino;
+    private Coordinate center;
 
     UIPlayer(Coordinate position, Kingdomino k, Player p) {
         super(position, k);
-        this.grid = new UIGrid(position, p.getGrid());
+        this.grid = new UIGrid(position, k, p.getGrid());
+        this.domino = new UIDomino(position, k, p.getCurrentDomino());
     }
 
     @Override
     public void setPosition(Coordinate coordinate) {
-
+        center = coordinate;
+        grid.setPosition(coordinate);
+        domino.setPosition(coordinate);
     }
 
     @Override

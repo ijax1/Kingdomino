@@ -69,8 +69,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		
 		//From InteractionPanel
 		d = new UIDomino(new Coordinate(400,400,0),k,new Color(0,255,0),new Color(255,0,255));
+<<<<<<< HEAD
 		grid = new UIGrid(new Coordinate(200,300,0),gm.getCurrentPlayer().getGrid());
 		updateUIPlayers();
+=======
+		grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
+>>>>>>> branch 'master' of https://github.com/ijax1/Kingdomino.git
 	    
 		group = new PlayerTabGroup(gm.getPlayers(),k, this);
 		banner = new Banner(new Coordinate(750,50,0), k, 4);
@@ -124,7 +128,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		System.out.println("dragging: " + dragging);
 		
         //From InteractionPanel
-		//TODO: Note that UIGrid is not a component. make it one?
         grid.render(g, dragging);
         checkDomino();
         //moved UIDomino draw to the component loop
