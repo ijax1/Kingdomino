@@ -40,7 +40,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private int mousex, mousey;
 	private PlayerTabGroup group;
 	private PlayerTabButton playerTab;
-	private Player viewedPlayer;
+	private int viewedPlayer;
 	private Banner banner;
 	private FinishTurnButton finishTurn;
 	private MessageTextBox textBox;
@@ -64,7 +64,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		addMouseWheelListener(this);
 		addKeyListener(this);
 		gm = k.getManager();
-		viewedPlayer = tempPlayers.get(0);
+		viewedPlayer = 0;
 		medieval = Resources.getMedievalFont(20);
 		medievalLg = Resources.getMedievalFont(100);
 		
@@ -96,7 +96,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		System.out.print(components);
 	}
 	public Player getViewedPlayer() {
-		return viewedPlayer;
+		return gm.getPlayers().get(viewedPlayer);
 	}
 	public void paintComponent(Graphics g1) {
 		Graphics2D g = (Graphics2D) g1;
