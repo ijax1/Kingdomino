@@ -82,7 +82,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		
 		textBox = new MessageTextBox(new Coordinate(200,400,0),k);
 		//TODO: sorry, i can't provide a graphics to pass in here
-		//and this can be switched to relative coordinates
 		minimizeComp = new MinimizeComponentButton(new Coordinate(400,600,0), k, null, textBox);
 		textBox.minimize();
 		
@@ -101,9 +100,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private void updateUIPlayers() {
 		Coordinate gridCenter = new Coordinate(200,300,0);
 		ArrayList<Player>players = gm.getPlayers();
-		for(int i=0; i<players.size(); i++) {
-			uiPlayers.add(new UIPlayer(gridCenter, k, players.get(i)));
-		}
+//		for(int i=0; i<players.size(); i++) {
+//			uiPlayers.add(new UIPlayer(gridCenter, k, players.get(i)));
+//		}
 	}
 	public int getViewedPlayer() {
 		return viewedPlayer;
