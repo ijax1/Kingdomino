@@ -117,26 +117,47 @@ public class GameManager {
                 ((ComputerPlayer) currentPlayer).calculateChoice();
                 ((ComputerPlayer) currentPlayer).placeDomino();
             } else {
-
-                Timer timer1 = new Timer(1, null);
-                timer1.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentPlayer.hasSelected())
-                            timer1.stop();
+                Thread newThread = new Thread();
+                while (!currentPlayer.hasSelected()) {
+                    synchronized (this) {
+                        try {
+                            newThread.wait();
+                        } catch (InterruptedException e) {
+                            System.out.println("Thread interrupted");
+                        }
                     }
-                });
-                timer1.start();
-
-                Timer timer2 = new Timer(1, null);
-                timer2.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentPlayer.hasPlaced())
-                            timer2.stop();
+                }
+                newThread.notifyAll();
+                while (!currentPlayer.hasPlaced()) {
+                    synchronized (this) {
+                        try {
+                            newThread.wait();
+                        } catch (InterruptedException e) {
+                            System.out.println("Thread interrupted");
+                        }
                     }
-                });
-                if (!firstTurn)
-                    timer2.start();
+                }
+                newThread.notifyAll();
 
+
+//                Timer timer1 = new Timer(1, null);
+//                timer1.addActionListener(new ActionListener() {
+//                    public void actionPerformed(ActionEvent e) {
+//                        if (currentPlayer.hasSelected())
+//                            timer1.stop();
+//                    }
+//                });
+//                timer1.start();
+//
+//                Timer timer2 = new Timer(1, null);
+//                timer2.addActionListener(new ActionListener() {
+//                    public void actionPerformed(ActionEvent e) {
+//                        if (currentPlayer.hasPlaced())
+//                            timer2.stop();
+//                    }
+//                });
+//                if (!firstTurn)
+//                    timer2.start();
 
             }
             currentPlayer.setSelected(false);
@@ -180,8 +201,10 @@ public class GameManager {
 
     public void updateTurnOrder() {
         ArrayList<Integer> dominoValues = new ArrayList<>();
-        for (Player player : players) {
-            dominoValues.add(player.getNextDomino().getValue());
+        if (!firstTurn) {
+            for (Player player : players) {
+                dominoValues.add(player.getNextDomino().getValue());
+            }
         }
         for (int i = 0; i < dominoValues.size() - 1; i++) {
             for (int j = 0; j < dominoValues.size() - 1 - i; j++) {
