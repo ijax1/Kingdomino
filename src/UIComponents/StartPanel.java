@@ -1,18 +1,12 @@
 package UIComponents;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 import Backend.GameManager;
 import Backend.GameManager.GameState;
@@ -27,6 +21,9 @@ public class StartPanel extends JPanel {
 	private BufferedImage player;
 	private BufferedImage computer;
 	private BufferedImage none;
+	private BufferedImage kingDominoScrollImage;
+	private BufferedImage redTurretImage;
+	private BufferedImage yellowTurretImage;
 	private CloseButton close;
 	GameManager gm;
 	private final Kingdomino k;
@@ -45,9 +42,9 @@ public class StartPanel extends JPanel {
 		playerPanels[3] = new PlayerSelectPanel(OurColors.YELLOW, 4, PlayerSelectPanel.COMPUTER, k);
 		
 		//JButton scrollB = new JButton("Quiteth");
-		JLabel scroll = new JLabel("Kingdomino", SwingConstants.CENTER);
-		scroll.setFont(Resources.getMedievalFont(50));
-		scroll.setForeground(OurColors.FONT_LIGHT);
+		JLabel scroll = new JLabel("", SwingConstants.CENTER);
+		//scroll.setFont(Resources.getMedievalFont(50));
+		//scroll.setForeground(OurColors.FONT_LIGHT);
 		RoyalButton exit = new RoyalButton("Exiteth");
 		RoyalButton play = new RoyalButton("Playeth");
 		exit.addActionListener(new ActionListener() {
@@ -94,10 +91,10 @@ public class StartPanel extends JPanel {
 		c.weighty = 0;	//Title can get cut off
 		c.gridx = 0;
 		c.gridy = 0;
-		//c.gridwidth = GridBagConstraints.REMAINDER;
+		c.gridwidth = GridBagConstraints.REMAINDER;
 		g.setConstraints(scroll, c);
 		add(scroll);
-		//c.weighty = 0.2;
+		// c.weighty = 0.2;
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 1;
@@ -127,9 +124,13 @@ public class StartPanel extends JPanel {
 		c.gridwidth = 2;
 		g.setConstraints(play, c);
 		add(play);
+
 		player = Resources.loadImage("player_icon.png");
 		computer = Resources.loadImage("computer_icon.png");
 		none = Resources.loadImage("none_icon.png");
+		kingDominoScrollImage = Resources.loadImage("king_domino_scroll.png");
+		redTurretImage = Resources.loadImage("red_turret.png");
+		yellowTurretImage = Resources.loadImage("yellow_turret.png");
 	}
 	@Override
 	public void paintComponent(Graphics g1) {
@@ -140,6 +141,9 @@ public class StartPanel extends JPanel {
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(OurColors.BACKGROUND_CIRCLE);
 		g.fillOval(100,50,getWidth()-200, getHeight()-100);
+		g.drawImage(toImage(Resources.loadImage("king_domino_scroll.png")), 0, 0, null);
+		g.drawImage(toImage(Resources.loadImage("red_turret.png")), 0, 0, null);
+		g.drawImage(toImage(Resources.loadImage("yellow_turret.png")), 0, 0, null);
 		//close.draw((Graphics2D) g.create());
 		//AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
 		//g.setComposite(ac);
@@ -158,5 +162,10 @@ public class StartPanel extends JPanel {
 		}
 		System.out.println(players);
 		return players;
+	}
+
+	private Image toImage(BufferedImage img){
+		Image image = img.getScaledInstance(img.getWidth(),img.getHeight(), Image.SCALE_SMOOTH);
+		return image;
 	}
 }
