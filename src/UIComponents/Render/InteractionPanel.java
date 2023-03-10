@@ -8,7 +8,7 @@ import java.io.IOException;
 import UIComponents.*;
 
 public class InteractionPanel extends DynamicPanel implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
-    Domino domino = new Domino(new Tile(Tile.Land.LAKE,0),new Tile(Tile.Land.PASTURE,0),13);
+    Domino domino = new Domino(new Tile(Tile.Land.LAKE,0),new Tile(Tile.Land.FOREST,0),13);
     UIDomino d = new UIDomino(new Coordinate(400,400,0),null,domino);
     Tile[][] init = new Tile[9][9];
     UIGrid grid = new UIGrid(new Coordinate(800,600,0),null, new Grid(init));
@@ -28,7 +28,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
         if(!d.isRotating())
             checkDomino();
         grid.render(g, dragging);
-        d.draw((Graphics2D) g);
+        d.render((Graphics2D) g);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
         if(d.onComponent(new Coordinate(e.getX(),e.getY(),0))) {
             dragging = true;
         }
-        if(dragging && e.getButton() == MouseEvent.BUTTON3){
+        if(dragging && e.getButton() == MouseEvent.BUTTON3 && !grid.isSnapped()){
             d.rotateToNextPos(1,this);
         }
         if(r.intersects(new Coordinate(e.getX(), e.getY(), 0))){
@@ -74,6 +74,11 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
                 }
                 else
                     d.show();
+            }
+            else{
+                if(!d.onComponent(new Coordinate(e.getX(),e.getY(),0))) {
+                    dragging = false;
+                }
             }
         }
         draggingCube = false;
@@ -95,6 +100,8 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
         if(dragging) {
             d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
             d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
+            if(!grid.dominoOnGrid(d))
+                grid.setSnapped(false);
             repaint();
 
             grid.holdDomino(d, domino);

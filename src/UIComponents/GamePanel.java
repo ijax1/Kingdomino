@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private Font medievalLg;
 	private int mousedx;
 	private int mousedy;
-	private UIDomino domino;
+	private Domino domino;
 	private int mousex, mousey;
 	private PlayerTabGroup group;
 	private PlayerTabButton playerTab;
@@ -173,7 +173,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         if(d.onComponent(new Coordinate(e.getX(),e.getY(),0))) {
             dragging = true;
         }
-        if(dragging && e.getButton() == MouseEvent.BUTTON3){
+        if(dragging && e.getButton() == MouseEvent.BUTTON3 && !grid.isSnapped()){
             d.rotateToNextPos(1,this);
         }
         if(r.intersects(new Coordinate(e.getX(), e.getY(), 0))){
@@ -187,7 +187,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		System.out.println("Clicked at " + "X: " + x + ", Y:" + y);
 		
 		//From InteractionPanel
-		if(dragging) {
+        if(dragging) {
             if (e.getButton() == MouseEvent.BUTTON1){
                 dragging = false;
                 if(grid.dominoOnGrid(d)) {
@@ -196,9 +196,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
                 else
                     d.show();
             }
+            else{
+                if(!d.onComponent(new Coordinate(e.getX(),e.getY(),0))) {
+                    dragging = false;
+                }
+            }
         }
         draggingCube = false;
-        repaint();
         
 		//TODO: this won't work, just a placeholder.
 		Coordinate mouseCoord = new Coordinate(x,y,0);
@@ -211,6 +215,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				}
 			}
 		}
+		repaint();
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {
@@ -219,13 +224,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		//System.out.println("mousex: "+mousex + " mousey: "+mousey);
 		
 		//From InteractionPanel
-		if(dragging) {
-			d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
-			d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
-			repaint();
+        if(dragging) {
+            d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
+            d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
+            if(!grid.dominoOnGrid(d))
+                grid.setSnapped(false);
+            repaint();
 
-			grid.holdDomino(d, ref);
-		}
+            grid.holdDomino(d, domino);
+        }
 
         if(draggingCube) {
             r.moveTo(new Coordinate(e.getX(), e.getY(), 0));

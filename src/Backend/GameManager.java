@@ -1,14 +1,13 @@
 package Backend;
 
+import resources.OurColors;
+import resources.Titles;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
-
-import javax.swing.Timer;
-
-import resources.OurColors;
-import resources.Titles;
 
 public class GameManager {
     private boolean firstTurn;
@@ -113,31 +112,52 @@ public class GameManager {
         dominoesToSelect = deck.getDominoesToSelect();
         for (int i = 0; i < players.size(); i++) {
             currPlayerIdx = i;
-            final Player currentPlayer = players.get(currPlayerIdx);
+            Player currentPlayer = players.get(currPlayerIdx);
             if (currentPlayer instanceof ComputerPlayer) {
                 ((ComputerPlayer) currentPlayer).calculateChoice();
                 ((ComputerPlayer) currentPlayer).placeDomino();
             } else {
-
-                final Timer timer1 = new Timer(1, null);
-                timer1.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentPlayer.hasSelected())
-                            timer1.stop();
+                Thread newThread = new Thread();
+                while (!currentPlayer.hasSelected()) {
+                    synchronized (this) {
+                        try {
+                            newThread.wait();
+                        } catch (InterruptedException e) {
+                            System.out.println("Thread interrupted");
+                        }
                     }
-                });
-                timer1.start();
-
-                final Timer timer2 = new Timer(1, null);
-                timer2.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentPlayer.hasPlaced())
-                            timer2.stop();
+                }
+                newThread.notifyAll();
+                while (!currentPlayer.hasPlaced()) {
+                    synchronized (this) {
+                        try {
+                            newThread.wait();
+                        } catch (InterruptedException e) {
+                            System.out.println("Thread interrupted");
+                        }
                     }
-                });
-                if (!firstTurn)
-                    timer2.start();
+                }
+                newThread.notifyAll();
 
+
+//                Timer timer1 = new Timer(1, null);
+//                timer1.addActionListener(new ActionListener() {
+//                    public void actionPerformed(ActionEvent e) {
+//                        if (currentPlayer.hasSelected())
+//                            timer1.stop();
+//                    }
+//                });
+//                timer1.start();
+//
+//                Timer timer2 = new Timer(1, null);
+//                timer2.addActionListener(new ActionListener() {
+//                    public void actionPerformed(ActionEvent e) {
+//                        if (currentPlayer.hasPlaced())
+//                            timer2.stop();
+//                    }
+//                });
+//                if (!firstTurn)
+//                    timer2.start();
 
             }
             currentPlayer.setSelected(false);
@@ -168,9 +188,7 @@ public class GameManager {
         return players.get(currPlayerIdx);
     }
 
-    public void nextPlayer() {
-    	getCurrentPlayer().setPlaced(true);
-    	getCurrentPlayer().setSelected(true);
+    public void updateCurrentPlayer() {
         currPlayerIdx++;
         if (currPlayerIdx > players.size() - 1) {
             currPlayerIdx = 0;
@@ -183,9 +201,10 @@ public class GameManager {
 
     public void updateTurnOrder() {
         ArrayList<Integer> dominoValues = new ArrayList<>();
-        for (Player player : players) {
-        	//TODO: player.getNextDomino() returns null on first turn
-            dominoValues.add(player.getNextDomino().getValue());
+        if (!firstTurn) {
+            for (Player player : players) {
+                dominoValues.add(player.getNextDomino().getValue());
+            }
         }
         for (int i = 0; i < dominoValues.size() - 1; i++) {
             for (int j = 0; j < dominoValues.size() - 1 - i; j++) {
