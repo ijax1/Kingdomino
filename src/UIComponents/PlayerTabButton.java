@@ -11,23 +11,26 @@ public class PlayerTabButton extends Button {
     private GamePanel gamePanel;
     private double width = 50;
     private final double height = 100;
+    private PlayerTabGroup group;
 
-    PlayerTabButton(Coordinate position, Kingdomino k, Player p, GamePanel gp) {
+    PlayerTabButton(Coordinate position, Kingdomino k, Player p, PlayerTabGroup group, GamePanel gp) {
         super(position, k);
         player = p;
         gamePanel = gp;
+        this.group = group;
     }
 
     public void doAction() {
     	System.out.println("player tab button clicked");
-        if (getMinimized()) {
+        if (!getMinimized()) {
             super.show();
+        	group.setSelected(this);
         }
         //will need to update to match once integrated
-         if (gamePanel.getViewedPlayer() != player) {
-             super.show();
-             //gamePanel.setViewedPlayer(player);
-         }
+//         if (gamePanel.getViewedPlayer() != index) {
+//             super.show();
+//             gamePanel.setViewedPlayer(index);
+//         }
     }
 
     public boolean onComponent(Coordinate c) {

@@ -14,16 +14,18 @@ public class PlayerTabGroup extends Component {
     private PlayerTabButton selected;
     private int selectedIndex;
     private Graphics2D graphics;
+    private GamePanel gp;
 
     PlayerTabGroup(ArrayList<Player> players, Kingdomino k, GamePanel gp) {
     	super(new Coordinate(0,160,0), k);
         double x = 0;
         double y = 160;
+        this.gp = gp;
 
         group = new ArrayList<PlayerTabButton>();
-        for (Player p: players) {
+        for (int i=0; i<players.size(); i++) {
             Coordinate coord = new Coordinate(x, y,0);
-            group.add(new PlayerTabButton(coord, k, p, gp));
+            group.add(new PlayerTabButton(coord, k, players.get(i), this, gp));
             //current height of each domino
             y += 100;
         }
@@ -37,10 +39,15 @@ public class PlayerTabGroup extends Component {
     public void setSelected(PlayerTabButton b) {
         selected = b;
         for (PlayerTabButton button: group) {
-            if (button.getPlayer() != b.getPlayer()) {
-                button.minimize();
-            } else {
+            if (button == b) {
+            	System.out.println("equals button");
+                button.show();
                 selectedIndex = group.indexOf(button);
+                gp.setViewedPlayer(selectedIndex);
+            } else {
+            	System.out.println("not equals button");
+            	button.minimize();
+                
             }
         }
     }
