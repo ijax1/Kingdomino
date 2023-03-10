@@ -13,9 +13,8 @@ public class MinimizeComponentButton extends Button{
     Graphics2D graphics;
     private final MessageTextBox textBox;
 
-    MinimizeComponentButton(Coordinate position, Kingdomino k, Graphics2D g, MessageTextBox textBox) {
+    MinimizeComponentButton(Coordinate position, Kingdomino k, MessageTextBox textBox) {
         super(position, k);
-        graphics = g;
         this.textBox = textBox;
     }
 
@@ -30,8 +29,8 @@ public class MinimizeComponentButton extends Button{
             minimize();
             textBox.minimize();
         }
-
-        textBox.draw(graphics);
+        // will probably draw through whatever draws this button, just gonna set the textbook as show or minimize
+        //textBox.draw(graphics);
 
         //need to minimize message box, but need to get the instance of the message box somehow
     }
