@@ -113,13 +113,13 @@ public class GameManager {
         dominoesToSelect = deck.getDominoesToSelect();
         for (int i = 0; i < players.size(); i++) {
             currPlayerIdx = i;
-            Player currentPlayer = players.get(currPlayerIdx);
+            final Player currentPlayer = players.get(currPlayerIdx);
             if (currentPlayer instanceof ComputerPlayer) {
                 ((ComputerPlayer) currentPlayer).calculateChoice();
                 ((ComputerPlayer) currentPlayer).placeDomino();
             } else {
 
-                Timer timer1 = new Timer(1, null);
+                final Timer timer1 = new Timer(1, null);
                 timer1.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (currentPlayer.hasSelected())
@@ -128,7 +128,7 @@ public class GameManager {
                 });
                 timer1.start();
 
-                Timer timer2 = new Timer(1, null);
+                final Timer timer2 = new Timer(1, null);
                 timer2.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (currentPlayer.hasPlaced())
@@ -168,7 +168,9 @@ public class GameManager {
         return players.get(currPlayerIdx);
     }
 
-    public void updateCurrentPlayer() {
+    public void nextPlayer() {
+    	getCurrentPlayer().setPlaced(true);
+    	getCurrentPlayer().setSelected(true);
         currPlayerIdx++;
         if (currPlayerIdx > players.size() - 1) {
             currPlayerIdx = 0;

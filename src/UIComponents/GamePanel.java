@@ -70,7 +70,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		medievalLg = Resources.getMedievalFont(100);
 		
 		//From InteractionPanel
-		d = new UIDomino(new Coordinate(400,400,0),k,new Color(0,255,0),new Color(255,0,255));
+		d = new UIDomino(new Coordinate(100,100,0),k,new Color(0,255,0),new Color(255,0,255));
 		grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
 		updateUIPlayers();
 		//grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
@@ -125,7 +125,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		System.out.println("dragging: " + dragging);
 		
         //From InteractionPanel
-        grid.render(g, dragging);
+        grid.render(g.create(), dragging);
         checkDomino();
         //moved UIDomino draw to the component loop
         
