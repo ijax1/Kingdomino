@@ -31,6 +31,8 @@ public class UIGrid extends Component{
 
     private boolean showGridLines = false;
 
+    private boolean snapping = false;
+
     public UIGrid(Coordinate center, Kingdomino k, Grid g){
         super(center, k);
         this.width = 0;
@@ -41,6 +43,8 @@ public class UIGrid extends Component{
 
         g.placeDomino(2,2, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.MINE,0),4));
         g.placeDomino(2,3, new Domino(new Tile(Tile.Land.WHEAT,0), new Tile(Tile.Land.PASTURE,0),4));
+        g.placeDomino(1,1, new Domino(new Tile(Tile.Land.FOREST,0), new Tile(Tile.Land.FOREST,0),4));
+        g.placeDomino(3,4, new Domino(new Tile(Tile.Land.MINE,0), new Tile(Tile.Land.SWAMP,0),4));
         Tile[][] tileList = g.getTiles();
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
@@ -71,6 +75,7 @@ public class UIGrid extends Component{
 
         recenter();
     }
+
 
     public void addDominoToGrid(Domino d, Coordinate placed){
 
@@ -136,7 +141,6 @@ public class UIGrid extends Component{
             drawDomino(g);
         }
 
-        g.setColor(Color.ORANGE);
     }
 
     private void drawGridLines(Graphics g){
@@ -170,7 +174,7 @@ public class UIGrid extends Component{
         int index = 0;
         double centerIndexX = 0.5*(gridWidth);
         double centerIndexY = 0.5*(gridHeight);
-
+//cock
         for(int i = 0; i < gridHeight; i++){
             for(int j = 0; j < gridWidth; j++){
                 if(toRender[i][j] != null){
@@ -261,16 +265,17 @@ public class UIGrid extends Component{
         int checkIndexY = (int) Math.round(yMod);
 
         if(grid.availableSpacesGrid(ref)[checkIndexY-1][checkIndexX-1]){
+            snapping = true;
             holding.moveTo(dest);
-            UIDomino uid = new UIDomino(dest, null, ref);
-            uid.incrementRotation(0, 0, holding.getRotation());
-            uid.draw((Graphics2D) g);
+            System.out.println(dest.getX());
+            System.out.println(leftBound + "  " + (xMod * tileSize) + "  " + ( - tileSize/2) + " " + (tileSize*(gridWidth%2)));
+            holding.render(g);
             g.drawOval(tileZeroX-5, tileZeroY-5, 10,10);
+            g.drawOval((int)holding.getCenter().getX()-5, (int)holding.getCenter().getY()-5, 10,10);
         }
         else{
-            UIDomino uid = new UIDomino(holding.getCenter(), null, ref);
-            uid.incrementRotation(0, 0, holding.getRotation());
-            uid.draw((Graphics2D) g);
+            snapping = false;
+            holding.render(g);
         }
 
     }
@@ -421,5 +426,12 @@ public class UIGrid extends Component{
     @Override
     public void whenClicked() {
 
+    }
+    public void setSnapped(boolean snapped){
+        snapping = snapped;
+    }
+
+    public boolean isSnapped() {
+        return snapping;
     }
 }
