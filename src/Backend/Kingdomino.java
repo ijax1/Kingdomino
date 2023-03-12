@@ -29,7 +29,10 @@ public class Kingdomino {
     final private GameManager manager;
     final private CardLayout panels = new CardLayout();
     private JFrame frame;
-    
+
+    public final int FRAME_WIDTH = 1280;
+    public final int FRAME_HEIGHT = 720;
+
     public Kingdomino() {
         manager = new GameManager(this);
         GridBagLayout gb = new GridBagLayout();
@@ -52,7 +55,7 @@ public class Kingdomino {
 //        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setContentPane(basePanel);
 //        frame.setPreferredSize(screenSize);
-        frame.setPreferredSize(new Dimension(1280,720));
+        frame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         frame.setIconImage(Resources.loadImage("crown.ico"));
         frame.pack();
         //frame.setResizable(false);

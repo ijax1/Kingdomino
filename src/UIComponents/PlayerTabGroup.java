@@ -52,6 +52,19 @@ public class PlayerTabGroup extends Component {
         }
     }
 
+    public void selectButton(Coordinate c){
+        PlayerTabButton selected = group.get(0);
+        for(PlayerTabButton p: group){
+            p.minimize();
+            if(p.onComponent(c))
+                selected = p;
+        }
+        selected.show();
+        selectedIndex = group.indexOf(selected);
+        gp.setViewedPlayer(selectedIndex);
+
+    }
+
     public void updateOrder() {
         boolean sorted = false;
         while(!sorted) {
@@ -79,17 +92,27 @@ public class PlayerTabGroup extends Component {
 
 	@Override
 	public boolean onComponent(Coordinate c) {
-		// TODO Auto-generated method stub
-		return false;
+        for(PlayerTabButton p: group){
+            if(p.onComponent(c))
+                return true;
+        }
+        return false;
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-	graphics = g;
+	    graphics = g;
         for (PlayerTabButton button: group) {
-            button.draw(g);
+            if(!button.isMinimized()) {
+                button.draw(g);
+            }
         }
-
+        for (PlayerTabButton button: group) {
+            if(button.isMinimized()) {
+                button.draw(g);
+            }
+        }
+        /*
         if (selected.getPlayer() != getGame().getManager().getCurrentPlayer()) {
             g.setColor(new Color(241, 194, 50, 100));
             int width = 50, height = 100;
@@ -100,8 +123,10 @@ public class PlayerTabGroup extends Component {
             g.fillPolygon(new Polygon(tipX, tipY, 3));
 
             // height = y constant * 2
-            g.drawRect(tipX[2], tipY[0] - 20, 70, 40);
+            g.fillRect(tipX[2], tipY[0] - 20, 70, 40);
         }
+
+         */
 	}
 
 	// trying to reduce the amount of times it needs to redraw?
@@ -109,18 +134,18 @@ public class PlayerTabGroup extends Component {
 	// actually when we add viewed player this whenclicked() will look differently.
 	@Override
 	public void whenClicked() {
-	boolean run = false;
-	for (PlayerTabButton button: group) {
-		if (button.getMinimized() == false) {
-			if (button != selected) {
-				setSelected(button);
-				run = true;
-			}
-		}
-	}
-	if (run) {
-		draw(graphics); 
-	}
+        boolean run = false;
+        for (PlayerTabButton button: group) {
+            if (button.getMinimized() == false) {
+                if (button != selected) {
+                    setSelected(button);
+                    run = true;
+                }
+            }
+        }
+        if (run) {
+            draw(graphics);
+        }
 
 	// shoudl look smth like this instead in theory ????
 		

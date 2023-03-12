@@ -34,9 +34,12 @@ public class UIDomino extends Component{
 
     Domino ref;
 
+    Kingdomino k;
+    double xRotation = 0, yRotation = 0, zRotation = 0;
 
     public UIDomino(Coordinate position, Kingdomino k, Color color1, Color color2) {
         super(position, k);
+        this.k = k;
         double x = position.getX();
         double y = position.getY();
         tiles[0] = new UITile(Color.RED, new Coordinate(position.getX()-sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
@@ -48,6 +51,7 @@ public class UIDomino extends Component{
 
     public UIDomino(Coordinate position, Kingdomino k, Domino d) {
         super(position, k);
+        this.k = k;
         Tile[] dominoTiles = d.getTiles();
         tiles[0] = new UITile(dominoTiles[0].getColor(), new Coordinate(position.getX()-sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
         tiles[1] = new UITile(dominoTiles[1].getColor(), new Coordinate(position.getX()+sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
@@ -104,8 +108,8 @@ public class UIDomino extends Component{
     }
 
     public void render(Graphics g){
-        UIDomino uid = new UIDomino(this.getCenter(), null, ref);
-        uid.incrementRotation(0, 0, this.getRotation());
+        UIDomino uid = new UIDomino(this.getCenter(), k, ref);
+        uid.incrementRotation(xRotation, yRotation, zRotation);
         uid.draw((Graphics2D) g);
     }
     @Override
@@ -118,6 +122,9 @@ public class UIDomino extends Component{
         for(UITile t: tiles){
             t.incrementRotation(xRotation, yRotation, zRotation);
         }
+        this.xRotation += xRotation;
+        this.yRotation += yRotation;
+        this.zRotation += zRotation;
 
     }
 
@@ -143,6 +150,7 @@ public class UIDomino extends Component{
                         domino.moveTo(domino.getMouseLocation());
                         ref.incrementRotation();
                         rotating = false;
+                        zRotation = currentRotation;
                     }
 
                 }

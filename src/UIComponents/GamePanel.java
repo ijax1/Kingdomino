@@ -71,10 +71,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		medievalLg = Resources.getMedievalFont(100);
 		
 		//From InteractionPanel
-		//d = new UIDomino(new Coordinate(100,100,0),k,new Color(0,255,0),new Color(255,0,255));
-		domino = new Domino(new Tile(Land.LAKE, 0), new Tile(Land.FOREST, 0), -1);
-		d = new UIDomino(new Coordinate(400,400,0),k,domino);
-		grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
+		d = new UIDomino(new Coordinate(640,50,0),k,ref);
+		d.setMouseLocation(new Coordinate(640,50,0));
+		grid = new UIGrid(new Coordinate(640,320,0),k,gm.getCurrentPlayer().getGrid());
 		updateUIPlayers();
 		//grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
 	    
@@ -95,11 +94,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		components.add(finishTurn);
 		components.add(textBox);
 		components.add(minimizeComp);
-		components.addAll(group.getButtons());
+		//components.addAll(group.getButtons());
 		components.addAll(banner.getButtons());
 		components.add(d);
 		System.out.print(components);
 	}
+
 	private void updateUIPlayers() {
 		Coordinate gridCenter = new Coordinate(200,300,0);
 		ArrayList<Player>players = gm.getPlayers();
@@ -128,10 +128,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		System.out.println("dragging: " + dragging);
 		
         //From InteractionPanel
-        if(!d.isRotating())
-            checkDomino();
-        grid.render(g, dragging);
-        d.render(g);
+		grid.holdDomino(d,ref);
+        grid.render(g.create(), dragging);
+        checkDomino();
         //moved UIDomino draw to the component loop
         
 		g.setFont(medieval);
@@ -150,6 +149,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				component.draw(componentg);
 			}
 		}
+		d.render(g);
 	}
     public static void applyHints(Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
@@ -195,6 +195,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         if(dragging) {
             if (e.getButton() == MouseEvent.BUTTON1){
                 dragging = false;
+				if(!grid.isSnapped()){
+					d.setMouseLocation(new Coordinate(640,50,0));
+					d.moveTo(new Coordinate(640,50,0));
+				}
                 if(grid.dominoOnGrid(d)) {
                     d.minimize();
                 }
@@ -219,9 +223,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					component.whenClicked();
 				}
 			}
+			if(component instanceof PlayerTabGroup){
+				((PlayerTabGroup) component).selectButton(mouseCoord);
+			}
 		}
 		if(grid.isSnapped()) {
-			//TODO: How to get coords from the uigrid jonathan help 
+			//TODO: How to get coords from the uigrid jonathan help
 			gm.getCurrentPlayer().placeDomino(0,0, d.getRef());
 		}
 		repaint();
@@ -236,11 +243,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         if(dragging) {
             d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
             d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
+			grid.holdDomino(d, domino);
             if(!grid.dominoOnGrid(d))
                 grid.setSnapped(false);
             repaint();
 
-            grid.holdDomino(d, domino);
         }
 
         if(draggingCube) {
@@ -257,8 +264,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         if(dragging) {
         	System.out.println("mouse wheel");
             double direction = Math.signum(e.getWheelRotation());
-            d.incrementRotation(direction * Math.PI/20,direction * Math.PI/30,direction * Math.PI/20);
-            repaint();
+            //d.rotateToNextPos((int) direction, this);
+            d.incrementRotation(0.04,0.04,0.04);
+			repaint();
         }
 		
 	}
