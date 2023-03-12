@@ -10,7 +10,7 @@ import Backend.Kingdomino;
 public class MessageTextBox extends Component {
     //RandomAccessFile file = new RandomAccessFile("filename", "r");
     //int currentLine;
-    private final Coordinate minimizedPosition = new Coordinate(100, 1150, 0)
+    private final Coordinate minimizedPosition = new Coordinate(100, 1150, 0);
 
     MessageTextBox(Coordinate c, Kingdomino k) {
         super(c, k);
@@ -41,7 +41,7 @@ public class MessageTextBox extends Component {
         //filler dimensions rn
         if (getMinimized()) {
             g.setColor(Color.white);
-            g.drawString("MESSAGE", minimizedPosition.getX(),minimizedPosition.getY());
+            g.drawString("MESSAGE", (int) minimizedPosition.getX(), (int) minimizedPosition.getY());
             //newLine();
         } else {
             // draw string quotes based on seeking the current line from the text file with all the quotes

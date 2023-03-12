@@ -22,6 +22,7 @@ import Backend.GameManager;
 import Backend.Kingdomino;
 import Backend.Player;
 import Backend.Tile;
+import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.RectangularPrism;
 import resources.Resources;
@@ -70,7 +71,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		medievalLg = Resources.getMedievalFont(100);
 		
 		//From InteractionPanel
-		d = new UIDomino(new Coordinate(100,100,0),k,new Color(0,255,0),new Color(255,0,255));
+		//d = new UIDomino(new Coordinate(100,100,0),k,new Color(0,255,0),new Color(255,0,255));
+		domino = new Domino(new Tile(Land.LAKE, 0), new Tile(Land.FOREST, 0), -1);
+		d = new UIDomino(new Coordinate(400,400,0),k,domino);
 		grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
 		updateUIPlayers();
 		//grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
@@ -82,7 +85,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		
 		textBox = new MessageTextBox(new Coordinate(200,400,0),k);
 		//TODO: sorry, i can't provide a graphics to pass in here
-		minimizeComp = new MinimizeComponentButton(new Coordinate(400,600,0), k, null, textBox);
+		minimizeComp = new MinimizeComponentButton(new Coordinate(400,600,0), k, textBox);
 		textBox.minimize();
 		
 		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
@@ -125,8 +128,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		System.out.println("dragging: " + dragging);
 		
         //From InteractionPanel
-        grid.render(g.create(), dragging);
-        checkDomino();
+        if(!d.isRotating())
+            checkDomino();
+        grid.render(g, dragging);
+        d.render(g);
         //moved UIDomino draw to the component loop
         
 		g.setFont(medieval);
@@ -214,6 +219,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					component.whenClicked();
 				}
 			}
+		}
+		if(grid.isSnapped()) {
+			//TODO: How to get coords from the uigrid jonathan help 
+			gm.getCurrentPlayer().placeDomino(0,0, d.getRef());
 		}
 		repaint();
 	}
