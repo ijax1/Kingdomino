@@ -57,6 +57,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     boolean dragging = false;
     boolean draggingCube = false;
 
+	boolean dominoButtonSelected = false;
+
 	public GamePanel(Kingdomino k) {
 		setPreferredSize(new Dimension(1280,720));
 		setOpaque(true);
@@ -78,7 +80,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		//grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
 	    
 		group = new PlayerTabGroup(gm.getPlayers(),k, this);
-		banner = new Banner(new Coordinate(750,50,0), k, 4);
+		banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH-400,50,0), k, 4);
 		finishTurn = new FinishTurnButton(new Coordinate(640,620,0),k);
 		
 		
@@ -88,7 +90,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		textBox.minimize();
 		
 		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
+		setComponents();
 
+	}
+
+	private void setComponents(){
 		components.add(group);
 		components.add(banner);
 		components.add(finishTurn);
@@ -97,7 +103,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		//components.addAll(group.getButtons());
 		components.addAll(banner.getButtons());
 		components.add(d);
-		System.out.print(components);
 	}
 
 	private void updateUIPlayers() {
