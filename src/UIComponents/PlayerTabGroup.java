@@ -136,7 +136,7 @@ public class PlayerTabGroup extends Component {
 	public void whenClicked() {
         boolean run = false;
         for (PlayerTabButton button: group) {
-            if (button.getMinimized() == false) {
+            if (!button.getMinimized()) {
                 if (button != selected) {
                     setSelected(button);
                     run = true;

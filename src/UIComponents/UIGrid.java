@@ -33,6 +33,8 @@ public class UIGrid extends Component{
 
     private boolean snapping = false;
 
+    private int[] dominoLocation = {-1,-1};
+
     public UIGrid(Coordinate center, Kingdomino k, Grid g){
         super(center, k);
         this.width = 0;
@@ -267,15 +269,13 @@ public class UIGrid extends Component{
         if(grid.availableSpacesGrid(ref)[checkIndexY-1][checkIndexX-1]){
             snapping = true;
             holding.moveTo(dest);
-            System.out.println(dest.getX());
-            System.out.println(leftBound + "  " + (xMod * tileSize) + "  " + ( - tileSize/2) + " " + (tileSize*(gridWidth%2)));
             holding.render(g);
-            g.drawOval(tileZeroX-5, tileZeroY-5, 10,10);
-            g.drawOval((int)holding.getCenter().getX()-5, (int)holding.getCenter().getY()-5, 10,10);
+            dominoLocation = new int[]{checkIndexY-1,checkIndexX-1};
         }
         else{
             snapping = false;
             holding.render(g);
+            dominoLocation = new int[]{-1,-1};
         }
 
     }
@@ -433,5 +433,9 @@ public class UIGrid extends Component{
 
     public boolean isSnapped() {
         return snapping;
+    }
+
+    public int[] getDominoLocation(){
+        return dominoLocation;
     }
 }

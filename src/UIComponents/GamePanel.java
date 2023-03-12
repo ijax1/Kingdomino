@@ -225,11 +225,26 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			if (component instanceof Button){
 				//this won't work either, just a placeholder
 				if(component.onComponent(mouseCoord)) {
-					component.whenClicked();
+					if(component instanceof DominoButton){
+							for(DominoButton d: banner.getButtons()){
+								if(d != component) {
+									System.out.println("REMOVE");
+									d.removePlayer();
+								}
+								else {
+									System.out.println("DO ACTION");
+									d.doAction();
+								}
+							}
+					}
+					else {
+						component.whenClicked();
+					}
 				}
 			}
 			if(component instanceof PlayerTabGroup){
-				((PlayerTabGroup) component).selectButton(mouseCoord);
+				if(component.onComponent(mouseCoord))
+					((PlayerTabGroup) component).selectButton(mouseCoord);
 			}
 		}
 		if(grid.isSnapped()) {
@@ -270,7 +285,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         	System.out.println("mouse wheel");
             double direction = Math.signum(e.getWheelRotation());
             //d.rotateToNextPos((int) direction, this);
-            d.incrementRotation(0.04,0.04,0.04);
+            //d.incrementRotation(0.04,0.04,0.04);
 			repaint();
         }
 		

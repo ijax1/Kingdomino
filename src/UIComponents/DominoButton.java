@@ -43,6 +43,7 @@ public class DominoButton extends Button {
    
    public void removePlayer() {
       player = null;
+      locked = false;
    }
       
    // after turn finishs, will call setLocked on the domino button that has the same player instance as curretn player
@@ -62,7 +63,7 @@ public class DominoButton extends Button {
    public boolean onComponent(Coordinate c) {
    	double x = getPosition().getX() - width/2;
    	double y = getPosition().getY() - height/2;
-       System.out.println(c + " / " + getPosition());
+
     return ((c.getX() > x && c.getX() < x+width) &&
                (c.getY() > y && c.getY() < y+height));
    }
