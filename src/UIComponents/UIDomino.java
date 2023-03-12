@@ -1,7 +1,6 @@
 package UIComponents;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -104,6 +103,11 @@ public class UIDomino extends Component{
             rotating = false;
     }
 
+    public void render(Graphics g){
+        UIDomino uid = new UIDomino(this.getCenter(), null, ref);
+        uid.incrementRotation(0, 0, this.getRotation());
+        uid.draw((Graphics2D) g);
+    }
     @Override
     public void whenClicked() {
 
@@ -138,6 +142,7 @@ public class UIDomino extends Component{
                         timer.stop();
                         domino.moveTo(domino.getMouseLocation());
                         ref.incrementRotation();
+                        rotating = false;
                     }
 
                 }

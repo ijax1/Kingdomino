@@ -22,6 +22,7 @@ import Backend.GameManager;
 import Backend.Kingdomino;
 import Backend.Player;
 import Backend.Tile;
+import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.RectangularPrism;
 import resources.Resources;
@@ -35,7 +36,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private Font medievalLg;
 	private int mousedx;
 	private int mousedy;
-	private UIDomino domino;
+	private Domino domino;
 	private int mousex, mousey;
 	private PlayerTabGroup group;
 	private PlayerTabButton playerTab;
@@ -70,7 +71,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		medievalLg = Resources.getMedievalFont(100);
 		
 		//From InteractionPanel
-		d = new UIDomino(new Coordinate(400,400,0),k,new Color(0,255,0),new Color(255,0,255));
+		//d = new UIDomino(new Coordinate(100,100,0),k,new Color(0,255,0),new Color(255,0,255));
+		domino = new Domino(new Tile(Land.LAKE, 0), new Tile(Land.FOREST, 0), -1);
+		d = new UIDomino(new Coordinate(400,400,0),k,domino);
 		grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
 		updateUIPlayers();
 		//grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
@@ -82,8 +85,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		
 		textBox = new MessageTextBox(new Coordinate(200,400,0),k);
 		//TODO: sorry, i can't provide a graphics to pass in here
-		//and this can be switched to relative coordinates
-		minimizeComp = new MinimizeComponentButton(new Coordinate(400,600,0), k, null, textBox);
+		minimizeComp = new MinimizeComponentButton(new Coordinate(400,600,0), k, textBox);
 		textBox.minimize();
 		
 		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
@@ -101,9 +103,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private void updateUIPlayers() {
 		Coordinate gridCenter = new Coordinate(200,300,0);
 		ArrayList<Player>players = gm.getPlayers();
-		for(int i=0; i<players.size(); i++) {
-			uiPlayers.add(new UIPlayer(gridCenter, k, players.get(i)));
-		}
+//		for(int i=0; i<players.size(); i++) {
+//			uiPlayers.add(new UIPlayer(gridCenter, k, players.get(i)));
+//		}
 	}
 	public int getViewedPlayer() {
 		return viewedPlayer;
@@ -126,8 +128,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		System.out.println("dragging: " + dragging);
 		
         //From InteractionPanel
+        if(!d.isRotating())
+            checkDomino();
         grid.render(g, dragging);
-        checkDomino();
+        d.render(g);
         //moved UIDomino draw to the component loop
         
 		g.setFont(medieval);
@@ -174,7 +178,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         if(d.onComponent(new Coordinate(e.getX(),e.getY(),0))) {
             dragging = true;
         }
-        if(dragging && e.getButton() == MouseEvent.BUTTON3){
+        if(dragging && e.getButton() == MouseEvent.BUTTON3 && !grid.isSnapped()){
             d.rotateToNextPos(1,this);
         }
         if(r.intersects(new Coordinate(e.getX(), e.getY(), 0))){
@@ -188,7 +192,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		System.out.println("Clicked at " + "X: " + x + ", Y:" + y);
 		
 		//From InteractionPanel
-		if(dragging) {
+        if(dragging) {
             if (e.getButton() == MouseEvent.BUTTON1){
                 dragging = false;
                 if(grid.dominoOnGrid(d)) {
@@ -197,9 +201,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
                 else
                     d.show();
             }
+            else{
+                if(!d.onComponent(new Coordinate(e.getX(),e.getY(),0))) {
+                    dragging = false;
+                }
+            }
         }
         draggingCube = false;
-        repaint();
         
 		//TODO: this won't work, just a placeholder.
 		Coordinate mouseCoord = new Coordinate(x,y,0);
@@ -212,6 +220,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				}
 			}
 		}
+		if(grid.isSnapped()) {
+			//TODO: How to get coords from the uigrid jonathan help 
+			gm.getCurrentPlayer().placeDomino(0,0, d.getRef());
+		}
+		repaint();
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {
@@ -220,13 +233,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		//System.out.println("mousex: "+mousex + " mousey: "+mousey);
 		
 		//From InteractionPanel
-		if(dragging) {
-			d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
-			d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
-			repaint();
+        if(dragging) {
+            d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
+            d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
+            if(!grid.dominoOnGrid(d))
+                grid.setSnapped(false);
+            repaint();
 
-			grid.holdDomino(d, ref);
-		}
+            grid.holdDomino(d, domino);
+        }
 
         if(draggingCube) {
             r.moveTo(new Coordinate(e.getX(), e.getY(), 0));

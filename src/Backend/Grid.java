@@ -65,7 +65,9 @@ public class Grid {
             for (int j = 0; j < 9; j++) {
                 if (isValidPos(i + changeX, j + changeY)
                         && grid[i][j] == null
-                        && grid[i + changeX][j + changeY] == null) {
+                        && grid[i + changeX][j + changeY] == null
+                		&& (validTilePlacement(domino.getTiles()[0], i, j))
+                        || validTilePlacement(domino.getTiles()[1], i + changeY, j + changeX)) {
                     positions.add(new GridPosition(i, j));
                 }
             }

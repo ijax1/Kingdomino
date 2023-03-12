@@ -48,7 +48,13 @@ public class GridTester {
 		Grid grid = new Grid(testGrid);
 		Domino lake = new Domino(new Tile(LAKE, 1), new Tile(FOREST,0), 35);
 		System.out.print(grid);
-		System.out.print("Score: " + grid.calculateScore());
-		System.out.print("Avail spaces: " + grid.availableSpaces(lake));
+		System.out.println("Score: " + grid.calculateScore());
+		System.out.println("Avail spaces: " + grid.availableSpaces(lake));
+		for(int i=0; i<grid.availableSpacesGrid(lake).length; i++) {
+			for(int j=0; j<grid.availableSpacesGrid(lake)[0].length; j++) {
+				System.out.print(grid.availableSpacesGrid(lake)[i][j] + " ");
+			}
+			System.out.println();
+		}
 	}
 }
