@@ -92,6 +92,10 @@ public class Kingdomino {
         
     }
 
+    public GamePanel getGamePanel() {
+        return gamePanel;
+    }
+
 
 
     public static void main(String[] args) {

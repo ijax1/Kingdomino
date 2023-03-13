@@ -21,7 +21,6 @@ public class PlayerTabButton extends Button {
     }
 
     public void doAction() {
-    	System.out.println("player tab button clicked");
         if (!getMinimized()) {
             super.show();
         	group.setSelected(this);
@@ -55,7 +54,7 @@ public class PlayerTabButton extends Button {
         }
         int filletRadius = 20;
         //g.fillRect((int) startX, (int) startY, (int) width, (int) height);
-        System.out.println("STARTY " + startY);
+//        System.out.println("STARTY " + startY);
         g.setStroke(new BasicStroke(3));
         g.setColor(Color.BLACK);
         g.drawRect((int) startX, (int) startY, (int) width-filletRadius/2, (int) height);
@@ -68,5 +67,9 @@ public class PlayerTabButton extends Button {
         g.fillOval((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) filletRadius);
         g.fillRect((int) (startX+(width-filletRadius)), (int) startY + filletRadius/2, (int) filletRadius, (int) height - filletRadius);
         g.fillOval((int) (startX+(width-filletRadius)), (int) (startY + (height - filletRadius)), (int) filletRadius, (int) filletRadius);
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

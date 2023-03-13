@@ -130,7 +130,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		g.setColor(p.getColor());
 		g.fillOval(100,50,getWidth()-200, getHeight()-100);
 		
-		System.out.println("dragging: " + dragging);
+//		System.out.println("dragging: " + dragging);
 		
         //From InteractionPanel
 		grid.holdDomino(d,ref);
@@ -338,4 +338,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void keyTyped(KeyEvent e) {
 	}
 
+	public void changePlayer(Player player) {
+		group.selectButton(player);
+	}
+
+	public PlayerTabGroup getGroup() {
+		return group;
+	}
 }
