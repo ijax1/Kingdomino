@@ -22,7 +22,6 @@ import Backend.GameManager;
 import Backend.Kingdomino;
 import Backend.Player;
 import Backend.Tile;
-import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.RectangularPrism;
 import resources.Resources;
@@ -97,13 +96,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		updateUIPlayers();
 		banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH-400,50,0), k, 4);
 		finishTurn = new FinishTurnButton(new Coordinate(640,620,0),k);
-		
-		
+
+
 		textBox = new MessageTextBox(new Coordinate(200,400,0),k);
 		//TODO: sorry, i can't provide a graphics to pass in here
 		minimizeComp = new MinimizeComponentButton(new Coordinate(400,600,0), k, textBox);
 		textBox.minimize();
-		
+
 		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
 		setComponents();
 
@@ -128,8 +127,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 //		}
     }
 
-    public int getViewedPlayer() {
+    public int getViewedPlayerIndex() {
         return viewedPlayer;
+    }
+    public Player getViewedPlayer() {
+    	return gm.getPlayers().get(viewedPlayer);
     }
 
     public void setViewedPlayer(int player) {
@@ -225,7 +227,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		int x = e.getX();
 		int y = e.getY();
 		System.out.println("Clicked at " + "X: " + x + ", Y:" + y);
-		
+
 		//From InteractionPanel
         if(dragging) {
             if (e.getButton() == MouseEvent.BUTTON1){

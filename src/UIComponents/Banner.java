@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import javax.swing.Timer;
 
 import Backend.Domino;
+import Backend.GameManager;
 import Backend.GameManager.GameState;
 import Backend.Grid;
 import Backend.Kingdomino;
-import Backend.Player;
 import Backend.Tile;
 import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
@@ -21,9 +21,15 @@ import resources.OurColors;
 
 public class Banner extends Component {
 	private boolean minimized;
+	private Kingdomino k;
+	private GameManager gm;
+	private GamePanel gamePanel;
 	private final ArrayList<DominoButton> buttons = new ArrayList<DominoButton>();
-	Banner(Coordinate position, Kingdomino k, int numButtons) {
+	Banner(Coordinate position, Kingdomino k, int numButtons, GamePanel gp) {
 		super(position, k);
+		this.k = k;
+		this.gm = k.getManager();
+		this.gamePanel = gp;
 		double x = position.getX();
 		double y = position.getY();
 		
@@ -55,17 +61,22 @@ public class Banner extends Component {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	public void showTally(Player p) {
+	public void showTally(Graphics2D g) {
 		for(DominoButton b: buttons){
 			b.minimize();
 		}
-		Grid grid = p.getGrid();
+		
+		Grid grid = gamePanel.getViewedPlayer().getGrid();
 		int forest = grid.calculateScore(Land.FOREST);
 		int wheat = grid.calculateScore(Land.WHEAT);
 		int pasture = grid.calculateScore(Land.PASTURE);
-		int lake = grid.calculateScore(Land.FOREST);
-		int swamp = grid.calculateScore(Land.FOREST);
-		int mine = grid.calculateScore(Land.FOREST);
+		int lake = grid.calculateScore(Land.LAKE);
+		int swamp = grid.calculateScore(Land.SWAMP);
+		int mine = grid.calculateScore(Land.MINE);
+		
+		g.drawString(""+mine, 0, 100);
+		
+		
 	}
 
 	@Override
@@ -142,7 +153,7 @@ public class Banner extends Component {
 		if(getManager().getGameState() == GameState.PLAYER_TURN) {
 			
 		} else if(getManager().getGameState() == GameState.TALLY_SCORE) {
-			
+			showTally(g);
 		} else {
 			//don't draw? this should never happen though
 		}
