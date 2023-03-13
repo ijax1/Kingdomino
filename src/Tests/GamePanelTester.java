@@ -33,7 +33,7 @@ public class GamePanelTester {
 		}
 		Kingdomino k = new Kingdomino();
 		k.getManager().setPlayers(fakePlayers);
-		k.changePanel(GameState.PLAYER_TURN);
+		k.getManager().setGameState(GameState.PLAYER_TURN);
 //		GameManager gm = k.getManager();
 //		
 

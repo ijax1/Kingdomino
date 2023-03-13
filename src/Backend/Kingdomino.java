@@ -49,7 +49,7 @@ public class Kingdomino {
     }
 
     // GamePanel needs to be initialized after startPanel initializes players
-    public void initializeGamePanel() {
+    private void initializeGamePanel() {
         gamePanel = new GamePanel(this);
         basePanel.add(gamePanel, "Game Panel");
     }
@@ -90,6 +90,9 @@ public class Kingdomino {
             panels.show(basePanel, "Start Panel");
         } else if (state == GameState.PLAYER_TURN || 
         		state == GameState.TALLY_SCORE) {
+        	if(gamePanel == null) {
+        		initializeGamePanel();
+        	}
         	panels.show(basePanel, "Game Panel");
         } else if (state == GameState.ENDSCREEN) {
         	panels.show(basePanel, "Podium Panel");

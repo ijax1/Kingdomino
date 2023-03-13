@@ -1,12 +1,19 @@
 package UIComponents;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import Backend.GameManager;
 import Backend.GameManager.GameState;
@@ -69,7 +76,6 @@ public class StartPanel extends JPanel {
                     }
                     if (!strategyMode) {
                         gm.setPlayers(players);
-                        k.initializeGamePanel();
                         gm.setGameState(GameState.PLAYER_TURN);
                     } else {
                         //only computer players

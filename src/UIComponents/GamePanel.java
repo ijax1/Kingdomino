@@ -52,76 +52,63 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     //From InteractionPanel
     private UIDomino d;
     private UIGrid grid;
-    private ArrayList<UIGrid> grids;
+    private ArrayList<UIGrid> grids = new ArrayList<UIGrid>();
     private RectangularPrism r = new RectangularPrism(new Coordinate(200, 200, 200), 100, 200, 25);
     boolean dragging = false;
     boolean draggingCube = false;
 
     boolean dominoButtonSelected = false;
 
-	Coordinate mouseLocation = new Coordinate(640,50,0);
+    public GamePanel(Kingdomino k) {
+        setPreferredSize(new Dimension(1280, 720));
+        setOpaque(true);
+        setBackground(new Color(100, 100, 100));
+        addMouseListener(this);
+        addMouseMotionListener(this);
+        addMouseWheelListener(this);
+        addKeyListener(this);
+        gm = k.getManager();
+        this.k = k;
+        medieval = Resources.getMedievalFont(20);
+        medievalLg = Resources.getMedievalFont(100);
 
-	public GamePanel(Kingdomino k) {
-		setPreferredSize(new Dimension(1280,720));
-		setOpaque(true);
-		setBackground(new Color(100,100,100));
-		addMouseListener(this);
-		addMouseMotionListener(this);
-		addMouseWheelListener(this);
-		addKeyListener(this);
-		gm = k.getManager();
-		this.k = k;
-		medieval = Resources.getMedievalFont(20);
-		medievalLg = Resources.getMedievalFont(100);
+        //From InteractionPanel
+        d = new UIDomino(new Coordinate(640, 50, 0), k, ref);
+        d.setMouseLocation(new Coordinate(640, 50, 0));
+        setViewedPlayer(0);
+//        grid = new UIGrid(new Coordinate(640, 320, 0), k, gm.getCurrentPlayer().getGrid());
+        updateUIPlayers();
+        //grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
 
-
-		System.out.println(k.getManager().getPlayers().get(getViewedPlayer()));
-		//From InteractionPanel
-
-		if(k.getManager().getPlayers().get(getViewedPlayer()).getCurrentDomino() != null && k.getManager().getPlayers().get(getViewedPlayer()) == k.getManager().getCurrentPlayer()){
-			d = new UIDomino(mouseLocation,k,k.getManager().getPlayers().get(getViewedPlayer()).getCurrentDomino());
-			double rotation = k.getManager().getPlayers().get(getViewedPlayer()).getCurrentDomino().getRotation();
-			d.incrementRotation(0,0,rotation);
-			d.setMouseLocation(mouseLocation);
-		}
-		else if (k.getManager().getPlayers().get(getViewedPlayer()).getCurrentDomino() != null && k.getManager().getPlayers().get(getViewedPlayer()) != k.getManager().getCurrentPlayer())
-			d = new UIDomino(new Coordinate(640,50,0),k,k.getManager().getPlayers().get(getViewedPlayer()).getCurrentDomino());
-		else
-			d = new UIDomino(new Coordinate(640,50,0),k,ref);
-		grid = new UIGrid(new Coordinate(640,320,0),k,k.getManager().getPlayers().get(getViewedPlayer()).getGrid());
-
-		//grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
-
-		group = new PlayerTabGroup(gm.getPlayers(),k, this);
-		updateUIPlayers();
-		banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH-400,50,0), k, 4);
-		finishTurn = new FinishTurnButton(new Coordinate(640,620,0),k);
+        group = new PlayerTabGroup(gm.getPlayers(), k, this);
+        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this);
+        finishTurn = new FinishTurnButton(new Coordinate(640, 620, 0), k);
 
 
-		textBox = new MessageTextBox(new Coordinate(200,400,0),k);
-		//TODO: sorry, i can't provide a graphics to pass in here
-		minimizeComp = new MinimizeComponentButton(new Coordinate(400,600,0), k, textBox);
-		textBox.minimize();
+        textBox = new MessageTextBox(new Coordinate(200, 400, 0), k);
+        //TODO: sorry, i can't provide a graphics to pass in here
+        minimizeComp = new MinimizeComponentButton(new Coordinate(400, 600, 0), k, textBox);
+        textBox.minimize();
 
-		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
-		setComponents();
+        //button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());
+        setComponents();
 
     }
 
-	private void setComponents(){
-		components.add(group);
-		components.add(banner);
-		components.add(finishTurn);
-		components.add(textBox);
-		components.add(minimizeComp);
-		components.addAll(banner.getButtons());
-		components.add(d);
-	}
+    private void setComponents() {
+        components.add(group);
+        components.add(banner);
+        components.add(finishTurn);
+        components.add(textBox);
+        components.add(minimizeComp);
+        //components.addAll(group.getButtons());
+        components.addAll(banner.getButtons());
+        components.add(d);
+    }
 
-	private void updateUIPlayers() {
-		//Coordinate gridCenter = new Coordinate(200,300,0);
-		//ArrayList<Player>players = gm.getPlayers();
-		group.updateOrder();
+    private void updateUIPlayers() {
+        Coordinate gridCenter = new Coordinate(200, 300, 0);
+        ArrayList<Player> players = gm.getPlayers();
 //		for(int i=0; i<players.size(); i++) {
 //			uiPlayers.add(new UIPlayer(gridCenter, k, players.get(i)));
 //		}
@@ -136,57 +123,52 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
     public void setViewedPlayer(int player) {
         viewedPlayer = player;
+        for (Player p : gm.getPlayers())
+            grids.add(new UIGrid(new Coordinate(640, 320, 0), k, p.getGrid()));
+        grid = grids.get(player);
+        if(player != gm.getCurrPlayerIdx()) {
+        	d.minimize();
+        }
         repaint();
     }
 
     public void paintComponent(Graphics g1) {
-		Graphics2D g = (Graphics2D) g1;
-		Player p = gm.getPlayers().get(viewedPlayer);
-		applyHints(g);
-		Dimension size = super.getSize();
-		//g.scale(size.width/1280.0, size.width/720.0);
-		g.setColor(p.getColor().darker());
-		g.fillRect(0, 0, getWidth(), getHeight());
-		g.setColor(p.getColor());
-		g.fillOval(100, 50, getWidth() - 200, getHeight() - 100);
+        Graphics2D g = (Graphics2D) g1;
+        Player p = gm.getPlayers().get(viewedPlayer);
+        applyHints(g);
+        Dimension size = super.getSize();
+        //g.scale(size.width/1280.0, size.width/720.0);
+        g.setColor(p.getColor().darker());
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.setColor(p.getColor());
+        g.fillOval(100, 50, getWidth() - 200, getHeight() - 100);
 
 //		System.out.println("dragging: " + dragging);
 
-		//From InteractionPanel
-		grid.holdDomino(d, ref);
-		grid.render(g.create(), dragging);
-		checkDomino();
-		//moved UIDomino draw to the component loop
+        //From InteractionPanel
+        grid.holdDomino(d, ref);
+        grid.render(g.create(), dragging);
+        checkDomino();
+        //moved UIDomino draw to the component loop
 
-		g.setFont(medieval);
-		for (Component component : components) {
-			if (!component.isMinimized()) {
-				//TODO: currently, every component uses the same graphics object. Is this ok?
-				//We may need to copy the graphics object using g.create() or g.copyarea()
-				Graphics2D componentg = (Graphics2D) g.create();
-				double x = component.getPosition().getX();
-				double y = component.getPosition().getY();
-				//componentg.translate(x,y);
-				//System.out.println(component);
-				component.draw(componentg);
-			}
-		}
-		//TODO BLESS THIS MESS
-		if (k.getManager().getPlayers().get(getViewedPlayer()).getCurrentDomino() != null && k.getManager().getPlayers().get(getViewedPlayer()) == k.getManager().getCurrentPlayer()) {
-			d = new UIDomino(mouseLocation, k, k.getManager().getPlayers().get(getViewedPlayer()).getCurrentDomino());
-			double rotation = k.getManager().getPlayers().get(getViewedPlayer()).getCurrentDomino().getRotation();
-			d.incrementRotation(0, 0, rotation);
-			d.setMouseLocation(mouseLocation);
-		} else if (k.getManager().getPlayers().get(getViewedPlayer()).getCurrentDomino() != null && k.getManager().getPlayers().get(getViewedPlayer()) != k.getManager().getCurrentPlayer())
-			d = new UIDomino(new Coordinate(640, 50, 0), k, k.getManager().getPlayers().get(getViewedPlayer()).getCurrentDomino());
-		else
-			d = new UIDomino(new Coordinate(640, 50, 0), k, ref);
-		ref = k.getManager().getPlayers().get(getViewedPlayer()).getCurrentDomino();
-		grid.holdDomino(d, ref);
-		grid.render(g.create(), dragging);
-        if(ref != null)
-		    d.render(g);
-	}
+        g.setFont(medieval);
+//		g.drawString("Hello world", 200,200);
+//		g.fillOval(500, 500, 10, 10);
+//		g.drawRect(480, 480, 40, 40);
+        for (Component component : components) {
+            if (!component.isMinimized()) {
+                //TODO: currently, every component uses the same graphics object. Is this ok?
+                //We may need to copy the graphics object using g.create() or g.copyarea()
+                Graphics2D componentg = (Graphics2D) g.create();
+                double x = component.getPosition().getX();
+                double y = component.getPosition().getY();
+                //componentg.translate(x,y);
+                //System.out.println(component);
+                component.draw(componentg);
+            }
+        }
+        d.render(g);
+    }
 
     public static void applyHints(Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
@@ -220,17 +202,17 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         if (r.intersects(new Coordinate(e.getX(), e.getY(), 0))) {
             draggingCube = true;
         }
-	}
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		updateUIPlayers();
-		int x = e.getX();
-		int y = e.getY();
-		System.out.println("Clicked at " + "X: " + x + ", Y:" + y);
+    }
 
-		//From InteractionPanel
-        if(dragging) {
-            if (e.getButton() == MouseEvent.BUTTON1){
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+//		System.out.println("Clicked at " + "X: " + x + ", Y:" + y);
+
+        //From InteractionPanel
+        if (dragging) {
+            if (e.getButton() == MouseEvent.BUTTON1) {
                 dragging = false;
                 if (!grid.isSnapped()) {
                     d.setMouseLocation(new Coordinate(640, 50, 0));
@@ -332,6 +314,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     public void changePlayer(Player player) {
         group.selectButton(player);
         grid = grids.get(gm.getCurrPlayerIdx());
+        d = new UIDomino(new Coordinate(640, 50, 0), k, player.getNextDomino());
+        d.setMouseLocation(new Coordinate(640, 50, 0));
+        for (DominoButton button : dominoButtons) {
+            button.removePlayer();
+        }
+        repaint();
     }
 
     public void mouseEvent(boolean isClicked, boolean isDragged, boolean isScrolling) {

@@ -20,7 +20,7 @@ public class TallyPanelTester {
 		
 		TestKingdomino k = new TestKingdomino();
 		k.getManager().setPlayers(fakePlayers);
-		k.changePanel(GameState.TALLY_SCORE);
+		k.getManager().setGameState(GameState.TALLY_SCORE);
 //		GameManager gm = k.getManager();
 //		
 
