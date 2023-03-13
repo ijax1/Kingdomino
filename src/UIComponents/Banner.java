@@ -1,6 +1,8 @@
 package UIComponents;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,7 +11,9 @@ import javax.swing.Timer;
 
 import Backend.Domino;
 import Backend.GameManager.GameState;
+import Backend.Grid;
 import Backend.Kingdomino;
+import Backend.Player;
 import Backend.Tile;
 import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
@@ -50,6 +54,18 @@ public class Banner extends Component {
 	public boolean onComponent(Coordinate c) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	public void showTally(Player p) {
+		for(DominoButton b: buttons){
+			b.minimize();
+		}
+		Grid grid = p.getGrid();
+		int forest = grid.calculateScore(Land.FOREST);
+		int wheat = grid.calculateScore(Land.WHEAT);
+		int pasture = grid.calculateScore(Land.PASTURE);
+		int lake = grid.calculateScore(Land.FOREST);
+		int swamp = grid.calculateScore(Land.FOREST);
+		int mine = grid.calculateScore(Land.FOREST);
 	}
 
 	@Override
