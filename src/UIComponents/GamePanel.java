@@ -82,12 +82,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
         group = new PlayerTabGroup(gm.getPlayers(), k, this);
         banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this);
-        finishTurn = new FinishTurnButton(new Coordinate(640, 620, 0), k);
+        finishTurn = new FinishTurnButton(new Coordinate(540, 600, 0), k);
 
 
-        textBox = new MessageTextBox(new Coordinate(200, 400, 0), k);
+        textBox = new MessageTextBox(new Coordinate(100, 550, 0), k);
         //TODO: sorry, i can't provide a graphics to pass in here
-        minimizeComp = new MinimizeComponentButton(new Coordinate(400, 600, 0), k, textBox);
+        minimizeComp = new MinimizeComponentButton(new Coordinate(375, 575, 0), k, textBox);
         textBox.minimize();
 
         //button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());

@@ -85,7 +85,7 @@ public class MinimizeComponentButton extends Button{
             yPoints[i] = (int) points[1][i];
         }
 
-        g.setColor(new Color(241, 194, 50, 100));
+        g.setColor(new Color(241, 194, 50));
         g.fillPolygon(new Polygon(xPoints, yPoints, 3));
     }
 

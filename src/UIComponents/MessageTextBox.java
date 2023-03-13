@@ -37,13 +37,16 @@ public class MessageTextBox extends Component {
 
     @Override
     public void draw(Graphics2D g) {
-        g.setColor(new Color(140, 67, 188, 100));
+        g.setColor(new Color(140, 67, 188));
         //filler dimensions rn
         if (getMinimized()) {
             g.setColor(Color.white);
             g.drawString("MESSAGE", (int) minimizedPosition.getX(), (int) minimizedPosition.getY());
             //newLine();
         } else {
+            g.fillRoundRect((int) getPosition().getX(), (int) getPosition().getY(), 300, 220, 50, 50);
+            g.setColor(Color.white);
+            g.drawString("MESSAGE", (int) getPosition().getX() + 110 - (g.getFontMetrics().stringWidth("MESSAGE"))/2, (int) getPosition().getY() + 30);
             // draw string quotes based on seeking the current line from the text file with all the quotes
             // need to read the quote and find the bounds between when the quote starts / ends
             // if quote is too long, it should break into multiple lines, using a loop to draw each line
@@ -79,7 +82,7 @@ public class MessageTextBox extends Component {
 
 
 
-            //g.draw(getPosition().getX(), getPosition().getY(), 500, 200);
+
         }
     }
 
