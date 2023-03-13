@@ -24,7 +24,7 @@ public class Kingdomino {
     
     final private JPanel basePanel;
     final private StartPanel startPanel;
-    final private GamePanel gamePanel;
+    private GamePanel gamePanel;
     final private PodiumPanel podiumPanel;
     final private GameManager manager;
     final private CardLayout panels = new CardLayout();
@@ -39,13 +39,19 @@ public class Kingdomino {
         basePanel = new JPanel(panels);
         
         startPanel = new StartPanel(gb, this);
-        gamePanel = new GamePanel(this);
+//        gamePanel = new GamePanel(this);
         podiumPanel = new PodiumPanel(new GridBagLayout(), this);
         
         basePanel.add(startPanel, "Start Panel");
-        basePanel.add(gamePanel, "Game Panel");
+//        basePanel.add(gamePanel, "Game Panel");
         basePanel.add(podiumPanel, "Podium Panel");
         setUpFrame();
+    }
+
+    // GamePanel needs to be initialized after startPanel initializes players
+    public void initializeGamePanel() {
+        gamePanel = new GamePanel(this);
+        basePanel.add(gamePanel, "Game Panel");
     }
 
     private void setUpFrame() {

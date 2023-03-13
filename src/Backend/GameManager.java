@@ -183,6 +183,8 @@ public class GameManager {
         return players.get(currPlayerIdx);
     }
 
+    public int getCurrPlayerIdx() {return currPlayerIdx;}
+
 
     public Deck getDeck() {
         return deck;

@@ -57,7 +57,6 @@ public class StartPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Player> players = getAllPlayers();
-                k.getGamePanel().getGroup().updatePlayers(players);
                 if (players.size() < 2) {
                     new ErrorDialog(k.getFrame());
                 } else {
@@ -70,6 +69,7 @@ public class StartPanel extends JPanel {
                     }
                     if (!strategyMode) {
                         gm.setPlayers(players);
+                        k.initializeGamePanel();
                         gm.setGameState(GameState.PLAYER_TURN);
                     } else {
                         //only computer players
