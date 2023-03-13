@@ -18,6 +18,7 @@ import Backend.Tile;
 import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
 import resources.OurColors;
+import resources.Resources;
 
 public class Banner extends Component {
 	private boolean minimized;
@@ -61,20 +62,33 @@ public class Banner extends Component {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	public void showTally(Graphics2D g) {
+	private void showDominoes() {
+		for(DominoButton b: buttons){
+			b.show();
+		}
+	}
+	private void showTally(Graphics2D g, int bannerStartX, int bannerStartY) {
+		g.setFont(Resources.getMedievalFont(24));
+		g.setColor(Color.BLACK);
 		for(DominoButton b: buttons){
 			b.minimize();
 		}
 		
 		Grid grid = gamePanel.getViewedPlayer().getGrid();
-		int forest = grid.calculateScore(Land.FOREST);
-		int wheat = grid.calculateScore(Land.WHEAT);
-		int pasture = grid.calculateScore(Land.PASTURE);
-		int lake = grid.calculateScore(Land.LAKE);
-		int swamp = grid.calculateScore(Land.SWAMP);
-		int mine = grid.calculateScore(Land.MINE);
-		
-		g.drawString(""+mine, 0, 100);
+		int total = grid.calculateScore();
+		Land[] landOrder = {Land.FOREST, Land.WHEAT, Land.PASTURE, Land.LAKE, Land.SWAMP, Land.MINE};
+		int xPos = bannerStartX;
+		int yPos = bannerStartY;
+		for(int i=0; i<landOrder.length; i++) {
+			UITile t = new UITile(landOrder[i], new Coordinate(xPos, yPos, 0));
+			int score = grid.calculateScore(landOrder[i]);
+			g.drawString(""+score, xPos+40, yPos+5);
+			t.render(g.create());
+			yPos += 50;
+		}
+		g.drawString("Total:", xPos-30, yPos);
+		g.drawString(""+total, xPos+40, yPos);
+
 		
 		
 	}
@@ -149,9 +163,9 @@ public class Banner extends Component {
 		mod = (int) ((Math.sqrt(2)/2)*(radius/2.0 - rad/2.0));
 		g.fillOval(circleX+radius/2+mod-rad/2,circleY+radius/2-mod-rad/2,rad,rad);
 		if(getManager().getGameState() == GameState.PLAYER_TURN) {
-			
+			showDominoes();
 		} else if(getManager().getGameState() == GameState.TALLY_SCORE) {
-			showTally(g);
+			showTally((Graphics2D) g.create(), bannerStartX+60, bannerStartY+80);
 		} else {
 			//don't draw? this should never happen though
 		}
