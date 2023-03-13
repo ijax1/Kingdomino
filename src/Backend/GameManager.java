@@ -123,12 +123,15 @@ public class GameManager {
     // called when player finishes turn
     // updates player and calls playerTurn()
     public boolean nextPlayer() {
-        if (getCurrentPlayer().hasPlaced() && getCurrentPlayer().hasSelected()) {
+        if ((firstTurn || getCurrentPlayer().hasPlaced()) && getCurrentPlayer().hasSelected()) {
             getCurrentPlayer().setSelected(false);
             getCurrentPlayer().setPlaced(false);
             if (currPlayerIdx == players.size() - 1) {
-                updatePlayerOrder();
+                System.out.println("here");
                 firstTurn = false;
+                updatePlayerOrder();
+                updatePlayerIdx();
+                game.getGamePanel().changePlayer(getCurrentPlayer());
             } else {
                 updatePlayerIdx();
                 game.getGamePanel().changePlayer(getCurrentPlayer());
@@ -206,6 +209,10 @@ public class GameManager {
 
     public GameState getGameState() {
         return state;
+    }
+
+    public Kingdomino getGame() {
+        return game;
     }
 
     public void setNumGames(int numGames) {

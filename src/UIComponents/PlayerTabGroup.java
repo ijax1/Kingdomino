@@ -79,7 +79,6 @@ public class PlayerTabGroup extends Component {
             button.minimize();
             if (button.getPlayer() == selectedPlayer) {
                 selectedButton = button;
-                break;
             }
         }
         selectedButton.show();
