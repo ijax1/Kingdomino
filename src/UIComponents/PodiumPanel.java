@@ -23,6 +23,7 @@ public class PodiumPanel extends JPanel {
 	GameManager gm;
 	private PlayerSelectPanel[]playerPanels = new PlayerSelectPanel[4];
 	public PodiumPanel(GridBagLayout g, Kingdomino k) {
+		
 //		super(g);
 //		GridBagConstraints c = new GridBagConstraints();
 //		gm = k.getManager();
@@ -80,9 +81,6 @@ public class PodiumPanel extends JPanel {
 //		c.gridy = 2;
 //		c.gridwidth = 2;
 //		g.setConstraints(play, c);
-		
-		
-		
 	}
 	public void paintComponent(Graphics g1) {
 		Graphics2D g = (Graphics2D)g1;
