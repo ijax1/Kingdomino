@@ -228,11 +228,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					if(component instanceof DominoButton){
 							for(DominoButton d: banner.getButtons()){
 								if(d != component) {
-									System.out.println("REMOVE");
 									d.removePlayer();
 								}
 								else {
-									System.out.println("DO ACTION");
 									d.doAction();
 								}
 							}

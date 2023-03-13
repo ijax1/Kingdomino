@@ -9,6 +9,7 @@ public class Grid {
 
     public Grid() {
         grid = new Tile[9][9];
+        grid[4][4] = new Tile(Land.CASTLE, 0);
     }
 
     public Grid(Tile[][] initialGrid) {
@@ -134,7 +135,7 @@ public class Grid {
 
                     if(isValidPos(x + j, y + i))
                         if(grid[x+j][y+i] != null)
-                            if(grid[x+j][y+i].getLandType() == t.getLandType())
+                            if(grid[x+j][y+i].getLandType() == t.getLandType() || grid[x+j][y+i].getLandType() == Land.CASTLE)
                                 return true;
                 }
             }

@@ -43,10 +43,10 @@ public class UIGrid extends Component{
         this.grid = g;
 
 
-        g.placeDomino(2,2, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.MINE,0),4));
-        g.placeDomino(2,3, new Domino(new Tile(Tile.Land.WHEAT,0), new Tile(Tile.Land.PASTURE,0),4));
-        g.placeDomino(1,1, new Domino(new Tile(Tile.Land.FOREST,0), new Tile(Tile.Land.FOREST,0),4));
-        g.placeDomino(3,4, new Domino(new Tile(Tile.Land.MINE,0), new Tile(Tile.Land.SWAMP,0),4));
+        //g.placeDomino(2,2, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.MINE,0),4));
+        //g.placeDomino(2,2, new Domino(new Tile(Tile.Land.WHEAT,0), new Tile(Tile.Land.PASTURE,0),4));
+        //g.placeDomino(1,1, new Domino(new Tile(Tile.Land.FOREST,0), new Tile(Tile.Land.FOREST,0),4));
+        g.placeDomino(3,3, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.SWAMP,0),4));
         Tile[][] tileList = g.getTiles();
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
@@ -119,6 +119,7 @@ public class UIGrid extends Component{
                 croppedKingdom[i-startY][j-startX] = tiles[i][j];
             }
         }
+        System.out.println("WDITH " + width + " HEIGHT " + height);
         return croppedKingdom;
     }
 
@@ -258,14 +259,22 @@ public class UIGrid extends Component{
         if(gridWidth % 2 == 0)
             xMod = (int) Math.round((tileCenter.getX() - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize);
         else
-            xMod = (int) Math.round((Math.round(tileCenter.getX()) - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize);
+            xMod = Math.round((Math.round(tileCenter.getX()) - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize);
         if(gridHeight % 2 == 0)
             yMod = (int) Math.round((tileCenter.getY() - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize);
         else
-            yMod = (int) Math.round((Math.round(tileCenter.getY()) - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize);
-        int checkIndexX = (int) Math.round(xMod);
-        int checkIndexY = (int) Math.round(yMod);
+            yMod = Math.round((Math.round(tileCenter.getY()) - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize);
 
+        int checkIndexX = getStartX() + (int) Math.round(xMod) - 1;
+        int checkIndexY = getStartY() + (int) Math.round(yMod) - 1;
+        if(gridWidth % 2 == 0)
+            checkIndexX = getStartX() + (int) Math.round(xMod);
+        if(gridHeight % 2 == 0)
+            checkIndexY = getStartY() + (int) Math.round(yMod);
+
+        g.drawString((tileCenter.getX() - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize + " " + ((tileCenter.getY() - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize), 200,160);
+        g.drawString(getStartX() + " " + getStartY(), 200,180);
+        g.drawString((checkIndexX - 1) + " " + (checkIndexY - 1), 200,200);
         if(grid.availableSpacesGrid(ref)[checkIndexY-1][checkIndexX-1]){
             snapping = true;
             holding.moveTo(dest);
@@ -387,6 +396,36 @@ public class UIGrid extends Component{
             }
             return onGrid;
         } return false;
+    }
+
+    private int getStartX(){
+        for(int i = 0; i < 9; i++){
+            boolean emptyCol = true;
+            for(int j = 0; j < 9; j++){
+                if(emptyCol && tiles[j][i] != null){
+                    emptyCol = false;
+                }
+            }
+            if(!emptyCol) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private int getStartY(){
+        for(int i = 0; i < 9; i++){
+            boolean emptyRow = true;
+            for(int j = 0; j < 9; j++){
+                if(emptyRow && tiles[i][j] != null){
+                    emptyRow = false;
+                }
+            }
+            if(!emptyRow) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
