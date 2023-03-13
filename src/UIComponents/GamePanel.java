@@ -52,7 +52,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     //From InteractionPanel
     private UIDomino d;
     private UIGrid grid;
-    private ArrayList<UIGrid> grids;
+    private ArrayList<UIGrid> grids = new ArrayList<UIGrid>();
     private RectangularPrism r = new RectangularPrism(new Coordinate(200, 200, 200), 100, 200, 25);
     boolean dragging = false;
     boolean draggingCube = false;
@@ -75,10 +75,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         //From InteractionPanel
         d = new UIDomino(new Coordinate(640, 50, 0), k, ref);
         d.setMouseLocation(new Coordinate(640, 50, 0));
-        grids = new ArrayList<>();
-        for (Player p : gm.getPlayers())
-            grids.add(new UIGrid(new Coordinate(640, 320, 0), k, p.getGrid()));
-        grid = grids.get(0);
+        setViewedPlayer(0);
 //        grid = new UIGrid(new Coordinate(640, 320, 0), k, gm.getCurrentPlayer().getGrid());
         updateUIPlayers();
         //grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
@@ -126,6 +123,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
     public void setViewedPlayer(int player) {
         viewedPlayer = player;
+        for (Player p : gm.getPlayers())
+            grids.add(new UIGrid(new Coordinate(640, 320, 0), k, p.getGrid()));
+        grid = grids.get(player);
+        if(player != gm.getCurrPlayerIdx()) {
+        	d.minimize();
+        }
         repaint();
     }
 
