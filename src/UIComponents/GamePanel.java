@@ -22,7 +22,6 @@ import Backend.GameManager;
 import Backend.Kingdomino;
 import Backend.Player;
 import Backend.Tile;
-import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.RectangularPrism;
 import resources.Resources;
@@ -53,7 +52,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     //From InteractionPanel
     private UIDomino d;
     private UIGrid grid;
-    private ArrayList<UIGrid> grids;
+    private ArrayList<UIGrid> grids = new ArrayList<UIGrid>();
     private RectangularPrism r = new RectangularPrism(new Coordinate(200, 200, 200), 100, 200, 25);
     boolean dragging = false;
     boolean draggingCube = false;
@@ -76,16 +75,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         //From InteractionPanel
         d = new UIDomino(new Coordinate(640, 50, 0), k, ref);
         d.setMouseLocation(new Coordinate(640, 50, 0));
-        grids = new ArrayList<>();
-        for (Player p : gm.getPlayers())
-            grids.add(new UIGrid(new Coordinate(640, 320, 0), k, p.getGrid()));
-        grid = grids.get(0);
+        setViewedPlayer(0);
 //        grid = new UIGrid(new Coordinate(640, 320, 0), k, gm.getCurrentPlayer().getGrid());
         updateUIPlayers();
         //grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
 
         group = new PlayerTabGroup(gm.getPlayers(), k, this);
-        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4);
+        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this);
         finishTurn = new FinishTurnButton(new Coordinate(640, 620, 0), k);
 
 
@@ -118,12 +114,21 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 //		}
     }
 
-    public int getViewedPlayer() {
+    public int getViewedPlayerIndex() {
         return viewedPlayer;
+    }
+    public Player getViewedPlayer() {
+    	return gm.getPlayers().get(viewedPlayer);
     }
 
     public void setViewedPlayer(int player) {
         viewedPlayer = player;
+        for (Player p : gm.getPlayers())
+            grids.add(new UIGrid(new Coordinate(640, 320, 0), k, p.getGrid()));
+        grid = grids.get(player);
+        if(player != gm.getCurrPlayerIdx()) {
+        	d.minimize();
+        }
         repaint();
     }
 

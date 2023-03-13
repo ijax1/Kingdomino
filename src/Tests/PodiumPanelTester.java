@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 import Backend.GameManager.GameState;
-import resources.OurColors;
 import Backend.Player;
+import resources.OurColors;
 
 public class PodiumPanelTester {
 	public static void main(String[]args) {
@@ -22,6 +22,6 @@ public class PodiumPanelTester {
 		fakePlayers.add(new TestPlayer(OurColors.YELLOW, "Ian Jackson", "The Glorious",25));
 		TestKingdomino k = new TestKingdomino();
 		k.getManager().setPlayers(fakePlayers);
-		k.changePanel(GameState.ENDSCREEN);
+		k.getManager().setGameState(GameState.ENDSCREEN);
 	}
 }
