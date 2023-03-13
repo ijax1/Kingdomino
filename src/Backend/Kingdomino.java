@@ -53,6 +53,7 @@ public class Kingdomino {
         frame.setContentPane(basePanel);
 //        frame.setPreferredSize(screenSize);
         frame.setPreferredSize(new Dimension(1280,720));
+        frame.setResizable(false);
         frame.setIconImage(Resources.loadImage("crown.ico"));
         frame.pack();
         //frame.setResizable(false);

@@ -82,7 +82,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		
 		textBox = new MessageTextBox(new Coordinate(200,400,0),k);
 		//TODO: sorry, i can't provide a graphics to pass in here
-		minimizeComp = new MinimizeComponentButton(new Coordinate(400,600,0), k, null, textBox);
+		//minimizeComp = new MinimizeComponentButton(new Coordinate(400,600,0), k, null, textBox);
 		textBox.minimize();
 		
 		//button = new PlayerTabButton(new Coordinate(0,160,0), k, new Player());

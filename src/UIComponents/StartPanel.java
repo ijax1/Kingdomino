@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+
 import javax.swing.*;
 
 import Backend.GameManager;
@@ -40,13 +41,20 @@ public class StartPanel extends JPanel {
 		playerPanels[1] = new PlayerSelectPanel(OurColors.BLUE, 2, PlayerSelectPanel.COMPUTER, k);
 		playerPanels[2] = new PlayerSelectPanel(OurColors.GREEN, 3, PlayerSelectPanel.COMPUTER, k);
 		playerPanels[3] = new PlayerSelectPanel(OurColors.YELLOW, 4, PlayerSelectPanel.COMPUTER, k);
+
+		/*
+		playerPanels[0].setBorder(BorderFactory.createRaisedBevelBorder());
+		playerPanels[1].setBorder(BorderFactory.createRaisedBevelBorder());
+		playerPanels[2].setBorder(BorderFactory.createRaisedBevelBorder());
+		playerPanels[3].setBorder(BorderFactory.createRaisedBevelBorder());
+		*/
 		
 		//JButton scrollB = new JButton("Quiteth");
 		JLabel scroll = new JLabel("", SwingConstants.CENTER);
 		//scroll.setFont(Resources.getMedievalFont(50));
 		//scroll.setForeground(OurColors.FONT_LIGHT);
-		RoyalButton exit = new RoyalButton("Exiteth");
-		RoyalButton play = new RoyalButton("Playeth");
+		RoyalButton exit = new RoyalButton("EXITETH");
+		RoyalButton play = new RoyalButton("PLAYETH");
 		exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -88,13 +96,13 @@ public class StartPanel extends JPanel {
 		
 		//Settings for individual components
 		c.gridwidth = 4;
-		c.weighty = 0;	//Title can get cut off
+		c.weighty = 0.5;	//Title can get cut off
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		g.setConstraints(scroll, c);
 		add(scroll);
-		// c.weighty = 0.2;
+		c.weighty = 0.2;
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 1;
@@ -141,9 +149,9 @@ public class StartPanel extends JPanel {
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(OurColors.BACKGROUND_CIRCLE);
 		g.fillOval(100,50,getWidth()-200, getHeight()-100);
-		g.drawImage(toImage(Resources.loadImage("king_domino_scroll.png")), 0, 0, null);
-		g.drawImage(toImage(Resources.loadImage("red_turret.png")), 0, 0, null);
-		g.drawImage(toImage(Resources.loadImage("yellow_turret.png")), 0, 0, null);
+		g.drawImage(toImage(Resources.loadImage("king_domino_scroll.png")), 185, 0, null);
+		g.drawImage(toImage(Resources.loadImage("red_turret.png")).getScaledInstance(1000, 900, Image.SCALE_SMOOTH), -5, -9, null);
+		g.drawImage(toImage(Resources.loadImage("yellow_turret.png")).getScaledInstance(1000, 900, Image.SCALE_SMOOTH), 1130, -35, null);
 		//close.draw((Graphics2D) g.create());
 		//AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
 		//g.setComposite(ac);
