@@ -194,7 +194,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void mouseReleased(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		System.out.println("Clicked at " + "X: " + x + ", Y:" + y);
+//		System.out.println("Clicked at " + "X: " + x + ", Y:" + y);
 		
 		//From InteractionPanel
         if(dragging) {
@@ -247,7 +247,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		}
 		if(grid.isSnapped()) {
 			//TODO: How to get coords from the uigrid jonathan help
-			gm.getCurrentPlayer().placeDomino(0,0, d.getRef());
+			System.out.println("snapped");
+//			gm.getCurrentPlayer().placeDomino(0,0, d.getRef());
+			int[] dominoLocation = grid.getDominoLocation();
+			gm.getCurrentPlayer().placeDomino(dominoLocation[0], dominoLocation[1], d.getRef());
+			gm.getCurrentPlayer().setPlaced(true);
 		}
 		repaint();
 	}

@@ -120,7 +120,7 @@ public class UIGrid extends Component{
                 croppedKingdom[i-startY][j-startX] = tiles[i][j];
             }
         }
-        System.out.println("WDITH " + width + " HEIGHT " + height);
+//        System.out.println("WDITH " + width + " HEIGHT " + height);
         return croppedKingdom;
     }
 
@@ -281,10 +281,10 @@ public class UIGrid extends Component{
         g.drawString(xMod + " " + yMod + " " + checkIndexX + " " + checkIndexY, 200,180);
         g.drawString((checkIndexX - 1) + " " + (checkIndexY - 1), 200,200);
         if(grid.availableSpacesGrid(ref)[checkIndexY-1][checkIndexX-1]){
+            dominoLocation = new int[]{checkIndexY-1,checkIndexX-1};
             snapping = true;
             holding.moveTo(dest);
             holding.render(g);
-            dominoLocation = new int[]{checkIndexY-1,checkIndexX-1};
         }
         else{
             snapping = false;

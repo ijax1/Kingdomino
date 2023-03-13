@@ -50,6 +50,7 @@ public class DominoButton extends Button {
    private void setLocked() {
       locked = true; 
       player.setNextDomino(uiDomino.getRef());
+      player.setSelected(true);
    }
    protected void setDomino(Domino d) {
 	   uiDomino.setRef(d);

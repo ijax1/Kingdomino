@@ -120,27 +120,31 @@ public class GameManager {
             ((ComputerPlayer) currentPlayer).placeDomino();
             nextPlayer();
         }
-        if (currPlayerIdx == players.size() - 1) {
-            // if last player, then next turn.
-            updatePlayerOrder();
-            firstTurn = false;
-        }
     }
 
     // called when player finishes turn
-    // updates player and calls turn() again
+    // updates player and calls playerTurn()
     public boolean nextPlayer() {
+//        if (getCurrentPlayer().hasPlaced())
+//            System.out.println("has placed");
+//        if (getCurrentPlayer().hasSelected())
+//            System.out.println("has selected");
         if (getCurrentPlayer().hasPlaced() && getCurrentPlayer().hasSelected()) {
             getCurrentPlayer().setSelected(false);
             getCurrentPlayer().setPlaced(false);
-            updateCurrentPlayer();
-            turn();
+            if (currPlayerIdx == players.size() - 1) {
+                updatePlayerOrder();
+                firstTurn = false;
+            } else {
+                updatePlayerIdx();
+                playerTurn();
+            }
             return true;
         }
         return false;
     }
 
-    private void updateCurrentPlayer() {
+    private void updatePlayerIdx() {
         currPlayerIdx++;
         if (currPlayerIdx > players.size() - 1) {
             currPlayerIdx = 0;
