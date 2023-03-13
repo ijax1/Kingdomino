@@ -43,10 +43,11 @@ public class UIGrid extends Component{
         this.grid = g;
 
 
-        //g.placeDomino(2,2, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.MINE,0),4));
-        //g.placeDomino(2,2, new Domino(new Tile(Tile.Land.WHEAT,0), new Tile(Tile.Land.PASTURE,0),4));
-        //g.placeDomino(1,1, new Domino(new Tile(Tile.Land.FOREST,0), new Tile(Tile.Land.FOREST,0),4));
-        g.placeDomino(3,3, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.SWAMP,0),4));
+        //g.placeDomino(7,2, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.MINE,0),4));
+        //g.placeDomino(7,0, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.MINE,0),4));
+        //g.placeDomino(4,2, new Domino(new Tile(Tile.Land.WHEAT,0), new Tile(Tile.Land.PASTURE,0),4));
+        //g.placeDomino(6,1, new Domino(new Tile(Tile.Land.FOREST,0), new Tile(Tile.Land.FOREST,0),4));
+        //g.placeDomino(4,3, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.SWAMP,0),4));
         Tile[][] tileList = g.getTiles();
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
@@ -268,12 +269,16 @@ public class UIGrid extends Component{
         int checkIndexX = getStartX() + (int) Math.round(xMod) - 1;
         int checkIndexY = getStartY() + (int) Math.round(yMod) - 1;
         if(gridWidth % 2 == 0)
-            checkIndexX = getStartX() + (int) Math.round(xMod);
+            checkIndexX = getStartX() + (int) Math.round(xMod) - (6-toRender[0].length)/2;
         if(gridHeight % 2 == 0)
-            checkIndexY = getStartY() + (int) Math.round(yMod);
-
-        g.drawString((tileCenter.getX() - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize + " " + ((tileCenter.getY() - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize), 200,160);
-        g.drawString(getStartX() + " " + getStartY(), 200,180);
+            checkIndexY = getStartY() + (int) Math.round(yMod) - (6-toRender.length)/2;
+        System.out.println(gridWidth);
+        if(toRender[0].length == 5)
+            checkIndexX = getStartX() + (int) Math.round(xMod) + 1;
+        if(toRender.length == 5)
+            checkIndexY = getStartY() + (int) Math.round(yMod) + 1;
+        //g.drawString((tileCenter.getX() - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize + " " + ((tileCenter.getY() - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize), 200,160);
+        g.drawString(xMod + " " + yMod + " " + checkIndexX + " " + checkIndexY, 200,180);
         g.drawString((checkIndexX - 1) + " " + (checkIndexY - 1), 200,200);
         if(grid.availableSpacesGrid(ref)[checkIndexY-1][checkIndexX-1]){
             snapping = true;
