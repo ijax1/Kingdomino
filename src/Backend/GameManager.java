@@ -54,6 +54,8 @@ public class GameManager {
             reset();
         } else if (state == GameState.PLAYER_TURN) {
             initPlayerTurns();
+        } else if (state == GameState.STRATEGY) {
+           //play computer # games
         } else if (state == GameState.ENDSCREEN)
             setResults();
     }
