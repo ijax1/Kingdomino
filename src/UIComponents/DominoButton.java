@@ -1,6 +1,7 @@
 package UIComponents;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 
 import Backend.Domino;
 import Backend.Kingdomino;
@@ -62,6 +63,9 @@ public class DominoButton extends Button {
    
    @Override
    public boolean onComponent(Coordinate c) {
+	 if(!isMinimized()) {
+		 return false;
+	 }
    	double x = getPosition().getX() - width/2;
    	double y = getPosition().getY() - height/2;
 
@@ -70,6 +74,9 @@ public class DominoButton extends Button {
    }
    @Override
    public void draw(Graphics2D g) {
+	 if(!isMinimized()) {
+		 return;
+	 }
      graphics = g;
     // drawing tiles based on images;
      // drawing outline when clicked;
