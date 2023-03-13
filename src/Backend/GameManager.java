@@ -1,10 +1,10 @@
 package Backend;
 
-import resources.OurColors;
-import resources.Titles;
-
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+
+import resources.OurColors;
+import resources.Titles;
 
 public class GameManager {
     private boolean firstTurn;
@@ -49,7 +49,9 @@ public class GameManager {
 
     public void setGameState(GameState state) {
         this.state = state;
-        game.changePanel(state);
+        if(game != null) {
+        	game.changePanel(state);
+        }
         if (state == GameState.INITIAL) {
             reset();
         } else if (state == GameState.PLAYER_TURN) {

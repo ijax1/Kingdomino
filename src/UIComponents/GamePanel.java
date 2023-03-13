@@ -314,6 +314,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     public void changePlayer(Player player) {
         group.selectButton(player);
         grid = grids.get(gm.getCurrPlayerIdx());
+        d = new UIDomino(new Coordinate(640, 50, 0), k, player.getNextDomino());
+        d.setMouseLocation(new Coordinate(640, 50, 0));
+        for (DominoButton button : dominoButtons) {
+            button.removePlayer();
+        }
+        repaint();
     }
 
     public void mouseEvent(boolean isClicked, boolean isDragged, boolean isScrolling) {
