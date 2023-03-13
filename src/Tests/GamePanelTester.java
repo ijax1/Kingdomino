@@ -2,14 +2,8 @@ package Tests;
 
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
-
-import Backend.GameManager;
 import Backend.GameManager.GameState;
-import Backend.Kingdomino;
 import Backend.Player;
-import Backend.RandomStrategy;
-import UIComponents.GamePanel;
 import resources.OurColors;
 
 public class GamePanelTester {
@@ -26,7 +20,7 @@ public class GamePanelTester {
 		
 		TestKingdomino k = new TestKingdomino();
 		k.getManager().setPlayers(fakePlayers);
-		k.changePanel(GameState.PLAYER_TURN);
+		k.getManager().setGameState(GameState.PLAYER_TURN);
 //		GameManager gm = k.getManager();
 //		
 
