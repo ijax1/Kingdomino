@@ -1,13 +1,10 @@
 package Backend;
 
-import resources.OurColors;
-import resources.Titles;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+
+import resources.OurColors;
+import resources.Titles;
 
 public class GameManager {
     private boolean firstTurn;
@@ -43,18 +40,18 @@ public class GameManager {
         reset();
     }
 
-    public GameState getGameState() {
-        return state;
-    }
-
-    public void setNumGames(int numGames) {
-        this.numGames = numGames;
+    private void reset() {
+        firstTurn = true;
+        deck = new Deck();
+        //players = new ArrayList<Player>();
+        currPlayerIdx = 0;
     }
 
     public void setGameState(GameState state) {
         this.state = state;
-        game.changePanel(state);
-
+        if(game != null) {
+        	game.changePanel(state);
+        }
         if (state == GameState.INITIAL) {
             reset();
         } else if (state == GameState.PLAYER_TURN) {
@@ -100,74 +97,78 @@ public class GameManager {
             currentPlayer.setSelected(false);
             currentPlayer.setPlaced(false);
         }
-        updateTurnOrder();
+        updatePlayerOrder();
         firstTurn = false;
     }
+
 
     public Domino[] getDominoesToSelect() {
         return dominoesToSelect;
     }
 
+    // new turn
     private void turn() {
         dominoesToSelect = deck.getDominoesToSelect();
-        for (int i = 0; i < players.size(); i++) {
-            currPlayerIdx = i;
-            Player currentPlayer = players.get(currPlayerIdx);
-            if (currentPlayer instanceof ComputerPlayer) {
-                ((ComputerPlayer) currentPlayer).calculateChoice();
-                ((ComputerPlayer) currentPlayer).placeDomino();
-            } else {
-                Thread newThread = new Thread();
-                while (!currentPlayer.hasSelected()) {
-                    synchronized (this) {
-                        try {
-                            newThread.wait();
-                        } catch (InterruptedException e) {
-                            System.out.println("Thread interrupted");
-                        }
-                    }
-                }
-                newThread.notifyAll();
-                while (!currentPlayer.hasPlaced()) {
-                    synchronized (this) {
-                        try {
-                            newThread.wait();
-                        } catch (InterruptedException e) {
-                            System.out.println("Thread interrupted");
-                        }
-                    }
-                }
-                newThread.notifyAll();
-
-
-//                Timer timer1 = new Timer(1, null);
-//                timer1.addActionListener(new ActionListener() {
-//                    public void actionPerformed(ActionEvent e) {
-//                        if (currentPlayer.hasSelected())
-//                            timer1.stop();
-//                    }
-//                });
-//                timer1.start();
-//
-//                Timer timer2 = new Timer(1, null);
-//                timer2.addActionListener(new ActionListener() {
-//                    public void actionPerformed(ActionEvent e) {
-//                        if (currentPlayer.hasPlaced())
-//                            timer2.stop();
-//                    }
-//                });
-//                if (!firstTurn)
-//                    timer2.start();
-
-            }
-            currentPlayer.setSelected(false);
-            currentPlayer.setPlaced(false);
-        }
-        updateTurnOrder();
-        firstTurn = false;
+        playerTurn();
     }
 
-    public boolean getFirstTurn() {
+
+    // individual player in a turn
+    private void playerTurn() {
+        if (getCurrentPlayer() instanceof ComputerPlayer) {
+            ((ComputerPlayer) getCurrentPlayer()).calculateChoice();
+            ((ComputerPlayer) getCurrentPlayer()).placeDomino();
+            nextPlayer();
+        }
+    }
+
+    // called when player finishes turn
+    // updates player and calls playerTurn()
+    public boolean nextPlayer() {
+        if ((firstTurn || getCurrentPlayer().hasPlaced()) && getCurrentPlayer().hasSelected()) {
+            getCurrentPlayer().setSelected(false);
+            getCurrentPlayer().setPlaced(false);
+            if (currPlayerIdx == players.size() - 1) {
+                System.out.println("here");
+                firstTurn = false;
+                updatePlayerOrder();
+                updatePlayerIdx();
+                game.getGamePanel().changePlayer(getCurrentPlayer());
+            } else {
+                updatePlayerIdx();
+                game.getGamePanel().changePlayer(getCurrentPlayer());
+                playerTurn();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void updatePlayerIdx() {
+        currPlayerIdx++;
+        if (currPlayerIdx > players.size() - 1) {
+            currPlayerIdx = 0;
+        }
+    }
+
+
+    public void updatePlayerOrder() {
+        ArrayList<Integer> dominoValues = new ArrayList<>();
+        for (Player player : players) {
+            dominoValues.add(player.getNextDomino().getValue());
+        }
+        for (int i = 0; i < dominoValues.size() - 1; i++) {
+            for (int j = 0; j < dominoValues.size() - 1 - i; j++) {
+                if (dominoValues.get(j) > dominoValues.get(j + 1)) {
+                    Player temp = players.get(j);
+                    players.set(j, players.get(j + 1));
+                    players.set(j + 1, temp);
+                }
+            }
+        }
+    }
+
+    public boolean isFirstTurn() {
         return firstTurn;
     }
 
@@ -180,42 +181,20 @@ public class GameManager {
     }
 
     public void setPlayers(ArrayList<Player> players) {
-        this.players.clear();
-        this.players.addAll(players);
+        this.players = players;
     }
 
     public Player getCurrentPlayer() {
         return players.get(currPlayerIdx);
     }
 
-    public void updateCurrentPlayer() {
-        currPlayerIdx++;
-        if (currPlayerIdx > players.size() - 1) {
-            currPlayerIdx = 0;
-        }
-    }
+    public int getCurrPlayerIdx() {return currPlayerIdx;}
+
 
     public Deck getDeck() {
         return deck;
     }
 
-    public void updateTurnOrder() {
-        ArrayList<Integer> dominoValues = new ArrayList<>();
-        if (!firstTurn) {
-            for (Player player : players) {
-                dominoValues.add(player.getNextDomino().getValue());
-            }
-        }
-        for (int i = 0; i < dominoValues.size() - 1; i++) {
-            for (int j = 0; j < dominoValues.size() - 1 - i; j++) {
-                if (dominoValues.get(j) > dominoValues.get(j + 1)) {
-                    Player temp = players.get(j);
-                    players.set(j, players.get(j + 1));
-                    players.set(j + 1, temp);
-                }
-            }
-        }
-    }
 
     public void setResults() {
         for (int i = 0; i < players.size() - 1; i++) {
@@ -229,10 +208,18 @@ public class GameManager {
         }
     }
 
-    private void reset() {
-        firstTurn = true;
-        deck = new Deck();
-        //players = new ArrayList<Player>();
-        currPlayerIdx = 0;
+
+    public GameState getGameState() {
+        return state;
     }
+
+    public Kingdomino getGame() {
+        return game;
+    }
+
+    public void setNumGames(int numGames) {
+        this.numGames = numGames;
+    }
+
+
 }

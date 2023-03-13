@@ -18,8 +18,7 @@ public class FinishTurnButton extends Button{
         // need to set current Player through the game manager
         // need access to get maanger through kingDomnio
         // need access to set currentPlayer int in gameManager
-    	System.out.println("Finish Turn button clicked");
-        //getGame().getManager().nextPlayer();
+        getGame().getManager().nextPlayer();
     }
 
     public boolean onComponent(Coordinate c) {
@@ -81,5 +80,6 @@ public class FinishTurnButton extends Button{
 
         g.setColor(Color.white);
         g.drawString("FINISH THY TURN",(int) xStart+10,(int) yStart+10);
+        g.drawRect((int) xStart,(int) yStart,(int) width,(int) height);
     }
 }

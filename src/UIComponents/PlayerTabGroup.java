@@ -3,6 +3,7 @@ package UIComponents;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import Backend.Kingdomino;
@@ -17,14 +18,14 @@ public class PlayerTabGroup extends Component {
     private GamePanel gp;
 
     PlayerTabGroup(ArrayList<Player> players, Kingdomino k, GamePanel gp) {
-    	super(new Coordinate(0,160,0), k);
+        super(new Coordinate(0, 160, 0), k);
         double x = 0;
         double y = 160;
         this.gp = gp;
 
         group = new ArrayList<PlayerTabButton>();
-        for (int i=0; i<players.size(); i++) {
-            Coordinate coord = new Coordinate(x, y,0);
+        for (int i = 0; i < players.size(); i++) {
+            Coordinate coord = new Coordinate(x, y, 0);
             group.add(new PlayerTabButton(coord, k, players.get(i), this, gp));
             //current height of each domino
             y += 100;
@@ -32,37 +33,70 @@ public class PlayerTabGroup extends Component {
         System.out.println(players);
         selected = group.get(0);
     }
+
+    public void updatePlayers(ArrayList<Player> players) {
+        for (int i = 0; i < group.size(); i++) {
+            group.get(i).setPlayer(players.get(i));
+        }
+    }
+
     public ArrayList<PlayerTabButton> getButtons() {
-    	return group;
+        return group;
     }
 
     public void setSelected(PlayerTabButton b) {
         selected = b;
-        for (PlayerTabButton button: group) {
+        for (PlayerTabButton button : group) {
             if (button == b) {
-            	System.out.println("equals button");
+                System.out.println("equals button");
                 button.show();
                 selectedIndex = group.indexOf(button);
                 gp.setViewedPlayer(selectedIndex);
             } else {
-            	System.out.println("not equals button");
-            	button.minimize();
-                
+                System.out.println("not equals button");
+                button.minimize();
+
             }
         }
     }
 
+    public void selectButton(Coordinate c) {
+        PlayerTabButton selected = group.get(0);
+        for (PlayerTabButton p : group) {
+            p.minimize();
+            if (p.onComponent(c))
+                selected = p;
+        }
+        selected.show();
+        selectedIndex = group.indexOf(selected);
+        gp.setViewedPlayer(selectedIndex);
+
+    }
+
+    public void selectButton(Player selectedPlayer) {
+        PlayerTabButton selectedButton = group.get(0);
+        for (PlayerTabButton button : group) {
+            button.minimize();
+            if (button.getPlayer() == selectedPlayer) {
+                selectedButton = button;
+            }
+        }
+        selectedButton.show();
+        selectedIndex = group.indexOf(selectedButton);
+        gp.setViewedPlayer(selectedIndex);
+    }
+
     public void updateOrder() {
         boolean sorted = false;
-        while(!sorted) {
-            for (int i=0; i<group.size()-1; i++) {
+        while (!sorted) {
+            for (int i = 0; i < group.size() - 1; i++) {
                 Player p = group.get(i).getPlayer();
-                Player p2 = group.get(i+1).getPlayer();
+                Player p2 = group.get(i + 1).getPlayer();
                 if (p.getNextDomino().compareTo(p2.getNextDomino()) > 0) {
                     sorted = false;
                     PlayerTabButton temp = group.get(i);
-                    group.set(i, group.get(i+1));
-                    group.set(i+1, temp);
+                    group.set(i, group.get(i + 1));
+                    group.set(i + 1, temp);
                 } else {
                     sorted = true;
                 }
@@ -71,25 +105,35 @@ public class PlayerTabGroup extends Component {
 //	setSelected(group.get(0);
     }
 
-	@Override
-	public void setPosition(Coordinate coordinate) {
-		// TODO Auto-generated method stub
+    @Override
+    public void setPosition(Coordinate coordinate) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public boolean onComponent(Coordinate c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void draw(Graphics2D g) {
-	graphics = g;
-        for (PlayerTabButton button: group) {
-            button.draw(g);
+    @Override
+    public boolean onComponent(Coordinate c) {
+        for (PlayerTabButton p : group) {
+            if (p.onComponent(c))
+                return true;
         }
+        return false;
+    }
 
+    @Override
+    public void draw(Graphics2D g) {
+        graphics = g;
+        for (PlayerTabButton button : group) {
+            if (!button.isMinimized()) {
+                button.draw(g);
+            }
+        }
+        for (PlayerTabButton button : group) {
+            if (button.isMinimized()) {
+                button.draw(g);
+            }
+        }
+        /*
         if (selected.getPlayer() != getGame().getManager().getCurrentPlayer()) {
             g.setColor(new Color(241, 194, 50, 100));
             int width = 50, height = 100;
@@ -100,35 +144,37 @@ public class PlayerTabGroup extends Component {
             g.fillPolygon(new Polygon(tipX, tipY, 3));
 
             // height = y constant * 2
-            g.drawRect(tipX[2], tipY[0] - 20, 70, 40);
+            g.fillRect(tipX[2], tipY[0] - 20, 70, 40);
         }
-	}
 
-	// trying to reduce the amount of times it needs to redraw?
-	// when integrating, should run playerTabButton whenClicked() first bc it is updating information used by playertabgroup
-	// actually when we add viewed player this whenclicked() will look differently.
-	@Override
-	public void whenClicked() {
-	boolean run = false;
-	for (PlayerTabButton button: group) {
-		if (button.getMinimized() == false) {
-			if (button != selected) {
-				setSelected(button);
-				run = true;
-			}
-		}
-	}
-	if (run) {
-		draw(graphics); 
-	}
+         */
+    }
 
-	// shoudl look smth like this instead in theory ????
-		
+    // trying to reduce the amount of times it needs to redraw?
+    // when integrating, should run playerTabButton whenClicked() first bc it is updating information used by playertabgroup
+    // actually when we add viewed player this whenclicked() will look differently.
+    @Override
+    public void whenClicked() {
+        boolean run = false;
+        for (PlayerTabButton button : group) {
+            if (!button.getMinimized()) {
+                if (button != selected) {
+                    setSelected(button);
+                    run = true;
+                }
+            }
+        }
+        if (run) {
+            draw(graphics);
+        }
+
+        // shoudl look smth like this instead in theory ????
+
 // 	if (getGame().getManager().getViewedPlayer() != selected.player()) {
 // 		setSelected(); 
 // 		draw(graphics) 
 // 	}
-	}
+    }
 
     // returns selected player - do we want to determine background based on player or button
 //    public Player getSelected() {

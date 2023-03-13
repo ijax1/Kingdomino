@@ -33,6 +33,8 @@ public class UIGrid extends Component{
 
     private boolean snapping = false;
 
+    private int[] dominoLocation = {-1,-1};
+
     public UIGrid(Coordinate center, Kingdomino k, Grid g){
         super(center, k);
         this.width = 0;
@@ -41,10 +43,11 @@ public class UIGrid extends Component{
         this.grid = g;
 
 
-        g.placeDomino(2,2, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.MINE,0),4));
-        g.placeDomino(2,3, new Domino(new Tile(Tile.Land.WHEAT,0), new Tile(Tile.Land.PASTURE,0),4));
-        g.placeDomino(1,1, new Domino(new Tile(Tile.Land.FOREST,0), new Tile(Tile.Land.FOREST,0),4));
-        g.placeDomino(3,4, new Domino(new Tile(Tile.Land.MINE,0), new Tile(Tile.Land.SWAMP,0),4));
+        //g.placeDomino(7,2, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.MINE,0),4));
+        //g.placeDomino(7,0, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.MINE,0),4));
+        //g.placeDomino(4,2, new Domino(new Tile(Tile.Land.WHEAT,0), new Tile(Tile.Land.PASTURE,0),4));
+        //g.placeDomino(6,1, new Domino(new Tile(Tile.Land.FOREST,0), new Tile(Tile.Land.FOREST,0),4));
+        //g.placeDomino(4,3, new Domino(new Tile(Tile.Land.LAKE,0), new Tile(Tile.Land.SWAMP,0),4));
         Tile[][] tileList = g.getTiles();
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
@@ -117,6 +120,7 @@ public class UIGrid extends Component{
                 croppedKingdom[i-startY][j-startX] = tiles[i][j];
             }
         }
+//        System.out.println("WDITH " + width + " HEIGHT " + height);
         return croppedKingdom;
     }
 
@@ -256,26 +260,36 @@ public class UIGrid extends Component{
         if(gridWidth % 2 == 0)
             xMod = (int) Math.round((tileCenter.getX() - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize);
         else
-            xMod = (int) Math.round((Math.round(tileCenter.getX()) - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize);
+            xMod = Math.round((Math.round(tileCenter.getX()) - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize);
         if(gridHeight % 2 == 0)
             yMod = (int) Math.round((tileCenter.getY() - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize);
         else
-            yMod = (int) Math.round((Math.round(tileCenter.getY()) - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize);
-        int checkIndexX = (int) Math.round(xMod);
-        int checkIndexY = (int) Math.round(yMod);
+            yMod = Math.round((Math.round(tileCenter.getY()) - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize);
 
+        int checkIndexX = getStartX() + (int) Math.round(xMod) - 1;
+        int checkIndexY = getStartY() + (int) Math.round(yMod) - 1;
+        if(gridWidth % 2 == 0)
+            checkIndexX = getStartX() + (int) Math.round(xMod) - (6-toRender[0].length)/2;
+        if(gridHeight % 2 == 0)
+            checkIndexY = getStartY() + (int) Math.round(yMod) - (6-toRender.length)/2;
+        System.out.println(gridWidth);
+        if(toRender[0].length == 5)
+            checkIndexX = getStartX() + (int) Math.round(xMod) + 1;
+        if(toRender.length == 5)
+            checkIndexY = getStartY() + (int) Math.round(yMod) + 1;
+        //g.drawString((tileCenter.getX() - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize + " " + ((tileCenter.getY() - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize), 200,160);
+        g.drawString(xMod + " " + yMod + " " + checkIndexX + " " + checkIndexY, 200,180);
+        g.drawString((checkIndexX - 1) + " " + (checkIndexY - 1), 200,200);
         if(grid.availableSpacesGrid(ref)[checkIndexY-1][checkIndexX-1]){
+            dominoLocation = new int[]{checkIndexY-1,checkIndexX-1};
             snapping = true;
             holding.moveTo(dest);
-            System.out.println(dest.getX());
-            System.out.println(leftBound + "  " + (xMod * tileSize) + "  " + ( - tileSize/2) + " " + (tileSize*(gridWidth%2)));
             holding.render(g);
-            g.drawOval(tileZeroX-5, tileZeroY-5, 10,10);
-            g.drawOval((int)holding.getCenter().getX()-5, (int)holding.getCenter().getY()-5, 10,10);
         }
         else{
             snapping = false;
             holding.render(g);
+            dominoLocation = new int[]{-1,-1};
         }
 
     }
@@ -389,6 +403,36 @@ public class UIGrid extends Component{
         } return false;
     }
 
+    private int getStartX(){
+        for(int i = 0; i < 9; i++){
+            boolean emptyCol = true;
+            for(int j = 0; j < 9; j++){
+                if(emptyCol && tiles[j][i] != null){
+                    emptyCol = false;
+                }
+            }
+            if(!emptyCol) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private int getStartY(){
+        for(int i = 0; i < 9; i++){
+            boolean emptyRow = true;
+            for(int j = 0; j < 9; j++){
+                if(emptyRow && tiles[i][j] != null){
+                    emptyRow = false;
+                }
+            }
+            if(!emptyRow) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     @Override
     public void setPosition(Coordinate coordinate) {
         this.center = coordinate;
@@ -433,5 +477,9 @@ public class UIGrid extends Component{
 
     public boolean isSnapped() {
         return snapping;
+    }
+
+    public int[] getDominoLocation(){
+        return dominoLocation;
     }
 }
