@@ -17,11 +17,12 @@ import resources.Resources;
 public class DynamicFrame extends JFrame {
     public final int width;
     public final int height;
-    DynamicFrame(){
+    public DynamicFrame(){
         DisplayMode d = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.width = d.getWidth();
         this.height = d.getHeight();
+
         this.setSize(d.getWidth(), d.getHeight());
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //this.setUndecorated(true);

@@ -9,6 +9,7 @@ public class Grid {
 
     public Grid() {
         grid = new Tile[9][9];
+        grid[4][4] = new Tile(Land.CASTLE, 0);
     }
 
     public Grid(Tile[][] initialGrid) {
@@ -63,9 +64,9 @@ public class Grid {
         int changeY = relPos[1];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (isValidPos(i + changeX, j + changeY)
+                if (isValidPos(i + changeY, j + changeX)
                         && grid[i][j] == null
-                        && grid[i + changeX][j + changeY] == null
+                        && grid[i + changeY][j + changeX] == null
                 		&& (validTilePlacement(domino.getTiles()[0], i, j))
                         || validTilePlacement(domino.getTiles()[1], i + changeY, j + changeX)) {
                     positions.add(new GridPosition(i, j));
@@ -134,7 +135,7 @@ public class Grid {
 
                     if(isValidPos(x + j, y + i))
                         if(grid[x+j][y+i] != null)
-                            if(grid[x+j][y+i].getLandType() == t.getLandType())
+                            if(grid[x+j][y+i].getLandType() == t.getLandType() || grid[x+j][y+i].getLandType() == Land.CASTLE)
                                 return true;
                 }
             }

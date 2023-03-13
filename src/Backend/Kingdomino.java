@@ -24,25 +24,34 @@ public class Kingdomino {
     
     final private JPanel basePanel;
     final private StartPanel startPanel;
-    final private GamePanel gamePanel;
+    private GamePanel gamePanel;
     final private PodiumPanel podiumPanel;
     final private GameManager manager;
     final private CardLayout panels = new CardLayout();
     private JFrame frame;
-    
+
+    public static final int FRAME_WIDTH = 1280;
+    public static final int FRAME_HEIGHT = 720;
+
     public Kingdomino() {
         manager = new GameManager(this);
         GridBagLayout gb = new GridBagLayout();
         basePanel = new JPanel(panels);
         
         startPanel = new StartPanel(gb, this);
-        gamePanel = new GamePanel(this);
+//        gamePanel = new GamePanel(this);
         podiumPanel = new PodiumPanel(new GridBagLayout(), this);
         
         basePanel.add(startPanel, "Start Panel");
-        basePanel.add(gamePanel, "Game Panel");
+//        basePanel.add(gamePanel, "Game Panel");
         basePanel.add(podiumPanel, "Podium Panel");
         setUpFrame();
+    }
+
+    // GamePanel needs to be initialized after startPanel initializes players
+    private void initializeGamePanel() {
+        gamePanel = new GamePanel(this);
+        basePanel.add(gamePanel, "Game Panel");
     }
 
     private void setUpFrame() {
@@ -52,7 +61,7 @@ public class Kingdomino {
 //        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setContentPane(basePanel);
 //        frame.setPreferredSize(screenSize);
-        frame.setPreferredSize(new Dimension(1280,720));
+        frame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         frame.setIconImage(Resources.loadImage("crown.ico"));
         frame.pack();
         //frame.setResizable(false);
@@ -79,7 +88,11 @@ public class Kingdomino {
 
         if (state == GameState.INITIAL) {
             panels.show(basePanel, "Start Panel");
-        } else if (state == GameState.PLAYER_TURN) {
+        } else if (state == GameState.PLAYER_TURN || 
+        		state == GameState.TALLY_SCORE) {
+        	if(gamePanel == null) {
+        		initializeGamePanel();
+        	}
         	panels.show(basePanel, "Game Panel");
         } else if (state == GameState.ENDSCREEN) {
         	panels.show(basePanel, "Podium Panel");
@@ -87,6 +100,10 @@ public class Kingdomino {
             //keep panel
         }
         
+    }
+
+    public GamePanel getGamePanel() {
+        return gamePanel;
     }
 
 

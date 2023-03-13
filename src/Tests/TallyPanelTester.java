@@ -6,9 +6,9 @@ import Backend.GameManager.GameState;
 import Backend.Player;
 import resources.OurColors;
 
-public class GamePanelTester {
+public class TallyPanelTester {
 	public static void main(String[]args) {
-		new GamePanelTester().runGUI();
+		new TallyPanelTester().runGUI();
 	}
 	public void runGUI() {
 		//Creating 4 fake players with scores 20, 30, 25 and 25 (this should test ties well)
@@ -20,7 +20,7 @@ public class GamePanelTester {
 		
 		TestKingdomino k = new TestKingdomino();
 		k.getManager().setPlayers(fakePlayers);
-		k.getManager().setGameState(GameState.PLAYER_TURN);
+		k.getManager().setGameState(GameState.TALLY_SCORE);
 //		GameManager gm = k.getManager();
 //		
 
