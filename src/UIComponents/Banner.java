@@ -67,6 +67,10 @@ public class Banner extends Component {
 			b.show();
 		}
 	}
+	//shh this code is good
+	private int[] scores = new int[7];
+	private int[] displayedScores = new int[7];
+	private int scoreIdx=0;
 	private void showTally(Graphics2D g, int bannerStartX, int bannerStartY) {
 		g.setFont(Resources.getMedievalFont(24));
 		g.setColor(Color.BLACK);
@@ -77,15 +81,40 @@ public class Banner extends Component {
 		Grid grid = gamePanel.getViewedPlayer().getGrid();
 		int total = grid.calculateScore();
 		Land[] landOrder = {Land.FOREST, Land.WHEAT, Land.PASTURE, Land.LAKE, Land.SWAMP, Land.MINE};
-		int xPos = bannerStartX;
+		int xPos = bannerStartX+20;
 		int yPos = bannerStartY;
 		for(int i=0; i<landOrder.length; i++) {
 			UITile t = new UITile(landOrder[i], new Coordinate(xPos, yPos, 0));
 			int score = grid.calculateScore(landOrder[i]);
-			g.drawString(""+score, xPos+40, yPos+5);
 			t.render(g.create());
+			scores[i] = score;
 			yPos += 50;
 		}
+		xPos = bannerStartX+20;
+		yPos = bannerStartY;
+		scoreIdx= 0;
+		Timer t = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(scoreIdx);
+				if(scoreIdx > 4) {
+					((Timer)e.getSource()).stop();
+				} else {
+					if(scoreIdx != 0) {
+						System.arraycopy(scores, 0, displayedScores, scoreIdx, scoreIdx);
+					}
+					scoreIdx++;
+				}
+			}
+		});
+		t.start();
+		
+		
+		for(int i=0; i<displayedScores.length; i++) {
+			g.drawString(""+displayedScores[i], xPos, yPos);
+			yPos += 50;
+		}
+
 		g.drawString("Total:", xPos-30, yPos);
 		g.drawString(""+total, xPos+40, yPos);
 

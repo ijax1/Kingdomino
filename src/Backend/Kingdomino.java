@@ -32,7 +32,7 @@ public class Kingdomino {
     final private CardLayout panels = new CardLayout();
     private JFrame frame;
 
-    public static final int FRAME_WIDTH = 1280;
+    public static final int FRAME_WIDTH = 1000;
     public static final int FRAME_HEIGHT = 720;
 
     public Kingdomino() {
@@ -65,7 +65,7 @@ public class Kingdomino {
         frame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         frame.setIconImage(Resources.loadImage("crown.ico"));
         frame.pack();
-        //frame.setResizable(false);
+        //frame.setResizable(true);
         frame.setVisible(true);
 
         frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
