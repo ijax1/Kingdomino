@@ -3,6 +3,7 @@ package UIComponents;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.Polygon;
 
@@ -11,7 +12,12 @@ public class UITile {
 
     Coordinate tileCenter;
     public static final int TILE_SIZE = 60;
-
+    public UITile(Land l, Coordinate position) {
+    	this(l.getColor(), position);
+    }
+    public UITile(Color c, Coordinate position) {
+    	this(c, new Coordinate(position.getX(), position.getY(),position.getZ()), (int) TILE_SIZE/2, position);
+    }
     public UITile(Color c, Coordinate tileCenter, int radius, Coordinate center){
         this.tileCenter = tileCenter;
         p = new Polygon(new Coordinate[]{
