@@ -32,7 +32,7 @@ public class Kingdomino {
     final private CardLayout panels = new CardLayout();
     private JFrame frame;
 
-    public static final int FRAME_WIDTH = 1000;
+    public static final int FRAME_WIDTH = 1280;
     public static final int FRAME_HEIGHT = 720;
 
     public Kingdomino() {
