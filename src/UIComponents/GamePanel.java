@@ -22,7 +22,6 @@ import Backend.GameManager;
 import Backend.Kingdomino;
 import Backend.Player;
 import Backend.Tile;
-import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.RectangularPrism;
 import resources.Resources;
@@ -85,7 +84,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         //grid = new UIGrid(new Coordinate(200,300,0),k,gm.getCurrentPlayer().getGrid());
 
         group = new PlayerTabGroup(gm.getPlayers(), k, this);
-        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4);
+        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this);
         finishTurn = new FinishTurnButton(new Coordinate(640, 620, 0), k);
 
 
@@ -118,8 +117,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 //		}
     }
 
-    public int getViewedPlayer() {
+    public int getViewedPlayerIndex() {
         return viewedPlayer;
+    }
+    public Player getViewedPlayer() {
+    	return gm.getPlayers().get(viewedPlayer);
     }
 
     public void setViewedPlayer(int player) {

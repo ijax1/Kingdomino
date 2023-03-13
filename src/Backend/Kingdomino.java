@@ -88,7 +88,8 @@ public class Kingdomino {
 
         if (state == GameState.INITIAL) {
             panels.show(basePanel, "Start Panel");
-        } else if (state == GameState.PLAYER_TURN) {
+        } else if (state == GameState.PLAYER_TURN || 
+        		state == GameState.TALLY_SCORE) {
         	panels.show(basePanel, "Game Panel");
         } else if (state == GameState.ENDSCREEN) {
         	panels.show(basePanel, "Podium Panel");
