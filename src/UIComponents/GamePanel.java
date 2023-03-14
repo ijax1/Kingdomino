@@ -75,8 +75,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             grids.add(new UIGrid(new Coordinate(640, 320, 0), k, p.getGrid()));
 
         //From InteractionPanel
-        d = new UIDomino(new Coordinate(640, 50, 0), k, ref);
-        d.setMouseLocation(new Coordinate(640, 50, 0));
+//        d = new UIDomino(new Coordinate(640, 50, 0), k, ref);
+//        d.setMouseLocation(new Coordinate(640, 50, 0));
         setViewedPlayer(0);
         updateUIPlayers();
 
@@ -131,7 +131,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     public void setViewedPlayer(int player) {
         viewedPlayer = player;
         grid = grids.get(player);
-        if (player != gm.getCurrPlayerIdx()) {
+        if (player != gm.getCurrPlayerIdx() && d != null) {
             d.minimize();
         }
         repaint();
@@ -144,10 +144,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         // first player
         if (gm.getCurrPlayerIdx() == 0) {
             banner.setDominoes(gm.getDominoesToSelect());
-//            for (DominoButton button : banner.getButtons()) {
-//                button.removePlayer();
-//            }
-
         }
 
         if (!gm.isFirstTurn()) {
@@ -174,8 +170,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         g.setColor(p.getColor());
         g.fillOval(100, 50, getWidth() - 200, getHeight() - 100);
 
-//		System.out.println("dragging: " + dragging);
-
         //From InteractionPanel
         if (d != null)
             grid.holdDomino(d, ref);
@@ -191,6 +185,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             //if (!component.isShown()) {
             //TODO: currently, every component uses the same graphics object. Is this ok?
             //We may need to copy the graphics object using g.create() or g.copyarea()
+            if (component == null)
+                continue;
             Graphics2D componentg = (Graphics2D) g.create();
             double x = component.getPosition().getX();
             double y = component.getPosition().getY();
@@ -267,24 +263,22 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
         //TODO: this won't work, just a placeholder.
         Coordinate mouseCoord = new Coordinate(x, y, 0);
-
         for (Component component : components) {
-            if (component instanceof Button) {
-                //this won't work either, just a placeholder
-                if (component.onComponent(mouseCoord)) {
-                    if (component instanceof DominoButton) {
+            if (component instanceof Button && component.onComponent(mouseCoord)) {
+                if (component instanceof DominoButton) {
+                    if (!((DominoButton) component).isLocked()) {
                         for (DominoButton d : banner.getButtons()) {
-                            if (d != component && !d.isLocked()) {
-                                d.removePlayer();
-                            } else if (!d.isLocked()) {
+                            if (d == component)
                                 d.doAction();
-                            }
+                            else if (!d.isLocked())
+                                d.removePlayer();
                         }
-                    } else {
-                        component.whenClicked();
                     }
+                } else {
+                    component.whenClicked();
                 }
             }
+
             if (component instanceof PlayerTabGroup) {
                 if (component.onComponent(mouseCoord))
                     ((PlayerTabGroup) component).selectButton(mouseCoord);
@@ -298,7 +292,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             gm.getCurrentPlayer().placeDomino(dominoLocation[0], dominoLocation[1], d.getRef());
             gm.getCurrentPlayer().setPlaced(true);
         }
+
         repaint();
+
     }
 
     @Override

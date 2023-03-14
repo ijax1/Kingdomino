@@ -53,7 +53,7 @@ public class DominoButton extends Button {
 
     public void removePlayer() {
         player = null;
-//        locked = false;
+        locked = false;
         selected = false;
     }
 

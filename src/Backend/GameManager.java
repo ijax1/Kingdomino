@@ -70,13 +70,10 @@ public class GameManager {
                 break;
             }
         }
-        while (!deck.isEmpty()) {
-            if (!strategyMode || isFastMode) {
-                turn();
-            } else {
-                slowMode();
-            }
-        }
+        if (!strategyMode || isFastMode)
+            turn();
+        else
+            slowMode();
     }
 
     private void slowMode() {
@@ -131,7 +128,7 @@ public class GameManager {
 
     // called when player finishes turn
     // updates player and calls playerTurn()
-    public boolean nextPlayer() {
+    public void nextPlayer() {
         if ((firstTurn || getCurrentPlayer().hasPlaced()) && getCurrentPlayer().hasSelected()) {
             getCurrentPlayer().setSelected(false);
             getCurrentPlayer().setPlaced(false);
@@ -141,13 +138,11 @@ public class GameManager {
                 // next turn
                 firstTurn = false;
                 updatePlayerOrder();
-//                game.getGamePanel().resetDominoButtons();
+                turn();
+            } else {
+                playerTurn();
             }
-
-            playerTurn();
-            return true;
         }
-        return false;
     }
 
     private void updatePlayerIdx() {
