@@ -1,9 +1,9 @@
-package UIComponents;
+package Tests;
 
 import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 
-import resources.Resources;
+import UIComponents.AnalysisPanel;
 
 public class AnalysisPanelTester {
 	
