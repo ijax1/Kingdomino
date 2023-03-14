@@ -156,7 +156,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 //		g.fillOval(500, 500, 10, 10);
 //		g.drawRect(480, 480, 40, 40);
         for (Component component : components) {
-            if (!component.isMinimized()) {
+            if (!component.isShown()) {
                 //TODO: currently, every component uses the same graphics object. Is this ok?
                 //We may need to copy the graphics object using g.create() or g.copyarea()
                 Graphics2D componentg = (Graphics2D) g.create();

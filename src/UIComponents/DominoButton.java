@@ -63,7 +63,7 @@ public class DominoButton extends Button {
    
    @Override
    public boolean onComponent(Coordinate c) {
-	 if(!isMinimized()) {
+	 if(!isShown()) {
 		 return false;
 	 }
    	double x = getPosition().getX() - width/2;
@@ -74,7 +74,7 @@ public class DominoButton extends Button {
    }
    @Override
    public void draw(Graphics2D g) {
-	 if(!isMinimized()) {
+	 if(!isShown()) {
 		 return;
 	 }
      graphics = g;

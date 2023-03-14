@@ -39,7 +39,7 @@ public class MessageTextBox extends Component {
     public void draw(Graphics2D g) {
         g.setColor(new Color(140, 67, 188));
         //filler dimensions rn
-        if (getMinimized()) {
+        if (isShown()) {
             g.setColor(Color.white);
             g.drawString("MESSAGE", (int) minimizedPosition.getX(), (int) minimizedPosition.getY());
             //newLine();

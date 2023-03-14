@@ -69,9 +69,25 @@ public class Banner extends Component {
 	}
 	//shh this code is good
 	private int[] scores = new int[7];
-	private int[] displayedScores = new int[7];
+	private int[] displayedScores = new int[0];
 	private int scoreIdx=0;
-	private void showTally(Graphics2D g, int bannerStartX, int bannerStartY) {
+	private boolean tallyAnimation = false;
+	private Timer t = new Timer(600, new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(scoreIdx >= 7) {
+				((Timer)e.getSource()).stop();
+			} else {
+				System.out.println("scoreidx:"+scoreIdx);
+				displayedScores = new int[scoreIdx+1];
+				System.arraycopy(scores, 0, displayedScores, 0, scoreIdx);
+				gamePanel.repaint();
+				scoreIdx++;
+				
+			}
+		}
+	});
+	private void showTally(Graphics2D g, int bannerStartX, int bannerStartY, int bannerEndX, int bannerEndY) {
 		g.setFont(Resources.getMedievalFont(24));
 		g.setColor(Color.BLACK);
 		for(DominoButton b: buttons){
@@ -90,36 +106,17 @@ public class Banner extends Component {
 			scores[i] = score;
 			yPos += 50;
 		}
-		xPos = bannerStartX+20;
+		xPos = bannerStartX+80;
 		yPos = bannerStartY;
-		scoreIdx= 0;
-		Timer t = new Timer(1000, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println(scoreIdx);
-				if(scoreIdx > 4) {
-					((Timer)e.getSource()).stop();
-				} else {
-					if(scoreIdx != 0) {
-						System.arraycopy(scores, 0, displayedScores, scoreIdx, scoreIdx);
-					}
-					scoreIdx++;
-				}
-			}
-		});
-		t.start();
-		
 		
 		for(int i=0; i<displayedScores.length; i++) {
+			System.out.print(displayedScores[i]);
 			g.drawString(""+displayedScores[i], xPos, yPos);
 			yPos += 50;
 		}
+		System.out.println();
 
-		g.drawString("Total:", xPos-30, yPos);
-		g.drawString(""+total, xPos+40, yPos);
-
-		
-		
+		g.drawString("Total:", bannerStartX-20, bannerEndY-120);	
 	}
 
 	@Override
@@ -194,7 +191,11 @@ public class Banner extends Component {
 		if(getManager().getGameState() == GameState.PLAYER_TURN) {
 			showDominoes();
 		} else if(getManager().getGameState() == GameState.TALLY_SCORE) {
-			showTally((Graphics2D) g.create(), bannerStartX+60, bannerStartY+80);
+			showTally((Graphics2D) g.create(), bannerStartX+60, bannerStartY+80, bannerEndX, bannerEndY);
+			if(!tallyAnimation) {
+				tallyAnimation = true;
+				t.start();
+			}
 		} else {
 			//don't draw? this should never happen though
 		}
@@ -217,7 +218,7 @@ public class Banner extends Component {
         minimized = true;
     }
 	@Override
-    public boolean isMinimized(){
+    public boolean isShown(){
         return minimized;
     }
 
