@@ -1,11 +1,6 @@
 package UIComponents;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -13,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -69,7 +65,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         gm = k.getManager();
         this.k = k;
         medieval = Resources.getMedievalFont(20);
-        medievalLg = Resources.getMedievalFont(100);
+        medievalLg = Resources.getMedievalFont(50);
         grids = new ArrayList<>();
         for (Player p : gm.getPlayers())
             grids.add(new UIGrid(new Coordinate(640, 320, 0), k, p.getGrid()));
@@ -176,7 +172,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(p.getColor());
         g.fillOval(100, 50, getWidth() - 200, getHeight() - 100);
+        g.drawImage(toImage(Resources.loadImage("title_scroll.png")).getScaledInstance(1100, 900, Image.SCALE_SMOOTH), 350, 0, null);
 
+        g.setFont(medievalLg);
+        g.setColor(Color.BLACK);
+        String playerName = gm.getPlayers().get(viewedPlayer).getName();
+        String playerTitle = gm.getPlayers().get(viewedPlayer).getTitle();
+        g.drawString(playerName, 620 - 12 * playerName.length(), 100);
+
+        g.setFont(medieval);
         //From InteractionPanel
         if (d != null)
             grid.holdDomino(d, ref);
@@ -184,7 +188,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         checkDomino();
         //moved UIDomino draw to the component loop
 
-        g.setFont(medieval);
 //		g.drawString("Hello world", 200,200);
 //		g.fillOval(500, 500, 10, 10);
 //		g.drawRect(480, 480, 40, 40);
@@ -285,27 +288,29 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     }
 
     private void handleButtonClicks(Coordinate mouseCoord) {
-        for (Component component : components) {
-            if (component instanceof Button && component.onComponent(mouseCoord)) {
-                if (component instanceof DominoButton) {
-                    if (!((DominoButton) component).isLocked()) {
-                        for (DominoButton d : banner.getButtons()) {
-                            if (d == component)
-                                d.doAction();
-                            else if (!d.isLocked())
-                                d.removePlayer();
+        //if (!k.getManager().isStrategyMode()) {
+            for (Component component : components) {
+                if (component instanceof Button && component.onComponent(mouseCoord)) {
+                    if (component instanceof DominoButton) {
+                        if (!((DominoButton) component).isLocked()) {
+                            for (DominoButton d : banner.getButtons()) {
+                                if (d == component)
+                                    d.doAction();
+                                else if (!d.isLocked())
+                                    d.removePlayer();
+                            }
                         }
+                    } else {
+                        component.whenClicked();
                     }
-                } else {
-                    component.whenClicked();
+                }
+
+                if (component instanceof PlayerTabGroup) {
+                    if (component.onComponent(mouseCoord))
+                        ((PlayerTabGroup) component).selectButton(mouseCoord);
                 }
             }
-
-            if (component instanceof PlayerTabGroup) {
-                if (component.onComponent(mouseCoord))
-                    ((PlayerTabGroup) component).selectButton(mouseCoord);
-            }
-        }
+        //}
     }
 
     @Override
@@ -406,6 +411,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
     public PlayerTabGroup getGroup() {
         return group;
+    }
+
+    private Image toImage(BufferedImage img){
+        Image image = img.getScaledInstance(img.getWidth(),img.getHeight(), Image.SCALE_SMOOTH);
+        return image;
     }
 
 //    public void resetDominoButtons() {

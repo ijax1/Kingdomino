@@ -1,19 +1,20 @@
 package UIComponents;
 
-import UIComponents.Render.Coordinate;
+import java.awt.Color;
+import java.awt.Graphics2D;
 
-import java.awt.*;
-import java.io.*;
-import java.util.*;
+import Backend.GameManager;
 import Backend.Kingdomino;
+import UIComponents.Render.Coordinate;
 
 public class MessageTextBox extends Component {
     //RandomAccessFile file = new RandomAccessFile("filename", "r");
     //int currentLine;
     private final Coordinate minimizedPosition = new Coordinate(100, 1150, 0);
-
+    private GameManager gm;
     MessageTextBox(Coordinate c, Kingdomino k) {
         super(c, k);
+        this.gm = k.getManager();
         //currentLine = (int) (Math.random()*file.length();
     }
 
@@ -39,14 +40,17 @@ public class MessageTextBox extends Component {
     public void draw(Graphics2D g) {
         g.setColor(new Color(140, 67, 188));
         //filler dimensions rn
-        if (isShown()) {
+        if (!isShown()) {
             g.setColor(Color.white);
             g.drawString("MESSAGE", (int) minimizedPosition.getX(), (int) minimizedPosition.getY());
             //newLine();
         } else {
             g.fillRoundRect((int) getPosition().getX(), (int) getPosition().getY(), 300, 220, 50, 50);
             g.setColor(Color.white);
-            g.drawString("MESSAGE", (int) getPosition().getX() + 110 - (g.getFontMetrics().stringWidth("MESSAGE"))/2, (int) getPosition().getY() + 30);
+            if(gm.getCurrentPlayer().hasLegalMoves()) {
+            } else {
+            	g.drawString("No Legal Moves!", (int) minimizedPosition.getX(), (int) minimizedPosition.getY());
+            }
             // draw string quotes based on seeking the current line from the text file with all the quotes
             // need to read the quote and find the bounds between when the quote starts / ends
             // if quote is too long, it should break into multiple lines, using a loop to draw each line
