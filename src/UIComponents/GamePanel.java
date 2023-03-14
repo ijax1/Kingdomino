@@ -175,10 +175,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         g.drawImage(toImage(Resources.loadImage("title_scroll.png")).getScaledInstance(1100, 900, Image.SCALE_SMOOTH), 350, 0, null);
 
         g.setFont(medievalLg);
+        FontMetrics metrics = g.getFontMetrics(medievalLg);
         g.setColor(Color.BLACK);
         String playerName = gm.getPlayers().get(viewedPlayer).getName();
         String playerTitle = gm.getPlayers().get(viewedPlayer).getTitle();
-        g.drawString(playerName, 620 - 12 * playerName.length(), 100);
+        g.drawString(playerName, 390 + (475 - metrics.stringWidth(playerName)) / 2, 100);
+        g.setFont(medieval);
+        metrics = g.getFontMetrics(medieval);
+        g.drawString(playerTitle, 390 + (475 - metrics.stringWidth(playerTitle)) / 2, 130);
 
         g.setFont(medieval);
         //From InteractionPanel
