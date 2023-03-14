@@ -12,7 +12,7 @@ public class BackendGameTester {
 	public static void main(String[]args) {
 		Kingdomino k = new Kingdomino ();
 		GameManager g = new GameManager(k);
-		//g.setGameState(GameState.PLAYER_TURN);
+		g.setGameState(GameState.PLAYER_TURN);
 		ArrayList<Player>fakePlayers = new ArrayList<Player>(4);
 		fakePlayers.add(new TestPlayer(OurColors.RED, "Don Quixote", "The Ingenious",20));
 		fakePlayers.add(new TestPlayer(OurColors.BLUE, "King Arthur", "The Round",30));
