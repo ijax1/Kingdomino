@@ -141,9 +141,16 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         group.selectButton(player);
         grid = grids.get(gm.getCurrPlayerIdx());
 
+        for (DominoButton b : banner.getButtons()) {
+            if (b.isSelected() && !b.isLocked())
+                b.setLocked();
+        }
         // first player
         if (gm.getCurrPlayerIdx() == 0) {
             banner.setDominoes(gm.getDominoesToSelect());
+            for (DominoButton b : banner.getButtons()) {
+                b.removePlayer();
+            }
         }
 
         if (!gm.isFirstTurn()) {
@@ -152,10 +159,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         } else {
             d = null;
         }
-        for (DominoButton b : banner.getButtons()) {
-            if (b.isSelected() && !b.isLocked())
-                b.setLocked();
-        }
+//        for (DominoButton b : banner.getButtons()) {
+//            if (b.isSelected() && !b.isLocked())
+//                b.setLocked();
+//        }
         repaint();
     }
 
@@ -263,6 +270,21 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
         //TODO: this won't work, just a placeholder.
         Coordinate mouseCoord = new Coordinate(x, y, 0);
+        handleButtonClicks(mouseCoord);
+        if (grid.isSnapped()) {
+            //TODO: How to get coords from the uigrid jonathan help
+            System.out.println("snapped");
+//			gm.getCurrentPlayer().placeDomino(0,0, d.getRef());
+            int[] dominoLocation = grid.getDominoLocation();
+            gm.getCurrentPlayer().placeDomino(dominoLocation[0], dominoLocation[1], d.getRef());
+            gm.getCurrentPlayer().setPlaced(true);
+        }
+
+        repaint();
+
+    }
+
+    private void handleButtonClicks(Coordinate mouseCoord) {
         for (Component component : components) {
             if (component instanceof Button && component.onComponent(mouseCoord)) {
                 if (component instanceof DominoButton) {
@@ -284,17 +306,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
                     ((PlayerTabGroup) component).selectButton(mouseCoord);
             }
         }
-        if (grid.isSnapped()) {
-            //TODO: How to get coords from the uigrid jonathan help
-            System.out.println("snapped");
-//			gm.getCurrentPlayer().placeDomino(0,0, d.getRef());
-            int[] dominoLocation = grid.getDominoLocation();
-            gm.getCurrentPlayer().placeDomino(dominoLocation[0], dominoLocation[1], d.getRef());
-            gm.getCurrentPlayer().setPlaced(true);
-        }
-
-        repaint();
-
     }
 
     @Override
