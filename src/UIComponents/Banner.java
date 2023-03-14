@@ -65,16 +65,17 @@ public class Banner extends Component {
 	//shh this code is good
 	private int[] scores = new int[7];
 	private int[] displayedScores = new int[0];
-	private int scoreIdx=0;
+	//Matlab reference
+	private int scoreIdx=1;
 	private boolean tallyAnimation = false;
 	private Timer t = new Timer(600, new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(scoreIdx >= 7) {
+			if(scoreIdx > 7) {
 				((Timer)e.getSource()).stop();
 			} else {
 				System.out.println("scoreidx:"+scoreIdx);
-				displayedScores = new int[scoreIdx+1];
+				displayedScores = new int[scoreIdx];
 				System.arraycopy(scores, 0, displayedScores, 0, scoreIdx);
 				gamePanel.repaint();
 				scoreIdx++;
@@ -101,6 +102,7 @@ public class Banner extends Component {
 			scores[i] = score;
 			yPos += 50;
 		}
+		scores[scores.length-1] = total;
 		xPos = bannerStartX+80;
 		yPos = bannerStartY;
 		
