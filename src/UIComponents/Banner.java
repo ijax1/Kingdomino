@@ -62,11 +62,6 @@ public class Banner extends Component {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	private void showDominoes() {
-		for(DominoButton b: buttons){
-			b.show();
-		}
-	}
 	//shh this code is good
 	private int[] scores = new int[7];
 	private int[] displayedScores = new int[0];
@@ -189,7 +184,7 @@ public class Banner extends Component {
 		mod = (int) ((Math.sqrt(2)/2)*(radius/2.0 - rad/2.0));
 		g.fillOval(circleX+radius/2+mod-rad/2,circleY+radius/2-mod-rad/2,rad,rad);
 		if(getManager().getGameState() == GameState.PLAYER_TURN) {
-			showDominoes();
+			
 		} else if(getManager().getGameState() == GameState.TALLY_SCORE) {
 			showTally((Graphics2D) g.create(), bannerStartX+60, bannerStartY+80, bannerEndX, bannerEndY);
 			if(!tallyAnimation) {

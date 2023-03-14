@@ -7,7 +7,7 @@ import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
 
 public abstract class Component {
-    private boolean shown = false;
+    private boolean shown = true;
     private Coordinate position;
     private Kingdomino game;
     private GameManager gm;

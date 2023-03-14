@@ -63,9 +63,9 @@ public class DominoButton extends Button {
    
    @Override
    public boolean onComponent(Coordinate c) {
-	 if(!isShown()) {
-		 return false;
-	 }
+//	 if(!isShown()) {
+//		 return false;
+//	 }
    	double x = getPosition().getX() - width/2;
    	double y = getPosition().getY() - height/2;
 
@@ -84,6 +84,7 @@ public class DominoButton extends Button {
        g.setColor(player.getColor());
        g.fillRect((int) getPosition().getX() - width/2, (int) getPosition().getY()-height/2, width, height);
      }
+     
      uiDomino.draw(g);
      if(player != null){
          g.setColor(new Color(50,50,50,150));
