@@ -4,12 +4,15 @@ import java.util.ArrayList;
 
 import Backend.GameManager;
 import Backend.GameManager.GameState;
+import Backend.Kingdomino;
 import Backend.Player;
 import resources.OurColors;
 
 public class BackendGameTester {
 	public static void main(String[]args) {
-		GameManager g = new GameManager(null);
+		Kingdomino k = new Kingdomino();
+		GameManager g = k.getManager();
+		g.setGameState(GameState.PLAYER_TURN);
 		ArrayList<Player>fakePlayers = new ArrayList<Player>(4);
 		fakePlayers.add(new TestPlayer(OurColors.RED, "Don Quixote", "The Ingenious",20));
 		fakePlayers.add(new TestPlayer(OurColors.BLUE, "King Arthur", "The Round",30));
