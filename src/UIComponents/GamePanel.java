@@ -285,25 +285,27 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     }
 
     private void handleButtonClicks(Coordinate mouseCoord) {
-        for (Component component : components) {
-            if (component instanceof Button && component.onComponent(mouseCoord)) {
-                if (component instanceof DominoButton) {
-                    if (!((DominoButton) component).isLocked()) {
-                        for (DominoButton d : banner.getButtons()) {
-                            if (d == component)
-                                d.doAction();
-                            else if (!d.isLocked())
-                                d.removePlayer();
+        if (!k.getManager().isStrategyMode()) {
+            for (Component component : components) {
+                if (component instanceof Button && component.onComponent(mouseCoord)) {
+                    if (component instanceof DominoButton) {
+                        if (!((DominoButton) component).isLocked()) {
+                            for (DominoButton d : banner.getButtons()) {
+                                if (d == component)
+                                    d.doAction();
+                                else if (!d.isLocked())
+                                    d.removePlayer();
+                            }
                         }
+                    } else {
+                        component.whenClicked();
                     }
-                } else {
-                    component.whenClicked();
                 }
-            }
 
-            if (component instanceof PlayerTabGroup) {
-                if (component.onComponent(mouseCoord))
-                    ((PlayerTabGroup) component).selectButton(mouseCoord);
+                if (component instanceof PlayerTabGroup) {
+                    if (component.onComponent(mouseCoord))
+                        ((PlayerTabGroup) component).selectButton(mouseCoord);
+                }
             }
         }
     }
