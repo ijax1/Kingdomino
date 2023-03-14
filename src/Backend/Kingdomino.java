@@ -41,11 +41,12 @@ public class Kingdomino {
 
         startPanel = new StartPanel(new GridBagLayout(), this);
         podiumPanel = new PodiumPanel(new GridBagLayout(), this);
-        analysisPanel = new AnalysisPanel(new GridBagLayout());
+        analysisPanel = new AnalysisPanel(new GridBagLayout(), this);
 
         basePanel.add(startPanel, "Start Panel");
 //        basePanel.add(gamePanel, "Game Panel");
         basePanel.add(podiumPanel, "Podium Panel");
+        basePanel.add(analysisPanel, "Analysis Panel");
         setUpFrame();
     }
 
@@ -99,7 +100,8 @@ public class Kingdomino {
         } else if (state == GameState.ENDSCREEN) {
             panels.show(basePanel, "Podium Panel");
         } else if (state == GameState.STRATEGY) {
-            panels.show(basePanel, "Strategy Analysis Panel");
+            panels.show(basePanel, "Analysis Panel");
+//            analysisPanel.beginAnalysis(manager.getNumGames());
         } else {
             //keep panel
         }
@@ -118,5 +120,9 @@ public class Kingdomino {
                 new Kingdomino();
             }
         });
+    }
+
+    public AnalysisPanel getAnalysisPanel() {
+        return analysisPanel;
     }
 }

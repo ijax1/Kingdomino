@@ -15,7 +15,9 @@ public class GameManager {
     private Kingdomino game;
     private boolean isFastMode;
     private int numGames;
+    private int numGamesLeft;
     private Domino[] dominoesToSelect;
+    private int roundNum;
 
     public enum GameState {
         INITIAL,
@@ -30,6 +32,7 @@ public class GameManager {
     public GameManager(Kingdomino game) {
         this.game = game;
         state = GameState.INITIAL;
+        roundNum = 0;
         //making default players:
         Titles t = new Titles();
         players = new ArrayList<>(4);
@@ -58,6 +61,7 @@ public class GameManager {
             initPlayerTurns();
         } else if (state == GameState.STRATEGY) {
             //play computer # games
+            initPlayerTurns();
         } else if (state == GameState.ENDSCREEN)
             setResults();
     }
@@ -106,7 +110,11 @@ public class GameManager {
     }
 
     private void round() {
-        System.out.println("round called");
+        if (roundNum == 24) {
+//            endGame();
+        } else {
+            roundNum++;
+        }
         dominoesToSelect = deck.getDominoesToSelect();
         if (firstTurn)
             game.getGamePanel().initDominoes();
@@ -169,6 +177,16 @@ public class GameManager {
         }
     }
 
+//    public void endGame() {
+//        numGamesLeft--;
+//        if (isFastMode && numGamesLeft == ) {
+//
+//        }
+//        if (isFastMode) {
+//            game.getAnalysisPanel().displayAnalysis();
+//        }
+//    }
+
     public boolean isFirstTurn() {
         return firstTurn;
     }
@@ -222,6 +240,11 @@ public class GameManager {
 
     public void setNumGames(int numGames) {
         this.numGames = numGames;
+        numGamesLeft = numGames;
+    }
+
+    public int getNumGames() {
+        return numGames;
     }
 
 

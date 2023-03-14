@@ -3,6 +3,7 @@ package Tests;
 import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 
+import Backend.Kingdomino;
 import UIComponents.AnalysisPanel;
 
 public class AnalysisPanelTester {
@@ -12,7 +13,8 @@ public class AnalysisPanelTester {
 	}
 	public void runGUI() {
 		JFrame frame = new JFrame(getClass().getName());
-		AnalysisPanel panel = new AnalysisPanel(new GridBagLayout());
+		Kingdomino kingdomino = new Kingdomino();
+		AnalysisPanel panel = new AnalysisPanel(new GridBagLayout(), kingdomino);
 		frame.setSize(1280,720);
 		frame.add(panel);
 		

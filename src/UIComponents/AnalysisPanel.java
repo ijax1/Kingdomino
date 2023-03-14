@@ -1,8 +1,6 @@
 package UIComponents;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
@@ -11,24 +9,12 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
 
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 
-import UIComponents.Render.Coordinate;
+import Backend.Kingdomino;
 import resources.OurColors;
 import resources.Resources;
 
@@ -40,12 +26,13 @@ public class AnalysisPanel extends JPanel {
 	private CloseButton close;
 	private int width = 200;
 	private int height = 500;
+	private Kingdomino kingdomino;
 
-	public AnalysisPanel(GridBagLayout g) {
+	public AnalysisPanel(GridBagLayout g, Kingdomino kingdomino) {
 		super(g);
 		//setBackground(OurColors.BACKGROUND);
 		GridBagConstraints c = new GridBagConstraints();
-
+		this.kingdomino = kingdomino;
 		JPanel box1 = new JPanel();
 		box1.setSize(width, height);
 		JPanel box2 = new JPanel();
@@ -149,4 +136,8 @@ public class AnalysisPanel extends JPanel {
 		//g2.fillRect(0,0,img.getWidth(), img.getHeight());
 		return img;
 	}
+
+//	public void displayAnalysis() {
+//		kingdomino.getManager()
+//	}
 }
