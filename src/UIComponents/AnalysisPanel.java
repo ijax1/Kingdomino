@@ -34,12 +34,12 @@ import resources.Resources;
 
 @SuppressWarnings("serial")
 public class AnalysisPanel extends JPanel {
-	BufferedImage player;
-	BufferedImage computer;
-	BufferedImage none;
-	CloseButton close;
-	int width = 200;
-	int height = 500;
+	private BufferedImage player;
+	private BufferedImage computer;
+	private BufferedImage none;
+	private CloseButton close;
+	private int width = 200;
+	private int height = 500;
 
 	public AnalysisPanel(GridBagLayout g) {
 		super(g);
@@ -56,7 +56,7 @@ public class AnalysisPanel extends JPanel {
 		box4.setSize(width, height);
 
 		//JButton scrollB = new JButton("Quiteth");
-		JLabel scroll = new JLabel("Kingdomino", SwingConstants.CENTER);
+		JLabel scroll = new JLabel("Strategy Analysis", SwingConstants.CENTER);
 		scroll.setFont(Resources.getMedievalFont(50));
 		scroll.setForeground(OurColors.FONT_LIGHT);
 		RoyalButton exit = new RoyalButton("Exiteth");

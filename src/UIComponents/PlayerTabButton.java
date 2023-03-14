@@ -21,7 +21,7 @@ public class PlayerTabButton extends Button {
     }
 
     public void doAction() {
-        if (!getMinimized()) {
+        if (!isShown()) {
             super.show();
         	group.setSelected(this);
         }
@@ -49,7 +49,7 @@ public class PlayerTabButton extends Button {
 
 
         width = 40;
-        if(super.getMinimized()) {
+        if(super.isShown()) {
             width += 25;
         }
         int filletRadius = 20;

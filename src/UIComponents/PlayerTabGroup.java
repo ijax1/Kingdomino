@@ -138,12 +138,12 @@ public class PlayerTabGroup extends Component {
     public void draw(Graphics2D g) {
         graphics = g;
         for (PlayerTabButton button : group) {
-            if (!button.isMinimized()) {
+            if (!button.isShown()) {
                 button.draw(g);
             }
         }
         for (PlayerTabButton button : group) {
-            if (button.isMinimized()) {
+            if (button.isShown()) {
                 button.draw(g);
             }
         }
@@ -171,7 +171,7 @@ public class PlayerTabGroup extends Component {
     public void whenClicked() {
         boolean run = false;
         for (PlayerTabButton button : group) {
-            if (!button.getMinimized()) {
+            if (!button.isShown()) {
                 if (button != selected) {
                     setSelected(button);
                     run = true;
