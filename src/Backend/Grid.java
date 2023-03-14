@@ -189,12 +189,13 @@ public class Grid {
 
     public int calculateScore(Land landType) {
         ArrayList<Region> regions = getContiguous();
+        int score = 0;
         for (Region r : regions) {
             if (r.getLandType() == landType) {
-                return regionScore(r);
+                score += regionScore(r);
             }
         }
-        return 0;
+        return score;
     }
 
     private int regionScore(Region region) {

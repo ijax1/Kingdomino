@@ -26,7 +26,7 @@ public class Banner extends Component {
 	private GameManager gm;
 	private GamePanel gamePanel;
 	private final ArrayList<DominoButton> buttons = new ArrayList<DominoButton>();
-	Banner(Coordinate position, Kingdomino k, int numButtons, GamePanel gp) {
+	Banner(Coordinate position, Kingdomino k, int numButtons, GamePanel gp, Domino[] dominoes) {
 		super(position, k);
 		this.k = k;
 		this.gm = k.getManager();
@@ -34,20 +34,21 @@ public class Banner extends Component {
 		double x = position.getX();
 		double y = position.getY();
 		
-		Domino tempDomino = new Domino(new Tile(Land.FOREST,0), new Tile(Land.LAKE, 1), 30);
+//		Domino tempDomino = new Domino(new Tile(Land.FOREST,0), new Tile(Land.LAKE, 1), 30);
 		int xOffset = 255;
 		int yOffset = 90;
 		for(int i=0; i<numButtons; i++) {
-			buttons.add(new DominoButton(new Coordinate(x+xOffset,y+yOffset,0), k, tempDomino));
+//			buttons.add(new DominoButton(new Coordinate(x+xOffset,y+yOffset,0), k, tempDomino));
+			buttons.add(new DominoButton(new Coordinate(x+xOffset,y+yOffset,0), k, dominoes[i]));
 			yOffset += UITile.TILE_SIZE * 1.6;
 		}
 	}
 	public final ArrayList<DominoButton> getButtons() {
 		return buttons;
 	}
-	public void setDominoes(ArrayList<Domino>sorted) {
-		for(int i=0; i<sorted.size(); i++) {
-			buttons.get(i).setDomino(sorted.get(i));
+	public void setDominoes(Domino[]sorted) {
+		for(int i=0; i<sorted.length; i++) {
+			buttons.get(i).setDomino(sorted[i]);
 		}
 	}
 
@@ -62,35 +63,58 @@ public class Banner extends Component {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	private void showDominoes() {
-		for(DominoButton b: buttons){
-			b.show();
+	//shh this code is good
+	private int[] scores = new int[7];
+	private int[] displayedScores = new int[0];
+	//Matlab reference
+	private int scoreIdx=1;
+	private boolean tallyAnimation = false;
+	private Timer t = new Timer(600, new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(scoreIdx > 7) {
+				((Timer)e.getSource()).stop();
+			} else {
+				System.out.println("scoreidx:"+scoreIdx);
+				displayedScores = new int[scoreIdx];
+				System.arraycopy(scores, 0, displayedScores, 0, scoreIdx);
+				gamePanel.repaint();
+				scoreIdx++;
+				
+			}
 		}
-	}
-	private void showTally(Graphics2D g, int bannerStartX, int bannerStartY) {
+	});
+	private void showTally(Graphics2D g, int bannerStartX, int bannerStartY, int bannerEndX, int bannerEndY) {
 		g.setFont(Resources.getMedievalFont(24));
 		g.setColor(Color.BLACK);
 		for(DominoButton b: buttons){
 			b.minimize();
 		}
 		
-		Grid grid = gamePanel.getViewedPlayer().getGrid();
+		Grid grid = gm.getCurrentPlayer().getGrid();
 		int total = grid.calculateScore();
 		Land[] landOrder = {Land.FOREST, Land.WHEAT, Land.PASTURE, Land.LAKE, Land.SWAMP, Land.MINE};
-		int xPos = bannerStartX;
+		int xPos = bannerStartX+20;
 		int yPos = bannerStartY;
 		for(int i=0; i<landOrder.length; i++) {
 			UITile t = new UITile(landOrder[i], new Coordinate(xPos, yPos, 0));
 			int score = grid.calculateScore(landOrder[i]);
-			g.drawString(""+score, xPos+40, yPos+5);
 			t.render(g.create());
+			scores[i] = score;
 			yPos += 50;
 		}
-		g.drawString("Total:", xPos-30, yPos);
-		g.drawString(""+total, xPos+40, yPos);
+		scores[scores.length-1] = total;
+		xPos = bannerStartX+80;
+		yPos = bannerStartY;
+		
+		for(int i=0; i<displayedScores.length; i++) {
+			System.out.print(displayedScores[i]);
+			g.drawString(""+displayedScores[i], xPos, yPos);
+			yPos += 50;
+		}
+		System.out.println();
 
-		
-		
+		g.drawString("Total:", bannerStartX-20, bannerEndY-120);	
 	}
 
 	@Override
@@ -163,9 +187,13 @@ public class Banner extends Component {
 		mod = (int) ((Math.sqrt(2)/2)*(radius/2.0 - rad/2.0));
 		g.fillOval(circleX+radius/2+mod-rad/2,circleY+radius/2-mod-rad/2,rad,rad);
 		if(getManager().getGameState() == GameState.PLAYER_TURN) {
-			showDominoes();
+			
 		} else if(getManager().getGameState() == GameState.TALLY_SCORE) {
-			showTally((Graphics2D) g.create(), bannerStartX+60, bannerStartY+80);
+			showTally((Graphics2D) g.create(), bannerStartX+60, bannerStartY+80, bannerEndX, bannerEndY);
+			if(!tallyAnimation) {
+				tallyAnimation = true;
+				t.start();
+			}
 		} else {
 			//don't draw? this should never happen though
 		}
@@ -188,7 +216,7 @@ public class Banner extends Component {
         minimized = true;
     }
 	@Override
-    public boolean isMinimized(){
+    public boolean isShown(){
         return minimized;
     }
 
