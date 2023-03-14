@@ -192,6 +192,27 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         checkDomino();
         //moved UIDomino draw to the component loop
 
+        double startX = 0;
+        double startY = 0;
+        double width = 175;
+        double height = 50;
+        int filletRadius = 20;
+        g.setStroke(new BasicStroke(3));
+        g.setColor(new Color(241, 194, 50));
+        g.drawRect((int) startX, (int) startY, (int) width-filletRadius/2, (int) height);
+        //g.drawOval((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) filletRadius);
+        g.drawRect((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) height - (filletRadius / 2));
+        g.drawOval((int) (startX+(width-filletRadius)), (int) (startY + (height - filletRadius)), (int) filletRadius, (int) filletRadius);
+
+        g.setColor(new Color(140, 67, 188));
+        g.fillRect((int) startX, (int) startY, (int) width-filletRadius/2, (int) height);
+        //g.fillOval((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) filletRadius);
+        g.fillRect((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) height - (filletRadius / 2));
+        g.fillOval((int) (startX+(width-filletRadius)), (int) (startY + (height - filletRadius)), (int) filletRadius, (int) filletRadius);
+
+        g.setColor(new Color(241, 194, 50));
+        g.drawString("SCORE: " + gm.getPlayers().get(viewedPlayer).getScore(), 30, 30);
+
 //		g.drawString("Hello world", 200,200);
 //		g.fillOval(500, 500, 10, 10);
 //		g.drawRect(480, 480, 40, 40);
