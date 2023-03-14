@@ -1,19 +1,33 @@
- package UIComponents;
-
+package UIComponents;
+import java.util.*;
+import java.awt.*;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import Backend.GameManager;
 import Backend.Kingdomino;
+import Backend.Player;
 import resources.OurColors;
 import resources.Resources;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.*;
+import java.util.ArrayList;
 
+import javax.swing.JLabel;
+import javax.swing.*;
+import javax.swing.SwingConstants;
+
+import Backend.GameManager.GameState;
+import Backend.*;
+import resources.*;
+import resources.Titles;
 public class PodiumPanel extends JPanel {
 	private BufferedImage playerImg;
 	private BufferedImage computerImg;
@@ -21,98 +35,111 @@ public class PodiumPanel extends JPanel {
 	private CloseButton close;
 	private JFrame root;
 	GameManager gm;
-	private PlayerSelectPanel[]playerPanels = new PlayerSelectPanel[4];
-	public PodiumPanel(GridBagLayout g, Kingdomino k) {
+	Kingdomino k;
+	private ArrayList<Player> order;
+	public PodiumPanel(GridBagLayout g, final Kingdomino kdomino) {
+		k=kdomino;
+		order=k.getManager().getPlayers();
+		for(int i=0;i<order.size()-1;i++) {
+			for(int j=0;j<order.size();j++) {
+				if(order.get(i).getScore()<order.get(j).getScore()) {
+					Player temp = order.get(i);
+					order.set(i, order.get(j));
+					order.set(j, temp);
+				}
+			}
+		}
+		for(Player p: order) {
+			System.out.print(p.getScore());
+		}
+		//order.get(0).getName();
+//		class first extends JPanel{
+//			BufferedImage img;
+//			Image newimg;
+//			public first() {				
+//			img = Resources.loadImage("FirstPlace.png");
+//			newimg = img.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
+//            setPreferredSize(new Dimension(350, 500));
+//			}
+//			protected void paintComponent(Graphics g) {
+//	            super.paintComponent(g);
+//	            g.drawImage(newimg, 0, 0, null);
+//	        }
+//	        public boolean isOpaque() {
+//	            return false;
+//	        }
+//		}
+//		class second extends JPanel{
+//			BufferedImage img = Resources.loadImage("FirstPlace.png");
+//			Image newimg = img.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
+//			protected void paintComponent(Graphics g) {
+//	            super.paintComponent(g);
+//	            g.drawImage(newimg, 0, 0, null);
+//	        }
+//	        public boolean isOpaque() {
+//	            return false;
+//	        }
+//		}
+//		class third extends JPanel{
+//			BufferedImage img = Resources.loadImage("FirstPlace.png");
+//			Image newimg = img.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
+//			protected void paintComponent(Graphics g) {
+//	            super.paintComponent(g);
+//	            g.drawImage(newimg, 0, 0, null);
+//	        }
+//	        public boolean isOpaque() {
+//	            return false;
+//	        }
+//		}
 		
-//		super(g);
-//		GridBagConstraints c = new GridBagConstraints();
-//		gm = k.getManager();
-//		gm.getPlayers().get(0).getScore();
-//		
-//		playerPanels[0] = new PlayerSelectPanel(OurColors.RED, 1, PlayerSelectPanel.HUMAN, k);
-//		playerPanels[1] = new PlayerSelectPanel(OurColors.BLUE, 2, PlayerSelectPanel.COMPUTER, k);
-//		playerPanels[2] = new PlayerSelectPanel(OurColors.GREEN, 3, PlayerSelectPanel.COMPUTER, k);
-//		playerPanels[3] = new PlayerSelectPanel(OurColors.YELLOW, 4, PlayerSelectPanel.COMPUTER, k);
-//		//JButton scrollB = new JButton("Quiteth");
-//		JLabel scroll = new JLabel("Kingdomino", SwingConstants.CENTER);
-//		scroll.setFont(Resources.getMedievalFont(50));
-//		scroll.setForeground(OurColors.FONT_LIGHT);
-//		RoyalButton exit = new RoyalButton("Exiteth");
-//		RoyalButton play = new RoyalButton("Playeth");
-//		ImageIcon PodiumScreen = new ImageIcon("PodiumScreen.png");
-//		exit.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				System.exit(0);
-//			}	
-//		});
-//		play.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				ArrayList<Player> players = getAllPlayers();
-//				if(players.size() < 2) {
-//					new ErrorDialog(root);
-//				} else {
-//					gm.setPlayers(players);
-//					gm.setGameState(GameState.PLAYER_TURN);
-//				}
-//			}	
-//		});
-//		c.fill = GridBagConstraints.HORIZONTAL;
-//		c.weightx=0.5;
-//		c.gridheight = 1;
-//		c.insets = new Insets(10,10,10,10);
-//		c.anchor = GridBagConstraints.CENTER;
-//		c.ipady = 20;
-//		c.gridx = 0;
-//		c.gridy = 2;
-//		c.gridwidth = 2;
-//		g.setConstraints(exit, c);
-//		add(exit);
-//		
-//		c.gridx = 2;
-//		c.gridy = 2;
-//		c.gridwidth = 2;
-//		g.setConstraints(play, c);
-//		add(play);
-//		
-//
-//		c.gridx = 2;
-//		c.gridy = 2;
-//		c.gridwidth = 2;
-//		g.setConstraints(play, c);
 	}
 	public void paintComponent(Graphics g1) {
 		Graphics2D g = (Graphics2D)g1;
 		GamePanel.applyHints(g);
-		BufferedImage img = Resources.loadImage("PodiumScreen.png");
-		Image newimg = img.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
+		//BufferedImage img = Resources.loadImage("PodiumScreen.png");
+		//Image newimg = img.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
 		g.setColor(OurColors.BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(OurColors.BACKGROUND_CIRCLE);
-		g.fillOval(100,50,getWidth()-200, getHeight()-100);
-		g.drawImage(newimg, 0, 0, null);
-	}
-//	private ArrayList<Player> getAllPlayers(){
-//		ArrayList<Player>players = new ArrayList<Player>();
-//		for(PlayerSelectPanel panel: playerPanels) {
-//			Player newPlayer = panel.createPlayer();
-//			if(newPlayer != null) {
-//				players.add(newPlayer);
-//			}
-//		}
-//		return players;
-//	}
-	public static void main(String[] args) {
-		JFrame frame = new JFrame("Podium Panel");
-		PodiumPanel panel = new PodiumPanel(new GridBagLayout(), new Kingdomino());
-		frame.setSize(1280,720);
-		frame.add(panel);
-
+		g.fillOval(100,50,getWidth()-200, getHeight()-100);				
+		//Resources.loadImage(order.get(0).getTitle());
+        //g.drawImage(order.get(0), 0, 0, null);
+		g.drawImage(toImage(Resources.loadImage("king_domino_scroll.png")), 150, 0, null);
 		
-		//frame.pack();
-		frame.setVisible(true);
-		panel.repaint();
-		new ErrorDialog(frame);
+		BufferedImage icon1 = Resources.loadImage("player_icon_win.png");
+        Image newiconimage1 = icon1.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+        g.drawImage(newiconimage1, 500, 190, null);
+		
+		BufferedImage icon2 = Resources.loadImage("player_icon.png");
+        Image newiconimage2 = icon2.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+        g.drawImage(newiconimage2, 160, 250, null);
+		
+        BufferedImage icon3 = Resources.loadImage("computer_icon.png");
+        Image newiconimage3 = icon3.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+        g.drawImage(newiconimage3, 850, 310, null);
+		
+        BufferedImage img1 = Resources.loadImage("FirstPlace.png");
+        Image newimg1 = img1.getScaledInstance(350, 500, Image.SCALE_SMOOTH);
+        int x1 = (getWidth() - newimg1.getWidth(null)) / 2; 
+        int y1 = getHeight() - newimg1.getHeight(null); 
+        g.drawImage(newimg1, x1, y1, null);
+        
+        
+        BufferedImage img2 = Resources.loadImage("SecondPlace.png");
+        Image newimg2 = img2.getScaledInstance(350, 450, Image.SCALE_SMOOTH);
+        int x2 = x1 - newimg2.getWidth(null);
+        int y2 = y1+50; 
+        g.drawImage(newimg2, x2, y2, null);
+
+        BufferedImage img3 = Resources.loadImage("ThirdPlace.png");
+        Image newimg3 = img3.getScaledInstance(350, 400, Image.SCALE_SMOOTH);
+        int x3 = x1 + newimg2.getWidth(null); 
+        int y3 = y1+100; 
+        g.drawImage(newimg3, x3, y3, null);
 	}
+	private Image toImage(BufferedImage img) {
+        Image image = img.getScaledInstance(img.getWidth(), img.getHeight(), Image.SCALE_SMOOTH);
+        return image;
+    }
+
 }
