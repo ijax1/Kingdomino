@@ -7,7 +7,7 @@ import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
 
 public abstract class Component {
-    private boolean minimized = false;
+    private boolean shown = true;
     private Coordinate position;
     private Kingdomino game;
     private GameManager gm;
@@ -21,18 +21,16 @@ public abstract class Component {
     }
     //TODO: these are backwards, ask jonathan how to fix
     public void minimize(){
-        minimized = false;
+        shown = false;
     }
 
     public void show(){
-        minimized = true;
+        shown = true;
     }
 
     public Coordinate getPosition(){
         return position;
     };
-
-    public boolean getMinimized() {return minimized;}
 
     public Kingdomino getGame(){
         return game;
@@ -49,8 +47,8 @@ public abstract class Component {
 
     public abstract void whenClicked();
 
-    public boolean isMinimized(){
-        return minimized;
+    public boolean isShown(){
+        return shown;
     }
 
 }

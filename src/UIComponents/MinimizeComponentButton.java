@@ -22,7 +22,7 @@ public class MinimizeComponentButton extends Button{
     // draws separate components based on if minimized or not
     // sets position of tip to determine where to draw / where to determine the mouse
     public void doAction() {
-        if (getMinimized()) {
+        if (isShown()) {
             show();
             textBox.show();
         } else {
@@ -55,7 +55,7 @@ public class MinimizeComponentButton extends Button{
         double tipY = getPosition().getY();
 
         double yConstant = -10;
-        if (getMinimized()) {
+        if (isShown()) {
             yConstant = 10;
             tipX = minimizedPosition.getX();
             tipY = minimizedPosition.getY();
@@ -85,7 +85,7 @@ public class MinimizeComponentButton extends Button{
             yPoints[i] = (int) points[1][i];
         }
 
-        g.setColor(new Color(241, 194, 50, 100));
+        g.setColor(new Color(241, 194, 50));
         g.fillPolygon(new Polygon(xPoints, yPoints, 3));
     }
 

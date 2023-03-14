@@ -100,7 +100,7 @@ public class UIDomino extends Component{
 
     @Override
     public void draw(Graphics2D g) {
-        if(super.isMinimized())
+        if(super.isShown())
             self.render(g);
         if(almostEqual(Math.abs(currentRotation%(2*Math.PI) - rotateTo%(2*Math.PI)), 0, 1e-4) ||
                 almostEqual(Math.abs(currentRotation%(2*Math.PI) - rotateTo%(2*Math.PI)), 2*Math.PI, 1e-4))

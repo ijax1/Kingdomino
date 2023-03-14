@@ -56,6 +56,8 @@ public class GameManager {
             reset();
         } else if (state == GameState.PLAYER_TURN) {
             initPlayerTurns();
+        } else if (state == GameState.STRATEGY) {
+           //play computer # games
         } else if (state == GameState.ENDSCREEN)
             setResults();
     }
@@ -116,7 +118,10 @@ public class GameManager {
     // individual player in a turn
     private void playerTurn() {
         if (getCurrentPlayer() instanceof ComputerPlayer) {
-            ((ComputerPlayer) getCurrentPlayer()).calculateChoice();
+        	//instead of computer player...
+        	//if we store what strategy is selected...idk. lol.
+        	
+        	((ComputerPlayer) getCurrentPlayer()).calculateChoice();
             ((ComputerPlayer) getCurrentPlayer()).placeDomino();
             nextPlayer();
         }

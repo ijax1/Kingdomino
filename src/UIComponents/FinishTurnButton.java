@@ -8,7 +8,7 @@ import UIComponents.Render.Coordinate;
 
 public class FinishTurnButton extends Button{
 
-    private final double width = 100;
+    private final double width = 200;
     private final double height = 50;
     FinishTurnButton(Coordinate position, Kingdomino k) {
         super(position, k);
@@ -31,15 +31,16 @@ public class FinishTurnButton extends Button{
     }
 
     public void draw(Graphics2D g) {
+        //System.out.println("FINISH THY TURN length: " + g.getFontMetrics().stringWidth("FINISH THY TURN"));
         double xStart = super.getPosition().getX();
         double yStart = super.getPosition().getY();
 
         // drawing banner shape
         // purple squares
-        int squareW = 40;
-        int squareX = (int) (xStart - 20);
+        int squareW = 100;
+        int squareX = (int) (xStart - 50);
         int squareY = (int) (yStart - 10);
-        g.setColor(new Color(140, 67, 188, 100));
+        g.setColor(new Color(140, 67, 188));
         g.fillRect(squareX, squareY, squareW, (int) height);
         g.fillRect((int) (squareX + width), squareY, squareW, (int) height);
 
@@ -49,14 +50,14 @@ public class FinishTurnButton extends Button{
         int[] triangleXR = {(int) (squareX + width + squareW), (int) (squareX + width + squareW + triangleW), (int) (squareX + width + squareW)};
         int[] triangleYT = {squareY, squareY, squareY / 2};
         int[] triangleYB = {(int) (squareY + height), (int) (squareY + height), squareY / 2};
-        /*
-        g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYT, 3));
-        g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYB, 3));
-        g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYT, 3));
-        g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYB, 3));
+
+//        g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYT, 3));
+//        g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYB, 3));
+//        g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYT, 3));
+//        g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYB, 3));
 
 
-         */
+
 
         //gold outline
 
@@ -72,14 +73,14 @@ public class FinishTurnButton extends Button{
         //
 
         // drawing legitmate button
-        g.setColor(new Color(140, 67, 188, 100));
+        g.setColor(new Color(140, 67, 188));
         g.fillRect((int) xStart,(int) yStart, (int) width, (int) height);
 
         g.setColor(new Color(241, 194, 50));
         g.drawRect((int) xStart,(int) yStart,(int) width,(int) height);
 
         g.setColor(Color.white);
-        g.drawString("FINISH THY TURN",(int) xStart+10,(int) yStart+10);
+        g.drawString("FINISH THY TURN",(int) xStart+23,(int) yStart+40);
         g.drawRect((int) xStart,(int) yStart,(int) width,(int) height);
     }
 }
