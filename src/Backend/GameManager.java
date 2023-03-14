@@ -70,13 +70,10 @@ public class GameManager {
                 break;
             }
         }
-        while (!deck.isEmpty()) {
-            if (!strategyMode || isFastMode) {
-                turn();
-            } else {
-                slowMode();
-            }
-        }
+        if (!strategyMode || isFastMode)
+            round();
+        else
+            slowMode();
     }
 
     private void slowMode() {
@@ -108,8 +105,8 @@ public class GameManager {
         return dominoesToSelect;
     }
 
-    // new turn
-    private void turn() {
+    private void round() {
+        System.out.println("round called");
         dominoesToSelect = deck.getDominoesToSelect();
         if (firstTurn)
             game.getGamePanel().initDominoes();
@@ -131,23 +128,21 @@ public class GameManager {
 
     // called when player finishes turn
     // updates player and calls playerTurn()
-    public boolean nextPlayer() {
+    public void nextPlayer() {
         if ((firstTurn || getCurrentPlayer().hasPlaced()) && getCurrentPlayer().hasSelected()) {
             getCurrentPlayer().setSelected(false);
             getCurrentPlayer().setPlaced(false);
             updatePlayerIdx();
             game.getGamePanel().changePlayer(getCurrentPlayer());
-            if (currPlayerIdx > players.size() - 1) {
+            if (currPlayerIdx == 0) {
                 // next turn
                 firstTurn = false;
                 updatePlayerOrder();
-//                game.getGamePanel().resetDominoButtons();
+                round();
+            } else {
+                playerTurn();
             }
-
-            playerTurn();
-            return true;
         }
-        return false;
     }
 
     private void updatePlayerIdx() {
