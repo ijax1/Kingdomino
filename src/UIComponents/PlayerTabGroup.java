@@ -31,7 +31,7 @@ public class PlayerTabGroup extends Component {
             y += 100;
         }
         System.out.println(players);
-        selected = group.get(0);
+        setSelected(group.get(0));
     }
 
     public void updatePlayers(ArrayList<Player> players) {
