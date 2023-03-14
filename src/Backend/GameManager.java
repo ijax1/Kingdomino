@@ -49,15 +49,15 @@ public class GameManager {
 
     public void setGameState(GameState state) {
         this.state = state;
-        if(game != null) {
-        	game.changePanel(state);
+        if (game != null) {
+            game.changePanel(state);
         }
         if (state == GameState.INITIAL) {
             reset();
         } else if (state == GameState.PLAYER_TURN) {
             initPlayerTurns();
         } else if (state == GameState.STRATEGY) {
-           //play computer # games
+            //play computer # games
         } else if (state == GameState.ENDSCREEN)
             setResults();
     }
@@ -111,6 +111,8 @@ public class GameManager {
     // new turn
     private void turn() {
         dominoesToSelect = deck.getDominoesToSelect();
+        if (firstTurn)
+            game.getGamePanel().initDominoes();
         playerTurn();
     }
 
@@ -118,10 +120,10 @@ public class GameManager {
     // individual player in a turn
     private void playerTurn() {
         if (getCurrentPlayer() instanceof ComputerPlayer) {
-        	//instead of computer player...
-        	//if we store what strategy is selected...idk. lol.
-        	
-        	((ComputerPlayer) getCurrentPlayer()).calculateChoice();
+            //instead of computer player...
+            //if we store what strategy is selected...idk. lol.
+
+            ((ComputerPlayer) getCurrentPlayer()).calculateChoice();
             ((ComputerPlayer) getCurrentPlayer()).placeDomino();
             nextPlayer();
         }
@@ -133,17 +135,16 @@ public class GameManager {
         if ((firstTurn || getCurrentPlayer().hasPlaced()) && getCurrentPlayer().hasSelected()) {
             getCurrentPlayer().setSelected(false);
             getCurrentPlayer().setPlaced(false);
-            if (currPlayerIdx == players.size() - 1) {
-                System.out.println("here");
+            updatePlayerIdx();
+            game.getGamePanel().changePlayer(getCurrentPlayer());
+            if (currPlayerIdx > players.size() - 1) {
+                // next turn
                 firstTurn = false;
                 updatePlayerOrder();
-                updatePlayerIdx();
-                game.getGamePanel().changePlayer(getCurrentPlayer());
-            } else {
-                updatePlayerIdx();
-                game.getGamePanel().changePlayer(getCurrentPlayer());
-                playerTurn();
+//                game.getGamePanel().resetDominoButtons();
             }
+
+            playerTurn();
             return true;
         }
         return false;
@@ -193,7 +194,9 @@ public class GameManager {
         return players.get(currPlayerIdx);
     }
 
-    public int getCurrPlayerIdx() {return currPlayerIdx;}
+    public int getCurrPlayerIdx() {
+        return currPlayerIdx;
+    }
 
 
     public Deck getDeck() {

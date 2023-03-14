@@ -26,7 +26,7 @@ public class Banner extends Component {
 	private GameManager gm;
 	private GamePanel gamePanel;
 	private final ArrayList<DominoButton> buttons = new ArrayList<DominoButton>();
-	Banner(Coordinate position, Kingdomino k, int numButtons, GamePanel gp) {
+	Banner(Coordinate position, Kingdomino k, int numButtons, GamePanel gp, Domino[] dominoes) {
 		super(position, k);
 		this.k = k;
 		this.gm = k.getManager();
@@ -34,20 +34,21 @@ public class Banner extends Component {
 		double x = position.getX();
 		double y = position.getY();
 		
-		Domino tempDomino = new Domino(new Tile(Land.FOREST,0), new Tile(Land.LAKE, 1), 30);
+//		Domino tempDomino = new Domino(new Tile(Land.FOREST,0), new Tile(Land.LAKE, 1), 30);
 		int xOffset = 255;
 		int yOffset = 90;
 		for(int i=0; i<numButtons; i++) {
-			buttons.add(new DominoButton(new Coordinate(x+xOffset,y+yOffset,0), k, tempDomino));
+//			buttons.add(new DominoButton(new Coordinate(x+xOffset,y+yOffset,0), k, tempDomino));
+			buttons.add(new DominoButton(new Coordinate(x+xOffset,y+yOffset,0), k, dominoes[i]));
 			yOffset += UITile.TILE_SIZE * 1.6;
 		}
 	}
 	public final ArrayList<DominoButton> getButtons() {
 		return buttons;
 	}
-	public void setDominoes(ArrayList<Domino>sorted) {
-		for(int i=0; i<sorted.size(); i++) {
-			buttons.get(i).setDomino(sorted.get(i));
+	public void setDominoes(Domino[]sorted) {
+		for(int i=0; i<sorted.length; i++) {
+			buttons.get(i).setDomino(sorted[i]);
 		}
 	}
 
