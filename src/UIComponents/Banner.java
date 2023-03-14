@@ -89,7 +89,7 @@ public class Banner extends Component {
 			b.minimize();
 		}
 		
-		Grid grid = gamePanel.getViewedPlayer().getGrid();
+		Grid grid = gm.getCurrentPlayer().getGrid();
 		int total = grid.calculateScore();
 		Land[] landOrder = {Land.FOREST, Land.WHEAT, Land.PASTURE, Land.LAKE, Land.SWAMP, Land.MINE};
 		int xPos = bannerStartX+20;
