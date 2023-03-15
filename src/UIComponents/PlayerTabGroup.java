@@ -84,6 +84,7 @@ public class PlayerTabGroup extends Component {
     }
 
     public void updateOrder() {
+        /*
         boolean sorted = false;
         while (!sorted) {
             for (int i = 0; i < group.size() - 1; i++) {
@@ -99,7 +100,20 @@ public class PlayerTabGroup extends Component {
                 }
             }
         }
-//	setSelected(group.get(0);
+
+         */
+
+        double x = 0;
+        double y = 160;
+        ArrayList<Player> players = getManager().getPlayers();
+        //System.out.println(players.get(0).getCurrentDomino());
+        for(int i = 0; i < 4; i++){
+            Coordinate coord = new Coordinate(x, y,0);
+            group.set(i, new PlayerTabButton(coord,getGame(),players.get(i),this,gp));
+            y+=100;
+        }
+
+
     }
 
     @Override

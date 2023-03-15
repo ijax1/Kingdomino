@@ -84,6 +84,9 @@ public abstract class Player {
             // Activate message box
         }
     }
+    public void setCurrentDomino(Domino domino) {
+        this.currentDomino = domino;
+    }
     // Sets the next domino to be played
     public void setNextDomino(Domino domino) {
         this.nextDomino = domino;

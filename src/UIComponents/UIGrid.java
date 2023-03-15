@@ -120,7 +120,6 @@ public class UIGrid extends Component{
                 croppedKingdom[i-startY][j-startX] = tiles[i][j];
             }
         }
-//        System.out.println("WDITH " + width + " HEIGHT " + height);
         return croppedKingdom;
     }
 
@@ -272,7 +271,6 @@ public class UIGrid extends Component{
             checkIndexX = getStartX() + (int) Math.round(xMod) - (6-toRender[0].length)/2;
         if(gridHeight % 2 == 0)
             checkIndexY = getStartY() + (int) Math.round(yMod) - (6-toRender.length)/2;
-        System.out.println(gridWidth);
         if(toRender[0].length == 5)
             checkIndexX = getStartX() + (int) Math.round(xMod) + 1;
         if(toRender.length == 5)
