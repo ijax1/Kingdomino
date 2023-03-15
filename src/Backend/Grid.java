@@ -113,7 +113,7 @@ public class Grid {
     }
 
     public boolean placeDomino(int x, int y, Domino domino) {
-        int[] relPos = relPos(domino);
+    	int[] relPos = relPos(domino);
         int deltaX = relPos[0];
         int deltaY = relPos[1];
         Tile[] tiles = domino.getTiles();

@@ -69,7 +69,9 @@ public abstract class Player {
     }
 
     public Domino getCurrentDomino() {
-        return currentDomino;
+    	
+    	return currentDomino;
+        
     }
 
     public Domino getNextDomino() {
@@ -78,7 +80,14 @@ public abstract class Player {
 
     // Places a domino on the grid at the given coordinates
     public void placeDomino(int x, int y, Domino domino) {
-        if (grid.availableSpacesGrid(domino)[x][y]) {
+        //TEST
+    	boolean empty = false;
+        if(domino==null) {
+        	empty = true;
+        }
+        System.out.println("Domino to place is empty: "+ empty);
+    	
+    	if (grid.availableSpacesGrid(domino)[x][y]) {
             grid.placeDomino(x, y, domino);
         } else {
             // Activate message box
