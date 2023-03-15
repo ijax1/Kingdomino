@@ -1,9 +1,6 @@
 package UIComponents;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import Backend.Kingdomino;
@@ -23,7 +20,7 @@ public class PlayerTabGroup extends Component {
         double y = 160;
         this.gp = gp;
 
-        group = new ArrayList<PlayerTabButton>();
+        group = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
             Coordinate coord = new Coordinate(x, y, 0);
             group.add(new PlayerTabButton(coord, k, players.get(i), this, gp));
@@ -51,7 +48,7 @@ public class PlayerTabGroup extends Component {
 //                System.out.println("equals button");
                 button.show();
                 selectedIndex = group.indexOf(button);
-                gp.setViewedPlayer(selectedIndex);
+                gp.setViewedPlayerIdx(selectedIndex);
             } else {
 //                System.out.println("not equals button");
                 button.minimize();
@@ -69,7 +66,7 @@ public class PlayerTabGroup extends Component {
         }
         selected.show();
         selectedIndex = group.indexOf(selected);
-        gp.setViewedPlayer(selectedIndex);
+        gp.setViewedPlayerIdx(selectedIndex);
 
     }
 
@@ -83,7 +80,7 @@ public class PlayerTabGroup extends Component {
         }
         selectedButton.show();
         selectedIndex = group.indexOf(selectedButton);
-        gp.setViewedPlayer(selectedIndex);
+        gp.setViewedPlayerIdx(selectedIndex);
     }
 
     public void updateOrder() {

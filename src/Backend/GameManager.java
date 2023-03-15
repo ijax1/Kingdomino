@@ -1,16 +1,19 @@
 package Backend;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import resources.OurColors;
 import resources.Titles;
 
 public class GameManager {
-    private boolean firstTurn;
+    private boolean firstRound;
     private GameState state;
+
+    // shouldn't change order to preserve maintenance in other classes
     private ArrayList<Player> players;
-    private int currPlayerIdx;
+
     private Deck deck;
     private Kingdomino game;
     private boolean isFastMode;
@@ -18,6 +21,13 @@ public class GameManager {
     private int numGamesLeft;
     private Domino[] dominoesToSelect;
     private int roundNum;
+
+    // will contain integers 0,1,2,3 representing players, ordered in their desired order
+    // ex: {3,0,2,1} = player 3 --> player 0 --> player 2 --> player 1
+    private ArrayList<Integer> playerOrder;
+
+    // this is index for playerOrder
+    private int currPlayerIdx;
 
     public enum GameState {
         INITIAL,
@@ -44,10 +54,11 @@ public class GameManager {
     }
 
     private void reset() {
-        firstTurn = true;
+        firstRound = true;
         deck = new Deck();
         //players = new ArrayList<Player>();
         currPlayerIdx = 0;
+        playerOrder = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
     }
 
     public void setGameState(GameState state) {
@@ -101,7 +112,7 @@ public class GameManager {
             currentPlayer.setPlaced(false);
         }
         updatePlayerOrder();
-        firstTurn = false;
+        firstRound = false;
     }
 
 
@@ -116,7 +127,7 @@ public class GameManager {
             roundNum++;
         }
         dominoesToSelect = deck.getDominoesToSelect();
-        if (firstTurn)
+        if (firstRound)
             game.getGamePanel().initDominoes();
         playerTurn();
     }
@@ -134,20 +145,29 @@ public class GameManager {
         }
     }
 
+    public void finishTurn() {
+        if ((firstRound || getCurrentPlayer().hasPlaced()) && getCurrentPlayer().hasSelected()) {
+            if (currPlayerIdx == players.size()-1) {
+                game.getGamePanel().changePlayer(getCurrentPlayer());
+            }
+        }
+    }
+
     // called when player finishes turn
     // updates player and calls playerTurn()
     public void nextPlayer() {
-        if ((firstTurn || getCurrentPlayer().hasPlaced()) && getCurrentPlayer().hasSelected()) {
+        if ((firstRound || getCurrentPlayer().hasPlaced()) && getCurrentPlayer().hasSelected()) {
             getCurrentPlayer().setSelected(false);
             getCurrentPlayer().setPlaced(false);
             updatePlayerIdx();
-            game.getGamePanel().changePlayer(getCurrentPlayer());
             if (currPlayerIdx == 0) {
-                // next turn
-                firstTurn = false;
-                updatePlayerOrder();
+                // next round
+                firstRound = false;
+//                updatePlayerOrder();
+                game.getGamePanel().changePlayer(getCurrentPlayer());
                 round();
             } else {
+                game.getGamePanel().changePlayer(getCurrentPlayer());
                 playerTurn();
             }
         }
@@ -168,10 +188,10 @@ public class GameManager {
         }
         for (int i = 0; i < dominoValues.size() - 1; i++) {
             for (int j = 0; j < dominoValues.size() - 1 - i; j++) {
-                if (dominoValues.get(j) > dominoValues.get(j + 1)) {
-                    Player temp = players.get(j);
-                    players.set(j, players.get(j + 1));
-                    players.set(j + 1, temp);
+                if (dominoValues.get(j) < dominoValues.get(j + 1)) {
+                    int temp = playerOrder.get(j);
+                    playerOrder.set(j, playerOrder.get(j + 1));
+                    playerOrder.set(j + 1, temp);
                 }
             }
         }
@@ -187,8 +207,8 @@ public class GameManager {
 //        }
 //    }
 
-    public boolean isFirstTurn() {
-        return firstTurn;
+    public boolean isFirstRound() {
+        return firstRound;
     }
 
     public void setMode(boolean fastMode) {
@@ -204,13 +224,16 @@ public class GameManager {
     }
 
     public Player getCurrentPlayer() {
-        return players.get(currPlayerIdx);
+        return players.get(playerOrder.get(currPlayerIdx));
     }
 
-    public int getCurrPlayerIdx() {
-        return currPlayerIdx;
+    public int getOrigPlayerIdx() {
+        return playerOrder.get(currPlayerIdx);
     }
 
+    public boolean isFirstPlayer() {
+        return currPlayerIdx == 0;
+    }
 
     public Deck getDeck() {
         return deck;
@@ -245,6 +268,10 @@ public class GameManager {
 
     public int getNumGames() {
         return numGames;
+    }
+
+    public ArrayList<Integer> getPlayerOrder() {
+        return playerOrder;
     }
 
 

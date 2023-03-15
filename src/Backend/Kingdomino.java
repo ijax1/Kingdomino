@@ -88,7 +88,6 @@ public class Kingdomino {
     }
 
     public void changePanel(GameState state) {
-
         if (state == GameState.INITIAL) {
             panels.show(basePanel, "Start Panel");
         } else if (state == GameState.PLAYER_TURN ||
@@ -102,8 +101,6 @@ public class Kingdomino {
         } else if (state == GameState.STRATEGY) {
             panels.show(basePanel, "Analysis Panel");
 //            analysisPanel.beginAnalysis(manager.getNumGames());
-        } else {
-            //keep panel
         }
 
     }
