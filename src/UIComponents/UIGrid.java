@@ -177,7 +177,7 @@ public class UIGrid extends Component{
         int index = 0;
         double centerIndexX = 0.5*(gridWidth);
         double centerIndexY = 0.5*(gridHeight);
-//cock
+
         for(int i = 0; i < gridHeight; i++){
             for(int j = 0; j < gridWidth; j++){
                 if(toRender[i][j] != null){
@@ -479,5 +479,9 @@ public class UIGrid extends Component{
 
     public int[] getDominoLocation(){
         return dominoLocation;
+    }
+
+    public Grid getGrid() {
+        return grid;
     }
 }
