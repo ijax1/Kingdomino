@@ -48,12 +48,12 @@ public class PlayerTabGroup extends Component {
         selected = b;
         for (PlayerTabButton button : group) {
             if (button == b) {
-                System.out.println("equals button");
+//                System.out.println("equals button");
                 button.show();
                 selectedIndex = group.indexOf(button);
                 gp.setViewedPlayer(selectedIndex);
             } else {
-                System.out.println("not equals button");
+//                System.out.println("not equals button");
                 button.minimize();
 
             }

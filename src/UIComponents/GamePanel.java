@@ -199,16 +199,16 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         int filletRadius = 20;
         g.setStroke(new BasicStroke(3));
         g.setColor(new Color(241, 194, 50));
-        g.drawRect((int) startX, (int) startY, (int) width-filletRadius/2, (int) height);
+        g.drawRect((int) startX, (int) startY, (int) width - filletRadius / 2, (int) height);
         //g.drawOval((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) filletRadius);
-        g.drawRect((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) height - (filletRadius / 2));
-        g.drawOval((int) (startX+(width-filletRadius)), (int) (startY + (height - filletRadius)), (int) filletRadius, (int) filletRadius);
+        g.drawRect((int) (startX + (width - filletRadius)), (int) startY, (int) filletRadius, (int) height - (filletRadius / 2));
+        g.drawOval((int) (startX + (width - filletRadius)), (int) (startY + (height - filletRadius)), (int) filletRadius, (int) filletRadius);
 
         g.setColor(new Color(140, 67, 188));
-        g.fillRect((int) startX, (int) startY, (int) width-filletRadius/2, (int) height);
+        g.fillRect((int) startX, (int) startY, (int) width - filletRadius / 2, (int) height);
         //g.fillOval((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) filletRadius);
-        g.fillRect((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) height - (filletRadius / 2));
-        g.fillOval((int) (startX+(width-filletRadius)), (int) (startY + (height - filletRadius)), (int) filletRadius, (int) filletRadius);
+        g.fillRect((int) (startX + (width - filletRadius)), (int) startY, (int) filletRadius, (int) height - (filletRadius / 2));
+        g.fillOval((int) (startX + (width - filletRadius)), (int) (startY + (height - filletRadius)), (int) filletRadius, (int) filletRadius);
 
         g.setColor(new Color(241, 194, 50));
         g.drawString("SCORE: " + gm.getPlayers().get(viewedPlayer).getScore(), 30, 30);
@@ -300,8 +300,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         Coordinate mouseCoord = new Coordinate(x, y, 0);
         handleButtonClicks(mouseCoord);
         if (grid.isSnapped()) {
-            //TODO: How to get coords from the uigrid jonathan help
-            System.out.println("snapped");
 //			gm.getCurrentPlayer().placeDomino(0,0, d.getRef());
             int[] dominoLocation = grid.getDominoLocation();
             gm.getCurrentPlayer().placeDomino(dominoLocation[0], dominoLocation[1], d.getRef());
@@ -314,29 +312,34 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
     private void handleButtonClicks(Coordinate mouseCoord) {
         //if (!k.getManager().isStrategyMode()) {
-            for (Component component : components) {
-                if (component instanceof Button && component.onComponent(mouseCoord)) {
-                    if (component instanceof DominoButton) {
-                        if (!((DominoButton) component).isLocked()) {
-                            for (DominoButton d : banner.getButtons()) {
-                                if (d == component)
-                                    d.doAction();
-                                else if (!d.isLocked())
-                                    d.removePlayer();
-                            }
+        Component clickedComponent = null;
+        for (Component component : components) {
+            if (component != null && component.onComponent(mouseCoord)) {
+                clickedComponent = component;
+                break;
+            }
+        }
+        if (clickedComponent instanceof Button) {
+            if (clickedComponent instanceof DominoButton) {
+                if (!((DominoButton) clickedComponent).isLocked()) {
+                    for (DominoButton d : banner.getButtons()) {
+                        if (d == clickedComponent) {
+                            d.doAction();
+                        } else if (!d.isLocked()) {
+                            d.removePlayer();
                         }
-                    } else {
-                        component.whenClicked();
                     }
                 }
-
-                if (component instanceof PlayerTabGroup) {
-                    if (component.onComponent(mouseCoord))
-                        ((PlayerTabGroup) component).selectButton(mouseCoord);
-                }
+            } else {
+                clickedComponent.whenClicked();
             }
-        //}
+        }
+        if (clickedComponent instanceof PlayerTabGroup) {
+            if (clickedComponent.onComponent(mouseCoord))
+                ((PlayerTabGroup) clickedComponent).selectButton(mouseCoord);
+        }
     }
+
 
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -438,8 +441,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         return group;
     }
 
-    private Image toImage(BufferedImage img){
-        Image image = img.getScaledInstance(img.getWidth(),img.getHeight(), Image.SCALE_SMOOTH);
+    private Image toImage(BufferedImage img) {
+        Image image = img.getScaledInstance(img.getWidth(), img.getHeight(), Image.SCALE_SMOOTH);
         return image;
     }
 
