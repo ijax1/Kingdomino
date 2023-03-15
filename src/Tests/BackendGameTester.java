@@ -19,6 +19,13 @@ public class BackendGameTester {
 		fakePlayers.add(new TestPlayer(OurColors.YELLOW, "Ian Jackson", "The Glorious",25));
 		g.setPlayers(fakePlayers);
 		g.setGameState(GameState.PLAYER_TURN);
+		printarr(g.getDominoesToSelect());
 		g.getCurrentPlayer().setNextDomino(g.getDominoesToSelect()[0]);
+	}
+	private static void printarr(Object[] arr) {
+		for(int i=0; i<arr.length; i++){
+			System.out.print(arr[i]);
+		}
+		System.out.println();
 	}
 }
