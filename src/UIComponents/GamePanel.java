@@ -149,8 +149,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
         if (!gm.isFirstRound()) {
 
-            d = new UIDomino(new Coordinate(640, 50, 0), k, player.getNextDomino());
-            d.setMouseLocation(new Coordinate(640, 50, 0));
+            d = new UIDomino(new Coordinate(640, 600, 0), k, player.getNextDomino());
+            d.setMouseLocation(new Coordinate(640, 600, 0));
         } else {
             d = null;
         }
