@@ -1,11 +1,6 @@
 package UIComponents;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -13,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -37,10 +33,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     private int mousedy;
     private Domino domino;
     private int mousex, mousey;
-    private PlayerTabGroup group;
+    private PlayerTabGroup playerTabs;
     private PlayerTabButton playerTab;
     private ArrayList<UIPlayer> uiPlayers = new ArrayList<UIPlayer>(4);
-    private int viewedPlayer;
+    private int viewedPlayerIdx;
     private Banner banner;
     private FinishTurnButton finishTurn;
     private MessageTextBox textBox;
@@ -69,7 +65,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         gm = k.getManager();
         this.k = k;
         medieval = Resources.getMedievalFont(20);
-        medievalLg = Resources.getMedievalFont(100);
+        medievalLg = Resources.getMedievalFont(50);
         grids = new ArrayList<>();
         for (Player p : gm.getPlayers())
             grids.add(new UIGrid(new Coordinate(640, 320, 0), k, p.getGrid()));
@@ -77,10 +73,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         //From InteractionPanel
 //        d = new UIDomino(new Coordinate(640, 50, 0), k, ref);
 //        d.setMouseLocation(new Coordinate(640, 50, 0));
-        setViewedPlayer(0);
+        setViewedPlayerIdx(0);
         updateUIPlayers();
 
-        group = new PlayerTabGroup(gm.getPlayers(), k, this);
+        playerTabs = new PlayerTabGroup(gm.getPlayers(), k, this);
 //        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this, gm.getDominoesToSelect());
         finishTurn = new FinishTurnButton(new Coordinate(540, 600, 0), k);
 
@@ -102,7 +98,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     }
 
     private void setComponents() {
-        components.add(group);
+        components.add(playerTabs);
         components.add(banner);
         components.add(finishTurn);
         components.add(textBox);
@@ -121,39 +117,44 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     }
 
     public int getViewedPlayerIndex() {
-        return viewedPlayer;
+        return viewedPlayerIdx;
     }
 
-    public Player getViewedPlayer() {
-        return gm.getPlayers().get(viewedPlayer);
+    public Player getViewedPlayerIdx() {
+        return gm.getPlayers().get(viewedPlayerIdx);
     }
 
-    public void setViewedPlayer(int player) {
-        viewedPlayer = player;
-        grid = grids.get(player);
-        if (player != gm.getCurrPlayerIdx() && d != null) {
+    public void setViewedPlayerIdx(int playerIdx) {
+        viewedPlayerIdx = playerIdx;
+        grid = grids.get(playerIdx);
+        if (playerIdx != gm.getOrigPlayerIdx() && d != null) {
             d.minimize();
         }
         repaint();
     }
 
-    public void changePlayer(Player player) {
-        group.selectButton(player);
-        grid = grids.get(gm.getCurrPlayerIdx());
+    public void finishTurn() {
 
+    }
+
+    public void changePlayer(Player player) {
+        playerTabs.selectButton(player);
+        grid = grids.get(gm.getOrigPlayerIdx());
         for (DominoButton b : banner.getButtons()) {
             if (b.isSelected() && !b.isLocked())
                 b.setLocked();
         }
         // first player
-        if (gm.getCurrPlayerIdx() == 0) {
+        if (gm.isFirstPlayer()) {
+            if (!gm.isFirstRound())
+                gm.updatePlayerOrder();
             banner.setDominoes(gm.getDominoesToSelect());
             for (DominoButton b : banner.getButtons()) {
                 b.removePlayer();
             }
         }
 
-        if (!gm.isFirstTurn()) {
+        if (!gm.isFirstRound()) {
             d = new UIDomino(new Coordinate(640, 50, 0), k, player.getNextDomino());
             d.setMouseLocation(new Coordinate(640, 50, 0));
         } else {
@@ -168,7 +169,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
     public void paintComponent(Graphics g1) {
         Graphics2D g = (Graphics2D) g1;
-        Player p = gm.getPlayers().get(viewedPlayer);
+        Player p = gm.getPlayers().get(viewedPlayerIdx);
         applyHints(g);
         Dimension size = super.getSize();
         //g.scale(size.width/1280.0, size.width/720.0);
@@ -176,7 +177,19 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(p.getColor());
         g.fillOval(100, 50, getWidth() - 200, getHeight() - 100);
+        g.drawImage(toImage(Resources.loadImage("title_scroll.png")).getScaledInstance(1100, 900, Image.SCALE_SMOOTH), 350, 0, null);
 
+        g.setFont(medievalLg);
+        FontMetrics metrics = g.getFontMetrics(medievalLg);
+        g.setColor(Color.BLACK);
+        String playerName = gm.getPlayers().get(viewedPlayerIdx).getName();
+        String playerTitle = gm.getPlayers().get(viewedPlayerIdx).getTitle();
+        g.drawString(playerName, 390 + (475 - metrics.stringWidth(playerName)) / 2, 100);
+        g.setFont(medieval);
+        metrics = g.getFontMetrics(medieval);
+        g.drawString(playerTitle, 390 + (475 - metrics.stringWidth(playerTitle)) / 2, 130);
+
+        g.setFont(medieval);
         //From InteractionPanel
         if (d != null)
             grid.holdDomino(d, ref);
@@ -184,7 +197,27 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         checkDomino();
         //moved UIDomino draw to the component loop
 
-        g.setFont(medieval);
+        double startX = 0;
+        double startY = 0;
+        double width = 175;
+        double height = 50;
+        int filletRadius = 20;
+        g.setStroke(new BasicStroke(3));
+        g.setColor(new Color(241, 194, 50));
+        g.drawRect((int) startX, (int) startY, (int) width - filletRadius / 2, (int) height);
+        //g.drawOval((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) filletRadius);
+        g.drawRect((int) (startX + (width - filletRadius)), (int) startY, (int) filletRadius, (int) height - (filletRadius / 2));
+        g.drawOval((int) (startX + (width - filletRadius)), (int) (startY + (height - filletRadius)), (int) filletRadius, (int) filletRadius);
+
+        g.setColor(new Color(140, 67, 188));
+        g.fillRect((int) startX, (int) startY, (int) width - filletRadius / 2, (int) height);
+        //g.fillOval((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) filletRadius);
+        g.fillRect((int) (startX + (width - filletRadius)), (int) startY, (int) filletRadius, (int) height - (filletRadius / 2));
+        g.fillOval((int) (startX + (width - filletRadius)), (int) (startY + (height - filletRadius)), (int) filletRadius, (int) filletRadius);
+
+        g.setColor(new Color(241, 194, 50));
+        g.drawString("SCORE: " + gm.getPlayers().get(viewedPlayerIdx).getScore(), 30, 30);
+
 //		g.drawString("Hello world", 200,200);
 //		g.fillOval(500, 500, 10, 10);
 //		g.drawRect(480, 480, 40, 40);
@@ -272,8 +305,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         Coordinate mouseCoord = new Coordinate(x, y, 0);
         handleButtonClicks(mouseCoord);
         if (grid.isSnapped()) {
-            //TODO: How to get coords from the uigrid jonathan help
-            System.out.println("snapped");
 //			gm.getCurrentPlayer().placeDomino(0,0, d.getRef());
             int[] dominoLocation = grid.getDominoLocation();
             gm.getCurrentPlayer().placeDomino(dominoLocation[0], dominoLocation[1], d.getRef());
@@ -285,28 +316,35 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     }
 
     private void handleButtonClicks(Coordinate mouseCoord) {
+        //if (!k.getManager().isStrategyMode()) {
+        Component clickedComponent = null;
         for (Component component : components) {
-            if (component instanceof Button && component.onComponent(mouseCoord)) {
-                if (component instanceof DominoButton) {
-                    if (!((DominoButton) component).isLocked()) {
-                        for (DominoButton d : banner.getButtons()) {
-                            if (d == component)
-                                d.doAction();
-                            else if (!d.isLocked())
-                                d.removePlayer();
-                        }
-                    }
-                } else {
-                    component.whenClicked();
-                }
-            }
-
-            if (component instanceof PlayerTabGroup) {
-                if (component.onComponent(mouseCoord))
-                    ((PlayerTabGroup) component).selectButton(mouseCoord);
+            if (component != null && component.onComponent(mouseCoord)) {
+                clickedComponent = component;
+                break;
             }
         }
+        if (clickedComponent instanceof Button) {
+            if (clickedComponent instanceof DominoButton) {
+                if (!((DominoButton) clickedComponent).isLocked()) {
+                    for (DominoButton d : banner.getButtons()) {
+                        if (d == clickedComponent) {
+                            d.doAction();
+                        } else if (!d.isLocked()) {
+                            d.removePlayer();
+                        }
+                    }
+                }
+            } else {
+                clickedComponent.whenClicked();
+            }
+        }
+        if (clickedComponent instanceof PlayerTabGroup) {
+            if (clickedComponent.onComponent(mouseCoord))
+                ((PlayerTabGroup) clickedComponent).selectButton(mouseCoord);
+        }
     }
+
 
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -404,8 +442,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     public void keyTyped(KeyEvent e) {
     }
 
-    public PlayerTabGroup getGroup() {
-        return group;
+    public PlayerTabGroup getPlayerTabs() {
+        return playerTabs;
+    }
+
+    private Image toImage(BufferedImage img) {
+        Image image = img.getScaledInstance(img.getWidth(), img.getHeight(), Image.SCALE_SMOOTH);
+        return image;
     }
 
 //    public void resetDominoButtons() {
