@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import Backend.GameManager;
 
 import Backend.Kingdomino;
+import Backend.Player;
 import UIComponents.Render.Coordinate;
 
 public class FinishTurnButton extends Button{
@@ -19,6 +20,8 @@ public class FinishTurnButton extends Button{
         // need to set current Player through the game manager
         // need access to get maanger through kingDomnio
         // need access to set currentPlayer int in gameManager
+        Player p = getGame().getManager().getCurrentPlayer();
+        p.setCurrentDomino(p.getNextDomino());
         getGame().getManager().nextPlayer();
 //        getGame().getManager().finishTurn();
     }

@@ -28,7 +28,7 @@ public class GamePanelTester {
 		};
 		int ind = 0;
 		for(Player p: fakePlayers){
-			p.setCurrentDomino(dList[ind]);
+			//p.setCurrentDomino(dList[ind]);
 			ind++;
 		}
 		Kingdomino k = new Kingdomino();

@@ -7,11 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import Backend.Domino;
-import Backend.GameManager;
-import Backend.Kingdomino;
-import Backend.Player;
-import Backend.Tile;
+import Backend.*;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.LineSegment;
 import UIComponents.Render.RectangularPrism;
@@ -135,6 +131,16 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             if (b.isSelected() && !b.isLocked())
                 b.setLocked();
         }
+        //SORRY I HAD NO CHOICE
+        Player p = k.getManager().getCurrentPlayer();
+        Grid g = p.getGrid();
+
+        if(p.getCurrentDomino() != null) {
+
+            g.placeDomino(grid.getDominoLocation()[1], grid.getDominoLocation()[0], p.getCurrentDomino());
+        }
+
+
     }
 
     public void changePlayer(Player player) {
@@ -151,7 +157,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         }
 
         if (!gm.isFirstRound()) {
-
+            System.out.println(player.getNextDomino() + " " + player.getCurrentDomino());
             d = new UIDomino(new Coordinate(640, 600, 0), k, player.getNextDomino());
             d.setMouseLocation(new Coordinate(640, 600, 0));
         } else {

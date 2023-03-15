@@ -151,16 +151,17 @@ public class GameManager {
         if ((firstRound || getCurrentPlayer().hasPlaced()) && getCurrentPlayer().hasSelected()) {
             getCurrentPlayer().setSelected(false);
             getCurrentPlayer().setPlaced(false);
+            game.getGamePanel().finishTurn();
             updatePlayerIdx();
             if (currPlayerIdx == 0) {
                 // next round
                 firstRound = false;
-                game.getGamePanel().finishTurn();
+                //game.getGamePanel().finishTurn();
                 updatePlayerOrder();
                 game.getGamePanel().changePlayer(getCurrentPlayer());
                 round();
             } else {
-                game.getGamePanel().finishTurn();
+                //game.getGamePanel().finishTurn();
                 game.getGamePanel().changePlayer(getCurrentPlayer());
                 playerTurn();
             }
