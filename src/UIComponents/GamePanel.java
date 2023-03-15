@@ -1,17 +1,11 @@
 package UIComponents;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import Backend.Domino;
 import Backend.GameManager;
@@ -19,6 +13,7 @@ import Backend.Kingdomino;
 import Backend.Player;
 import Backend.Tile;
 import UIComponents.Render.Coordinate;
+import UIComponents.Render.LineSegment;
 import UIComponents.Render.RectangularPrism;
 import resources.Resources;
 
@@ -449,6 +444,25 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     private Image toImage(BufferedImage img) {
         Image image = img.getScaledInstance(img.getWidth(), img.getHeight(), Image.SCALE_SMOOTH);
         return image;
+    }
+
+    private void animateDomino(UIDomino d, Coordinate destination){
+        final LineSegment ls = new LineSegment(d.getCenter(),destination);
+        final UIDomino domino = d;
+        final Timer timer = new Timer(1, null);
+        timer.addActionListener(new ActionListener() {
+            Coordinate temp = ls.getStart();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                temp = ls.getNextPoint(temp, 0.01);
+                repaint();
+                if (!ls.onLine(temp)) {
+                    timer.stop();
+                }
+
+            }
+        });
+        timer.start();
     }
 
 //    public void resetDominoButtons() {

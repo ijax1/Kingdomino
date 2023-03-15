@@ -27,7 +27,7 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
         g.clearRect(0,0,10000,10000);
         if(!d.isRotating())
             checkDomino();
-        grid.render(g, dragging);
+        //grid.render(g, dragging);
         d.render((Graphics2D) g);
     }
 
@@ -142,6 +142,29 @@ public class InteractionPanel extends DynamicPanel implements MouseListener, Mou
         InteractionPanel ip = new InteractionPanel(d);
         d.add(ip);
         d.setVisible(true);
+        ip.animateDomino(ip.getD(),new Coordinate(800,800,0));
+    }
+    public UIDomino getD(){
+        return d;
+    }
+    public void animateDomino(UIDomino d, Coordinate destination){
+        final LineSegment ls = new LineSegment(d.getCenter(),destination);
+        final UIDomino domino = d;
+        final Timer timer = new Timer(1, null);
+        timer.addActionListener(new ActionListener() {
+            Coordinate temp = ls.getStart();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                temp = ls.getNextPoint(temp, 0.01);
+                domino.moveTo(temp);
+                repaint();
+                if (!ls.onLine(temp)) {
+                    timer.stop();
+                }
+
+            }
+        });
+        timer.start();
     }
 
 }
