@@ -148,6 +148,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         }
 
         if (!gm.isFirstRound()) {
+
             d = new UIDomino(new Coordinate(640, 50, 0), k, player.getNextDomino());
             d.setMouseLocation(new Coordinate(640, 50, 0));
         } else {
@@ -180,8 +181,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
         g.setFont(medieval);
         //From InteractionPanel
-        if (d != null)
-            grid.holdDomino(d, ref);
+//        if (d != null) {
+////            grid.holdDomino(d, ref);
+//            grid.holdDomino(d, d.ref);
+//        }
         grid.render(g.create(), dragging);
         checkDomino();
         //moved UIDomino draw to the component loop
@@ -345,7 +348,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         if (dragging) {
             d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
             d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
-            grid.holdDomino(d, domino);
+            grid.holdDomino(d, d.ref);
             if (!grid.dominoOnGrid(d))
                 grid.setSnapped(false);
             repaint();
@@ -440,12 +443,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         return image;
     }
 
-    private void animateDomino(UIDomino d, Coordinate destination){
-        final LineSegment ls = new LineSegment(d.getCenter(),destination);
+    private void animateDomino(UIDomino d, Coordinate destination) {
+        final LineSegment ls = new LineSegment(d.getCenter(), destination);
         final UIDomino domino = d;
         final Timer timer = new Timer(1, null);
         timer.addActionListener(new ActionListener() {
             Coordinate temp = ls.getStart();
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 temp = ls.getNextPoint(temp, 0.01);
