@@ -145,14 +145,6 @@ public class GameManager {
         }
     }
 
-    public void finishTurn() {
-        if ((firstRound || getCurrentPlayer().hasPlaced()) && getCurrentPlayer().hasSelected()) {
-            if (currPlayerIdx == players.size()-1) {
-                game.getGamePanel().changePlayer(getCurrentPlayer());
-            }
-        }
-    }
-
     // called when player finishes turn
     // updates player and calls playerTurn()
     public void nextPlayer() {
@@ -163,10 +155,12 @@ public class GameManager {
             if (currPlayerIdx == 0) {
                 // next round
                 firstRound = false;
-//                updatePlayerOrder();
+                game.getGamePanel().finishTurn();
+                updatePlayerOrder();
                 game.getGamePanel().changePlayer(getCurrentPlayer());
                 round();
             } else {
+                game.getGamePanel().finishTurn();
                 game.getGamePanel().changePlayer(getCurrentPlayer());
                 playerTurn();
             }
@@ -186,15 +180,21 @@ public class GameManager {
         for (Player player : players) {
             dominoValues.add(player.getNextDomino().getValue());
         }
+        playerOrder = new ArrayList<>(Arrays.asList(0,1,2,3));
         for (int i = 0; i < dominoValues.size() - 1; i++) {
             for (int j = 0; j < dominoValues.size() - 1 - i; j++) {
-                if (dominoValues.get(j) < dominoValues.get(j + 1)) {
-                    int temp = playerOrder.get(j);
-                    playerOrder.set(j, playerOrder.get(j + 1));
-                    playerOrder.set(j + 1, temp);
+                if (dominoValues.get(j) > dominoValues.get(j + 1)) {
+                    swap(playerOrder, j, j+1);
+                    swap(dominoValues, j, j+1);
                 }
             }
         }
+    }
+
+    private void swap(ArrayList<Integer> list, int i1, int i2) {
+        int temp = list.get(i1);
+        list.set(i1, list.get(i2));
+        list.set(i2, temp);
     }
 
 //    public void endGame() {

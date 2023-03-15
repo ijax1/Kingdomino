@@ -134,20 +134,18 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     }
 
     public void finishTurn() {
-
+        for (DominoButton b : banner.getButtons()) {
+            if (b.isSelected() && !b.isLocked())
+                b.setLocked();
+        }
     }
 
     public void changePlayer(Player player) {
         playerTabs.selectButton(player);
         grid = grids.get(gm.getOrigPlayerIdx());
-        for (DominoButton b : banner.getButtons()) {
-            if (b.isSelected() && !b.isLocked())
-                b.setLocked();
-        }
+
         // first player
         if (gm.isFirstPlayer()) {
-            if (!gm.isFirstRound())
-                gm.updatePlayerOrder();
             banner.setDominoes(gm.getDominoesToSelect());
             for (DominoButton b : banner.getButtons()) {
                 b.removePlayer();
@@ -160,10 +158,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         } else {
             d = null;
         }
-//        for (DominoButton b : banner.getButtons()) {
-//            if (b.isSelected() && !b.isLocked())
-//                b.setLocked();
-//        }
         repaint();
     }
 

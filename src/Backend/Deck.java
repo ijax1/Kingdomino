@@ -1,11 +1,15 @@
 package Backend;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+
 import Backend.Tile.Land;
 
 import Backend.Player;
 import UIComponents.*;
+
 class Deck {
     private Land FOREST = Land.FOREST;
     private Land LAKE = Land.LAKE;
@@ -75,8 +79,8 @@ class Deck {
     //Create deck and shuffles
     public Deck() {
 
-        this.dominoesToSelect = new Domino[] {null, null, null, null};
-        this.selected = new boolean[] {false, false, false, false};
+        this.dominoesToSelect = new Domino[]{null, null, null, null};
+        this.selected = new boolean[]{false, false, false, false};
 
         // create a deck of 48 random dominos
         for (int i = 0; i < 48; i++) {
@@ -84,8 +88,8 @@ class Deck {
         }
 
         //if (isTwoPlayer) {
-            // take first half of card
-            //this.deck = deck.subList(0, deck.size() / 2);
+        // take first half of card
+        //this.deck = deck.subList(0, deck.size() / 2);
         //}
 
         // shuffle the deck
@@ -114,7 +118,17 @@ class Deck {
         } else {
             // not enough cards
         }
+        sortDominoes(dominoesToSelect);
         return dominoesToSelect;
+    }
+
+    private void sortDominoes(Domino[] dominoes) {
+        Arrays.sort(dominoes, new Comparator<>() {
+            @Override
+            public int compare(Domino o1, Domino o2) {
+                return Integer.compare(o2.getValue(), o1.getValue());
+            }
+        });
     }
 
     // --------------
@@ -127,6 +141,7 @@ class Deck {
     public void setSelected(int index) {
         selected[index] = true;
     }
+
     public boolean[] getSelected() {
         return selected;
     }

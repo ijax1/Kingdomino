@@ -27,7 +27,7 @@ public class PlayerTabGroup extends Component {
             //current height of each domino
             y += 100;
         }
-        System.out.println(players);
+//        System.out.println(players);
         setSelected(group.get(0));
     }
 
