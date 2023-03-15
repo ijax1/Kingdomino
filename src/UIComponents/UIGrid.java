@@ -135,7 +135,14 @@ public class UIGrid extends Component{
     }
 
     public void render(Graphics g, boolean showGridLines){
-
+        Tile[][] tileList = grid.getTiles();
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                if(tileList[i][j] != null){
+                    tiles[i][j] = new UITile(tileList[i][j].getColor(), center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
+                }
+            }
+        }
         if(showGridLines){
             drawGridLines(g);
         }

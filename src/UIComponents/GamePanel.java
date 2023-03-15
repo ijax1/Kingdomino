@@ -49,6 +49,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
     boolean dominoButtonSelected = false;
 
+    Image image = toImage(Resources.loadImage("title_scroll.png")).getScaledInstance(1100, 900, Image.SCALE_SMOOTH);
+
     public GamePanel(Kingdomino k) {
         setPreferredSize(new Dimension(1280, 720));
         setOpaque(true);
@@ -137,6 +139,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
     public void changePlayer(Player player) {
         playerTabs.selectButton(player);
+        grid = new UIGrid(new Coordinate(640, 320, 0), k, k.getManager().getCurrentPlayer().getGrid());
         grid = grids.get(gm.getOrigPlayerIdx());
 
         // first player
@@ -149,8 +152,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
         if (!gm.isFirstRound()) {
 
-            d = new UIDomino(new Coordinate(640, 50, 0), k, player.getNextDomino());
-            d.setMouseLocation(new Coordinate(640, 50, 0));
+            d = new UIDomino(new Coordinate(640, 600, 0), k, player.getNextDomino());
+            d.setMouseLocation(new Coordinate(640, 600, 0));
         } else {
             d = null;
         }
@@ -167,7 +170,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(p.getColor());
         g.fillOval(100, 50, getWidth() - 200, getHeight() - 100);
-        g.drawImage(toImage(Resources.loadImage("title_scroll.png")).getScaledInstance(1100, 900, Image.SCALE_SMOOTH), 350, 0, null);
+        g.drawImage(image, 350, 0, null);
 
         g.setFont(medievalLg);
         FontMetrics metrics = g.getFontMetrics(medievalLg);
