@@ -29,7 +29,8 @@ public class TestKingdomino extends Kingdomino {
 	}
 	@Override
 	public GamePanel getGamePanel() {
-		return new GamePanel(this);
+		GamePanel fake = new GamePanel(this);
+		return fake;
 	}
 	@Override
 	public AnalysisPanel getAnalysisPanel() {
