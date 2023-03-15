@@ -17,6 +17,11 @@ public class Titles {
     		"Godiva",
     		"Helen",
     		"Hildegund",
+            "Aaron",
+            "Solomon",
+            "Justinian",
+            "Tybalt",
+            "Josiah"
     };
     private ArrayList<String> titles = new ArrayList<String>();
     private ArrayList<String> badTitles = new ArrayList<String>();
