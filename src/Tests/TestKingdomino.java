@@ -1,9 +1,44 @@
 package Tests;
 
+import java.awt.GridBagLayout;
+
+import javax.swing.JFrame;
+
+import Backend.GameManager;
+import Backend.GameManager.GameState;
 import Backend.Kingdomino;
+import UIComponents.AnalysisPanel;
+import UIComponents.GamePanel;
+
 
 public class TestKingdomino extends Kingdomino {
+	final private GameManager manager;
+
+
 	public TestKingdomino() {
-		//getManager().setPlayers(null);
+		manager = new GameManager(this);
+
+	}
+
+	// GamePanel needs to be initialized after startPanel initializes players
+	@Override
+	public JFrame getFrame() {
+		return new JFrame();
+	}
+	@Override
+	public GameManager getManager() {
+		return manager;
+	}
+	@Override
+	public void changePanel(GameState state) {
+		System.out.println("Panel changed to "+ state);
+	}
+	@Override
+	public GamePanel getGamePanel() {
+		return new GamePanel(this);
+	}
+	@Override
+	public AnalysisPanel getAnalysisPanel() {
+		return new AnalysisPanel(new GridBagLayout(), this);
 	}
 }
