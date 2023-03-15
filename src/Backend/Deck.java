@@ -123,7 +123,7 @@ class Deck {
     }
 
     private void sortDominoes(Domino[] dominoes) {
-        Arrays.sort(dominoes, new Comparator<>() {
+        Arrays.sort(dominoes, new Comparator<Domino>() {
             @Override
             public int compare(Domino o1, Domino o2) {
                 return Integer.compare(o2.getValue(), o1.getValue());

@@ -43,7 +43,7 @@ public class Domino implements Comparable<Domino>{
     }
     
     public String toString() {
-    	return tiles[0] + "|" + tiles[1];
+    	return "(" + tiles[0] + "|" + tiles[1] + ")";
     }
 
     public int getRotation(){

@@ -12,11 +12,9 @@ import UIComponents.GamePanel;
 
 
 public class TestKingdomino extends Kingdomino {
-	final private GameManager manager;
 
 
 	public TestKingdomino() {
-		manager = new GameManager(this);
 
 	}
 
@@ -24,10 +22,6 @@ public class TestKingdomino extends Kingdomino {
 	@Override
 	public JFrame getFrame() {
 		return new JFrame();
-	}
-	@Override
-	public GameManager getManager() {
-		return manager;
 	}
 	@Override
 	public void changePanel(GameState state) {
