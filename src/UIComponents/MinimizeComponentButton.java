@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class MinimizeComponentButton extends Button{
 
-    private final Coordinate minimizedPosition = new Coordinate(200, 1200, 0);
+    private final Coordinate minimizedPosition = new Coordinate(375, 670, 0);
     Graphics2D graphics;
     private final MessageTextBox textBox;
 
