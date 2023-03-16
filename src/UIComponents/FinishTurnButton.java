@@ -53,15 +53,15 @@ public class FinishTurnButton extends Button{
 
             //purple triangles
             int triangleW = 20;
-            int[] triangleXL = {squareX - triangleW, squareX, squareX};
-            int[] triangleXR = {(int) (squareX + width + squareW), (int) (squareX + width + squareW + triangleW), (int) (squareX + width + squareW)};
-            int[] triangleYT = {squareY, squareY, squareY / 2};
-            int[] triangleYB = {(int) (squareY + height), (int) (squareY + height), squareY / 2};
+            int[] triangleXL = {squareX - triangleW, squareX + 1, squareX + 1};
+            int[] triangleXR = {(int) (squareX + width + squareW - 1), (int) (squareX + width + squareW + triangleW), (int) (squareX + width + squareW - 1)};
+            int[] triangleYT = {squareY, squareY, (int) (squareY + height / 2)};
+            int[] triangleYB = {(int) (squareY + height), (int) (squareY + height), (int) (squareY + height / 2)};
 
-//        g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYT, 3));
-//        g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYB, 3));
-//        g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYT, 3));
-//        g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYB, 3));
+            g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYT, 3));
+            g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYB, 3));
+            g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYT, 3));
+            g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYB, 3));
 
 
             //gold outline
