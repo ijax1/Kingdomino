@@ -78,9 +78,9 @@ public class DominoButton extends Button {
 
     @Override
     public boolean onComponent(Coordinate c) {
-//	 if(!isShown()) {
-//		 return false;
-//	 }
+	 if(!isShown()) {
+		 return false;
+	 }
         double x = getPosition().getX() - width / 2;
         double y = getPosition().getY() - height / 2;
 

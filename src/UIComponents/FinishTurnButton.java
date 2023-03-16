@@ -31,10 +31,14 @@ public class FinishTurnButton extends Button{
     public boolean onComponent(Coordinate c) {
         // only doing it based off if you clicke on the centerpiece
     	//relative coordinates work here
-    	double x = getPosition().getX();
-    	double y = getPosition().getY();
-        return ((c.getX() > x && c.getX() < x+width) &&
-                (c.getY() > y && c.getY() < y+height));
+    	GameManager gm = super.getManager();
+    	if ((gm.isFirstRound() || gm.getCurrentPlayer().hasPlaced()) && (gm.getCurrentPlayer().hasSelected() && gm.getCurrentPlayer() == getGame().getGamePanel().getViewedPlayerIdx())) {
+	    	double x = getPosition().getX();
+	    	double y = getPosition().getY();
+	        return ((c.getX() > x && c.getX() < x+width) &&
+	                (c.getY() > y && c.getY() < y+height));
+    	}
+    	return false;
     }
 
     public void draw(Graphics2D g) {
