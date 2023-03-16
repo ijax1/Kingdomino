@@ -234,7 +234,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
                 component.draw(componentg);
             //}
         }
-        if (d != null)
+        if (d != null && viewedPlayerIdx == gm.getOrigPlayerIdx())
             d.render(g);
     }
 
