@@ -3,10 +3,11 @@ package Tests;
 import java.util.ArrayList;
 
 import Backend.GameManager.GameState;
-import Backend.Tile.Land;
 import Backend.Grid;
+import Backend.Kingdomino;
 import Backend.Player;
 import Backend.Tile;
+import Backend.Tile.Land;
 import resources.OurColors;
 
 public class TallyPanelTester {
@@ -60,7 +61,7 @@ public class TallyPanelTester {
 		fakePlayers.add(new TestPlayer(OurColors.GREEN, "Sir Gawain", "The Green",grid));
 		fakePlayers.add(new TestPlayer(OurColors.YELLOW, "Ian Jackson", "The Glorious",2));
 		
-		TestKingdomino k = new TestKingdomino();
+		Kingdomino k = new Kingdomino();
 		k.getManager().setPlayers(fakePlayers);
 		k.getManager().setGameState(GameState.TALLY_SCORE);
 //		GameManager gm = k.getManager();

@@ -2,8 +2,8 @@ package UIComponents;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import Backend.GameManager;
 
+import Backend.GameManager;
 import Backend.Kingdomino;
 import Backend.Player;
 import UIComponents.Render.Coordinate;
@@ -40,8 +40,11 @@ public class FinishTurnButton extends Button{
     public void draw(Graphics2D g) {
         //System.out.println("FINISH THY TURN length: " + g.getFontMetrics().stringWidth("FINISH THY TURN"));
         GameManager gm = super.getManager();
+        System.out.print("first round:" + gm.isFirstRound());
+        System.out.print("has placed:" + gm.getCurrentPlayer().hasPlaced());
+        System.out.println("has selected:" + gm.getCurrentPlayer().hasSelected());
         //TODO this technically doenst work because it jsut stops rendering
-        if ((gm.isFirstRound() || gm.getCurrentPlayer().hasPlaced()) && gm.getCurrentPlayer().hasSelected() && gm.getCurrentPlayer() == getGame().getGamePanel().getViewedPlayerIdx()) {
+        if ((gm.isFirstRound() || gm.getCurrentPlayer().hasPlaced()) && (gm.getCurrentPlayer().hasSelected() && gm.getCurrentPlayer() == getGame().getGamePanel().getViewedPlayerIdx())) {
             double xStart = super.getPosition().getX();
             double yStart = super.getPosition().getY();
 

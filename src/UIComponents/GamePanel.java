@@ -1,13 +1,35 @@
 package UIComponents;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
-import Backend.*;
+import Backend.Domino;
+import Backend.GameManager;
+import Backend.Grid;
+import Backend.Kingdomino;
+import Backend.Player;
+import Backend.Tile;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.LineSegment;
 import UIComponents.Render.RectangularPrism;
@@ -308,6 +330,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             int[] dominoLocation = grid.getDominoLocation();
             gm.getCurrentPlayer().placeDomino(dominoLocation[0], dominoLocation[1], d.getRef());
             gm.getCurrentPlayer().setPlaced(true);
+        } else {
+        	gm.getCurrentPlayer().setPlaced(false);
         }
 
         repaint();
