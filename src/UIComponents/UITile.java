@@ -10,6 +10,7 @@ import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.Polygon;
 import UIComponents.Render.TexturedPolygon;
+import resources.Resources;
 
 import javax.imageio.ImageIO;
 
@@ -36,7 +37,8 @@ public class UITile {
     }
 
     public UITile(Tile t, Coordinate tileCenter, int radius, Coordinate center){
-        this.tileCenter = tileCenter;
+    	
+    	this.tileCenter = tileCenter;
         Coordinate[] points = new Coordinate[]{
                 new Coordinate(tileCenter.getX() - radius, tileCenter.getY() - radius, tileCenter.getZ()),
                 new Coordinate(tileCenter.getX() + radius, tileCenter.getY() - radius, tileCenter.getZ()),
@@ -45,7 +47,14 @@ public class UITile {
         };
         BufferedImage b = null;
         try {
-            b = ImageIO.read(new File("resources\\tile images\\filename.png"));
+        	String tile = t.getLandType().toFileName() + t.getCrowns() + ".png";	
+        	//b = Resources.loadImage("/tile images/"+tile);
+        	b = Resources.loadImage("player_icon.png");
+
+        	//b = ImageIO.read(new File("resources\\tile images\\"+tile));
+
+        	
+        	//b = ImageIO.read(new File("resources\\player_icon.png"));
         }catch(Exception e){;}
         p = new TexturedPolygon(points,center,b);
         p.setColor(t.getColor());

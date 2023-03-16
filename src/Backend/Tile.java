@@ -36,6 +36,9 @@ public class Tile{
 			public String toString() {
 				return "F";
 			}
+			public String toFileName() {
+				return "forest";
+			}
 		},
 		LAKE{
 			public Color getColor(){
@@ -43,6 +46,9 @@ public class Tile{
 			}
 			public String toString() {
 				return "L";
+			}
+			public String toFileName() {
+				return "lake";
 			}
 		},
 		WHEAT{
@@ -52,6 +58,9 @@ public class Tile{
 			public String toString() {
 				return "W";
 			}
+			public String toFileName() {
+				return "wheat";
+			}
 		},
 		SWAMP{
 			public Color getColor(){
@@ -59,6 +68,9 @@ public class Tile{
 			}
 			public String toString() {
 				return "S";
+			}
+			public String toFileName() {
+				return "swamp";
 			}
 		},
 		PASTURE{
@@ -68,6 +80,9 @@ public class Tile{
 			public String toString() {
 				return "P";
 			}
+			public String toFileName() {
+				return "pasture";
+			}
 		},
 		MINE{
 			public Color getColor(){
@@ -75,6 +90,9 @@ public class Tile{
 			}
 			public String toString() {
 				return "M";
+			}
+			public String toFileName() {
+				return "mine";
 			}
 		},
 		CASTLE{
@@ -84,8 +102,13 @@ public class Tile{
 			public String toString() {
 				return "C";
 			}
+			public String toFileName() {
+				return "castle";
+			}
 		};
 		public abstract Color getColor();
+		public abstract String toFileName();
+
 	}
 	@Override
 	public String toString() {
