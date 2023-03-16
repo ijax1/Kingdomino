@@ -311,8 +311,8 @@ public class UIGrid extends Component{
         if(toRender.length == 5)
             checkIndexY = getStartY() + (int) Math.round(yMod) + 1;
         //g.drawString((tileCenter.getX() - leftBound - (tileSize/2 * (gridWidth%2-1)))/tileSize + " " + ((tileCenter.getY() - topBound - (tileSize/2 * (gridHeight%2-1)))/tileSize), 200,160);
-        g.drawString(xMod + " " + yMod + " " + checkIndexX + " " + checkIndexY, 200,180);
-        g.drawString((checkIndexX - 1) + " " + (checkIndexY - 1), 200,200);
+        //g.drawString(xMod + " " + yMod + " " + checkIndexX + " " + checkIndexY, 200,180);
+        //g.drawString((checkIndexX - 1) + " " + (checkIndexY - 1), 200,200);
         if(grid.availableSpacesGrid(ref)[checkIndexY-1][checkIndexX-1]){
             dominoLocation = new int[]{checkIndexY-1,checkIndexX-1};
             snapping = true;

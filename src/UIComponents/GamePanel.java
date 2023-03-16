@@ -159,7 +159,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         Grid g = p.getGrid();
 
         if(p.getCurrentDomino() != null) {
-
             g.placeDomino(grid.getDominoLocation()[1], grid.getDominoLocation()[0], p.getCurrentDomino());
         }
 
@@ -192,6 +191,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             Arrays.sort(toSelect);
             int index = 3;
             for (DominoButton b : banner.getButtons()) {
+                System.out.println(toSelect[index]);
                 b.setDomino(toSelect[index]);
                 index--;
             }
@@ -343,7 +343,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         if (grid.isSnapped()) {
 //			gm.getCurrentPlayer().placeDomino(0,0, d.getRef());
             int[] dominoLocation = grid.getDominoLocation();
-            gm.getCurrentPlayer().placeDomino(dominoLocation[0], dominoLocation[1], d.getRef());
+            //gm.getCurrentPlayer().placeDomino(dominoLocation[0], dominoLocation[1], d.getRef());
             gm.getCurrentPlayer().setPlaced(true);
         } else {
         	gm.getCurrentPlayer().setPlaced(false);

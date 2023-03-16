@@ -158,8 +158,8 @@ public class GameManager {
                 firstRound = false;
                 //game.getGamePanel().finishTurn();
                 updatePlayerOrder();
-                game.getGamePanel().changePlayer(getCurrentPlayer());
                 round();
+                game.getGamePanel().changePlayer(getCurrentPlayer());
             } else {
                 //game.getGamePanel().finishTurn();
                 game.getGamePanel().changePlayer(getCurrentPlayer());
