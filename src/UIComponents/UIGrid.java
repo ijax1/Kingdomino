@@ -120,7 +120,6 @@ public class UIGrid extends Component{
                 croppedKingdom[i-startY][j-startX] = tiles[i][j];
             }
         }
-//        System.out.println("WDITH " + width + " HEIGHT " + height);
         return croppedKingdom;
     }
 
@@ -136,7 +135,14 @@ public class UIGrid extends Component{
     }
 
     public void render(Graphics g, boolean showGridLines){
-
+        Tile[][] tileList = grid.getTiles();
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                if(tileList[i][j] != null){
+                    tiles[i][j] = new UITile(tileList[i][j].getColor(), center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
+                }
+            }
+        }
         if(showGridLines){
             drawGridLines(g);
         }
@@ -178,7 +184,7 @@ public class UIGrid extends Component{
         int index = 0;
         double centerIndexX = 0.5*(gridWidth);
         double centerIndexY = 0.5*(gridHeight);
-//cock
+
         for(int i = 0; i < gridHeight; i++){
             for(int j = 0; j < gridWidth; j++){
                 if(toRender[i][j] != null){
@@ -272,7 +278,6 @@ public class UIGrid extends Component{
             checkIndexX = getStartX() + (int) Math.round(xMod) - (6-toRender[0].length)/2;
         if(gridHeight % 2 == 0)
             checkIndexY = getStartY() + (int) Math.round(yMod) - (6-toRender.length)/2;
-        System.out.println(gridWidth);
         if(toRender[0].length == 5)
             checkIndexX = getStartX() + (int) Math.round(xMod) + 1;
         if(toRender.length == 5)
@@ -481,5 +486,9 @@ public class UIGrid extends Component{
 
     public int[] getDominoLocation(){
         return dominoLocation;
+    }
+
+    public Grid getGrid() {
+        return grid;
     }
 }

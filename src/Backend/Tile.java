@@ -1,10 +1,12 @@
 package Backend;
 
-import java.awt.Color;
+import java.awt.*;
 //aman
 public class Tile{
 	private int crowns;
 	private Land landType;
+	//private Image image;
+
 	public Tile(Land land){
 		landType=land;
 		crowns=0;
@@ -12,6 +14,7 @@ public class Tile{
 	public Tile(Land land, int crowns){
 		landType=land;
 		this.crowns=crowns;
+		//image =
 	}
 	public int getCrowns() {
 		return crowns;
@@ -23,6 +26,8 @@ public class Tile{
 	public Color getColor(){
 		return landType.getColor();
 	}
+
+	//public Image getImage() { return image; }
 	public enum Land{
 		FOREST{
 			public Color getColor(){

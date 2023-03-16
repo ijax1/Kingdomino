@@ -10,11 +10,12 @@ import UIComponents.Render.Coordinate;
 public class MessageTextBox extends Component {
     //RandomAccessFile file = new RandomAccessFile("filename", "r");
     //int currentLine;
-    private final Coordinate minimizedPosition = new Coordinate(100, 1150, 0);
+    private final Coordinate minimizedPosition = new Coordinate(100, 500, 0);
     private GameManager gm;
     MessageTextBox(Coordinate c, Kingdomino k) {
         super(c, k);
         this.gm = k.getManager();
+
         //currentLine = (int) (Math.random()*file.length();
     }
 
@@ -47,9 +48,8 @@ public class MessageTextBox extends Component {
         } else {
             g.fillRoundRect((int) getPosition().getX(), (int) getPosition().getY(), 300, 220, 50, 50);
             g.setColor(Color.white);
-            if(gm.getCurrentPlayer().hasLegalMoves()) {
-            } else {
-            	g.drawString("No Legal Moves!", (int) minimizedPosition.getX(), (int) minimizedPosition.getY());
+            if (!gm.getCurrentPlayer().hasLegalMoves()) {
+                g.drawString("No Legal Moves!", (int) minimizedPosition.getX(), (int) minimizedPosition.getY());
             }
             // draw string quotes based on seeking the current line from the text file with all the quotes
             // need to read the quote and find the bounds between when the quote starts / ends
@@ -80,7 +80,7 @@ public class MessageTextBox extends Component {
             // } 
             
             // may just be easier to separate quotes and the person who said it 
-            // personFIle.seek(currentLine);
+            // personFile.seek(currentLine);
             // personFile.readLine();
             // String person = personFile.readLine();
 

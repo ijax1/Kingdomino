@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 import Backend.GameManager.GameState;
+import Backend.Kingdomino;
 import Backend.Player;
 import resources.OurColors;
 
@@ -20,7 +21,7 @@ public class PodiumPanelTester {
 		fakePlayers.add(new TestPlayer(OurColors.BLUE, "King Arthur", "The Round",30));
 		fakePlayers.add(new TestPlayer(OurColors.GREEN, "Sir Gawain", "The Green",25));
 		fakePlayers.add(new TestPlayer(OurColors.YELLOW, "Ian Jackson", "The Glorious",25));
-		TestKingdomino k = new TestKingdomino();
+		Kingdomino k = new Kingdomino();
 		k.getManager().setPlayers(fakePlayers);
 //		for(Player p: fakePlayers) {
 //			System.out.println(p.getScore());

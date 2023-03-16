@@ -168,9 +168,11 @@ public class Banner extends Component {
 		g.setColor(Color.BLACK);
 		g.drawOval(90,0,40,40);
 		g.setColor(new Color(0xC59B1B));
+		//so this is the diameter and i dont want to refactor now hf
 		int radius = 40;
 		g.fillOval(90,0,40,40);
 		g.setColor(new Color(0xB08B13));
+		//so this is the diameter and i dont want to refactor now hf
 		int rad = 36;
 		int mod = (int) ((Math.sqrt(2)/2)*(radius/2.0 - rad/2.0));
 		g.fillOval(circleX+radius/2+mod-rad/2,circleY+radius/2-mod-rad/2,rad,rad);

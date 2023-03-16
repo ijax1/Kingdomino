@@ -1,24 +1,15 @@
 package UIComponents;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
-import Backend.Domino;
-import Backend.GameManager;
-import Backend.Kingdomino;
-import Backend.Player;
-import Backend.Tile;
+import Backend.*;
 import UIComponents.Render.Coordinate;
+import UIComponents.Render.LineSegment;
 import UIComponents.Render.RectangularPrism;
 import resources.Resources;
 
@@ -53,6 +44,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     boolean draggingCube = false;
 
     boolean dominoButtonSelected = false;
+
+    Image image = toImage(Resources.loadImage("title_scroll.png")).getScaledInstance(1100, 900, Image.SCALE_SMOOTH);
 
     public GamePanel(Kingdomino k) {
         setPreferredSize(new Dimension(1280, 720));
@@ -134,20 +127,28 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     }
 
     public void finishTurn() {
+        for (DominoButton b : banner.getButtons()) {
+            if (b.isSelected() && !b.isLocked())
+                b.setLocked();
+        }
+        //SORRY I HAD NO CHOICE
+        Player p = k.getManager().getCurrentPlayer();
+        Grid g = p.getGrid();
+
+        if(p.getCurrentDomino() != null) {
+
+            g.placeDomino(grid.getDominoLocation()[1], grid.getDominoLocation()[0], p.getCurrentDomino());
+        }
 
     }
 
     public void changePlayer(Player player) {
         playerTabs.selectButton(player);
+        grid = new UIGrid(new Coordinate(640, 320, 0), k, k.getManager().getCurrentPlayer().getGrid());
         grid = grids.get(gm.getOrigPlayerIdx());
-        for (DominoButton b : banner.getButtons()) {
-            if (b.isSelected() && !b.isLocked())
-                b.setLocked();
-        }
+
         // first player
         if (gm.isFirstPlayer()) {
-            if (!gm.isFirstRound())
-                gm.updatePlayerOrder();
             banner.setDominoes(gm.getDominoesToSelect());
             for (DominoButton b : banner.getButtons()) {
                 b.removePlayer();
@@ -155,15 +156,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         }
 
         if (!gm.isFirstRound()) {
-            d = new UIDomino(new Coordinate(640, 50, 0), k, player.getNextDomino());
-            d.setMouseLocation(new Coordinate(640, 50, 0));
+            System.out.println(player.getNextDomino() + " " + player.getCurrentDomino());
+            d = new UIDomino(new Coordinate(640, 600, 0), k, player.getNextDomino());
+            d.setMouseLocation(new Coordinate(640, 600, 0));
         } else {
             d = null;
         }
-//        for (DominoButton b : banner.getButtons()) {
-//            if (b.isSelected() && !b.isLocked())
-//                b.setLocked();
-//        }
         repaint();
     }
 
@@ -177,7 +175,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(p.getColor());
         g.fillOval(100, 50, getWidth() - 200, getHeight() - 100);
-        g.drawImage(toImage(Resources.loadImage("title_scroll.png")).getScaledInstance(1100, 900, Image.SCALE_SMOOTH), 350, 0, null);
+        g.drawImage(image, 350, 0, null);
 
         g.setFont(medievalLg);
         FontMetrics metrics = g.getFontMetrics(medievalLg);
@@ -191,8 +189,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
         g.setFont(medieval);
         //From InteractionPanel
-        if (d != null)
-            grid.holdDomino(d, ref);
+//        if (d != null) {
+////            grid.holdDomino(d, ref);
+//            grid.holdDomino(d, d.ref);
+//        }
         grid.render(g.create(), dragging);
         checkDomino();
         //moved UIDomino draw to the component loop
@@ -286,8 +286,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             if (e.getButton() == MouseEvent.BUTTON1) {
                 dragging = false;
                 if (!grid.isSnapped()) {
-                    d.setMouseLocation(new Coordinate(640, 50, 0));
-                    d.moveTo(new Coordinate(640, 50, 0));
+                    d.setMouseLocation(new Coordinate(640, 600, 0));
+                    d.moveTo(new Coordinate(640, 600, 0));
                 }
                 if (grid.dominoOnGrid(d)) {
                     d.minimize();
@@ -356,7 +356,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         if (dragging) {
             d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
             d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
-            grid.holdDomino(d, domino);
+            grid.holdDomino(d, d.ref);
             if (!grid.dominoOnGrid(d))
                 grid.setSnapped(false);
             repaint();
@@ -449,6 +449,26 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     private Image toImage(BufferedImage img) {
         Image image = img.getScaledInstance(img.getWidth(), img.getHeight(), Image.SCALE_SMOOTH);
         return image;
+    }
+
+    private void animateDomino(UIDomino d, Coordinate destination) {
+        final LineSegment ls = new LineSegment(d.getCenter(), destination);
+        final UIDomino domino = d;
+        final Timer timer = new Timer(1, null);
+        timer.addActionListener(new ActionListener() {
+            Coordinate temp = ls.getStart();
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                temp = ls.getNextPoint(temp, 0.01);
+                repaint();
+                if (!ls.onLine(temp)) {
+                    timer.stop();
+                }
+
+            }
+        });
+        timer.start();
     }
 
 //    public void resetDominoButtons() {

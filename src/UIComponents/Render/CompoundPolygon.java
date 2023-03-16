@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CompoundPolygon extends Polygon{
-    Polygon[] polygons;
+    private Polygon[] polygons;
 
 
 

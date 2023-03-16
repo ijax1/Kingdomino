@@ -54,7 +54,7 @@ public class PlayerTabButton extends Button {
         }
         int filletRadius = 20;
         //g.fillRect((int) startX, (int) startY, (int) width, (int) height);
-//        System.out.println("STARTY " + startY);
+
         g.setStroke(new BasicStroke(3));
         g.setColor(Color.BLACK);
         g.drawRect((int) startX, (int) startY, (int) width-filletRadius/2, (int) height);
