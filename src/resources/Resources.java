@@ -13,9 +13,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 
 public class Resources {
+	private static Font medieval = loadFont("fonts/MedievalSharp-Regular.ttf",1);
 	//Cannot be instantiated
 	private Resources(){
 	}
+	
 	public static BufferedImage loadImage(String name) {
 		BufferedImage image;
 		URL imageURL = Resources.class.getResource(name);
@@ -31,7 +33,7 @@ public class Resources {
 		return image;
 	}
 	public static Font getMedievalFont(float fontSize) {
-		return loadFont("fonts/MedievalSharp-Regular.ttf", fontSize);
+		return medieval.deriveFont(fontSize);
 	}
 	public static Font getLogoFont(float fontSize) {
 		//return loadFont("fonts/MedievalSharp-Regular.ttf").deriveFont(size);
