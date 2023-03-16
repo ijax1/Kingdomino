@@ -18,7 +18,7 @@ public class TestPlayer extends Player {
 		this(color, name, title, 0);
 	}
 	public TestPlayer(Color color, String name, String title, int fakeScore) {
-		this(color, name, title, new Grid());
+		super(color, name, title);
 		this.fakeScore = fakeScore;
 		giveFakeScore = true;
 	}
