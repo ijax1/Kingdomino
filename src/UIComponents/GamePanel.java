@@ -140,7 +140,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             g.placeDomino(grid.getDominoLocation()[1], grid.getDominoLocation()[0], p.getCurrentDomino());
         }
 
-
     }
 
     public void changePlayer(Player player) {
@@ -157,7 +156,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         }
 
         if (!gm.isFirstRound()) {
-            System.out.println(player.getNextDomino() + " " + player.getCurrentDomino());
             d = new UIDomino(new Coordinate(640, 600, 0), k, player.getNextDomino());
             d.setMouseLocation(new Coordinate(640, 600, 0));
         } else {
@@ -233,7 +231,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             double y = component.getPosition().getY();
             //componentg.translate(x,y);
             //System.out.println(component);
-            component.draw(componentg);
+                component.draw(componentg);
             //}
         }
         if (d != null && viewedPlayerIdx == gm.getOrigPlayerIdx())
@@ -287,8 +285,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             if (e.getButton() == MouseEvent.BUTTON1) {
                 dragging = false;
                 if (!grid.isSnapped()) {
-                    d.setMouseLocation(new Coordinate(640, 50, 0));
-                    d.moveTo(new Coordinate(640, 50, 0));
+                    d.setMouseLocation(new Coordinate(640, 600, 0));
+                    d.moveTo(new Coordinate(640, 600, 0));
                 }
                 if (grid.dominoOnGrid(d)) {
                     d.minimize();
@@ -354,15 +352,16 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         //System.out.println("mousex: "+mousex + " mousey: "+mousey);
 
         //From InteractionPanel
-        if (dragging) {
-            d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
-            d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
-            grid.holdDomino(d, d.ref);
-            if (!grid.dominoOnGrid(d))
-                grid.setSnapped(false);
-            repaint();
+        if(gm.getCurrentPlayer() == getViewedPlayerIdx())
+            if (dragging) {
+                d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
+                d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
+                grid.holdDomino(d, d.ref);
+                if (!grid.dominoOnGrid(d))
+                    grid.setSnapped(false);
+                repaint();
 
-        }
+            }
 
         if (draggingCube) {
             r.moveTo(new Coordinate(e.getX(), e.getY(), 0));

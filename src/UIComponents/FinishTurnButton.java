@@ -20,9 +20,11 @@ public class FinishTurnButton extends Button{
         // need to set current Player through the game manager
         // need access to get maanger through kingDomnio
         // need access to set currentPlayer int in gameManager
-        Player p = getGame().getManager().getCurrentPlayer();
-        p.setCurrentDomino(p.getNextDomino());
-        getGame().getManager().nextPlayer();
+        if(super.getManager().getCurrentPlayer() == getGame().getGamePanel().getViewedPlayerIdx()) {
+            Player p = getGame().getManager().getCurrentPlayer();
+            p.setCurrentDomino(p.getNextDomino());
+            getGame().getManager().nextPlayer();
+        }
 //        getGame().getManager().finishTurn();
     }
 
@@ -38,7 +40,8 @@ public class FinishTurnButton extends Button{
     public void draw(Graphics2D g) {
         //System.out.println("FINISH THY TURN length: " + g.getFontMetrics().stringWidth("FINISH THY TURN"));
         GameManager gm = super.getManager();
-        if ((gm.isFirstRound() || gm.getCurrentPlayer().hasPlaced()) && gm.getCurrentPlayer().hasSelected()) {
+        //TODO this technically doenst work because it jsut stops rendering
+        if ((gm.isFirstRound() || gm.getCurrentPlayer().hasPlaced()) && gm.getCurrentPlayer().hasSelected() && gm.getCurrentPlayer() == getGame().getGamePanel().getViewedPlayerIdx()) {
             double xStart = super.getPosition().getX();
             double yStart = super.getPosition().getY();
 
@@ -53,15 +56,15 @@ public class FinishTurnButton extends Button{
 
             //purple triangles
             int triangleW = 20;
-            int[] triangleXL = {squareX - triangleW, squareX, squareX};
-            int[] triangleXR = {(int) (squareX + width + squareW), (int) (squareX + width + squareW + triangleW), (int) (squareX + width + squareW)};
-            int[] triangleYT = {squareY, squareY, squareY / 2};
-            int[] triangleYB = {(int) (squareY + height), (int) (squareY + height), squareY / 2};
+            int[] triangleXL = {squareX - triangleW, squareX + 1, squareX + 1};
+            int[] triangleXR = {(int) (squareX + width + squareW - 1), (int) (squareX + width + squareW + triangleW), (int) (squareX + width + squareW - 1)};
+            int[] triangleYT = {squareY, squareY, (int) (squareY + height / 2)};
+            int[] triangleYB = {(int) (squareY + height), (int) (squareY + height), (int) (squareY + height / 2)};
 
-//        g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYT, 3));
-//        g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYB, 3));
-//        g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYT, 3));
-//        g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYB, 3));
+            g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYT, 3));
+            g.fillPolygon(new java.awt.Polygon(triangleXL, triangleYB, 3));
+            g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYT, 3));
+            g.fillPolygon(new java.awt.Polygon(triangleXR, triangleYB, 3));
 
 
             //gold outline
