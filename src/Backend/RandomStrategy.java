@@ -29,6 +29,7 @@ public class RandomStrategy extends ComputerPlayer {
         int ranChoice = randomNum(4);
         Domino chosenDomino = choices[ranChoice];
         setNextDomino(chosenDomino);
+        setSelected(true);
     }
 
 
@@ -46,6 +47,7 @@ public class RandomStrategy extends ComputerPlayer {
       	 
       	 //calls placeDomino:
       	 grid.placeDomino(placements.get(ranPlace).getX(),placements.get(ranPlace).getY(), domino);
+      	 setPlaced(true);
    	}
 
 
