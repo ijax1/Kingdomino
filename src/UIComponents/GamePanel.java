@@ -20,6 +20,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -173,18 +174,27 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         }
 
         // first player
-        if (gm.isFirstPlayer()) {
-            banner.setDominoes(gm.getDominoesToSelect());
-            for (DominoButton b : banner.getButtons()) {
-                b.removePlayer();
-            }
-        }
+
 
         if (!gm.isFirstRound()) {
             d = new UIDomino(new Coordinate(640, 600, 0), k, player.getNextDomino());
             d.setMouseLocation(new Coordinate(640, 600, 0));
         } else {
             d = null;
+        }
+        if (gm.isFirstPlayer()) {
+            for (DominoButton b : banner.getButtons()) {
+                b.removePlayer();
+            }
+        }
+        if (gm.isFirstPlayer()) {
+            Domino[] toSelect = gm.getDominoesToSelect();
+            Arrays.sort(toSelect);
+            int index = 3;
+            for (DominoButton b : banner.getButtons()) {
+                b.setDomino(toSelect[index]);
+                index--;
+            }
         }
         repaint();
     }

@@ -69,7 +69,7 @@ public class DominoButton extends Button {
     }
 
     protected void setDomino(Domino d) {
-        uiDomino.setRef(d);
+        uiDomino = new UIDomino(super.getPosition(),getGame(),d);
     }
 
     public boolean isLocked() {
