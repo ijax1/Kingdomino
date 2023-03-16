@@ -168,6 +168,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         playerTabs.selectButton(player);
         grid = new UIGrid(new Coordinate(640, 320, 0), k, k.getManager().getCurrentPlayer().getGrid());
         grid = grids.get(gm.getOrigPlayerIdx());
+        for (UIGrid uigrid : grids) {
+            uigrid.setSnapped(false);
+        }
 
         // first player
         if (gm.isFirstPlayer()) {
