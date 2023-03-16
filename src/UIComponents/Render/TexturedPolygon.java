@@ -39,6 +39,7 @@ public class TexturedPolygon extends Polygon implements ImageObserver {
         double width = this.width * scale;
         double height = this.height * scale;
 
+
         Coordinate center = super.getCenter();
         g.setColor(Color.BLACK);
         int[] xPoints = {(int)super.getPoint(0).getX(),
@@ -81,8 +82,9 @@ public class TexturedPolygon extends Polygon implements ImageObserver {
                 int color = RGBArray
                         [limitNum((int)(j/scale),0,RGBArray.length-1)]
                         [limitNum((int)(i/scale),0,RGBArray[0].length-1)];
-                if(b.getRGB(rotX,rotY)==0)
+                if(b.getRGB(rotX,rotY)==0) {
                     b.setRGB(rotX, rotY, color);
+                }
                     //if(p.intersects(new Coordinate(access.getX(),access.getY(),0)))
 
                 access = sweep.getNextPoint(access, heightIncrement/height);
@@ -121,5 +123,18 @@ public class TexturedPolygon extends Polygon implements ImageObserver {
     @Override
     public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
         return false;
+    }
+
+    public Polygon duplicatePolygon(Coordinate c){
+        Coordinate[] temp = new Coordinate[super.getPoints().length];
+        System.arraycopy(super.getPoints(), 0, temp, 0, super.getPoints().length);
+        TexturedPolygon p = new TexturedPolygon(temp, super.getCenter(), image);
+        p.moveTo(c);
+        p.setColor(super.getColor());
+        System.out.println(p);
+        return p;
+    };
+    public String toString(){
+        return image.toString();
     }
 }

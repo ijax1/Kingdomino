@@ -53,8 +53,10 @@ public class UIDomino extends Component{
         super(position, k);
         this.k = k;
         Tile[] dominoTiles = d.getTiles();
-        tiles[0] = new UITile(dominoTiles[0].getColor(), new Coordinate(position.getX()-sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
-        tiles[1] = new UITile(dominoTiles[1].getColor(), new Coordinate(position.getX()+sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
+        //tiles[0] = new UITile(dominoTiles[0].getColor(), new Coordinate(position.getX()-sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
+        //tiles[1] = new UITile(dominoTiles[1].getColor(), new Coordinate(position.getX()+sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
+        tiles[0] = new UITile(dominoTiles[0], new Coordinate(position.getX()-sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
+        tiles[1] = new UITile(dominoTiles[1], new Coordinate(position.getX()+sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
 
         createPrism(0,0,0);
         super.show();

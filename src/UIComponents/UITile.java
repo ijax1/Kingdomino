@@ -48,16 +48,20 @@ public class UITile {
         BufferedImage b = null;
         try {
         	String tile = t.getLandType().toFileName() + t.getCrowns() + ".png";	
-        	//b = Resources.loadImage("/tile images/"+tile);
-        	b = Resources.loadImage("player_icon.png");
-
-        	//b = ImageIO.read(new File("resources\\tile images\\"+tile));
+        	b = Resources.loadImage("../resources/tile images/"+tile);
+        	//b = Resources.loadImage("player_icon.png");
+            System.out.println(tile);
+        	//b = ImageIO.read(new File("\\resources\\tile images\\"+tile));
 
         	
         	//b = ImageIO.read(new File("resources\\player_icon.png"));
         }catch(Exception e){;}
+
         p = new TexturedPolygon(points,center,b);
+        p.incrementRotation(0,0,Math.PI);
         p.setColor(t.getColor());
+        System.out.println("COLOR + " + b.getRGB(40,40));
+
     }
 
     public void render(Graphics g){

@@ -1,6 +1,7 @@
 package UIComponents.Render;
 
 import javax.sound.sampled.Line;
+import javax.xml.soap.Text;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -22,7 +23,10 @@ public class CompoundPolygon extends Polygon{
 
     public void render(Graphics g){
         for(Polygon p: polygons){
-            p.render(g);
+            if(p instanceof TexturedPolygon)
+                ((TexturedPolygon) p).render(g);
+            else
+                p.render(g);
         }
     }
 
