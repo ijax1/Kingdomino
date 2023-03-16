@@ -140,7 +140,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             g.placeDomino(grid.getDominoLocation()[1], grid.getDominoLocation()[0], p.getCurrentDomino());
         }
 
-
     }
 
     public void changePlayer(Player player) {
@@ -287,8 +286,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             if (e.getButton() == MouseEvent.BUTTON1) {
                 dragging = false;
                 if (!grid.isSnapped()) {
-                    d.setMouseLocation(new Coordinate(640, 50, 0));
-                    d.moveTo(new Coordinate(640, 50, 0));
+                    d.setMouseLocation(new Coordinate(640, 600, 0));
+                    d.moveTo(new Coordinate(640, 600, 0));
                 }
                 if (grid.dominoOnGrid(d)) {
                     d.minimize();
