@@ -47,8 +47,8 @@ public class UITile {
         };
         BufferedImage b = null;
         try {
-        	String tile = t.getLandType().toFileName() + t.getCrowns() + ".png";	
-        	b = Resources.loadImage("../resources/tile images/"+tile);
+        	String tile = t.getLandType().toFileName() + t.getCrowns();	
+        	b = Resources.loadTile(tile);
         	//b = Resources.loadImage("player_icon.png");
         	//b = ImageIO.read(new File("\\resources\\tile images\\"+tile));
 

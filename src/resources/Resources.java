@@ -17,23 +17,13 @@ public class Resources {
 	private static Font medieval = loadFont("fonts/MedievalSharp-Regular.ttf",1);
 	private static HashMap<String, BufferedImage>map = new HashMap<>();
 	static {
-		map.put("castle0", Resources.loadImage("castle0"));
-		map.put("forest0", Resources.loadImage("forest0"));
-		map.put("forest1", Resources.loadImage("forest1"));
-		map.put("lake0", Resources.loadImage("lake0"));
-		map.put("lake1", Resources.loadImage("lake1"));
-		map.put("mine0", Resources.loadImage("mine0"));
-		map.put("mine1", Resources.loadImage("mine1"));
-		map.put("mine2", Resources.loadImage("mine2"));
-		map.put("mine3", Resources.loadImage("mine3"));
-		map.put("pasture0", Resources.loadImage("pasture0"));
-		map.put("pasture1", Resources.loadImage("pasture1"));
-		map.put("pasture2", Resources.loadImage("pasture2"));
-		map.put("swamp0", Resources.loadImage("swamp0"));
-		map.put("swamp1", Resources.loadImage("swamp1"));
-		map.put("swamp2", Resources.loadImage("swamp2"));
-		map.put("wheat0", Resources.loadImage("wheat0"));
-		map.put("wheat1", Resources.loadImage("wheat1"));
+		String path = "tile images/";
+		String[] fileNames = {"castle0", "forest0", "forest1", "lake0", "lake1", "mine0", "mine1", "mine2", "mine3",
+				"pasture0", "pasture1", "pasture2", "swamp0", "swamp1", "swamp2", "wheat0", "wheat1"
+		};
+		for(String name: fileNames) {
+			map.put(name, Resources.loadImage(path+name+".png"));
+		}
 		System.out.println(map.size());
 	}
 	//Cannot be instantiated
@@ -41,32 +31,28 @@ public class Resources {
 	}
 	public static BufferedImage loadTile(String name) {
 		BufferedImage image = map.get(name);
-		System.out.println("here");
-		if(image != null) {
-			System.out.println(name);	
+		if(image != null) {	
 		} else {
 			image = new BufferedImage(500,500,BufferedImage.TYPE_INT_ARGB);
+			image.getGraphics().fillRect(0,0,500,500);
 			image.getGraphics().drawString(name+"not found", 0, 0);
 		}
 		return image;
 	}
 	public static BufferedImage loadImage(String name) {
-		BufferedImage image = map.get(name);
-		System.out.println("here");
-		if(image != null) {
-			System.out.println(name);
-			return image;
-		}
+		BufferedImage image;
 		URL imageURL = Resources.class.getResource(name);
 		if(imageURL != null) {
 			try {
 				image = ImageIO.read(imageURL);
 			} catch (IOException e) {
 				image = new BufferedImage(500,500,BufferedImage.TYPE_INT_ARGB);
+				image.getGraphics().fillRect(0,0,500,500);
 				image.getGraphics().drawString(name+"not loaded by ImageIO", 0, 0);
 			}
 		} else {
 			image = new BufferedImage(500,500,BufferedImage.TYPE_INT_ARGB);
+			image.getGraphics().fillRect(0,0,500,500);
 			image.getGraphics().drawString(name+"not found", 0, 0);
 		}
 		return image;
