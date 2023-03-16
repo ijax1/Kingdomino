@@ -2,11 +2,13 @@ package Tests;
 
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
-
-import Backend.*;
+import Backend.Domino;
+import Backend.GameManager;
 import Backend.GameManager.GameState;
-import UIComponents.GamePanel;
+import Backend.HumanPlayer;
+import Backend.Kingdomino;
+import Backend.Player;
+import Backend.Tile;
 import resources.OurColors;
 
 public class GamePanelTester {
@@ -40,8 +42,8 @@ public class GamePanelTester {
 		humanPlayers.add(new HumanPlayer(OurColors.RED, "BBB", "aaa", gm));
 		humanPlayers.add(new HumanPlayer(OurColors.RED, "CCC", "aaa", gm));
 		humanPlayers.add(new HumanPlayer(OurColors.RED, "DDD", "aaa", gm));
-		k.getManager().setPlayers(humanPlayers);
-		//k.getManager().setPlayers(fakePlayers);
+		//k.getManager().setPlayers(humanPlayers);
+		k.getManager().setPlayers(fakePlayers);
 		k.getManager().setGameState(GameState.PLAYER_TURN);
 //		GameManager gm = k.getManager();
 //		
