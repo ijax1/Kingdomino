@@ -11,9 +11,9 @@ public class HumanPlayer extends Player {
 		this.game = game;
 	}
 
-	public GameManager getGame() {
-		return game;
-	}
+//	public GameManager getGame() {
+//		return game;
+//	}
 
 	public boolean isHuman() {
 		return true;
