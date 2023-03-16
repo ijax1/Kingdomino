@@ -135,19 +135,31 @@ public class UIGrid extends Component{
     }
 
     public void render(Graphics g, boolean showGridLines){
+        boolean recenter = false;
         Tile[][] tileList = grid.getTiles();
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
+                boolean isNull = false;
+                if(tiles[i][j] == null){
+                    isNull = true;
+                }
                 if(tileList[i][j] != null){
+                    if(!recenter && isNull){
+                        recenter = true;
+                    }
                     tiles[i][j] = new UITile(tileList[i][j].getColor(), center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
                 }
             }
         }
+        if(recenter){
+            holding = null;
+        }
+        recenter();
         if(showGridLines){
             drawGridLines(g);
         }
         drawGrid(g);
-        if(dominoOnGrid(holding)){
+        if(holding != null && dominoOnGrid(holding)){
             drawDomino(g);
         }
 

@@ -2,10 +2,16 @@ package UIComponents;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
+import Backend.Tile;
 import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.Polygon;
+import UIComponents.Render.TexturedPolygon;
+
+import javax.imageio.ImageIO;
 
 public class UITile {
     Polygon p;
@@ -27,6 +33,22 @@ public class UITile {
                 new Coordinate(tileCenter.getX() - radius, tileCenter.getY() + radius, tileCenter.getZ()),
         }, center);
         p.setColor(c);
+    }
+
+    public UITile(Tile t, Coordinate tileCenter, int radius, Coordinate center){
+        this.tileCenter = tileCenter;
+        Coordinate[] points = new Coordinate[]{
+                new Coordinate(tileCenter.getX() - radius, tileCenter.getY() - radius, tileCenter.getZ()),
+                new Coordinate(tileCenter.getX() + radius, tileCenter.getY() - radius, tileCenter.getZ()),
+                new Coordinate(tileCenter.getX() + radius, tileCenter.getY() + radius, tileCenter.getZ()),
+                new Coordinate(tileCenter.getX() - radius, tileCenter.getY() + radius, tileCenter.getZ()),
+        };
+        BufferedImage b = null;
+        try {
+            b = ImageIO.read(new File("resources\\tile images\\filename.png"));
+        }catch(Exception e){;}
+        p = new TexturedPolygon(points,center,b);
+        p.setColor(t.getColor());
     }
 
     public void render(Graphics g){
