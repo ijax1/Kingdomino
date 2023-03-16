@@ -63,6 +63,8 @@ public class TallyPanelTester {
 		
 		Kingdomino k = new Kingdomino();
 		k.getManager().setPlayers(fakePlayers);
+		//need this to init all players
+		k.getManager().setGameState(GameState.PLAYER_TURN);
 		k.getManager().setGameState(GameState.TALLY_SCORE);
 //		GameManager gm = k.getManager();
 //		
