@@ -1,14 +1,18 @@
 package UIComponents;
-import UIComponents.Render.*;
-import UIComponents.Render.Polygon;
-
-import javax.sound.sampled.Line;
-import java.awt.*;
-import java.util.ArrayList;
-import Backend.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import Backend.Domino;
 import Backend.Grid;
+import Backend.Kingdomino;
+import Backend.Player;
+import Backend.Tile;
+import UIComponents.Render.CompoundPolygon;
+import UIComponents.Render.Coordinate;
+import UIComponents.Render.LineSegment;
+import UIComponents.Render.Polygon;
 
 public class UIGrid extends Component{
     private final int width;
@@ -147,7 +151,7 @@ public class UIGrid extends Component{
                     if(!recenter && isNull){
                         recenter = true;
                     }
-                    tiles[i][j] = new UITile(tileList[i][j].getColor(), center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
+                    tiles[i][j] = new UITile(tileList[i][j], center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
                 }
             }
         }

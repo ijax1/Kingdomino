@@ -37,9 +37,11 @@ public class TestPlayer extends Player {
 	}
 	@Override
 	public Grid getGrid() {
-		if(giveFakeGrid)
+		if(giveFakeGrid) {
+			System.out.println("test grid:");
+			System.out.println(grid);
 			return grid;
-		else {
+		} else {
 			return super.getGrid();
 		}
 	}

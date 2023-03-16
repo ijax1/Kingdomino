@@ -3,7 +3,6 @@ package UIComponents;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 import Backend.Tile;
 import Backend.Tile.Land;
@@ -11,8 +10,6 @@ import UIComponents.Render.Coordinate;
 import UIComponents.Render.Polygon;
 import UIComponents.Render.TexturedPolygon;
 import resources.Resources;
-
-import javax.imageio.ImageIO;
 
 public class UITile {
     Polygon p;
@@ -39,11 +36,12 @@ public class UITile {
     public UITile(Tile t, Coordinate tileCenter, int radius, Coordinate center){
     	
     	this.tileCenter = tileCenter;
+    	//Flipped the x positive and neg signs to flip image
         Coordinate[] points = new Coordinate[]{
-                new Coordinate(tileCenter.getX() - radius, tileCenter.getY() - radius, tileCenter.getZ()),
-                new Coordinate(tileCenter.getX() + radius, tileCenter.getY() - radius, tileCenter.getZ()),
-                new Coordinate(tileCenter.getX() + radius, tileCenter.getY() + radius, tileCenter.getZ()),
                 new Coordinate(tileCenter.getX() - radius, tileCenter.getY() + radius, tileCenter.getZ()),
+                new Coordinate(tileCenter.getX() + radius, tileCenter.getY() + radius, tileCenter.getZ()),
+                new Coordinate(tileCenter.getX() + radius, tileCenter.getY() - radius, tileCenter.getZ()),
+                new Coordinate(tileCenter.getX() - radius, tileCenter.getY() - radius, tileCenter.getZ()),
         };
         BufferedImage b = null;
         try {
@@ -58,7 +56,7 @@ public class UITile {
         }catch(Exception e){;}
 
         p = new TexturedPolygon(points,center,b);
-        p.incrementRotation(0,0,Math.PI);
+        //p.incrementRotation(0,0,Math.PI);
         p.setColor(t.getColor());
         System.out.println("COLOR + " + b.getRGB(40,40));
 
