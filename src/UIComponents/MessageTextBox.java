@@ -10,7 +10,7 @@ import UIComponents.Render.Coordinate;
 public class MessageTextBox extends Component {
     //RandomAccessFile file = new RandomAccessFile("filename", "r");
     //int currentLine;
-    private final Coordinate minimizedPosition = new Coordinate(100, 500, 0);
+    private final Coordinate minimizedPosition = new Coordinate(100, 670, 0);
     private GameManager gm;
     MessageTextBox(Coordinate c, Kingdomino k) {
         super(c, k);
