@@ -258,6 +258,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         }
         if (d != null && viewedPlayerIdx == gm.getOrigPlayerIdx())
             d.render(g);
+        else if (d != null && viewedPlayerIdx != gm.getOrigPlayerIdx())
+            new UIDomino(new Coordinate(640,600,0),k,getViewedPlayerIdx().getNextDomino()).render(g);
     }
 
     public static void applyHints(Graphics2D g2d) {
@@ -401,7 +403,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     public void mouseWheelMoved(MouseWheelEvent e) {
         //From InteractionPanel
         if (dragging) {
-            System.out.println("mouse wheel");
             double direction = Math.signum(e.getWheelRotation());
             //d.rotateToNextPos((int) direction, this);
             //d.incrementRotation(0.04,0.04,0.04);
@@ -412,7 +413,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
+        //System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
     }
 
 

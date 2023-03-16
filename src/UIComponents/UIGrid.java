@@ -56,7 +56,12 @@ public class UIGrid extends Component{
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 if(tileList[i][j] != null){
-                    tiles[i][j] = new UITile(tileList[i][j].getColor(), center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
+
+                    if(tileList[i][j].getLandType() == Tile.Land.CASTLE){
+                        tiles[i][j] = new UITile(tileList[i][j].getColor(), center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);tiles[i][j] = new UITile(tileList[i][j], center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
+                    }else
+                        tiles[i][j] = new UITile(tileList[i][j], center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);tiles[i][j] = new UITile(tileList[i][j], center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
+
                 }
             }
         }
@@ -75,8 +80,11 @@ public class UIGrid extends Component{
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 if(tileList[i][j] != null){
-                    tiles[i][j] = new UITile(tileList[i][j].getColor(), center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
-                }
+                    if(tileList[i][j].getLandType() == Tile.Land.CASTLE){
+                        tiles[i][j] = new UITile(tileList[i][j].getColor(), center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);tiles[i][j] = new UITile(tileList[i][j], center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
+                    }else
+                        tiles[i][j] = new UITile(tileList[i][j], center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);tiles[i][j] = new UITile(tileList[i][j], center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
+                    }
             }
         }
 
@@ -151,7 +159,11 @@ public class UIGrid extends Component{
                     if(!recenter && isNull){
                         recenter = true;
                     }
-                    tiles[i][j] = new UITile(tileList[i][j], center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
+                    if(tileList[i][j].getLandType() == Tile.Land.CASTLE){
+                        tiles[i][j] = new UITile(tileList[i][j].getColor(), center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);tiles[i][j] = new UITile(tileList[i][j], center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
+                    }else
+                        tiles[i][j] = new UITile(tileList[i][j], center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);tiles[i][j] = new UITile(tileList[i][j], center.translatedBy((j-4)*tileSize, (i-4)*tileSize,0), tileSize/2, center);
+
                 }
             }
         }

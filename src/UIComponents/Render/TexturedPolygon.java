@@ -131,7 +131,6 @@ public class TexturedPolygon extends Polygon implements ImageObserver {
         TexturedPolygon p = new TexturedPolygon(temp, super.getCenter(), image);
         p.moveTo(c);
         p.setColor(super.getColor());
-        System.out.println(p);
         return p;
     };
     public String toString(){

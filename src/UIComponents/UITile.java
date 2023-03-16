@@ -15,6 +15,8 @@ public class UITile {
     Polygon p;
 
     Coordinate tileCenter;
+
+    private Tile tile;
     public static final int TILE_SIZE = 60;
     public UITile(Land l, Coordinate position) {
     	this(l.getColor(), position);
@@ -23,6 +25,7 @@ public class UITile {
     	this(c, new Coordinate(position.getX(), position.getY(),position.getZ()), (int) TILE_SIZE/2, position);
     }
     public UITile(Color c, Coordinate tileCenter, int radius, Coordinate center){
+        System.out.println(c);
         this.tileCenter = tileCenter;
         p = new Polygon(new Coordinate[]{
                 new Coordinate(tileCenter.getX() - radius, tileCenter.getY() - radius, tileCenter.getZ()),
@@ -48,7 +51,6 @@ public class UITile {
         	String tile = t.getLandType().toFileName() + t.getCrowns() + ".png";	
         	b = Resources.loadImage("../resources/tile images/"+tile);
         	//b = Resources.loadImage("player_icon.png");
-            System.out.println(tile);
         	//b = ImageIO.read(new File("\\resources\\tile images\\"+tile));
 
         	
@@ -58,7 +60,6 @@ public class UITile {
         p = new TexturedPolygon(points,center,b);
         //p.incrementRotation(0,0,Math.PI);
         p.setColor(t.getColor());
-        System.out.println("COLOR + " + b.getRGB(40,40));
 
     }
 
@@ -97,6 +98,14 @@ public class UITile {
     public void incrementRotation(double xRotation, double yRotation, double zRotation){
         p.incrementRotation(xRotation, yRotation, zRotation);
         tileCenter = Coordinate.rotateAbout(p.getCenter(), tileCenter, xRotation, yRotation, zRotation);
+    }
+
+    public Land getLand(){
+        return tile.getLandType();
+    }
+
+    public Tile getTile(){
+        return tile;
     }
 
 }
