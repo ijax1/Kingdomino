@@ -1,6 +1,8 @@
 package UIComponents;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -14,6 +16,7 @@ import Backend.Kingdomino;
 import Backend.Tile;
 import UIComponents.Render.CompoundPolygon;
 import UIComponents.Render.Coordinate;
+import UIComponents.Render.LineSegment;
 import UIComponents.Render.Polygon;
 import UIComponents.Render.RectangularPrism;
 import UIComponents.Render.TexturedPolygon;
@@ -159,6 +162,23 @@ public class UIDomino extends Component{
             });
             timer.start();
         }
+    }
+    public void animateDomino(Coordinate destination){
+        final LineSegment ls = new LineSegment(getCenter(),destination);
+        final Timer timer = new Timer(1, null);
+        timer.addActionListener(new ActionListener() {
+            Coordinate temp = ls.getStart();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                temp = ls.getNextPoint(temp, 0.01);
+                moveTo(temp);
+                if (!ls.onLine(temp)) {
+                    timer.stop();
+                }
+
+            }
+        });
+        timer.start();
     }
     public Coordinate getCenter() {
         return self.getCenter();
