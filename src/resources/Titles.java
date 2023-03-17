@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.Random;
 
 public class Titles {
-    private static final String[] MEDIEVAL_TITLES = {"The Honorable", "The Great", "The Wise", "The Bold", "The Valiant", "The Chivalrous", "The Magnificent", "The Noble", "The Righteous", "The Sagacious", "The Sublime", "The Brave"};
-    private static final String[] RANDOM_TITLES = {"The Bloated", "The Distracted", "The Incompetent", "The Daft","The Blunderer", "The Bumbling", "The Corrupt"};
+    private static final String[] MEDIEVAL_TITLES = {"The Honorable", "The Great", "The Wise", "The Bold", "The Valiant", "The Chivalrous", "The Magnificent", "The Noble", "The Righteous", "The Sagacious", "The Sublime", "The Brave", "The Virtuous"};
+    private static final String[] RANDOM_TITLES = {"The Bloated", "The Distracted", "The Incompetent", "The Daft","The Blunderer", "The Bumbling", "The Corrupt", "The Unintelligible", "The Clumsy", "The Misclicker"};
     private static final String[] NAMES = {"Richard",
     		"William",
     		"Björn",
@@ -21,7 +21,33 @@ public class Titles {
             "Solomon",
             "Justinian",
             "Tybalt",
-            "Josiah"
+            "Josiah",
+            "Constantine",
+            "Josephine",
+            "Joseph",
+            "Jeremiah",
+            "Augustine",
+            "Robert",
+            "Anthony",
+            "Caesar",
+            "Attila",
+            "Genghis",
+            "Vlad",
+            "Anastasia",
+            "Qianlong",
+            "Akbar",
+            "Babur",
+            "Tamerlane",
+            "Mary",
+            "Victoria",
+            "Charles",
+            "Heinrich",
+            "Simon",
+            "Hongwu",
+            "Meiji",
+            "Mansa Musa",
+            "Jacob",
+            "Paul"
     };
     private ArrayList<String> titles = new ArrayList<String>();
     private ArrayList<String> badTitles = new ArrayList<String>();
