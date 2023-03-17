@@ -14,7 +14,6 @@ import Backend.GameManager;
 import Backend.GameManager.GameState;
 import Backend.Grid;
 import Backend.Kingdomino;
-import Backend.Tile;
 import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
 import resources.OurColors;
@@ -75,7 +74,7 @@ public class Banner extends Component {
 			if(scoreIdx > 7) {
 				((Timer)e.getSource()).stop();
 			} else {
-				System.out.println("scoreidx:"+scoreIdx);
+				//System.out.println("scoreidx:"+scoreIdx);
 				displayedScores = new int[scoreIdx];
 				System.arraycopy(scores, 0, displayedScores, 0, scoreIdx);
 				gamePanel.repaint();
@@ -108,11 +107,11 @@ public class Banner extends Component {
 		yPos = bannerStartY;
 		
 		for(int i=0; i<displayedScores.length; i++) {
-			System.out.print(displayedScores[i]);
+			//System.out.print(displayedScores[i]);
 			g.drawString(""+displayedScores[i], xPos, yPos);
 			yPos += 50;
 		}
-		System.out.println();
+		//System.out.println();
 
 		g.drawString("Total:", bannerStartX-20, bannerEndY-120);	
 	}

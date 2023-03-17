@@ -25,7 +25,6 @@ public class UITile {
     	this(c, new Coordinate(position.getX(), position.getY(),position.getZ()), (int) TILE_SIZE/2, position);
     }
     public UITile(Color c, Coordinate tileCenter, int radius, Coordinate center){
-        System.out.println(c);
         this.tileCenter = tileCenter;
         p = new Polygon(new Coordinate[]{
                 new Coordinate(tileCenter.getX() - radius, tileCenter.getY() - radius, tileCenter.getZ()),
@@ -48,8 +47,8 @@ public class UITile {
         };
         BufferedImage b = null;
         try {
-        	String tile = t.getLandType().toFileName() + t.getCrowns() + ".png";	
-        	b = Resources.loadImage("../resources/tile images/"+tile);
+        	String tile = t.getLandType().toFileName() + t.getCrowns();	
+        	b = Resources.loadTile(tile);
         	//b = Resources.loadImage("player_icon.png");
         	//b = ImageIO.read(new File("\\resources\\tile images\\"+tile));
 

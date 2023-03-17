@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class RandomStrategy extends ComputerPlayer {
 	
-	private GameManager game;
-    private Deck deck;
+	GameManager game;
+    Deck deck;
+    Grid grid = getGrid();
 
 
     public RandomStrategy(Color color, String name, String title, GameManager game) {
@@ -23,10 +24,8 @@ public class RandomStrategy extends ComputerPlayer {
         return num;
     }
 
-
     public void calculateChoice() {
-        Domino[] choices = game.getDominoesToSelect();
-
+        Domino[] choices = deck.getDominoesToSelect();
         int ranChoice = randomNum(4);
         Domino chosenDomino = choices[ranChoice];
         setNextDomino(chosenDomino);
@@ -42,11 +41,11 @@ public class RandomStrategy extends ComputerPlayer {
       	 domino.setRotation(ranRot);
       	 
       	 //randomly select available placement:
-      	 ArrayList<GridPosition> placements = getGrid().availableSpaces(domino);
+      	 ArrayList<GridPosition> placements = grid.availableSpaces(domino);
       	 int ranPlace = randomNum(placements.size());
       	 
       	 //calls placeDomino:
-        getGrid().placeDomino(placements.get(ranPlace).getX(),placements.get(ranPlace).getY(), domino);
+      	 grid.placeDomino(placements.get(ranPlace).getX(),placements.get(ranPlace).getY(), domino);
    	}
 
 
