@@ -4,19 +4,19 @@ import java.util.ArrayList;
 
 public class RandomStrategy extends ComputerPlayer {
 	
-	GameManager game;
-    Deck deck;
-    Grid grid = getGrid();
+	private GameManager gameManager;
+    private Deck deck;
+    private Grid grid = getGrid();
 
 
     public RandomStrategy(Color color, String name, String title, GameManager game) {
         super(color, name, title, game);
-        this.game = game;
+        this.gameManager = game;
         deck = game.getDeck();
     }
 
-    public GameManager getGame() {
-        return game;
+    public GameManager getGameManager() {
+        return gameManager;
     }
 
     private static int randomNum(int x) {
@@ -25,15 +25,22 @@ public class RandomStrategy extends ComputerPlayer {
     }
 
     public void calculateChoice() {
-        Domino[] choices = deck.getDominoesToSelect();
-        int ranChoice = randomNum(4);
-        Domino chosenDomino = choices[ranChoice];
+        ArrayList<Domino> dominoes = gameManager.getGame().getGamePanel().getSelectableDominoes();
+        System.out.println("dominoes to select: ");
+        System.out.println(dominoes);
+        int idx = (int) (Math.random() * dominoes.size());
+        Domino chosenDomino = dominoes.get(idx);
         setNextDomino(chosenDomino);
+        gameManager.getGame().getGamePanel().computerPlayerChose(chosenDomino);
+//        Domino[] choices = deck.getDominoesToSelect();
+//        int ranChoice = randomNum(4);
+//        Domino chosenDomino = choices[ranChoice];
+//        setNextDomino(chosenDomino);
     }
 
 
     
-    public void placeDomino() {   	 
+    public void placeDomino() {
       	 Domino domino = getNextDomino();
       	 
       	 //randomly set rotation of domino:

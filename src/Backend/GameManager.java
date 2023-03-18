@@ -140,7 +140,8 @@ public class GameManager {
             //if we store what strategy is selected...idk. lol.
 
             ((ComputerPlayer) getCurrentPlayer()).calculateChoice();
-            ((ComputerPlayer) getCurrentPlayer()).placeDomino();
+            if (!firstRound)
+                ((ComputerPlayer) getCurrentPlayer()).placeDomino();
             nextPlayer();
         }
     }
@@ -181,12 +182,12 @@ public class GameManager {
         for (Player player : players) {
             dominoValues.add(player.getNextDomino().getValue());
         }
-        playerOrder = new ArrayList<>(Arrays.asList(0,1,2,3));
+        playerOrder = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
         for (int i = 0; i < dominoValues.size() - 1; i++) {
             for (int j = 0; j < dominoValues.size() - 1 - i; j++) {
                 if (dominoValues.get(j) > dominoValues.get(j + 1)) {
-                    swap(playerOrder, j, j+1);
-                    swap(dominoValues, j, j+1);
+                    swap(playerOrder, j, j + 1);
+                    swap(dominoValues, j, j + 1);
                 }
             }
         }

@@ -383,6 +383,29 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         }
     }
 
+    public void computerPlayerChose(Domino dominoChosen) {
+        DominoButton dominoButton = null;
+        for (DominoButton b : banner.getButtons()) {
+            if (b.getUiDomino().ref == dominoChosen) {
+                dominoButton = b;
+                break;
+            }
+        }
+        if (dominoButton == null) {
+            System.out.println("domino button null");
+            return;
+        }
+        if (!dominoButton.isLocked()) {
+            for (DominoButton d : banner.getButtons()) {
+                if (d == dominoButton) {
+                    d.doAction();
+                } else if (!d.isLocked()) {
+                    d.removePlayer();
+                }
+            }
+        }
+    }
+
 
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -514,4 +537,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 //            b.
 //        }
 //    }
+
+    public ArrayList<Domino> getSelectableDominoes() {
+        // Caleb's method
+        ArrayList<Domino> dominoes = new ArrayList<>();
+        for (DominoButton b : banner.getButtons()) {
+            if (!b.isSelected()) {
+                dominoes.add(b.getUiDomino().ref);
+            }
+        }
+        return dominoes;
+    }
 }

@@ -111,4 +111,8 @@ public class DominoButton extends Button {
     public boolean isSelected() {
         return selected;
     }
+
+    public UIDomino getUiDomino() {
+        return uiDomino;
+    }
 }

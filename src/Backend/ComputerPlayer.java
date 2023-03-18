@@ -11,7 +11,7 @@ abstract class ComputerPlayer extends Player {
 		this.game = game;
 	}
 
-	public GameManager getGame() {
+	public GameManager getGameManager() {
 		return game;
 	}
 	

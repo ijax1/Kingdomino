@@ -64,12 +64,19 @@ public class Grid {
         int changeY = relPos[1];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (isValidPos(i + changeY, j + changeX)
-                        && grid[i][j] == null
-                        && grid[i + changeY][j + changeX] == null
-                		&& (validTilePlacement(domino.getTiles()[0], i, j))
-                        || validTilePlacement(domino.getTiles()[1], i + changeY, j + changeX)) {
-                    positions.add(new GridPosition(i, j));
+//                if (isValidPos(i + changeY, j + changeX)
+//                        && grid[i][j] == null
+//                        && grid[i + changeY][j + changeX] == null
+//                        && (validTilePlacement(domino.getTiles()[0], i, j))
+//                        || validTilePlacement(domino.getTiles()[1], i + changeY, j + changeX)) {
+//                    positions.add(new GridPosition(i, j));
+//                }
+                if (isValidPos(i, j)
+                        && isValidPos(i + changeY, j + changeX)
+                        && grid[i][j] == null && grid[i + changeY][j + changeX] == null
+                        && (validTilePlacement(domino.getTiles()[0], i, j)
+                        || validTilePlacement(domino.getTiles()[1], i + changeY, j + changeX))) {
+                    positions.add(new GridPosition(i,j));
                 }
             }
         }
@@ -103,8 +110,7 @@ public class Grid {
             deltaX = 1;
         } else if (rotation == 180) {
             deltaX = -1;
-        }
-        else if (rotation == 90) {
+        } else if (rotation == 90) {
             deltaY = 1;
         } else if (rotation == 270) {
             deltaY = -1;
@@ -113,7 +119,7 @@ public class Grid {
     }
 
     public boolean placeDomino(int x, int y, Domino domino) {
-    	int[] relPos = relPos(domino);
+        int[] relPos = relPos(domino);
         int deltaX = relPos[0];
         int deltaY = relPos[1];
         Tile[] tiles = domino.getTiles();
@@ -128,14 +134,14 @@ public class Grid {
         return 0 <= x && x < 9 && 0 <= y && y < 9;
     }
 
-    private boolean validTilePlacement(Tile t, int x, int y){
-        for(int i = -1; i <= 1; i++) {
+    private boolean validTilePlacement(Tile t, int x, int y) {
+        for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if(i * j == 0 && i != j){
+                if (i * j == 0 && i != j) {
 
-                    if(isValidPos(x + j, y + i))
-                        if(grid[x+j][y+i] != null)
-                            if(grid[x+j][y+i].getLandType() == t.getLandType() || grid[x+j][y+i].getLandType() == Land.CASTLE)
+                    if (isValidPos(x + j, y + i))
+                        if (grid[x + j][y + i] != null)
+                            if (grid[x + j][y + i].getLandType() == t.getLandType() || grid[x + j][y + i].getLandType() == Land.CASTLE)
                                 return true;
                 }
             }

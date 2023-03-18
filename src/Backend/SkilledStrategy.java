@@ -13,7 +13,7 @@ public class SkilledStrategy extends ComputerPlayer {
 
     @Override
     public void calculateChoice() {
-        Domino[] dominoes = getGame().getDominoesToSelect();
+        Domino[] dominoes = getGameManager().getDominoesToSelect();
         int maxScore = 0;
         Domino bestDomino = dominoes[0];
         for (Domino domino : dominoes) {
