@@ -84,7 +84,7 @@ public class StrategyAnalysisDialog extends JDialog {
         modeLabel.setFont(Resources.getMedievalFont(18));
         modeLabel.setForeground(OurColors.FONT_DARK);  
         
-        JLabel inputLabel = new JLabel("And how many games shall be played, my Lord?");
+        JLabel inputLabel = new JLabel("And how many games shall be played, my liege?");
         inputLabel.setFont(Resources.getMedievalFont(18));
         inputLabel.setForeground(OurColors.FONT_DARK);
         
