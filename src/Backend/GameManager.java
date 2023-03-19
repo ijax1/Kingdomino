@@ -93,34 +93,6 @@ public class GameManager {
             slowMode();
     }
 
-<<<<<<< HEAD
-    private void slowMode() {
-        currDominoes = deck.getDominoesToSelect();
-        for (int i = 0; i < players.size(); i++) {
-            currPlayerIdx = i;
-            Player currentPlayer = players.get(currPlayerIdx);
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (Exception ignored) {
-
-            }
-            ((ComputerPlayer) currentPlayer).calculateChoice(getCurrDominoes(), getPlayers());
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (Exception ignored) {
-
-            }
-            ((ComputerPlayer) currentPlayer).placeDomino(getCurrDominoes(), getPlayers());
-            currentPlayer.setSelected(false);
-            currentPlayer.setPlaced(false);
-        }
-        updatePlayerOrder();
-        firstRound = false;
-    }
-
-
-=======
->>>>>>> branch 'master' of https://github.com/ijax1/Kingdomino.git
     public Domino[] getCurrDominoes() {
         return currDominoes;
     }
@@ -143,12 +115,6 @@ public class GameManager {
 
     // individual player in a turn
     private void playerTurn() {
-<<<<<<< HEAD
-        if (getCurrentPlayer() instanceof ComputerPlayer) {
-            if (!firstRound) {
-                ((ComputerPlayer) getCurrentPlayer()).placeDomino(getCurrDominoes(), getPlayers());
-                getCurrentPlayer().setPlaced(true);
-=======
         // check if there are any possible moves left
         boolean currNoMovePossible = true;
         if (!firstRound) {
@@ -159,13 +125,7 @@ public class GameManager {
                     currNoMovePossible = false;
                     noMovePossible = false;
                 }
->>>>>>> branch 'master' of https://github.com/ijax1/Kingdomino.git
             }
-<<<<<<< HEAD
-            ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getCurrDominoes(), getPlayers());
-            getCurrentPlayer().hasSelected();
-            nextPlayer();
-=======
         } else {
             currNoMovePossible = false;
         }
@@ -187,7 +147,6 @@ public class GameManager {
                 getCurrentPlayer().hasSelected();
                 nextPlayer();
             }
->>>>>>> branch 'master' of https://github.com/ijax1/Kingdomino.git
         }
     }
 
