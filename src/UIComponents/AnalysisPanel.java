@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import Backend.Kingdomino;
+import Backend.GameManager.GameState;
 import resources.OurColors;
 import resources.Resources;
 
@@ -35,6 +36,21 @@ public class AnalysisPanel extends JPanel {
 		this.kingdomino = kingdomino;
 		JPanel box1 = new JPanel();
 		box1.setSize(width, height);
+		
+		
+		String ranStrat = "Random Strategy";
+		String skilStrat = "Skilled Strategy";
+		
+		//VALUES:
+		
+		
+		int totalPlayers = kingdomino.getManager().getPlayers().size();
+		
+		
+		JLabel box1Text = new JLabel("box1", SwingConstants.CENTER);
+		box1.add(box1Text);
+
+		
 		JPanel box2 = new JPanel();
 		box2.setSize(width, height);
 		JPanel box3 = new JPanel();
@@ -57,9 +73,7 @@ public class AnalysisPanel extends JPanel {
 		play.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*
-				changePanel(GameState.PLAYER_TURN);
-				 */
+				kingdomino.getManager().setGameState(GameState.INITIAL);				 
 			}
 		});
 

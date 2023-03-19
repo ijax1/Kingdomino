@@ -160,7 +160,9 @@ public class GameManager {
             if (getDeck().getDominoesToSelect().length != 0) {
                 ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
             }
-            getCurrentPlayer().hasSelected();
+            getCurrentPlayer().setSelected(true);
+
+            //getCurrentPlayer().hasSelected();
             nextPlayer();
         }
     }
