@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+import UIComponents.DominoButton;
 import UIComponents.UIGrid;
 import resources.OurColors;
 import resources.Titles;
@@ -16,7 +17,7 @@ public class GameManager {
     private ArrayList<Player> players;
 
     private Deck deck;
-    private Kingdomino game;
+    //private Kingdomino game;
     private boolean isFastMode;
     private int numGames;
     private int numGamesLeft;
@@ -41,8 +42,8 @@ public class GameManager {
     }
 
 
-    public GameManager(Kingdomino game) {
-        this.game = game;
+    public GameManager() {
+        //this.game = game;
         state = GameState.INITIAL;
         roundNum = 0;
         //making default players:
@@ -65,9 +66,6 @@ public class GameManager {
 
     public void setGameState(GameState state) {
         this.state = state;
-        if (game != null) {
-            game.changePanel(state);
-        }
         if (state == GameState.INITIAL) {
             reset();
         } else if (state == GameState.PLAYER_TURN) {
@@ -103,13 +101,13 @@ public class GameManager {
             } catch (Exception ignored) {
 
             }
-            ((ComputerPlayer) currentPlayer).calculateChoice();
+            ((ComputerPlayer) currentPlayer).calculateChoice(getCurrDominoes(), getPlayers());
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (Exception ignored) {
 
             }
-            ((ComputerPlayer) currentPlayer).placeDomino();
+            ((ComputerPlayer) currentPlayer).placeDomino(getCurrDominoes(), getPlayers());
             currentPlayer.setSelected(false);
             currentPlayer.setPlaced(false);
         }
@@ -130,7 +128,6 @@ public class GameManager {
         }
         currDominoes = deck.getDominoesToSelect();
         if (firstRound) {
-            game.getGamePanel().initDominoes();
             playerTurn();
         }
     }
@@ -140,10 +137,10 @@ public class GameManager {
     private void playerTurn() {
         if (getCurrentPlayer() instanceof ComputerPlayer) {
             if (!firstRound) {
-                ((ComputerPlayer) getCurrentPlayer()).placeDomino();
+                ((ComputerPlayer) getCurrentPlayer()).placeDomino(getCurrDominoes(), getPlayers());
                 getCurrentPlayer().setPlaced(true);
             }
-            ((ComputerPlayer) getCurrentPlayer()).calculateChoice();
+            ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getCurrDominoes(), getPlayers());
             getCurrentPlayer().hasSelected();
             nextPlayer();
         }
@@ -158,11 +155,6 @@ public class GameManager {
         }
         getCurrentPlayer().setSelected(false);
         getCurrentPlayer().setPlaced(false);
-        game.getGamePanel().finishTurn();
-        if (getCurrentPlayer() instanceof HumanPlayer && getCurrentPlayer().getCurrentDomino() != null) {
-            UIGrid uiGrid = game.getGamePanel().getUIGrid();
-            getCurrentPlayer().getGrid().placeDomino(uiGrid.getDominoLocation()[1], uiGrid.getDominoLocation()[0], getCurrentPlayer().getCurrentDomino());
-        }
         updatePlayerIdx();
         if (currPlayerIdx == 0) {
             // next round
@@ -170,7 +162,7 @@ public class GameManager {
             updatePlayerOrder();
             round();
         }
-        game.getGamePanel().changePlayer(getCurrentPlayer());
+        System.out.println(getCurrentPlayer());
         playerTurn();
 
     }
@@ -263,10 +255,6 @@ public class GameManager {
 
     public GameState getGameState() {
         return state;
-    }
-
-    public Kingdomino getGame() {
-        return game;
     }
 
     public void setNumGames(int numGames) {

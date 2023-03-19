@@ -78,7 +78,7 @@ public class StartPanel extends JPanel {
                     }
                     if (!strategyMode) {
                         gm.setPlayers(players);
-                        gm.setGameState(GameState.PLAYER_TURN);
+                        k.setGameAndPanelState(GameState.PLAYER_TURN);
                     } else {
                         //only computer players
                         new StrategyAnalysisDialog(k.getFrame(), kdomino);

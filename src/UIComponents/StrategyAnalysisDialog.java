@@ -24,7 +24,8 @@ import resources.Resources;
 public class StrategyAnalysisDialog extends JDialog {
     private JPanel tintPane;
     private Color tintColor = new Color(0, 0, 0, 125);
-    GameManager manager;
+    private Kingdomino k;
+    private GameManager manager;
     
     //final static String ERROR_TEXT = "THOU HAST YET TO INFORM US OF AN APPROPRIATE AMOUNT OF GAMES TO PLAY!";
     public StrategyAnalysisDialog(JFrame root, Kingdomino dom) {
@@ -32,7 +33,7 @@ public class StrategyAnalysisDialog extends JDialog {
         super(root, "", ModalityType.DOCUMENT_MODAL);
         this.manager = dom.getManager();
 
-        this.manager = dom.getManager();
+        this.k = dom;
 
         //tintPane darkens the entire background when the dialog is open
         tintPane = new JPanel() {
@@ -195,7 +196,7 @@ public class StrategyAnalysisDialog extends JDialog {
             //slow mode
             manager.setMode(isFast);
             if (!isFast)
-                manager.setGameState(GameManager.GameState.PLAYER_TURN);
+                k.setGameAndPanelState(GameManager.GameState.PLAYER_TURN);
             else
                 manager.setGameState(GameManager.GameState.STRATEGY);
             

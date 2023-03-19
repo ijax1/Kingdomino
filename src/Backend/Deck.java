@@ -77,7 +77,7 @@ public class Deck {
     //Instance Variables
     private ArrayList<Domino> deck = new ArrayList<>();
     private Domino[] dominoesToSelect;
-    private boolean[] selected;
+    private Player[] whoSelected;
 
 
     /** 
@@ -86,7 +86,6 @@ public class Deck {
     public Deck() {
 
         this.dominoesToSelect = new Domino[]{null, null, null, null};
-        this.selected = new boolean[]{false, false, false, false};
 
         // create a deck of 48 random dominos
         for (int i = 0; i < 48; i++) {
@@ -116,10 +115,24 @@ public class Deck {
         return deck.isEmpty();
     }
     /**
-     * Draws 4 dominoes from the deck, sorts them by value
+     * Gets the current four dominoes displayed, draws 4 dominoes if there are none
      * @return an array of 4 tiles removed from the deck, sorted from highest to lowest value
      */
     public Domino[] getDominoesToSelect() {
+    	if(dominoesToSelect[0] == null) {
+    		getNewDominoes();
+    	}
+        return dominoesToSelect;
+    }
+    public Domino[] getAllDominoes() {
+
+        return dominoesToSelect;
+    }
+    /**
+     * Draws 4 dominoes from the deck, sorts them by value
+     * @return an array of 4 tiles removed from the deck, sorted from highest to lowest value
+     */
+    public Domino[] getNewDominoes() {
         // remove 4 items from main deck, places in list and reutrns list
         if (this.dominoesRemaining() >= 4) {
             for (int i = 0; i < 4; i++) {
@@ -152,12 +165,12 @@ public class Deck {
      * Sets that a domino is selected (unused)
      * @param index from 0-3
      */
-    @Deprecated
-    public void setSelected(int index) {
-        selected[index] = true;
-    }
-    @Deprecated
-    public boolean[] getSelected() {
-        return selected;
-    }
+//    @Deprecated
+//    public void setSelected(int index) {
+//        selected[index] = true;
+//    }
+//    @Deprecated
+//    public boolean[] getSelected() {
+//        return selected;
+//    }
 }

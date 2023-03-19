@@ -36,7 +36,7 @@ import UIComponents.Render.LineSegment;
 import UIComponents.Render.RectangularPrism;
 import resources.Resources;
 
-public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
+public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
     private static final long serialVersionUID = 7381080659172927952L;
 
     Domino ref = new Domino(new Tile(Tile.Land.LAKE, 0), new Tile(Tile.Land.PASTURE, 0), 13);
@@ -77,7 +77,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         addMouseListener(this);
         addMouseMotionListener(this);
         addMouseWheelListener(this);
-        addKeyListener(this);
         gm = k.getManager();
         this.k = k;
         medieval = Resources.getMedievalFont(20);
@@ -135,11 +134,17 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     public int getViewedPlayerIndex() {
         return viewedPlayerIdx;
     }
-
+    /**
+     * 
+     * @return
+     */
     public Player getViewedPlayerIdx() {
         return gm.getPlayers().get(viewedPlayerIdx);
     }
-
+    /**
+     * Sets the viewed player to whatever index is specified
+     * @param playerIdx from 0-3. The player at index 0 is going first.
+     */
     public void setViewedPlayerIdx(int playerIdx) {
         viewedPlayerIdx = playerIdx;
         uiGrid = grids.get(playerIdx);
@@ -289,7 +294,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 
-    public void checkDomino() {
+    private void checkDomino() {
         if (d != null) {
             if (uiGrid.dominoOnGrid(d)) {
                 d.minimize();
@@ -378,28 +383,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         }
     }
 
-    public void computerPlayerChose(Domino dominoChosen) {
-        DominoButton dominoButton = null;
-        for (DominoButton b : banner.getButtons()) {
-            if (b.getUiDomino().ref == dominoChosen) {
-                dominoButton = b;
-                break;
-            }
-        }
-        if (dominoButton == null) {
-            System.out.println("domino button null");
-            return;
-        }
-        if (!dominoButton.isLocked()) {
-            for (DominoButton d : banner.getButtons()) {
-                if (d == dominoButton) {
-                    d.doAction();
-                } else if (!d.isLocked()) {
-                    d.removePlayer();
-                }
-            }
-        }
-    }
+
 
 
     @Override
@@ -442,44 +426,16 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        //System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
-    }
-
-
     public void mouseEvent(boolean isClicked, boolean isDragged, boolean isScrolling) {
 
     }
-
-    public void keyEvent(int keyCode) {
-
-    }
-
-    private void drawBg(Graphics2D g) {
-
-
-    }
-
-    private void drawStaticTiles() {
-
-    }
-
-    public void drawError(String header, String message) {
-
-    }
-
-
+    
     //Empty methods
     @Override
     public void mouseClicked(MouseEvent e) {
         //this method is annoying, it only counts as clicked if you don't
         //move your mouse as all, i'm not using it
 
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
     }
 
     @Override
@@ -492,10 +448,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
     @Override
     public void mouseExited(MouseEvent e) {
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
     }
 
     public PlayerTabGroup getPlayerTabs() {
@@ -533,16 +485,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 //        }
 //    }
 
-    public ArrayList<Domino> getSelectableDominoes() {
-        // Caleb's method
-        ArrayList<Domino> dominoes = new ArrayList<>();
-        for (DominoButton b : banner.getButtons()) {
-            if (!b.isSelected()) {
-                dominoes.add(b.getUiDomino().ref);
-            }
-        }
-        return dominoes;
-    }
+
 
     public UIGrid getUIGrid() {
         return uiGrid;

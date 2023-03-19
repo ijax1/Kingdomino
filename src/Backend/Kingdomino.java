@@ -18,6 +18,7 @@ import UIComponents.AnalysisPanel;
 import UIComponents.GamePanel;
 import UIComponents.PodiumPanel;
 import UIComponents.StartPanel;
+import UIComponents.UIGrid;
 import resources.Resources;
 
 
@@ -36,7 +37,7 @@ public class Kingdomino {
     public static final int FRAME_HEIGHT = 720;
 
     public Kingdomino() {
-        manager = new GameManager(this);
+        manager = new GameManager();
         basePanel = new JPanel(panels);
 
         startPanel = new StartPanel(new GridBagLayout(), this);
@@ -87,13 +88,17 @@ public class Kingdomino {
         return manager;
     }
 
-    public void changePanel(GameState state) {
+    public void setGameAndPanelState(GameState state) {
+    	manager.setGameState(state);
         if (state == GameState.INITIAL) {
             panels.show(basePanel, "Start Panel");
         } else if (state == GameState.PLAYER_TURN ||
                 state == GameState.TALLY_SCORE) {
             if (gamePanel == null) {
                 initializeGamePanel();
+            }
+            if (manager.isFirstRound()) {
+                getGamePanel().initDominoes();
             }
             panels.show(basePanel, "Game Panel");
         } else if (state == GameState.ENDSCREEN) {
@@ -103,6 +108,16 @@ public class Kingdomino {
 //            analysisPanel.beginAnalysis(manager.getNumGames());
         }
 
+    }
+    public void nextPlayer() {
+        getGamePanel().finishTurn();
+        if (manager.getCurrentPlayer() instanceof HumanPlayer && manager.getCurrentPlayer().getCurrentDomino() != null) {
+            UIGrid uiGrid = getGamePanel().getUIGrid();
+            manager.getCurrentPlayer().getGrid().placeDomino(uiGrid.getDominoLocation()[1], uiGrid.getDominoLocation()[0], manager.getCurrentPlayer().getCurrentDomino());
+        }
+        manager.nextPlayer();
+        getGamePanel().changePlayer(manager.getCurrentPlayer());
+        
     }
 
     public GamePanel getGamePanel() {

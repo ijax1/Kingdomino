@@ -24,7 +24,7 @@ public class TestKingdomino extends Kingdomino {
 		return new JFrame();
 	}
 	@Override
-	public void changePanel(GameState state) {
+	public void setGameAndPanelState(GameState state) {
 		System.out.println("Panel changed to "+ state);
 	}
 	@Override

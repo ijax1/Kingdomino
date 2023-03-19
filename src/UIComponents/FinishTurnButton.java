@@ -23,7 +23,7 @@ public class FinishTurnButton extends Button{
         if(super.getManager().getCurrentPlayer() == getGame().getGamePanel().getViewedPlayerIdx()) {
             Player p = getGame().getManager().getCurrentPlayer();
             p.setCurrentDomino(p.getNextDomino());
-            getGame().getManager().nextPlayer();
+            getGame().nextPlayer();
         }
 //        getGame().getManager().finishTurn();
     }

@@ -1,5 +1,6 @@
 package Backend;
 import java.awt.Color;
+import java.util.ArrayList;
 
 
 abstract class ComputerPlayer extends Player {
@@ -11,16 +12,16 @@ abstract class ComputerPlayer extends Player {
 		this.game = game;
 	}
 
-	public GameManager getGameManager() {
-		return game;
-	}
+//	public GameManager getGameManager() {
+//		return game;
+//	}
 	
 	public boolean isHuman() {
 		return false;
 	}
 
-	abstract public void placeDomino();
+	abstract public void placeDomino(Domino[]choices, ArrayList<Player>currentPlayers);
 
-	abstract public void calculateChoice();
+	abstract public void calculateChoice(Domino[]choices, ArrayList<Player>currentPlayers);
 
 }

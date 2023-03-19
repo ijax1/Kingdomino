@@ -25,19 +25,19 @@ public class RandomStrategy extends ComputerPlayer {
         return num;
     }
 
-    public void calculateChoice() {
+    public void calculateChoice(Domino[] d, ArrayList<Player>p) {
         if (!gameManager.isFirstPlayer()) {
-            ArrayList<Domino> dominoes = gameManager.getGame().getGamePanel().getSelectableDominoes();
-            int idx = (int) (Math.random() * dominoes.size());
-            Domino chosenDomino = dominoes.get(idx);
-            setNextDomino(chosenDomino);
-            gameManager.getGame().getGamePanel().computerPlayerChose(chosenDomino);
-        } else {
-            Domino[] dominoes = gameManager.getCurrDominoes();
+        	Domino[] dominoes = d;
             int idx = (int) (Math.random() * dominoes.length);
             Domino chosenDomino = dominoes[idx];
             setNextDomino(chosenDomino);
-            gameManager.getGame().getGamePanel().computerPlayerChose(chosenDomino);
+//            gameManager.getGame().getGamePanel().computerPlayerChose(chosenDomino);
+        } else {
+            Domino[] dominoes = d;
+            int idx = (int) (Math.random() * dominoes.length);
+            Domino chosenDomino = dominoes[idx];
+            setNextDomino(chosenDomino);
+//            gameManager.getGame().getGamePanel().computerPlayerChose(chosenDomino);
         }
 //        Domino[] choices = deck.getDominoesToSelect();
 //        int ranChoice = randomNum(4);
@@ -46,7 +46,7 @@ public class RandomStrategy extends ComputerPlayer {
     }
 
 
-    public void placeDomino() {
+    public void placeDomino(Domino[] d, ArrayList<Player>p) {
         Domino domino = getNextDomino();
 
         //randomly set rotation of domino:

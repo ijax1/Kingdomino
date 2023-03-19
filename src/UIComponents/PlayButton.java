@@ -13,8 +13,8 @@ import UIComponents.Render.Coordinate;
  	}
 
  	public void doAction() {
-     //are we changing game by changing panel? 
- 		getGame().changePanel(GameState.PLAYER_TURN);
+     //are we changing game by changing panel? yes we are now
+ 		getGame().setGameAndPanelState(GameState.PLAYER_TURN);
  	}
   
 //   public boolean onComponent(Coordinate c) {

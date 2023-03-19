@@ -18,7 +18,7 @@ import UIComponents.Render.Coordinate;
  	}
 
  	public void doAction() {
- 		getGame().changePanel(GameState.INITIAL);
+ 		getGame().setGameAndPanelState(GameState.INITIAL);
  	}
   
 //   public boolean onComponent(Coordinate c) {

@@ -12,8 +12,8 @@ public class SkilledStrategy extends ComputerPlayer {
     }
 
     @Override
-    public void calculateChoice() {
-        Domino[] dominoes = getGameManager().getCurrDominoes();
+    public void calculateChoice(Domino[]d, ArrayList<Player>p) {
+        Domino[] dominoes = d;
         int maxScore = 0;
         Domino bestDomino = dominoes[0];
         for (Domino domino : dominoes) {
@@ -31,12 +31,13 @@ public class SkilledStrategy extends ComputerPlayer {
                 }
             }
         }
-        setNextDomino(bestDomino);
         setSelected(true);
+        setNextDomino(bestDomino);
+        
     }
 
     @Override
-    public void placeDomino() {
+    public void placeDomino(Domino[]d, ArrayList<Player>p) {
         getGrid().placeDomino(bestPos.getX(), bestPos.getY(), getNextDomino());
         setPlaced(true);
     }
