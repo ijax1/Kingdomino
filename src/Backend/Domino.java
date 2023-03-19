@@ -49,4 +49,8 @@ public class Domino implements Comparable<Domino>{
     public int getRotation(){
         return rotation;
     }
+
+    public Domino copy() {
+        return new Domino(tiles[0], tiles[1], dominoValue);
+    }
 }

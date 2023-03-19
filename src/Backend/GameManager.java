@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import UIComponents.DominoButton;
 import UIComponents.UIGrid;
+import jdk.swing.interop.SwingInterOpUtils;
 import resources.OurColors;
 import resources.Titles;
 
@@ -24,6 +25,7 @@ public class GameManager {
     private Domino[] currDominoes;
     private ArrayList<Domino> availableDominoes;
     private int roundNum;
+    private boolean noMovePossible;
 
     // will contain integers 0,1,2,3 representing players, ordered in their desired order
     // ex: {3,0,2,1} = player 3 --> player 0 --> player 2 --> player 1
@@ -91,6 +93,7 @@ public class GameManager {
             slowMode();
     }
 
+<<<<<<< HEAD
     private void slowMode() {
         currDominoes = deck.getDominoesToSelect();
         for (int i = 0; i < players.size(); i++) {
@@ -116,11 +119,16 @@ public class GameManager {
     }
 
 
+=======
+>>>>>>> branch 'master' of https://github.com/ijax1/Kingdomino.git
     public Domino[] getCurrDominoes() {
         return currDominoes;
     }
 
     private void round() {
+        // as nextPlayer() is called for each player, noMovePossible is set to false if player can place the domino
+        // if no player can place the domino, noMovePossible remains true --> endGame().
+        noMovePossible = true;
         if (roundNum == 24) {
 //            endGame();
         } else {
@@ -135,14 +143,51 @@ public class GameManager {
 
     // individual player in a turn
     private void playerTurn() {
+<<<<<<< HEAD
         if (getCurrentPlayer() instanceof ComputerPlayer) {
             if (!firstRound) {
                 ((ComputerPlayer) getCurrentPlayer()).placeDomino(getCurrDominoes(), getPlayers());
                 getCurrentPlayer().setPlaced(true);
+=======
+        // check if there are any possible moves left
+        boolean currNoMovePossible = true;
+        if (!firstRound) {
+            Domino currDomino = getCurrentPlayer().getNextDomino().copy();
+            for (int i = 0; i < 360; i += 90) {
+                currDomino.setRotation(i);
+                if (getCurrentPlayer().getGrid().availableSpaces(currDomino).size() != 0) {
+                    currNoMovePossible = false;
+                    noMovePossible = false;
+                }
+>>>>>>> branch 'master' of https://github.com/ijax1/Kingdomino.git
             }
+<<<<<<< HEAD
             ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getCurrDominoes(), getPlayers());
             getCurrentPlayer().hasSelected();
             nextPlayer();
+=======
+        } else {
+            currNoMovePossible = false;
+        }
+        if (currNoMovePossible) {
+            if (noMovePossible && currPlayerIdx == players.size() - 1) {
+                endGame();
+            } else {
+                getCurrentPlayer().setPlaced(true);
+                getCurrentPlayer().setSelected(true);
+                nextPlayer();
+            }
+        } else {
+            if (getCurrentPlayer() instanceof ComputerPlayer) {
+                if (!firstRound) {
+                    ((ComputerPlayer) getCurrentPlayer()).placeDomino();
+                    getCurrentPlayer().setPlaced(true);
+                }
+                ((ComputerPlayer) getCurrentPlayer()).calculateChoice();
+                getCurrentPlayer().hasSelected();
+                nextPlayer();
+            }
+>>>>>>> branch 'master' of https://github.com/ijax1/Kingdomino.git
         }
     }
 
@@ -156,6 +201,7 @@ public class GameManager {
         getCurrentPlayer().setSelected(false);
         getCurrentPlayer().setPlaced(false);
         updatePlayerIdx();
+
         if (currPlayerIdx == 0) {
             // next round
             firstRound = false;
@@ -164,7 +210,6 @@ public class GameManager {
         }
         System.out.println(getCurrentPlayer());
         playerTurn();
-
     }
 
     private void updatePlayerIdx() {
@@ -197,7 +242,8 @@ public class GameManager {
         list.set(i2, temp);
     }
 
-//    public void endGame() {
+    public void endGame() {
+        System.out.println("game over");
 //        numGamesLeft--;
 //        if (isFastMode && numGamesLeft == ) {
 //
@@ -205,7 +251,33 @@ public class GameManager {
 //        if (isFastMode) {
 //            game.getAnalysisPanel().displayAnalysis();
 //        }
-//    }
+    }
+
+
+    private void slowMode() {
+        currDominoes = deck.getDominoesToSelect();
+        for (int i = 0; i < players.size(); i++) {
+            currPlayerIdx = i;
+            Player currentPlayer = players.get(currPlayerIdx);
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception ignored) {
+
+            }
+            ((ComputerPlayer) currentPlayer).calculateChoice();
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception ignored) {
+
+            }
+            ((ComputerPlayer) currentPlayer).placeDomino();
+            currentPlayer.setSelected(false);
+            currentPlayer.setPlaced(false);
+        }
+        updatePlayerOrder();
+        firstRound = false;
+    }
+
 
     public boolean isFirstRound() {
         return firstRound;
@@ -238,7 +310,6 @@ public class GameManager {
     public Deck getDeck() {
         return deck;
     }
-
 
     public void setResults() {
         for (int i = 0; i < players.size() - 1; i++) {

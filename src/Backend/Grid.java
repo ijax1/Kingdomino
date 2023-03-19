@@ -91,18 +91,7 @@ public class Grid {
         int changeY = relPos[1];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-//                if (isValidPos(i + changeY, j + changeX)
-//                        && grid[i][j] == null
-//                        && grid[i + changeY][j + changeX] == null
-//                        && (validTilePlacement(domino.getTiles()[0], i, j))
-//                        || validTilePlacement(domino.getTiles()[1], i + changeY, j + changeX)) {
-//                    positions.add(new GridPosition(i, j));
-//                }
-                if (isValidPos(i, j)
-                        && isValidPos(i + changeY, j + changeX)
-                        && grid[i][j] == null && grid[i + changeY][j + changeX] == null
-                        && (validTilePlacement(domino.getTiles()[0], i, j)
-                        || validTilePlacement(domino.getTiles()[1], i + changeY, j + changeX))) {
+                if (canPlace(domino, changeX, changeY, i, j)) {
                     positions.add(new GridPosition(i,j));
                 }
             }
@@ -117,15 +106,22 @@ public class Grid {
         int changeY = relPos[1];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                spaces[i][j] = isValidPos(i, j)
-                        && isValidPos(i + changeY, j + changeX)
-                        && grid[i][j] == null
-                        && grid[i + changeY][j + changeX] == null
-                        && (validTilePlacement(domino.getTiles()[0], i, j)
-                        || validTilePlacement(domino.getTiles()[1], i + changeY, j + changeX));
+                spaces[i][j] = canPlace(domino, changeX, changeY, i, j);
             }
         }
         return spaces;
+    }
+
+    private boolean canPlace(Domino domino, int changeX, int changeY, int i, int j) {
+        Grid temp = this.copy();
+        temp.placeDomino(j, i, domino);
+        return isValidPos(i, j)
+                && isValidPos(i + changeY, j + changeX)
+                && grid[i][j] == null
+                && grid[i + changeY][j + changeX] == null
+                && (validTilePlacement(domino.getTiles()[0], i, j)
+                || validTilePlacement(domino.getTiles()[1], i + changeY, j + changeX))
+                && !temp.isOversized();
     }
 
     // relative position for tile 2 where tile 1 is (0,0)
@@ -260,5 +256,23 @@ public class Grid {
 
     public Tile[][] getTiles() {
         return grid;
+    }
+
+    public boolean isOversized() {
+        int leftMost = 8;
+        int rightMost = 0;
+        int upMost = 8;
+        int downMost = 0;
+        for (int i=0; i<9; i++) {
+            for (int j=0; j<9; j++){
+                if (getTile(i,j) != null) {
+                    upMost = Math.min(upMost, i);
+                    downMost = Math.max(downMost, i);
+                    leftMost = Math.min(leftMost, j);
+                    rightMost = Math.max(rightMost, j);
+                }
+            }
+        }
+        return rightMost - leftMost > 4 || downMost - upMost > 4;
     }
 }
