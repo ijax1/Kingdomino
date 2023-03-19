@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 
 import UIComponents.DominoButton;
 import UIComponents.UIGrid;
-import jdk.swing.interop.SwingInterOpUtils;
 import resources.OurColors;
 import resources.Titles;
 
@@ -22,7 +21,6 @@ public class GameManager {
     private boolean isFastMode;
     private int numGames;
     private int numGamesLeft;
-    private Domino[] currDominoes;
     private ArrayList<Domino> availableDominoes;
     private int roundNum;
     private boolean noMovePossible;
@@ -93,10 +91,6 @@ public class GameManager {
             slowMode();
     }
 
-    public Domino[] getCurrDominoes() {
-        return currDominoes;
-    }
-
     private void round() {
         // as nextPlayer() is called for each player, noMovePossible is set to false if player can place the domino
         // if no player can place the domino, noMovePossible remains true --> endGame().
@@ -106,7 +100,6 @@ public class GameManager {
         } else {
             roundNum++;
         }
-        currDominoes = deck.getDominoesToSelect();
         if (firstRound) {
             playerTurn();
         }
@@ -140,10 +133,10 @@ public class GameManager {
         } else {
             if (getCurrentPlayer() instanceof ComputerPlayer) {
                 if (!firstRound) {
-                    ((ComputerPlayer) getCurrentPlayer()).placeDomino();
+                    ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
                     getCurrentPlayer().setPlaced(true);
                 }
-                ((ComputerPlayer) getCurrentPlayer()).calculateChoice();
+                ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
                 getCurrentPlayer().hasSelected();
                 nextPlayer();
             }
@@ -214,7 +207,6 @@ public class GameManager {
 
 
     private void slowMode() {
-        currDominoes = deck.getDominoesToSelect();
         for (int i = 0; i < players.size(); i++) {
             currPlayerIdx = i;
             Player currentPlayer = players.get(currPlayerIdx);
@@ -223,13 +215,13 @@ public class GameManager {
             } catch (Exception ignored) {
 
             }
-            ((ComputerPlayer) currentPlayer).calculateChoice();
+            ((ComputerPlayer) currentPlayer).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (Exception ignored) {
 
             }
-            ((ComputerPlayer) currentPlayer).placeDomino();
+            ((ComputerPlayer) currentPlayer).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
             currentPlayer.setSelected(false);
             currentPlayer.setPlaced(false);
         }

@@ -108,7 +108,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
     // need to call later bc GamePanel is initialized before gm.getDominoes() works
     public void initDominoes() {
-        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this, gm.getCurrDominoes());
+        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this, gm.getDeck().getAllDominoes());
         setComponents();
     }
 
@@ -184,7 +184,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             }
         }
         if (gm.isFirstPlayer()) {
-            Domino[] toSelect = gm.getCurrDominoes();
+            Domino[] toSelect = gm.getDeck().getAllDominoes();
             Arrays.sort(toSelect);
             int index = 3;
             for (DominoButton b : banner.getButtons()) {

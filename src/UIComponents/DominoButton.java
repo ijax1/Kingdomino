@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import Backend.Domino;
+import Backend.GameManager;
 import Backend.Kingdomino;
 import Backend.Player;
 import UIComponents.Render.Coordinate;
@@ -19,6 +20,9 @@ public class DominoButton extends Button {
 
     // locked on one player after their turn ends
     private boolean locked;
+    
+    private Kingdomino k;
+    private GameManager gm;
 
     private int width = UITile.TILE_SIZE * 2 + 20, height = UITile.TILE_SIZE + 20;
 
@@ -26,6 +30,8 @@ public class DominoButton extends Button {
         super(c, k);
         // need for information on what to draw later
         uiDomino = new UIDomino(c, k, d);
+        this.k = k;
+        this.gm = k.getManager();
         locked = false;
         player = null;
         selected = false;
@@ -65,6 +71,7 @@ public class DominoButton extends Button {
     // after turn finishs, will call setLocked on the domino button that has the same player instance as curretn player
     public void setLocked() {
         locked = true;
+        gm.getDeck().setLocked(uiDomino.getRef(), player);
         player.setNextDomino(uiDomino.getRef());
     }
 

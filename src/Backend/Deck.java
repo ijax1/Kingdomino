@@ -77,7 +77,7 @@ public class Deck {
     //Instance Variables
     private ArrayList<Domino> deck = new ArrayList<>();
     private Domino[] dominoesToSelect;
-    private Player[] whoSelected;
+    private Player[] whoLocked = new Player[4];
 
 
     /** 
@@ -115,17 +115,39 @@ public class Deck {
         return deck.isEmpty();
     }
     /**
-     * Gets the current four dominoes displayed, draws 4 dominoes if there are none
-     * @return an array of 4 tiles removed from the deck, sorted from highest to lowest value
+     * Gets the dominoes that have not been selected
+     * @return an array of 0-4 tiles
      */
     public Domino[] getDominoesToSelect() {
     	if(dominoesToSelect[0] == null) {
     		getNewDominoes();
     	}
-        return dominoesToSelect;
+    	
+    	int arrLength = 0;
+    	for(int i=0; i<dominoesToSelect.length; i++) {
+    		if(whoLocked[i] == null) {
+    			arrLength++;
+    		}
+    	}
+    	Domino[] options = new Domino[arrLength];
+    	int j=0;
+    	for(int i=0; i<dominoesToSelect.length; i++) {
+    		if(whoLocked[i] == null) {
+    			options[j] = dominoesToSelect[i];
+    			j++;
+    		}
+    	}
+    	
+        return options;
     }
+    /**
+     * Gets the current four dominoes displayed, draws 4 dominoes if there are none
+     * @return an array of 4 tiles removed from the deck, sorted from highest to lowest value
+     */
     public Domino[] getAllDominoes() {
-
+    	if(dominoesToSelect[0] == null) {
+    		getNewDominoes();
+    	}
         return dominoesToSelect;
     }
     /**
@@ -133,6 +155,7 @@ public class Deck {
      * @return an array of 4 tiles removed from the deck, sorted from highest to lowest value
      */
     public Domino[] getNewDominoes() {
+    	whoLocked = new Player[4];
         // remove 4 items from main deck, places in list and reutrns list
         if (this.dominoesRemaining() >= 4) {
             for (int i = 0; i < 4; i++) {
@@ -165,12 +188,17 @@ public class Deck {
      * Sets that a domino is selected (unused)
      * @param index from 0-3
      */
-//    @Deprecated
-//    public void setSelected(int index) {
-//        selected[index] = true;
-//    }
-//    @Deprecated
-//    public boolean[] getSelected() {
-//        return selected;
-//    }
+    public void setLocked(Domino d, Player player) {
+    	for(int i=0; i< dominoesToSelect.length; i++){
+    		//no you don't get an equals method
+    		if(dominoesToSelect[i]==d) {
+    			//LOCK IN
+    			System.out.println("Deck: locked in");
+    			whoLocked[i] = player;
+    		}
+    	}
+    }
+    public Player[] getLocked() {
+        return whoLocked;
+    }
 }
