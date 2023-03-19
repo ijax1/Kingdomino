@@ -9,8 +9,12 @@ import Backend.Tile.Land;
 
 import Backend.Player;
 import UIComponents.*;
-
-class Deck {
+/**
+ * A class representing a Kingdomino deck. Dominoes are created according to the distribution in-game.
+ * @author Jiming
+ *
+ */
+public class Deck {
     private Land FOREST = Land.FOREST;
     private Land LAKE = Land.LAKE;
     private Land WHEAT = Land.WHEAT;
@@ -76,7 +80,9 @@ class Deck {
     private boolean[] selected;
 
 
-    //Create deck and shuffles
+    /** 
+     * Creates deck and shuffles. Note the deck will always have 48 dominoes, even for two players.
+     */
     public Deck() {
 
         this.dominoesToSelect = new Domino[]{null, null, null, null};
@@ -95,7 +101,9 @@ class Deck {
         // shuffle the deck
         this.shuffleDeck();
     }
-
+    /** 
+     *  Shuffles deck.
+     */
     public void shuffleDeck() {
         Collections.shuffle(deck);
     }
@@ -107,8 +115,10 @@ class Deck {
     public boolean isEmpty() {
         return deck.isEmpty();
     }
-
-    //Returns a list of 4 tiles removed from the deck
+    /**
+     * Draws 4 dominoes from the deck, sorts them by value
+     * @return an array of 4 tiles removed from the deck, sorted from highest to lowest value
+     */
     public Domino[] getDominoesToSelect() {
         // remove 4 items from main deck, places in list and reutrns list
         if (this.dominoesRemaining() >= 4) {
@@ -132,16 +142,21 @@ class Deck {
     }
 
     // --------------
+    @Deprecated
     public void chooseDomino(Player player, int index) {
         //leaving alone for now
 
     }
     // --------------
-
+    /**
+     * Sets that a domino is selected (unused)
+     * @param index from 0-3
+     */
+    @Deprecated
     public void setSelected(int index) {
         selected[index] = true;
     }
-
+    @Deprecated
     public boolean[] getSelected() {
         return selected;
     }
