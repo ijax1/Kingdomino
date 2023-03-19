@@ -153,12 +153,19 @@ public class GameManager {
         if (getCurrentPlayer() instanceof ComputerPlayer) {
             if (!firstRound && canPlace) {
                 ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
+                // TODO: update gamepanel
+//                for (GameEventListener gl : listeners) {
+//                    gl.onDominoSelected();
+//                }
                 getCurrentPlayer().setPlaced(true);
             }
             if (!canPlace)
                 getCurrentPlayer().setPlaced(true);
             if (getDeck().getDominoesToSelect().length != 0) {
                 ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
+                for (GameEventListener gl : listeners) {
+                    gl.onDominoSelected(getCurrentPlayer().getNextDomino());
+                }
             }
             getCurrentPlayer().setSelected(true);
 

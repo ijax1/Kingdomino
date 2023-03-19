@@ -165,17 +165,36 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
                 b.setLocked();
         }
     }
-	@Override
-	public void onDominoSelected(Domino d) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void onNextPlayer() {
-		changePlayer(gm.getCurrentPlayer());
-		
-	}
+    @Override
+    public void onDominoSelected(Domino dominoSelected) {
+        DominoButton dominoButton = null;
+        for (DominoButton b : banner.getButtons()) {
+            if (b.getUiDomino().ref == dominoSelected) {
+                dominoButton = b;
+                break;
+            }
+        }
+        if (dominoButton == null) {
+            System.out.println("domino button null");
+            return;
+        }
+        if (!dominoButton.isLocked()) {
+            for (DominoButton d : banner.getButtons()) {
+                if (d == dominoButton) {
+                    d.doAction();
+                } else if (!d.isLocked()) {
+                    d.removePlayer();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onNextPlayer() {
+        changePlayer(gm.getCurrentPlayer());
+
+    }
 
     public void changePlayer(Player player) {
         playerTabs.selectButton(player);
@@ -505,11 +524,11 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         return uiGrid;
     }
 
-	@Override
-	public void onStateChangedTo(GameState state) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void onStateChangedTo(GameState state) {
+        // TODO Auto-generated method stub
+
+    }
 
 
 }
