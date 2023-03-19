@@ -3,19 +3,32 @@ package Backend;
 import java.util.ArrayList;
 
 import Backend.Tile.Land;
-
+/**
+ * A Kingdomino grid, with a maximum of 5x5 tiles in any direction.
+ * @author Caleb
+ *
+ */
 public class Grid {
     private Tile[][] grid;
-
+    /**
+     * Creates a new Kingdomino grid with the Castle tile in the center.
+     */
     public Grid() {
         grid = new Tile[9][9];
         grid[4][4] = new Tile(Land.CASTLE, 0);
     }
-
+    /**
+     * Creates a new Kingdomino grid with tiles that are already placed using initialGrid.
+     * @param initialGrid a 9x9 array of tiles that are either null (no tile) or one of the many land types.
+     *  Note the tiles should not cover more than a 5x5 area; the rest should be null.
+     */
     public Grid(Tile[][] initialGrid) {
         grid = initialGrid;
     }
-
+    /**
+     * Makes a full, deep copy of this Grid.
+     * @return the new Grid.
+     */
     public Grid copy() {
         Tile[][] newGrid = new Tile[9][9];
         for (int i = 0; i < 9; i++) {
@@ -48,15 +61,29 @@ public class Grid {
         }
         return center;
     }
-
+    /**
+     * Gets the tile at the specified x and y position.
+     * @param x from 0-8
+     * @param y from 0-8
+     * @return the Tile
+     */
     public Tile getTile(int x, int y) {
         return grid[x][y];
     }
-
+    /**
+     * Gets the tile at the specified grid position.
+     * @param pos The GridPosition
+     * @return the Tile
+     */
     public Tile getTile(GridPosition pos) {
         return grid[pos.getX()][pos.getY()];
     }
-
+    /** 
+     * Gets the available spaces based on the passed in Domino's tiles and rotation.
+     * Therefore, this method will return different GridPositions with the same domino but a different rotation.
+     * @param domino
+     * @return
+     */
     public ArrayList<GridPosition> availableSpaces(Domino domino) {
         ArrayList<GridPosition> positions = new ArrayList<>();
         int[] relPos = relPos(domino);
@@ -118,7 +145,7 @@ public class Grid {
         return new int[]{deltaX, deltaY};
     }
 
-    public boolean placeDomino(int x, int y, Domino domino) {
+    protected boolean placeDomino(int x, int y, Domino domino) {
         int[] relPos = relPos(domino);
         int deltaX = relPos[0];
         int deltaY = relPos[1];

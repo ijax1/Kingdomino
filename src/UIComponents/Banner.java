@@ -18,7 +18,11 @@ import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
 import resources.OurColors;
 import resources.Resources;
-
+/** Banner
+ * The flag banner that is displayed on the right side of the screen, which 
+ * @author Ian
+ *
+ */
 public class Banner extends Component {
 	private boolean minimized;
 	private Kingdomino k;
