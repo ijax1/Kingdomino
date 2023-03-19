@@ -38,7 +38,7 @@ public class Banner extends Component {
 		int yOffset = 90;
 		for(int i=0; i<numButtons; i++) {
 //			buttons.add(new DominoButton(new Coordinate(x+xOffset,y+yOffset,0), k, tempDomino));
-			buttons.add(new DominoButton(new Coordinate(x+xOffset,y+yOffset,0), k, dominoes[i]));
+			buttons.add(new DominoButton(new Coordinate(x+xOffset,y+yOffset,0), k, dominoes[i], (Graphics2D) k.getGamePanel().getGraphics()));
 			yOffset += UITile.TILE_SIZE * 1.6;
 		}
 	}

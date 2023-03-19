@@ -22,13 +22,14 @@ public class DominoButton extends Button {
 
     private int width = UITile.TILE_SIZE * 2 + 20, height = UITile.TILE_SIZE + 20;
 
-    DominoButton(Coordinate c, Kingdomino k, Domino d) {
+    DominoButton(Coordinate c, Kingdomino k, Domino d, Graphics2D graphics) {
         super(c, k);
         // need for information on what to draw later
         uiDomino = new UIDomino(c, k, d);
         locked = false;
         player = null;
         selected = false;
+        this.graphics = graphics;
     }
 
     @Override
