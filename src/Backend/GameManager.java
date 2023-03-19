@@ -95,8 +95,10 @@ public class GameManager {
         // as nextPlayer() is called for each player, noMovePossible is set to false if player can place the domino
         // if no player can place the domino, noMovePossible remains true --> endGame().
         noMovePossible = true;
-        if (roundNum == 24) {
-//            endGame();
+        Domino[] d = deck.getNewDominoes();
+        //two checks here
+        if (d==null || roundNum == 24) {
+            endGame();
         } else {
             roundNum++;
         }
@@ -136,7 +138,9 @@ public class GameManager {
                     ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
                     getCurrentPlayer().setPlaced(true);
                 }
-                ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
+                if(getDeck().getDominoesToSelect().length != 0) {
+                	((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
+            	}
                 getCurrentPlayer().hasSelected();
                 nextPlayer();
             }
@@ -196,6 +200,7 @@ public class GameManager {
 
     public void endGame() {
         System.out.println("game over");
+        setGameState(GameState.TALLY_SCORE);
 //        numGamesLeft--;
 //        if (isFastMode && numGamesLeft == ) {
 //

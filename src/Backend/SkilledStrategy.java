@@ -10,7 +10,9 @@ public class SkilledStrategy extends ComputerPlayer {
     public SkilledStrategy(Color color, String name, String title, GameManager game) {
         super(color, name, title, game);
     }
-
+    /** Note: don't call if there are no choices
+     * 
+     */
     @Override
     public void calculateChoice(Domino[]d, ArrayList<Player>p) {
         Domino[] dominoes = d;

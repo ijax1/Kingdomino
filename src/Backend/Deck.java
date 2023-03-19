@@ -152,7 +152,7 @@ public class Deck {
     }
     /**
      * Draws 4 dominoes from the deck, sorts them by value
-     * @return an array of 4 tiles removed from the deck, sorted from highest to lowest value
+     * @return an array of 4 tiles removed from the deck, sorted from highest to lowest value, null if no dominoes left
      */
     public Domino[] getNewDominoes() {
     	whoLocked = new Player[4];
@@ -162,7 +162,7 @@ public class Deck {
                 dominoesToSelect[i] = deck.remove(0);
             }
         } else {
-            // not enough cards
+            return null;
         }
         sortDominoes(dominoesToSelect);
         return dominoesToSelect;
