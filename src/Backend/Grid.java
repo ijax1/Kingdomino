@@ -178,8 +178,7 @@ public class Grid {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (!coveredTiles[i][j] && grid[i][j] != null) {
-                    Region region = new Region();
-                    region.setLandType(grid[i][j].getLandType());
+                    Region region = new Region(grid[i][j].getLandType());
                     findRegion(new boolean[9][9], coveredTiles, i, j, region);
                     regions.add(region);
                 }

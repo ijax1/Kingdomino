@@ -7,6 +7,10 @@ import java.util.ArrayList;
 public class Region {
     private ArrayList<GridPosition> positions = new ArrayList<GridPosition>();
     private Land landType;
+    
+	public Region(Land land) {
+		landType = land;
+	}
 
     public ArrayList<GridPosition> getPositions() {
         return positions;
@@ -14,10 +18,6 @@ public class Region {
 
     public void addPosition(GridPosition position) {
         positions.add(position);
-    }
-
-    public void setLandType(Land land) {
-        landType = land;
     }
 
     public Land getLandType() {

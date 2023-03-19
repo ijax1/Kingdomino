@@ -27,14 +27,14 @@ public class TestPlayer extends Player {
 		this.grid = fakeGrid;
 		giveFakeGrid = true;
 	}
-	@Override
-	public int getScore() {
-		if(giveFakeScore) {
-			return fakeScore;
-		} else {
-			return super.getScore();
-		}
-	}
+//	@Override
+//	public int getScore() {
+//		if(giveFakeScore) {
+//			return fakeScore;
+//		} else {
+//			return super.getScore();
+//		}
+//	}
 	@Override
 	public Grid getGrid() {
 		if(giveFakeGrid) {
