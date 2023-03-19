@@ -14,7 +14,7 @@ import UIComponents.Render.Coordinate;
 
  	public void doAction() {
      //are we changing game by changing panel? yes we are now
- 		getGame().setGameAndPanelState(GameState.PLAYER_TURN);
+ 		getGame().getManager().setGameState(GameState.PLAYER_TURN);
  	}
   
 //   public boolean onComponent(Coordinate c) {

@@ -28,6 +28,8 @@ public class GameManager {
     // will contain integers 0,1,2,3 representing players, ordered in their desired order
     // ex: {3,0,2,1} = player 3 --> player 0 --> player 2 --> player 1
     private ArrayList<Integer> playerOrder;
+    
+    private ArrayList<GameEventListener>listeners = new ArrayList<>();
 
     // this is index for playerOrder
     private int currPlayerIdx;
@@ -73,8 +75,13 @@ public class GameManager {
         } else if (state == GameState.STRATEGY) {
             //play computer # games
             initPlayerTurns();
-        } else if (state == GameState.ENDSCREEN)
+        } else if (state == GameState.ENDSCREEN) {
             setResults();
+        }
+        //notify listeners last
+        for(GameEventListener gl: listeners) {
+        	gl.onStateChangedTo(state);
+        }
     }
 
     private void initPlayerTurns() {
@@ -89,6 +96,9 @@ public class GameManager {
             round();
         else
             slowMode();
+    }
+    public void addListener(GameEventListener listener) {
+    	listeners.add(listener);
     }
 
     private void round() {
@@ -163,6 +173,10 @@ public class GameManager {
             firstRound = false;
             updatePlayerOrder();
             round();
+        }
+        //notify listeners last
+        for(GameEventListener gl: listeners) {
+        	gl.onNextPlayer();
         }
         System.out.println(getCurrentPlayer());
         playerTurn();

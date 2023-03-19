@@ -196,7 +196,7 @@ public class StrategyAnalysisDialog extends JDialog {
             //slow mode
             manager.setMode(isFast);
             if (!isFast)
-                k.setGameAndPanelState(GameManager.GameState.PLAYER_TURN);
+                manager.setGameState(GameManager.GameState.PLAYER_TURN);
             else
                 manager.setGameState(GameManager.GameState.STRATEGY);
             

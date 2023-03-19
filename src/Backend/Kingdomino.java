@@ -22,7 +22,7 @@ import UIComponents.UIGrid;
 import resources.Resources;
 
 
-public class Kingdomino {
+public class Kingdomino implements GameEventListener{
 
     final private JPanel basePanel;
     final private StartPanel startPanel;
@@ -87,10 +87,9 @@ public class Kingdomino {
     public GameManager getManager() {
         return manager;
     }
-
-    public void setGameAndPanelState(GameState state) {
-    	manager.setGameState(state);
-        if (state == GameState.INITIAL) {
+	@Override
+	public void onStateChangedTo(GameState state) {
+		if (state == GameState.INITIAL) {
             panels.show(basePanel, "Start Panel");
         } else if (state == GameState.PLAYER_TURN ||
                 state == GameState.TALLY_SCORE) {
@@ -106,9 +105,8 @@ public class Kingdomino {
         } else if (state == GameState.STRATEGY) {
             panels.show(basePanel, "Analysis Panel");
 //            analysisPanel.beginAnalysis(manager.getNumGames());
-        }
-
-    }
+        }	
+	}
     public void nextPlayer() {
         getGamePanel().finishTurn();
         if (manager.getCurrentPlayer() instanceof HumanPlayer && manager.getCurrentPlayer().getCurrentDomino() != null) {
@@ -137,4 +135,16 @@ public class Kingdomino {
     public AnalysisPanel getAnalysisPanel() {
         return analysisPanel;
     }
+
+	@Override
+	public void onDominoSelected(Domino d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onNextPlayer() {
+		// TODO Auto-generated method stub
+		
+	}
 }
