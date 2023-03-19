@@ -80,6 +80,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         addMouseMotionListener(this);
         addMouseWheelListener(this);
         gm = k.getManager();
+        gm.addListener(this);
         this.k = k;
         medieval = Resources.getMedievalFont(20);
         medievalLg = Resources.getMedievalFont(50);
