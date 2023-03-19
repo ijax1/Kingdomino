@@ -134,15 +134,17 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     public int getViewedPlayerIndex() {
         return viewedPlayerIdx;
     }
+
     /**
-     * 
      * @return
      */
     public Player getViewedPlayerIdx() {
         return gm.getPlayers().get(viewedPlayerIdx);
     }
+
     /**
      * Sets the viewed player to whatever index is specified
+     *
      * @param playerIdx from 0-3. The player at index 0 is going first.
      */
     public void setViewedPlayerIdx(int playerIdx) {
@@ -273,13 +275,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             double y = component.getPosition().getY();
             //componentg.translate(x,y);
             //System.out.println(component);
-                component.draw(componentg);
+            component.draw(componentg);
             //}
         }
         if (d != null && viewedPlayerIdx == gm.getOrigPlayerIdx())
             d.render(g);
         else if (d != null && viewedPlayerIdx != gm.getOrigPlayerIdx())
-            new UIDomino(new Coordinate(640,600,0),k,getViewedPlayerIdx().getNextDomino()).render(g);
+            new UIDomino(new Coordinate(640, 600, 0), k, getViewedPlayerIdx().getNextDomino()).render(g);
     }
 
     public static void applyHints(Graphics2D g2d) {
@@ -347,8 +349,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         //TODO: this won't work, just a placeholder.
         Coordinate mouseCoord = new Coordinate(x, y, 0);
         handleButtonClicks(mouseCoord);
-        gm.getCurrentPlayer().setPlaced(uiGrid.isSnapped());
-
+        if (!gm.isFirstRound() && gm.getCurrentPlayer().hasLegalMoves(false)) {
+            gm.getCurrentPlayer().setPlaced(uiGrid.isSnapped());
+        }
         repaint();
 
     }
@@ -384,8 +387,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     }
 
 
-
-
     @Override
     public void mouseDragged(MouseEvent e) {
         mousex = e.getX();
@@ -393,7 +394,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         //System.out.println("mousex: "+mousex + " mousey: "+mousey);
 
         //From InteractionPanel
-        if(gm.getCurrentPlayer() == getViewedPlayerIdx())
+        if (gm.getCurrentPlayer() == getViewedPlayerIdx())
             if (dragging) {
                 d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
                 d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
@@ -429,7 +430,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     public void mouseEvent(boolean isClicked, boolean isDragged, boolean isScrolling) {
 
     }
-    
+
     //Empty methods
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -484,7 +485,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 //            b.
 //        }
 //    }
-
 
 
     public UIGrid getUIGrid() {

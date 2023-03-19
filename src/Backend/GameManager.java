@@ -28,8 +28,8 @@ public class GameManager {
     // will contain integers 0,1,2,3 representing players, ordered in their desired order
     // ex: {3,0,2,1} = player 3 --> player 0 --> player 2 --> player 1
     private ArrayList<Integer> playerOrder;
-    
-    private ArrayList<GameEventListener>listeners = new ArrayList<>();
+
+    private ArrayList<GameEventListener> listeners = new ArrayList<>();
 
     // this is index for playerOrder
     private int currPlayerIdx;
@@ -79,8 +79,8 @@ public class GameManager {
             setResults();
         }
         //notify listeners last
-        for(GameEventListener gl: listeners) {
-        	gl.onStateChangedTo(state);
+        for (GameEventListener gl : listeners) {
+            gl.onStateChangedTo(state);
         }
     }
 
@@ -97,8 +97,9 @@ public class GameManager {
         else
             slowMode();
     }
+
     public void addListener(GameEventListener listener) {
-    	listeners.add(listener);
+        listeners.add(listener);
     }
 
     private void round() {
@@ -107,7 +108,7 @@ public class GameManager {
         noMovePossible = true;
         Domino[] d = deck.getNewDominoes();
         //two checks here
-        if (d==null || roundNum == 24) {
+        if (d == null || roundNum == 24) {
             endGame();
         } else {
             roundNum++;
@@ -123,13 +124,9 @@ public class GameManager {
         // check if there are any possible moves left
         boolean currNoMovePossible = true;
         if (!firstRound) {
-            Domino currDomino = getCurrentPlayer().getNextDomino().copy();
-            for (int i = 0; i < 360; i += 90) {
-                currDomino.setRotation(i);
-                if (getCurrentPlayer().getGrid().availableSpaces(currDomino).size() != 0) {
-                    currNoMovePossible = false;
-                    noMovePossible = false;
-                }
+            if (getCurrentPlayer().hasLegalMoves(false)) {
+                currNoMovePossible = false;
+                noMovePossible = false;
             }
         } else {
             currNoMovePossible = false;
@@ -138,22 +135,33 @@ public class GameManager {
             if (noMovePossible && currPlayerIdx == players.size() - 1) {
                 endGame();
             } else {
-                getCurrentPlayer().setPlaced(true);
-                getCurrentPlayer().setSelected(true);
-                nextPlayer();
+//                getCurrentPlayer().setPlaced(true);
+//                getCurrentPlayer().setSelected(true);
+//                nextPlayer();
+                if (!(getCurrentPlayer() instanceof ComputerPlayer)) {
+                    getCurrentPlayer().setPlaced(true);
+                } else {
+                    computerPlayerTurn(false);
+                }
             }
         } else {
-            if (getCurrentPlayer() instanceof ComputerPlayer) {
-                if (!firstRound) {
-                    ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
-                    getCurrentPlayer().setPlaced(true);
-                }
-                if(getDeck().getDominoesToSelect().length != 0) {
-                	((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
-            	}
-                getCurrentPlayer().hasSelected();
-                nextPlayer();
+            computerPlayerTurn(true);
+        }
+    }
+
+    private void computerPlayerTurn(boolean canPlace) {
+        if (getCurrentPlayer() instanceof ComputerPlayer) {
+            if (!firstRound && canPlace) {
+                ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
+                getCurrentPlayer().setPlaced(true);
             }
+            if (!canPlace)
+                getCurrentPlayer().setPlaced(true);
+            if (getDeck().getDominoesToSelect().length != 0) {
+                ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
+            }
+            getCurrentPlayer().hasSelected();
+            nextPlayer();
         }
     }
 
@@ -175,8 +183,8 @@ public class GameManager {
             round();
         }
         //notify listeners last
-        for(GameEventListener gl: listeners) {
-        	gl.onNextPlayer();
+        for (GameEventListener gl : listeners) {
+            gl.onNextPlayer();
         }
         System.out.println(getCurrentPlayer());
         playerTurn();

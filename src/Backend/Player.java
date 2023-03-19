@@ -44,14 +44,25 @@ public abstract class Player {
     public void setPlaced(boolean placed) {
         this.placed = placed;
     }
-    public boolean hasLegalMoves() {
-    	return !grid.availableSpaces(getCurrentDomino()).isEmpty();
+    public boolean hasLegalMoves(boolean useCurrDomino) {
+        Domino dominoCopy;
+        if (useCurrDomino)
+            dominoCopy = getCurrentDomino().copy();
+        else
+            dominoCopy = getNextDomino().copy();
+        for(int i=0; i<360; i+=90) {
+            dominoCopy.setRotation(i);
+             if (!grid.availableSpaces(dominoCopy).isEmpty()) {
+                 return true;
+             }
+        }
+        return false;
     }
     /**
      * gets the score, cannot be overridden by strategies.
      * @return the full grid score at this moment
      */
-    final public int getScore() {
+    public int getScore() {
         return grid.calculateScore();
     }
     /**
