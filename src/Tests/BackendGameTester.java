@@ -29,7 +29,7 @@ public class BackendGameTester implements GameEventListener {
 		fakePlayers.add(new SkilledStrategy(OurColors.YELLOW, g));
 		g.setPlayers(fakePlayers);
 		g.setMode(true);
-		g.setNumGames(1000);
+		g.setNumGames(10);
 		g.setGameState(GameState.PLAYER_TURN);
 	}
 	private static void printarr(Object[] arr) {
@@ -40,6 +40,7 @@ public class BackendGameTester implements GameEventListener {
 	}
 	@Override
 	public void onStateChangedTo(GameState state) {
+		System.out.println("backend tester: state changed to "+ state);
 		// TODO Auto-generated method stub
 		if(state == GameState.END_ROUND) {
 			System.out.println("done");
@@ -52,7 +53,6 @@ public class BackendGameTester implements GameEventListener {
 	}
 	@Override
 	public void onNextPlayer() {
-		// TODO Auto-generated method stub
 		
 	}
 }
