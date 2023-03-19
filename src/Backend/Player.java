@@ -104,7 +104,7 @@ public abstract class Player {
     }
     @Override
     public String toString() {
-    	return name + "(" + title + ") Score: " + score + " Domino: " + currentDomino + " Next: " + nextDomino;
+    	return getName() + "(" + getTitle() + ") Score: " + getScore() + " Domino: " + getCurrentDomino() + " Next: " + getNextDomino();
     }
 
 }

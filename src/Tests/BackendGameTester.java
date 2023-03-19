@@ -2,31 +2,57 @@ package Tests;
 
 import java.util.ArrayList;
 
+import Backend.Domino;
+import Backend.GameEventListener;
 import Backend.GameManager;
 import Backend.GameManager.GameState;
 import Backend.Player;
+import Backend.SkilledStrategy;
 import resources.OurColors;
 
-public class BackendGameTester {
+public class BackendGameTester implements GameEventListener {
 	public static void main(String[]args) {
-		TestKingdomino k = new TestKingdomino ();
-		GameManager g = k.getManager();
-		g.setGameState(GameState.PLAYER_TURN);
-		ArrayList<Player>fakePlayers = new ArrayList<Player>(4);
-		fakePlayers.add(new TestPlayer(OurColors.RED, "Don Quixote", "The Ingenious",20));
-		fakePlayers.add(new TestPlayer(OurColors.BLUE, "King Arthur", "The Round",30));
-		fakePlayers.add(new TestPlayer(OurColors.GREEN, "Sir Gawain", "The Green",25));
-		fakePlayers.add(new TestPlayer(OurColors.YELLOW, "Ian Jackson", "The Glorious",25));
-		g.setPlayers(fakePlayers);
-		g.setMode(true);
-		g.setGameState(GameState.PLAYER_TURN);
+		new BackendGameTester().test();
+	}
+		
+
 //			printarr(g.getDominoesToSelect());
 //			g.getCurrentPlayer().setNextDomino(g.getDominoesToSelect()[0]);
+	public void test() {
+		GameManager g = new GameManager();
+		g.addListener(this);
+		g.setGameState(GameState.INITIAL);
+		ArrayList<Player>fakePlayers = new ArrayList<Player>(4);
+		fakePlayers.add(new SkilledStrategy(OurColors.RED, g));
+		fakePlayers.add(new SkilledStrategy(OurColors.BLUE, g));
+		fakePlayers.add(new SkilledStrategy(OurColors.GREEN, g));
+		fakePlayers.add(new SkilledStrategy(OurColors.YELLOW, g));
+		g.setPlayers(fakePlayers);
+		g.setMode(true);
+		g.setNumGames(1000);
+		g.setGameState(GameState.PLAYER_TURN);
 	}
 	private static void printarr(Object[] arr) {
 		for(int i=0; i<arr.length; i++){
 			System.out.print(arr[i]);
 		}
 		System.out.println();
+	}
+	@Override
+	public void onStateChangedTo(GameState state) {
+		// TODO Auto-generated method stub
+		if(state == GameState.END_ROUND) {
+			System.out.println("done");
+		}
+	}
+	@Override
+	public void onDominoSelected(Domino d) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onNextPlayer() {
+		// TODO Auto-generated method stub
+		
 	}
 }

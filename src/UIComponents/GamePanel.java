@@ -26,7 +26,9 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import Backend.Domino;
+import Backend.GameEventListener;
 import Backend.GameManager;
+import Backend.GameManager.GameState;
 import Backend.Grid;
 import Backend.Kingdomino;
 import Backend.Player;
@@ -36,7 +38,7 @@ import UIComponents.Render.LineSegment;
 import UIComponents.Render.RectangularPrism;
 import resources.Resources;
 
-public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
+public class GamePanel extends JPanel implements GameEventListener, MouseListener, MouseMotionListener, MouseWheelListener {
     private static final long serialVersionUID = 7381080659172927952L;
 
     Domino ref = new Domino(new Tile(Tile.Land.LAKE, 0), new Tile(Tile.Land.PASTURE, 0), 13);
@@ -162,6 +164,17 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
                 b.setLocked();
         }
     }
+	@Override
+	public void onDominoSelected(Domino d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onNextPlayer() {
+		changePlayer(gm.getCurrentPlayer());
+		
+	}
 
     public void changePlayer(Player player) {
         playerTabs.selectButton(player);
@@ -490,4 +503,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     public UIGrid getUIGrid() {
         return uiGrid;
     }
+
+	@Override
+	public void onStateChangedTo(GameState state) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }
