@@ -47,12 +47,18 @@ public abstract class Player {
     public boolean hasLegalMoves() {
     	return !grid.availableSpaces(getCurrentDomino()).isEmpty();
     }
-
-    public int getScore() {
+    /**
+     * gets the score, cannot be overridden by strategies.
+     * @return the full grid score at this moment
+     */
+    final public int getScore() {
         return grid.calculateScore();
     }
-
-    public Color getColor() {
+    /**
+     * gets the color, cannot be overridden by strategies.
+     * @return the player color
+     */
+    final public Color getColor() {
         return color;
     }
 

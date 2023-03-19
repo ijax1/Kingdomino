@@ -51,10 +51,10 @@ public class GameManager {
         //making default players:
         Titles t = new Titles();
         players = new ArrayList<>(4);
-        players.add(new HumanPlayer(OurColors.RED, "Player 1", t.generateTitle(), this));
-        players.add(new SkilledStrategy(OurColors.BLUE, "Player 2", t.generateTitle(), this));
-        players.add(new SkilledStrategy(OurColors.GREEN, "Player 3", t.generateTitle(), this));
-        players.add(new SkilledStrategy(OurColors.YELLOW, "Player 4", t.generateTitle(), this));
+        players.add(new HumanPlayer(OurColors.RED, "Player 1", Titles.generateTitle(), this));
+        players.add(new SkilledStrategy(OurColors.BLUE, this));
+        players.add(new SkilledStrategy(OurColors.GREEN, this));
+        players.add(new SkilledStrategy(OurColors.YELLOW, this));
         reset();
     }
 

@@ -39,6 +39,8 @@ public class Kingdomino implements GameEventListener{
     public Kingdomino() {
         manager = new GameManager();
         basePanel = new JPanel(panels);
+        
+        manager.addListener(this);
 
         startPanel = new StartPanel(new GridBagLayout(), this);
         podiumPanel = new PodiumPanel(new GridBagLayout(), this);

@@ -3,17 +3,32 @@ package Backend;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import resources.Titles;
+
 public class RandomStrategy extends ComputerPlayer {
 
     private GameManager gameManager;
     private Deck deck;
     private Grid grid = getGrid();
-
-
-    public RandomStrategy(Color color, String name, String title, GameManager game) {
-        super(color, name, title, game);
+    private String title = Titles.generateBadTitle();
+    private String name = Titles.generateName();
+    
+    public RandomStrategy(Color color, GameManager game) {
+        super(color, game);
         this.gameManager = game;
         deck = game.getDeck();
+    }
+    @Override
+    public String getStrategyName() {
+    	return "Random Strategy";
+    }
+    @Override
+    public String getTitle() {
+    	return title;
+    }
+    @Override
+    public String getName() {
+    	return name;
     }
 
     public GameManager getGameManager() {

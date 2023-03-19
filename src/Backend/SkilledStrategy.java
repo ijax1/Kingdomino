@@ -3,12 +3,27 @@ package Backend;
 import java.awt.*;
 import java.util.ArrayList;
 
+import resources.Titles;
+
 public class SkilledStrategy extends ComputerPlayer {
 
     private GridPosition bestPos;
+    private String title = Titles.generateTitle();
+    private String name = Titles.generateName();
 
-    public SkilledStrategy(Color color, String name, String title, GameManager game) {
-        super(color, name, title, game);
+    public SkilledStrategy(Color color, GameManager game) {
+        super(color, game);
+    }
+    public String getStrategyName() {
+    	return "Random Strategy";
+    }
+    @Override
+    public String getTitle() {
+    	return title;
+    }
+    @Override
+    public String getName() {
+    	return name;
     }
     /** Note: don't call if there are no choices
      * 
@@ -21,16 +36,18 @@ public class SkilledStrategy extends ComputerPlayer {
         for (Domino domino : dominoes) {
             ArrayList<GridPosition> positions = getGrid().availableSpaces(domino);
             Grid potentialGrid;
-            bestPos = positions.get(0);
-            for (GridPosition pos : positions) {
-                potentialGrid = getGrid().copy();
-                potentialGrid.placeDomino(pos.getX(), pos.getY(), domino);
-                int currScore = potentialGrid.calculateScore();
-                if (currScore > maxScore) {
-                    bestPos = pos;
-                    bestDomino = domino;
-                    maxScore = currScore;
-                }
+            if(!positions.isEmpty()) {
+	            bestPos = positions.get(0);
+	            for (GridPosition pos : positions) {
+	                potentialGrid = getGrid().copy();
+	                potentialGrid.placeDomino(pos.getX(), pos.getY(), domino);
+	                int currScore = potentialGrid.calculateScore();
+	                if (currScore > maxScore) {
+	                    bestPos = pos;
+	                    bestDomino = domino;
+	                    maxScore = currScore;
+	                }
+	            }
             }
         }
         setSelected(true);

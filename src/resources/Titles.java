@@ -49,26 +49,42 @@ public class Titles {
             "Jacob",
             "Paul"
     };
-    private ArrayList<String> titles = new ArrayList<String>();
-    private ArrayList<String> badTitles = new ArrayList<String>();
-    private ArrayList<String> names = new ArrayList<String>();
-	public Titles() {
+    private static ArrayList<String> titles = new ArrayList<String>();
+    private static ArrayList<String> badTitles = new ArrayList<String>();
+    private static ArrayList<String> names = new ArrayList<String>();
+	static {
+		reset();
+	}
+	public static void reset() {
+		titles.clear();
+		badTitles.clear();
+		names.clear();
 		Collections.addAll(titles, MEDIEVAL_TITLES);
 		Collections.addAll(badTitles, RANDOM_TITLES);
 		Collections.addAll(names, NAMES);
 	}
     // Generates a random medieval title
-    public String generateTitle() {
+    public static String generateTitle() {
+    	if(titles.isEmpty()) {
+    		Collections.addAll(titles, MEDIEVAL_TITLES);
+    	}
     	Random rand = new Random();
+    	System.out.println(titles.size()); 
         int randIndex = rand.nextInt(titles.size());
         return titles.remove(randIndex);
     }
-    public String generateBadTitle() {
+    public static String generateBadTitle() {
+    	if(badTitles.isEmpty()) {
+    		Collections.addAll(badTitles, RANDOM_TITLES);
+    	}
     	Random rand = new Random();
         int randIndex = rand.nextInt(badTitles.size());
         return badTitles.remove(randIndex);
     }
-    public String generateName() {
+    public static String generateName() {
+    	if(names.isEmpty()) {
+    		Collections.addAll(names, NAMES);
+    	}
     	Random rand = new Random();
         int randIndex = rand.nextInt(names.size());
         return names.remove(randIndex);
