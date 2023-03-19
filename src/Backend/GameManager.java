@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+import UIComponents.UIGrid;
 import resources.OurColors;
 import resources.Titles;
 
@@ -19,7 +20,8 @@ public class GameManager {
     private boolean isFastMode;
     private int numGames;
     private int numGamesLeft;
-    private Domino[] dominoesToSelect;
+    private Domino[] currDominoes;
+    private ArrayList<Domino> availableDominoes;
     private int roundNum;
 
     // will contain integers 0,1,2,3 representing players, ordered in their desired order
@@ -92,7 +94,7 @@ public class GameManager {
     }
 
     private void slowMode() {
-        dominoesToSelect = deck.getDominoesToSelect();
+        currDominoes = deck.getDominoesToSelect();
         for (int i = 0; i < players.size(); i++) {
             currPlayerIdx = i;
             Player currentPlayer = players.get(currPlayerIdx);
@@ -116,8 +118,8 @@ public class GameManager {
     }
 
 
-    public Domino[] getDominoesToSelect() {
-        return dominoesToSelect;
+    public Domino[] getCurrDominoes() {
+        return currDominoes;
     }
 
     private void round() {
@@ -126,22 +128,23 @@ public class GameManager {
         } else {
             roundNum++;
         }
-        dominoesToSelect = deck.getDominoesToSelect();
-        if (firstRound)
+        currDominoes = deck.getDominoesToSelect();
+        if (firstRound) {
             game.getGamePanel().initDominoes();
-        playerTurn();
+            playerTurn();
+        }
     }
 
 
     // individual player in a turn
     private void playerTurn() {
         if (getCurrentPlayer() instanceof ComputerPlayer) {
-            //instead of computer player...
-            //if we store what strategy is selected...idk. lol.
-
-            ((ComputerPlayer) getCurrentPlayer()).calculateChoice();
-            if (!firstRound)
+            if (!firstRound) {
                 ((ComputerPlayer) getCurrentPlayer()).placeDomino();
+                getCurrentPlayer().setPlaced(true);
+            }
+            ((ComputerPlayer) getCurrentPlayer()).calculateChoice();
+            getCurrentPlayer().hasSelected();
             nextPlayer();
         }
     }
@@ -149,24 +152,27 @@ public class GameManager {
     // called when player finishes turn
     // updates player and calls playerTurn()
     public void nextPlayer() {
-        if ((firstRound || getCurrentPlayer().hasPlaced()) && getCurrentPlayer().hasSelected()) {
-            getCurrentPlayer().setSelected(false);
-            getCurrentPlayer().setPlaced(false);
-            game.getGamePanel().finishTurn();
-            updatePlayerIdx();
-            if (currPlayerIdx == 0) {
-                // next round
-                firstRound = false;
-                //game.getGamePanel().finishTurn();
-                updatePlayerOrder();
-                round();
-                game.getGamePanel().changePlayer(getCurrentPlayer());
-            } else {
-                //game.getGamePanel().finishTurn();
-                game.getGamePanel().changePlayer(getCurrentPlayer());
-                playerTurn();
-            }
+        if (!getCurrentPlayer().hasSelected() && !(firstRound || getCurrentPlayer().hasPlaced())) {
+            System.out.println("cannot progress");
+            return;
         }
+        getCurrentPlayer().setSelected(false);
+        getCurrentPlayer().setPlaced(false);
+        game.getGamePanel().finishTurn();
+        if (getCurrentPlayer() instanceof HumanPlayer && getCurrentPlayer().getCurrentDomino() != null) {
+            UIGrid uiGrid = game.getGamePanel().getUIGrid();
+            getCurrentPlayer().getGrid().placeDomino(uiGrid.getDominoLocation()[1], uiGrid.getDominoLocation()[0], getCurrentPlayer().getCurrentDomino());
+        }
+        updatePlayerIdx();
+        if (currPlayerIdx == 0) {
+            // next round
+            firstRound = false;
+            updatePlayerOrder();
+            round();
+        }
+        game.getGamePanel().changePlayer(getCurrentPlayer());
+        playerTurn();
+
     }
 
     private void updatePlayerIdx() {

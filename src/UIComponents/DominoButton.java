@@ -36,7 +36,6 @@ public class DominoButton extends Button {
         // dominobutton clicked
         if (!locked && !selected) {
             player = getManager().getCurrentPlayer();
-//            setLocked();
             setSelected();
             draw(graphics);
         }
