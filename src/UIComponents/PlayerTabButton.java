@@ -29,11 +29,6 @@ public class PlayerTabButton extends Button {
             super.show();
         	group.setSelected(this);
         }
-        //will need to update to match once integrated
-//         if (gamePanel.getViewedPlayer() != index) {
-//             super.show();
-//             gamePanel.setViewedPlayer(index);
-//         }
     }
 
     public boolean onComponent(Coordinate c) {
