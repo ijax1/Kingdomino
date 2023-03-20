@@ -272,6 +272,7 @@ public class Grid {
                 }
             }
         }
+
         return rightMost - leftMost > 4 || downMost - upMost > 4;
     }
 }

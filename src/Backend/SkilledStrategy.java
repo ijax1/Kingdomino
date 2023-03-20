@@ -57,7 +57,7 @@ public class SkilledStrategy extends ComputerPlayer {
 
     @Override
     public void placeDomino(Domino[]d, ArrayList<Player>p) {
-        getGrid().placeDomino(bestPos.getX(), bestPos.getY(), getNextDomino());
+            getGrid().placeDomino(bestPos.getX(), bestPos.getY(), getNextDomino());
         setPlaced(true);
     }
 
