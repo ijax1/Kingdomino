@@ -6,15 +6,22 @@ import java.awt.Graphics2D;
 import Backend.GameManager;
 import Backend.Kingdomino;
 import UIComponents.Render.Coordinate;
+import resources.Quotes;
 
 public class MessageTextBox extends Component {
     //RandomAccessFile file = new RandomAccessFile("filename", "r");
     //int currentLine;
-    private final Coordinate minimizedPosition = new Coordinate(100, 670, 0);
+    private final Coordinate minimizedPosition = new Coordinate(150, 550, 0);
     private GameManager gm;
+    private double width = 300;
+    private double height = 220;
+
+    private String[] quote;
+
     MessageTextBox(Coordinate c, Kingdomino k) {
         super(c, k);
         this.gm = k.getManager();
+        quote = Quotes.getQuote();
 
         //currentLine = (int) (Math.random()*file.length();
     }
@@ -25,7 +32,13 @@ public class MessageTextBox extends Component {
 
     @Override
     public boolean onComponent(Coordinate c) {
-        return false;}
+        double x = getPosition().getX();
+        double y = getPosition().getY();
+        System.out.println(((c.getX() > x && c.getX() < x+width) &&
+                (c.getY() > y && c.getY() < y+height)));
+        return ((c.getX() > x && c.getX() < x+width) &&
+                (c.getY() > y && c.getY() < y+height));
+    }
 
     // private void newLine() {
     //     boolean newLine = false;
@@ -44,6 +57,7 @@ public class MessageTextBox extends Component {
         if (!isShown()) {
             g.setColor(Color.white);
             g.drawString("MESSAGE", (int) minimizedPosition.getX(), (int) minimizedPosition.getY());
+            quote = Quotes.getQuote();
             //newLine();
         } else {
             g.fillRoundRect((int) getPosition().getX(), (int) getPosition().getY(), 300, 220, 50, 50);

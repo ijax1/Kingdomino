@@ -99,7 +99,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         finishTurn = new FinishTurnButton(new Coordinate(540, 600, 0), k);
 
 
-        textBox = new MessageTextBox(new Coordinate(300, 600, 0), k);
+        textBox = new MessageTextBox(new Coordinate(150, 600, 0), k);
         //TODO: sorry, i can't provide a graphics to pass in here
         //minimizeComp = new MinimizeComponentButton(new Coordinate(375, 575, 0), k, textBox);
         //textBox.minimize();
