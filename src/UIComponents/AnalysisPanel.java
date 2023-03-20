@@ -51,7 +51,6 @@ public class AnalysisPanel extends JPanel {
 		Integer winner = kingdomino.getManager().getPlayerOrder().get(totalPlayers-1);
 		
 		
-		
 		String stratType;
 		
 		
