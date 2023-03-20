@@ -60,6 +60,7 @@ public class AnalysisPanel extends JPanel {
 			
 		ArrayList<Integer> percentageWon = new ArrayList<Integer>();
 		for (int x = 0; x<totalPlayers; x++) {
+			totalGames++;
 			int percentage = playerWins.get(x)/totalGames;
 			percentageWon.add(percentage);
 		}

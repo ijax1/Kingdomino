@@ -3,22 +3,30 @@ package UIComponents;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import Backend.Domino;
+import Backend.GameEventListener;
+import Backend.GameManager;
+import Backend.GameManager.GameState;
 import Backend.Kingdomino;
 import Backend.Player;
 import UIComponents.Render.Coordinate;
 
-public class PlayerTabGroup extends Component {
+public class PlayerTabGroup extends Component implements GameEventListener {
     private final ArrayList<PlayerTabButton> group;
     private PlayerTabButton selected;
     private int selectedIndex;
     private Graphics2D graphics;
     private GamePanel gp;
+    private GameManager gm;
 
     PlayerTabGroup(ArrayList<Player> players, Kingdomino k, GamePanel gp) {
         super(new Coordinate(0, 160, 0), k);
         double x = 0;
         double y = 70;
         this.gp = gp;
+        this.gm = k.getManager();
+        
+        gm.addListener(this);
 
         group = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
@@ -31,9 +39,10 @@ public class PlayerTabGroup extends Component {
         setSelected(group.get(0));
     }
 
-    public void updatePlayers(ArrayList<Player> players) {
+    public void updatePlayers(ArrayList<Player> players, ArrayList<Integer> playerOrder) {
         for (int i = 0; i < group.size(); i++) {
-            group.get(i).setPlayer(players.get(i));
+        	int order = playerOrder.get(i);
+            group.get(i).setPlayer(players.get(order));
         }
     }
 
@@ -47,8 +56,8 @@ public class PlayerTabGroup extends Component {
             if (button == b) {
 //                System.out.println("equals button");
                 button.show();
-                selectedIndex = group.indexOf(button);
-                gp.setViewedPlayerIdx(selectedIndex);
+                gp.setViewedPlayer(button.getPlayer());
+                //gp.setViewedPlayer(button.getPlayer());
             } else {
 //                System.out.println("not equals button");
                 button.minimize();
@@ -187,6 +196,30 @@ public class PlayerTabGroup extends Component {
 // 		draw(graphics) 
 // 	}
     }
+
+	@Override
+	public void onStateChangedTo(GameState state) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDominoSelected(Domino d, boolean recallNextPlayer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onNextPlayer() {
+		// TODO Auto-generated method stub
+		updatePlayers(gm.getPlayers(), gm.getPlayerOrder());
+	}
+
+	@Override
+	public void onFinishTurn() {
+		// TODO Auto-generated method stub
+		
+	}
 
     // returns selected player - do we want to determine background based on player or button
 //    public Player getSelected() {

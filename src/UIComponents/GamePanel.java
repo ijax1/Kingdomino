@@ -144,6 +144,16 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     public Player getViewedPlayerIdx() {
         return gm.getPlayers().get(viewedPlayerIdx);
     }
+    public void setViewedPlayer(Player p) {
+    	ArrayList<Player> players = gm.getPlayers();
+    	int index = 0;
+    	for(int i=0; i<players.size(); i++) {
+    		if(players.get(i) == p) {
+    			index = i;
+    		}
+    	}
+    	setViewedPlayerIdx(index);
+    }
 
     /**
      * Sets the viewed player to whatever index is specified
