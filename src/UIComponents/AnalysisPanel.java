@@ -34,7 +34,7 @@ public class AnalysisPanel extends JPanel {
 	
 	
 	
-	public AnalysisPanel(GridBagLayout g, Kingdomino kingdomino) {
+	public AnalysisPanel(GridBagLayout g, final Kingdomino kingdomino) {
 		super(g);
 		//setBackground(OurColors.BACKGROUND);
 		GridBagConstraints c = new GridBagConstraints();
@@ -62,7 +62,9 @@ public class AnalysisPanel extends JPanel {
 		ArrayList<Integer> percentageWon = new ArrayList<Integer>();
 		for (int x = 0; x<totalPlayers; x++) {
 			totalGames++;
-			int percentage = playerWins.get(x)/totalGames;
+			int percentage = 100;
+			if(totalGames != 0)
+				percentage = playerWins.get(x)/totalGames;
 			percentageWon.add(percentage);
 		}
 		
