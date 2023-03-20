@@ -1,18 +1,14 @@
 package Backend;
-
 import java.awt.Color;
 import java.util.ArrayList;
-
 import resources.Titles;
-
 public class RandomStrategy extends ComputerPlayer {
-
     private GameManager gameManager;
     private Deck deck;
     private Grid grid = getGrid();
     private String title = Titles.generateBadTitle();
     private String name = Titles.generateName();
-    
+
     public RandomStrategy(Color color, GameManager game) {
         super(color, game);
         this.gameManager = game;
@@ -20,29 +16,26 @@ public class RandomStrategy extends ComputerPlayer {
     }
     @Override
     public String getStrategyName() {
-    	return "Random Strategy";
+        return "Random Strategy";
     }
     @Override
     public String getTitle() {
-    	return title;
+        return title;
     }
     @Override
     public String getName() {
-    	return name;
+        return name;
     }
-
     public GameManager getGameManager() {
         return gameManager;
     }
-
     private static int randomNum(int x) {
         int num = (int) (Math.random() * x);
         return num;
     }
-
     public void calculateChoice(Domino[] d, ArrayList<Player>p) {
         if (!gameManager.isFirstPlayer()) {
-        	Domino[] dominoes = d;
+            Domino[] dominoes = d;
             int idx = (int) (Math.random() * dominoes.length);
             Domino chosenDomino = dominoes[idx];
             setNextDomino(chosenDomino);
@@ -59,11 +52,8 @@ public class RandomStrategy extends ComputerPlayer {
 //        Domino chosenDomino = choices[ranChoice];
 //        setNextDomino(chosenDomino);
     }
-
-
     public void placeDomino(Domino[] d, ArrayList<Player>p) {
         Domino domino = getNextDomino();
-
         //randomly set rotation of domino:
         int ranRot = randomNum(3) * 90;
         domino.setRotation(ranRot);
@@ -79,8 +69,3 @@ public class RandomStrategy extends ComputerPlayer {
 
 
 }
-
-
-
-
-

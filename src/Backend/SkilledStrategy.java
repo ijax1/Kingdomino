@@ -1,10 +1,7 @@
 package Backend;
-
 import java.awt.Color;
 import java.util.ArrayList;
-
 import resources.Titles;
-
 public class SkilledStrategy extends ComputerPlayer {
 
     private GridPosition bestPos;
@@ -82,8 +79,9 @@ public class SkilledStrategy extends ComputerPlayer {
         if (bestPos != null) {
             bestDomino.setRotation(bestRot);
             boolean placeable = getGrid().placeDomino(bestPos.getY(), bestPos.getX(), bestDomino);
+            if (!placeable)
+                System.out.println("not placeable");
         }
         setPlaced(true);
     }
-
 }

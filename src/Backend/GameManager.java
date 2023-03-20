@@ -12,6 +12,7 @@ import resources.Titles;
 
 public class GameManager {
     private boolean firstRound;
+    private boolean strategyMode = true;
     private GameState state;
 
     // shouldn't change order to preserve maintenance in other classes
@@ -334,7 +335,7 @@ public class GameManager {
     	}
     	        
     	if(!isFastMode()) {
-    		setGameState(GameState.TALLY_SCORE);
+    		setGameState(GameState.ENDSCREEN);
     	} else {
     		numGamesLeft--;
     		if(numGamesLeft >= 0) {
@@ -406,6 +407,10 @@ public class GameManager {
         for(int i=0; i<players.size(); i++) {
         	winners.set(i,0);
         }
+        for(Player p: players){
+          if(p instanceof HumanPlayer)
+              strategyMode = false;
+        }
         this.players = players;
     }
     public Player getCurrentPlayer() {
@@ -443,6 +448,7 @@ public class GameManager {
 
     public void setNumGames(int numGames) {
         this.numGames = numGames;
+
         numGamesLeft = numGames;
     }
 
