@@ -72,7 +72,7 @@ public class AnalysisPanel extends JPanel {
 					percentage = gm.getWinners().get(x)/totalGames;
 				percentageWon.add(percentage);
 			}
-			
+			System.out.println(gm.getPlayers());
 			for (int x = 0; x<totalPlayers; x++) {
 				String stratType;
 				if(players.get(x) instanceof ComputerPlayer) {

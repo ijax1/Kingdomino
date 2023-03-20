@@ -28,7 +28,7 @@ public class Kingdomino implements GameEventListener{
     final private StartPanel startPanel;
     private GamePanel gamePanel;
     final private PodiumPanel podiumPanel;
-    final private AnalysisPanel analysisPanel;
+    private AnalysisPanel analysisPanel;
     final private GameManager manager;
     final private CardLayout panels = new CardLayout();
     private JFrame frame;
@@ -44,12 +44,10 @@ public class Kingdomino implements GameEventListener{
 
         startPanel = new StartPanel(new GridBagLayout(), this);
         podiumPanel = new PodiumPanel(new GridBagLayout(), this);
-        analysisPanel = new AnalysisPanel(new GridBagLayout(), this);
 
         basePanel.add(startPanel, "Start Panel");
 //        basePanel.add(gamePanel, "Game Panel");
         basePanel.add(podiumPanel, "Podium Panel");
-        basePanel.add(analysisPanel, "Analysis Panel");
         setUpFrame();
     }
 
@@ -111,6 +109,10 @@ public class Kingdomino implements GameEventListener{
         } else if (state == GameState.ENDSCREEN) {
             panels.show(basePanel, "Podium Panel");
         } else if (state == GameState.STRATEGY) {
+        	if(analysisPanel == null) {
+        		analysisPanel = new AnalysisPanel(new GridBagLayout(), this);
+        		basePanel.add(analysisPanel, "Analysis Panel");
+        	}
             panels.show(basePanel, "Analysis Panel");
 //            analysisPanel.beginAnalysis(manager.getNumGames());
         }	
