@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 
 import Backend.Kingdomino;
 import Backend.Player;
+import Backend.ComputerPlayer;
 import Backend.GameManager.GameState;
 import resources.OurColors;
 import resources.Resources;
@@ -58,8 +59,9 @@ public class AnalysisPanel extends JPanel {
 		//System.out.println("totalPlayers: " + totalPlayers);
 
 		for (int x = 0; x<totalPlayers; x++) {
-			stratType = players.get(x).getStrategyName();
-			
+			if(players.get(x) instanceof ComputerPlayer) {
+				stratType = ((ComputerPlayer) players.get(x)).getStrategyName();
+			}
 			
 			
 			//System.out.println("Player " + (x+1) + ": " + players.get(x).getName() + ", " + stratType);
