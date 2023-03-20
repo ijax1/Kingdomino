@@ -41,6 +41,10 @@ public abstract class Player {
         return placed;
     }
 
+	abstract public String getStrategyName();
+
+    
+    
     public void setPlaced(boolean placed) {
         this.placed = placed;
     }

@@ -162,7 +162,7 @@ public class GameManager {
             }
             getCurrentPlayer().setSelected(true);
 
-            //getCurrentPlayer().hasSelected();
+            getCurrentPlayer().hasSelected();
             nextPlayer();
         }
     }

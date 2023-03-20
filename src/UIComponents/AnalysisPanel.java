@@ -9,12 +9,14 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import Backend.Kingdomino;
+import Backend.Player;
 import Backend.GameManager.GameState;
 import resources.OurColors;
 import resources.Resources;
@@ -38,15 +40,38 @@ public class AnalysisPanel extends JPanel {
 		box1.setSize(width, height);
 		
 		
-		String ranStrat = "Random Strategy";
-		String skilStrat = "Skilled Strategy";
-		
 		//VALUES:
-		
-		
+		ArrayList<Player> players = kingdomino.getManager().getPlayers();
 		int totalPlayers = kingdomino.getManager().getPlayers().size();
 		
+		int totalGames = kingdomino.getManager().getNumGames();
 		
+		kingdomino.getManager().setResults();
+		//last # of playerOrder won game = player #
+		Integer winner = kingdomino.getManager().getPlayerOrder().get(totalPlayers-1);
+		
+		//gameManager
+		//setResults();
+		//last # of playerOrder won game = player #
+		//Integer winner = getPlayerOrder().get(players.size());
+		
+        
+		
+		String stratType;
+		
+		
+		
+		//System.out.println("totalPlayers: " + totalPlayers);
+
+		for (int x = 0; x<totalPlayers; x++) {
+			stratType = players.get(x).getStrategyName();
+			
+			
+			
+			//System.out.println("Player " + (x+1) + ": " + players.get(x).getName() + ", " + stratType);
+		}
+				
+				
 		JLabel box1Text = new JLabel("box1", SwingConstants.CENTER);
 		box1.add(box1Text);
 
