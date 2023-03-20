@@ -100,10 +100,7 @@ public class GameManager {
                 break;
             }
         }
-        if (!strategyMode || isFastMode)
-            round();
-        else
-            slowMode();
+        round();
     }
 
     public void addListener(GameEventListener listener) {
@@ -116,8 +113,9 @@ public class GameManager {
         noMovePossible = true;
         Domino[] d = deck.getNewDominoes();
         if (firstRound) {
-            for (GameEventListener gl : listeners)
+            for (GameEventListener gl : listeners) {
                 gl.initDominoes();
+            }
         }
         //two checks here
         if (d == null || roundNum == 24) {
@@ -226,7 +224,8 @@ public class GameManager {
                     if (getDeck().getDominoesToSelect().length != 0) {
                         ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
                         for (GameEventListener gl : listeners) {
-                            gl.onDominoSelected(getCurrentPlayer().getNextDomino(), false);
+                            if(getCurrentPlayer().getNextDomino() != null)
+                                gl.onDominoSelected(getCurrentPlayer().getNextDomino(), false);
                         }
                     }
                     getCurrentPlayer().setSelected(true);
@@ -341,6 +340,9 @@ public class GameManager {
 
 
     private void slowMode() {
+        if(firstRound)
+            for (GameEventListener gl : listeners) {
+                gl.initDominoes();}
         for (int i = 0; i < players.size(); i++) {
             playerTurn();
             /*
