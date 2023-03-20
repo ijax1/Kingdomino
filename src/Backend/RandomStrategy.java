@@ -69,12 +69,12 @@ public class RandomStrategy extends ComputerPlayer {
         domino.setRotation(ranRot);
 
         //randomly select available placement:
-        ArrayList<GridPosition> placements = grid.availableSpaces(domino);
+        ArrayList<GridPosition> placements = getGrid().availableSpaces(domino);
         int ranPlace = randomNum(placements.size());
 
         //calls placeDomino:
-        if(grid.availableSpacesGrid(domino)[placements.get(ranPlace).getY()][placements.get(ranPlace).getX()])
-            grid.placeDomino(placements.get(ranPlace).getY(), placements.get(ranPlace).getX(), domino);
+        if(placements.size() > 0)
+            getGrid().placeDomino(placements.get(ranPlace).getY(), placements.get(ranPlace).getX(), domino);
     }
 
 
