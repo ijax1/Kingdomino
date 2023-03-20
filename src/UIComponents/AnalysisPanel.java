@@ -15,6 +15,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 import Backend.ComputerPlayer;
 import Backend.GameManager;
@@ -32,6 +33,7 @@ public class AnalysisPanel extends JPanel {
 	private CloseButton close;
 	private int width = 200;
 	private int height = 500;
+	private int totalGames = 0;
 	private Kingdomino kingdomino;
 	
 	
@@ -45,7 +47,7 @@ public class AnalysisPanel extends JPanel {
         
 		ArrayList<Player> players = kingdomino.getManager().getPlayers();
 		int totalPlayers = kingdomino.getManager().getPlayers().size();
-		int totalGames = kingdomino.getManager().getNumGames();
+		totalGames = kingdomino.getManager().getNumGames();
 		//order of arraylist: player 0 ++ ...
 		ArrayList<String> strategyType = new ArrayList<String>();
 		ArrayList<Integer> percentageWon = new ArrayList<Integer>();
@@ -92,6 +94,17 @@ public class AnalysisPanel extends JPanel {
 				box1.add(player0GamesWon);
 				JLabel player0PercentageWon = new JLabel("Percentage won: " + percentageWon.get(0), SwingConstants.CENTER);
 				box1.add(player0PercentageWon);
+				Timer t = new Timer(1000, new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						player0GamesPlayed.setText("Games played: " + totalGames);
+						player0GamesWon.setText("Games won: " + gm.getWinners().get(0));
+						player0PercentageWon.setText("Percentage won: " + percentageWon.get(0));
+					}
+					
+				});
+				t.start();
 			}
 			
 			JPanel box2 = new JPanel();
@@ -106,6 +119,17 @@ public class AnalysisPanel extends JPanel {
 				box2.add(player1GamesWon);
 				JLabel player1PercentageWon = new JLabel("Percentage won: " + percentageWon.get(1), SwingConstants.CENTER);
 				box2.add(player1PercentageWon);
+				Timer t = new Timer(1000, new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						player1GamesPlayed.setText("Games played: " + totalGames);
+						player1GamesWon.setText("Games won: " + gm.getWinners().get(1));
+						player1PercentageWon.setText("Percentage won: " + percentageWon.get(1));
+					}
+					
+				});
+				t.start();
 			}
 			
 			
@@ -122,6 +146,17 @@ public class AnalysisPanel extends JPanel {
 				box3.add(player2GamesWon);
 				JLabel player2PercentageWon = new JLabel("Percentage won: " + percentageWon.get(2), SwingConstants.CENTER);
 				box3.add(player2PercentageWon);
+				Timer t = new Timer(1000, new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						player2GamesPlayed.setText("Games played: " + totalGames);
+						player2GamesWon.setText("Games won: " + gm.getWinners().get(2));
+						player2PercentageWon.setText("Percentage won: " + percentageWon.get(2));
+					}
+					
+				});
+				t.start();
 			}
 			
 			
@@ -138,7 +173,19 @@ public class AnalysisPanel extends JPanel {
 				box4.add(player3GamesWon);
 				JLabel player3PercentageWon = new JLabel("Percentage won: " + percentageWon.get(3), SwingConstants.CENTER);
 				box4.add(player3PercentageWon);
+				Timer t = new Timer(1000, new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						player3GamesPlayed.setText("Games played: " + totalGames);
+						player3GamesWon.setText("Games won: " + gm.getWinners().get(3));
+						player3PercentageWon.setText("Percentage won: " + percentageWon.get(3));
+					}
+					
+				});
+				t.start();
 			}
+
 			
 			//JButton scrollB = new JButton("Quiteth");
 			JLabel scroll = new JLabel("Strategy Analysis", SwingConstants.CENTER);
