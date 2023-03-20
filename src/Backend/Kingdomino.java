@@ -98,9 +98,11 @@ public class Kingdomino implements GameEventListener{
             if (gamePanel == null) {
                 initializeGamePanel();
             }
-            if (manager.isFirstRound()) {
-                getGamePanel().initDominoes();
-            }
+//            if (manager.isFirstRound()) {
+//                getGamePanel().initDominoes();
+//            }
+//            getGamePanel().setComponents();
+
             panels.show(basePanel, "Game Panel");
         } else if (state == GameState.ENDSCREEN) {
             panels.show(basePanel, "Podium Panel");
@@ -109,6 +111,13 @@ public class Kingdomino implements GameEventListener{
 //            analysisPanel.beginAnalysis(manager.getNumGames());
         }	
 	}
+
+    @Override
+    public void initDominoes() {
+//        if (manager.isFirstRound()) {
+//            getGamePanel().initDominoes();
+//        }
+    }
 
     public void finishTurn() {
         getGamePanel().finishTurn();

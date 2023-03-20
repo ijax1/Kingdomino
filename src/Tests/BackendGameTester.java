@@ -60,4 +60,9 @@ public class BackendGameTester implements GameEventListener {
 	public void onFinishTurn() {
 
 	}
+
+	@Override
+	public void initDominoes() {
+
+	}
 }

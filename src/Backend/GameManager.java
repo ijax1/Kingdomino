@@ -71,6 +71,10 @@ public class GameManager {
 
     public void setGameState(GameState state) {
         this.state = state;
+        ArrayList<GameEventListener> listenersCopy = new ArrayList<>(listeners);
+        for (GameEventListener gl : listenersCopy) {
+            gl.onStateChangedTo(state);
+        }
         if (state == GameState.INITIAL) {
             reset();
         } else if (state == GameState.PLAYER_TURN) {
@@ -81,10 +85,7 @@ public class GameManager {
         } else if (state == GameState.ENDSCREEN) {
             setResults();
         }
-        //notify listeners last
-        for (GameEventListener gl : listeners) {
-            gl.onStateChangedTo(state);
-        }
+
     }
 
     private void initPlayerTurns() {
@@ -110,6 +111,10 @@ public class GameManager {
         // if no player can place the domino, noMovePossible remains true --> endGame().
         noMovePossible = true;
         Domino[] d = deck.getNewDominoes();
+        if (firstRound) {
+            for (GameEventListener gl : listeners)
+                gl.initDominoes();
+        }
         //two checks here
         if (d == null || roundNum == 24) {
             endGame();

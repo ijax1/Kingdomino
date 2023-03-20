@@ -11,4 +11,6 @@ public interface GameEventListener {
 	void onNextPlayer();
 
 	void onFinishTurn();
+
+	void initDominoes();
 }
