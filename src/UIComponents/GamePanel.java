@@ -295,11 +295,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
                 g.drawString("Selecteth thine tile, your majesty!", 950, 665);
                 //to stake claim to new territory!
             }
-            //From InteractionPanel
-//        if (d != null) {
-////            grid.holdDomino(d, ref);
-//            grid.holdDomino(d, d.ref);
-//        }
             uiGrid.render(g.create(), dragging);
             checkDomino();
             //moved UIDomino draw to the component loop

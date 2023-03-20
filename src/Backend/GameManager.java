@@ -12,7 +12,6 @@ import resources.Titles;
 
 public class GameManager {
     private boolean firstRound;
-    private boolean strategyMode = true;
     private GameState state;
 
     // shouldn't change order to preserve maintenance in other classes
@@ -408,8 +407,7 @@ public class GameManager {
         	winners.set(i,0);
         }
         for(Player p: players){
-          if(p instanceof HumanPlayer)
-              strategyMode = false;
+
         }
         this.players = players;
     }

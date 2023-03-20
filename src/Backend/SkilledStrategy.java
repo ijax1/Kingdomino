@@ -79,8 +79,6 @@ public class SkilledStrategy extends ComputerPlayer {
         if (bestPos != null) {
             bestDomino.setRotation(bestRot);
             boolean placeable = getGrid().placeDomino(bestPos.getY(), bestPos.getX(), bestDomino);
-            if (!placeable)
-                System.out.println("not placeable");
         }
         setPlaced(true);
     }
