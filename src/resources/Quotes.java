@@ -15,7 +15,13 @@ public class Quotes {
             {"If the highest aim of a captain were to preserve his ship, he would keep it in port forever.", "St. Thomas Aquinas"},
             {"A man's greatest joy is crushing his enemies.", "Genghis Khan"},
             {"My life was too short to achieve conquest of the world. That task is left for you.", "Genghis Khan"},
-
+            {"An action committed in anger is an action doomed to fail.", "Genghis Khan"},
+            {"The wise man does at once what the fool does finally.", "Niccolo Machiavelli"},
+            {"Never was anything great achieved without danger.", "Niccolo Machiavelli"},
+            {"There is nothing on this earth more to be prized than true friendship.", "St. Thomas Aquinas"},
+            {"If the populace knew with what idiocy they were ruled, they would revolt."},
+            {"Do not sleep. Be awake on your throne.", "Suleyman the Magnificent"},
+            {"In this world a spell of health is the best state.", "Suleyman the Magnificent"}
     };
 
     public static String[] getQuote() {
