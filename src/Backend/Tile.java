@@ -7,18 +7,38 @@ public class Tile{
 	private Land landType;
 	//private Image image;
 
+	/**
+	 * creates a tile without crowns
+	 * @param land
+	 */
 	public Tile(Land land){
 		landType=land;
 		crowns=0;
 	}
+
+	/**
+	 * creates a tile with crowns
+	 * @param land the land type of the tile
+	 * @param crowns the number of crowns the tile is worth
+	 */
 	public Tile(Land land, int crowns){
 		landType=land;
 		this.crowns=crowns;
 		//image =
 	}
+
+	/**
+	 *
+	 * @return the number of crowns the tile is worth
+	 */
 	public int getCrowns() {
 		return crowns;
 	}
+
+	/**
+	 *
+	 * @return the land type of the tile
+	 */
 	public Land getLandType() {
 		return landType;
 	}
