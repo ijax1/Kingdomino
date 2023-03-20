@@ -26,7 +26,9 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import Backend.Domino;
+import Backend.GameEventListener;
 import Backend.GameManager;
+import Backend.GameManager.GameState;
 import Backend.Grid;
 import Backend.Kingdomino;
 import Backend.Player;
@@ -36,7 +38,7 @@ import UIComponents.Render.LineSegment;
 import UIComponents.Render.RectangularPrism;
 import resources.Resources;
 
-public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
+public class GamePanel extends JPanel implements GameEventListener, MouseListener, MouseMotionListener, MouseWheelListener {
     private static final long serialVersionUID = 7381080659172927952L;
 
     Domino ref = new Domino(new Tile(Tile.Land.LAKE, 0), new Tile(Tile.Land.PASTURE, 0), 13);
@@ -78,6 +80,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         addMouseMotionListener(this);
         addMouseWheelListener(this);
         gm = k.getManager();
+        gm.addListener(this);
         this.k = k;
         medieval = Resources.getMedievalFont(20);
         medievalLg = Resources.getMedievalFont(50);
@@ -161,6 +164,36 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             if (b.isSelected() && !b.isLocked())
                 b.setLocked();
         }
+    }
+
+    @Override
+    public void onDominoSelected(Domino dominoSelected) {
+        DominoButton dominoButton = null;
+        for (DominoButton b : banner.getButtons()) {
+            if (b.getUiDomino().ref == dominoSelected) {
+                dominoButton = b;
+                break;
+            }
+        }
+        if (dominoButton == null) {
+            System.out.println("domino button null");
+            return;
+        }
+        if (!dominoButton.isLocked()) {
+            for (DominoButton d : banner.getButtons()) {
+                if (d == dominoButton) {
+                    d.doAction();
+                } else if (!d.isLocked()) {
+                    d.removePlayer();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onNextPlayer() {
+        changePlayer(gm.getCurrentPlayer());
+
     }
 
     public void changePlayer(Player player) {
@@ -490,4 +523,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     public UIGrid getUIGrid() {
         return uiGrid;
     }
+
+    @Override
+    public void onStateChangedTo(GameState state) {
+        // TODO Auto-generated method stub
+
+    }
+
+
 }

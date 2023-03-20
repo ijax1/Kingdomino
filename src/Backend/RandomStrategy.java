@@ -48,6 +48,9 @@ public class RandomStrategy extends ComputerPlayer {
             setNextDomino(chosenDomino);
 //            gameManager.getGame().getGamePanel().computerPlayerChose(chosenDomino);
         } else {
+        	for(int i=0; i<d.length; i++) {
+        		System.out.println(d);
+        	}
             Domino[] dominoes = d;
             int idx = (int) (Math.random() * dominoes.length);
             Domino chosenDomino = dominoes[idx];
