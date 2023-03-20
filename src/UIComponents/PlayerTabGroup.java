@@ -56,8 +56,7 @@ public class PlayerTabGroup extends Component implements GameEventListener {
             if (button == b) {
 //                System.out.println("equals button");
                 button.show();
-                gp.setViewedPlayer(button.getPlayer());
-                //gp.setViewedPlayer(button.getPlayer());
+                System.out.println("selected");
             } else {
 //                System.out.println("not equals button");
                 button.minimize();
@@ -74,8 +73,7 @@ public class PlayerTabGroup extends Component implements GameEventListener {
                 selected = p;
         }
         selected.show();
-        selectedIndex = group.indexOf(selected);
-        gp.setViewedPlayerIdx(selectedIndex);
+        gp.setViewedPlayer(selected.getPlayer());
 
     }
 
@@ -89,8 +87,7 @@ public class PlayerTabGroup extends Component implements GameEventListener {
             }
         }
         selectedButton.show();
-        selectedIndex = group.indexOf(selectedButton);
-        gp.setViewedPlayerIdx(selectedIndex);
+        gp.setViewedPlayer(selectedButton.getPlayer());
     }
 
     public void updateOrder() {
