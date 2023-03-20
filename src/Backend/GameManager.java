@@ -229,7 +229,9 @@ public class GameManager {
         list.set(i1, list.get(i2));
         list.set(i2, temp);
     }
-
+    
+    
+    
 
     
     public void endGame() {
@@ -286,6 +288,10 @@ public class GameManager {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+    
+    public ArrayList<Integer> getWinners() {
+        return winners;
     }
 
     public void setPlayers(ArrayList<Player> players) {
