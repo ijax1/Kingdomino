@@ -11,14 +11,16 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import Backend.ComputerPlayer;
+import Backend.GameManager;
+import Backend.GameManager.GameState;
 import Backend.Kingdomino;
 import Backend.Player;
-import Backend.ComputerPlayer;
-import Backend.GameManager.GameState;
 import resources.OurColors;
 import resources.Resources;
 
@@ -45,30 +47,29 @@ public class AnalysisPanel extends JPanel {
 		int totalPlayers = kingdomino.getManager().getPlayers().size();
 		int totalGames = kingdomino.getManager().getNumGames();
 		//order of arraylist: player 0 ++ ...
-		ArrayList<Integer> playerWins = new ArrayList<Integer>();
 		ArrayList<String> strategyType = new ArrayList<String>();
 		ArrayList<Integer> percentageWon = new ArrayList<Integer>();
-
+		GameManager gm = kingdomino.getManager();
 
 		
 			//VALUES:
 		
 			//total games won for each player:	
-			for (int y = 0; y<totalPlayers; y++) {
-				int playerWinCount = 0;
-				for (int x = 0; x<totalGames; x++) {
-					if(y==kingdomino.getManager().getWinners().get(x)) {
-						playerWinCount = playerWinCount ++;
-					}
-				}
-				playerWins.add(playerWinCount);
-			}
+//			for (int y = 0; y<totalPlayers; y++) {
+//				int playerWinCount = 0;
+//				for (int x = 0; x<totalGames; x++) {
+//					if(y==kingdomino.getManager().getWinners().get(x)) {
+//						playerWinCount = playerWinCount ++;
+//					}
+//				}
+//				playerWins.add(playerWinCount);
+//			}
 				
 			for (int x = 0; x<totalPlayers; x++) {
 				totalGames++;
 				int percentage = 100;
 				if(totalGames != 0)
-					percentage = playerWins.get(x)/totalGames;
+					percentage = gm.getWinners().get(x)/totalGames;
 				percentageWon.add(percentage);
 			}
 			
@@ -81,16 +82,17 @@ public class AnalysisPanel extends JPanel {
 				//System.out.println("Player " + (x+1) + ": " + players.get(x).getName() + ", " + stratType);
 			}
 			//System.out.println("totalPlayers: " + totalPlayers);
-		
+			System.out.println(strategyType);
 			//BOX 1 INFO:
 			JPanel box1 = new JPanel();
 			box1.setSize(width, height);
+			box1.setLayout(new BoxLayout(box1, BoxLayout.PAGE_AXIS));
 			if(strategyType.size() >= 0+1 && strategyType.get(0) != null) {
 				JLabel player0Strat = new JLabel(strategyType.get(0), SwingConstants.CENTER);
 				box1.add(player0Strat);
 				JLabel player0GamesPlayed = new JLabel("Games played: " + totalGames, SwingConstants.CENTER);
 				box1.add(player0GamesPlayed);
-				JLabel player0GamesWon = new JLabel("Games won: " + playerWins.get(0), SwingConstants.CENTER);
+				JLabel player0GamesWon = new JLabel("Games won: " + gm.getWinners().get(0), SwingConstants.CENTER);
 				box1.add(player0GamesWon);
 				JLabel player0PercentageWon = new JLabel("Percentage won: " + percentageWon.get(0), SwingConstants.CENTER);
 				box1.add(player0PercentageWon);
@@ -98,12 +100,13 @@ public class AnalysisPanel extends JPanel {
 			
 			JPanel box2 = new JPanel();
 			box2.setSize(width, height);
+			box2.setLayout(new BoxLayout(box2, BoxLayout.PAGE_AXIS));
 			if(strategyType.size() >= 1+1 && strategyType.get(1) != null) {
 				JLabel player1Strat = new JLabel(strategyType.get(1), SwingConstants.CENTER);
 				box2.add(player1Strat);
 				JLabel player1GamesPlayed = new JLabel("Games played: " + totalGames, SwingConstants.CENTER);
 				box2.add(player1GamesPlayed);
-				JLabel player1GamesWon = new JLabel("Games won: " + playerWins.get(1), SwingConstants.CENTER);
+				JLabel player1GamesWon = new JLabel("Games won: " + gm.getWinners().get(1), SwingConstants.CENTER);
 				box2.add(player1GamesWon);
 				JLabel player1PercentageWon = new JLabel("Percentage won: " + percentageWon.get(1), SwingConstants.CENTER);
 				box2.add(player1PercentageWon);
@@ -112,42 +115,35 @@ public class AnalysisPanel extends JPanel {
 			
 			JPanel box3 = new JPanel();
 			box3.setSize(width, height);
+			box3.setLayout(new BoxLayout(box3, BoxLayout.PAGE_AXIS));
 			
 			if(strategyType.size() >= 2+1 && strategyType.get(2) != null) {
 				JLabel player2Strat = new JLabel(strategyType.get(2), SwingConstants.CENTER);
 				box3.add(player2Strat);
 				JLabel player2GamesPlayed = new JLabel("Games played: " + totalGames, SwingConstants.CENTER);
 				box3.add(player2GamesPlayed);
-				JLabel player2GamesWon = new JLabel("Games won: " + playerWins.get(2), SwingConstants.CENTER);
+				JLabel player2GamesWon = new JLabel("Games won: " + gm.getWinners().get(2), SwingConstants.CENTER);
 				box3.add(player2GamesWon);
 				JLabel player2PercentageWon = new JLabel("Percentage won: " + percentageWon.get(2), SwingConstants.CENTER);
 				box3.add(player2PercentageWon);
 			}
-			c.gridx = 2;
-			c.gridy = 1;
-			g.setConstraints(box3, c);
-			add(box3);
 			
 			
 			JPanel box4 = new JPanel();
 			box4.setSize(width, height);
+			box4.setLayout(new BoxLayout(box4, BoxLayout.PAGE_AXIS));
 			
 			if(strategyType.size() >= 3+1 && strategyType.get(3) != null) {
 				JLabel player3Strat = new JLabel(strategyType.get(3), SwingConstants.CENTER);
 				box4.add(player3Strat);
 				JLabel player3GamesPlayed = new JLabel("Games played: " + totalGames, SwingConstants.CENTER);
 				box4.add(player3GamesPlayed);
-				JLabel player3GamesWon = new JLabel("Games won: " + playerWins.get(3), SwingConstants.CENTER);
+				JLabel player3GamesWon = new JLabel("Games won: " + gm.getWinners().get(3), SwingConstants.CENTER);
 				box4.add(player3GamesWon);
 				JLabel player3PercentageWon = new JLabel("Percentage won: " + percentageWon.get(3), SwingConstants.CENTER);
 				box4.add(player3PercentageWon);
 			}
-			g.setConstraints(box4, c);
-			add(box4);
 			
-			
-			
-
 			//JButton scrollB = new JButton("Quiteth");
 			JLabel scroll = new JLabel("Strategy Analysis", SwingConstants.CENTER);
 			scroll.setFont(Resources.getMedievalFont(50));
@@ -196,12 +192,12 @@ public class AnalysisPanel extends JPanel {
 			add(box2);
 			c.gridx = 2;
 			c.gridy = 1;
-			//g.setConstraints(box3, c);
-			//add(box3);
+			g.setConstraints(box3, c);
+			add(box3);
 			c.gridx = 3;
 			c.gridy = 1;
-			//g.setConstraints(box4, c);
-			//add(box4);
+			g.setConstraints(box4, c);
+			add(box4);
 			c.ipady = 20;
 			c.gridx = 0;
 			c.gridy = 2;

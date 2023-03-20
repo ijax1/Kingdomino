@@ -4,14 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
-import UIComponents.DominoButton;
-import UIComponents.UIGrid;
+import javax.swing.Timer;
+
 import resources.OurColors;
 import resources.Titles;
-
-import javax.swing.*;
 
 public class GameManager {
     private boolean firstRound;
@@ -28,7 +25,7 @@ public class GameManager {
     private ArrayList<Domino> availableDominoes;
     private int roundNum;
     private boolean noMovePossible;
-    private ArrayList<Integer> winners;
+    private ArrayList<Integer> winners = new ArrayList<Integer>(4);
     // will contain integers 0,1,2,3 representing players, ordered in their desired order
     // ex: {3,0,2,1} = player 3 --> player 0 --> player 2 --> player 1
     private ArrayList<Integer> playerOrder;
@@ -61,7 +58,10 @@ public class GameManager {
         players.add(new SkilledStrategy(OurColors.BLUE, this));
         players.add(new SkilledStrategy(OurColors.GREEN, this));
         players.add(new SkilledStrategy(OurColors.YELLOW, this));
-        winners = new ArrayList<>();
+
+        for(int i=0; i<players.size(); i++) {
+        	winners.add(0);
+        }
         reset();
     }
 
@@ -119,7 +119,7 @@ public class GameManager {
         }
         //two checks here
         if (d == null || roundNum == 24) {
-            endGame();
+        	endGame();
         } else {
             roundNum++;
         }
@@ -324,10 +324,19 @@ public class GameManager {
     	setResults();
     			//last # of playerOrder won game = player #
     	Integer winner = getPlayerOrder().get(players.size()-1);
-    	winners.add(winner);
+    	Integer num = winners.get(winner) + 1;
+    	winners.set(winner,num);
     	        
-    	
-        setGameState(GameState.TALLY_SCORE);
+    	if(!isFastMode()) {
+    		setGameState(GameState.TALLY_SCORE);
+    	} else {
+    		numGamesLeft--;
+    		System.out.println(winners);
+    		if(numGamesLeft >= 0) {
+	    		reset();
+	    		initPlayerTurns();
+    		}
+    	}
         
 //        numGamesLeft--;
 //        if (isFastMode && numGamesLeft == ) {
@@ -389,6 +398,9 @@ public class GameManager {
     }
 
     public void setPlayers(ArrayList<Player> players) {
+        for(int i=0; i<players.size(); i++) {
+        	winners.set(i,0);
+        }
         this.players = players;
     }
     public Player getCurrentPlayer() {

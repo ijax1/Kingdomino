@@ -56,6 +56,9 @@ public class Kingdomino implements GameEventListener{
     // GamePanel needs to be initialized after startPanel initializes players
     private void initializeGamePanel() {
         gamePanel = new GamePanel(this);
+        if(!manager.isFastMode()) {
+        	manager.addListener(gamePanel);
+        }
         basePanel.add(gamePanel, "Game Panel");
     }
 
@@ -91,6 +94,7 @@ public class Kingdomino implements GameEventListener{
     }
 	@Override
 	public void onStateChangedTo(GameState state) {
+		System.out.println(state);
 		if (state == GameState.INITIAL) {
             panels.show(basePanel, "Start Panel");
         } else if (state == GameState.PLAYER_TURN ||
