@@ -25,14 +25,8 @@ import java.util.Arrays;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import Backend.Domino;
-import Backend.GameEventListener;
-import Backend.GameManager;
+import Backend.*;
 import Backend.GameManager.GameState;
-import Backend.Grid;
-import Backend.Kingdomino;
-import Backend.Player;
-import Backend.Tile;
 import UIComponents.Render.Coordinate;
 import UIComponents.Render.LineSegment;
 import UIComponents.Render.RectangularPrism;
@@ -202,8 +196,25 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 
     @Override
     public void onNextPlayer() {
-        changePlayer(gm.getCurrentPlayer());
+        if(gm.getCurrentPlayer() instanceof HumanPlayer) {
+            changePlayer(gm.getCurrentPlayer());
+        }
+        else{
+            changePlayer(gm.getCurrentPlayer());
 
+            final Timer timer = new Timer(1, null);
+            timer.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    repaint();
+                    if (gm.getCurrentPlayer().hasSelected()) {
+                        timer.stop();
+                    }
+
+                }
+            });
+            timer.start();
+        }
     }
 
     @Override
@@ -238,7 +249,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
             Arrays.sort(toSelect);
             int index = 3;
             for (DominoButton b : banner.getButtons()) {
-                System.out.println(toSelect[index]);
                 b.setDomino(toSelect[index]);
                 index--;
             }
@@ -248,7 +258,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 
     public void paintComponent(Graphics g1) {
         Graphics2D g = (Graphics2D) g1;
-        Player p = gm.getPlayers().get(viewedPlayerIdx);
+        Player p = getViewedPlayerIdx();
         applyHints(g);
         Dimension size = super.getSize();
         //g.scale(size.width/1280.0, size.width/720.0);
@@ -326,10 +336,15 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
             component.draw(componentg);
             //}
         }
-        if (d != null && viewedPlayerIdx == gm.getOrigPlayerIdx())
-            d.render(g);
+        if (d != null && viewedPlayerIdx == gm.getOrigPlayerIdx()) {
+            if (!gm.getCurrentPlayer().hasPlaced()) {
+                d.render(g);
+            }
+        }
         else if (d != null && viewedPlayerIdx != gm.getOrigPlayerIdx())
-            new UIDomino(new Coordinate(640, 600, 0), k, getViewedPlayerIdx().getNextDomino()).render(g);
+            if (!gm.getCurrentPlayer().hasPlaced()) {
+                new UIDomino(new Coordinate(640, 600, 0), k, getViewedPlayerIdx().getNextDomino()).render(g);
+            }
     }
 
     public static void applyHints(Graphics2D g2d) {
@@ -512,6 +527,31 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     }
 
     private void animateDomino(UIDomino d, Coordinate destination) {
+        final LineSegment ls = new LineSegment(d.getCenter(), destination);
+        final UIDomino domino = d;
+        final Timer timer = new Timer(1, null);
+        timer.addActionListener(new ActionListener() {
+            Coordinate temp = ls.getStart();
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                temp = ls.getNextPoint(temp, 0.01);
+                repaint();
+                if (!ls.onLine(temp)) {
+                    timer.stop();
+                }
+
+            }
+        });
+        timer.start();
+    }
+
+    //should only be called when can be placed and player is computer
+    private void animateComputerPlayer() {
+        ComputerPlayer p = (ComputerPlayer) gm.getCurrentPlayer();
+
+        UIGrid g = this.uiGrid;
+        final Coordinate destination = null;
         final LineSegment ls = new LineSegment(d.getCenter(), destination);
         final UIDomino domino = d;
         final Timer timer = new Timer(1, null);
