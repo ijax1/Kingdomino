@@ -32,45 +32,61 @@ public class AnalysisPanel extends JPanel {
 	private int height = 500;
 	private Kingdomino kingdomino;
 
+	
 	public AnalysisPanel(GridBagLayout g, Kingdomino kingdomino) {
 		super(g);
 		//setBackground(OurColors.BACKGROUND);
 		GridBagConstraints c = new GridBagConstraints();
 		this.kingdomino = kingdomino;
-		JPanel box1 = new JPanel();
-		box1.setSize(width, height);
 		
 		
 		//VALUES:
 		ArrayList<Player> players = kingdomino.getManager().getPlayers();
 		int totalPlayers = kingdomino.getManager().getPlayers().size();
-		
 		int totalGames = kingdomino.getManager().getNumGames();
-		
-		kingdomino.getManager().setResults();
-		//last # of playerOrder won game = player #
-		Integer winner = kingdomino.getManager().getPlayerOrder().get(totalPlayers-1);
-		
-		
-		String stratType;
-		
-		
-		
-		//System.out.println("totalPlayers: " + totalPlayers);
+		//order of arraylist: player 0 ++ ...
+		ArrayList<Integer> playerWins = new ArrayList<Integer>();
 
+		//total games won for each player:	
+		for (int y = 0; y<totalPlayers; y++) {
+			int playerWinCount = 0;
+			for (int x = 0; x<totalGames; x++) {
+				if(y==kingdomino.getManager().getWinners().get(x)) {
+					playerWinCount = playerWinCount ++;
+				}
+			}
+			playerWins.add(playerWinCount);
+		}
+			
+		ArrayList<Integer> percentageWon = new ArrayList<Integer>();
 		for (int x = 0; x<totalPlayers; x++) {
+			int percentage = playerWins.get(x)/totalGames;
+			percentageWon.add(percentage);
+		}
+		
+		ArrayList<String> strategyType = new ArrayList<String>();
+		for (int x = 0; x<totalPlayers; x++) {
+			String stratType;
 			if(players.get(x) instanceof ComputerPlayer) {
 				stratType = ((ComputerPlayer) players.get(x)).getStrategyName();
+				strategyType.add(stratType);
 			}
-			
-			
 			//System.out.println("Player " + (x+1) + ": " + players.get(x).getName() + ", " + stratType);
 		}
-				
-				
-		JLabel box1Text = new JLabel("box1", SwingConstants.CENTER);
-		box1.add(box1Text);
-
+		//System.out.println("totalPlayers: " + totalPlayers);
+		
+		//BOX 1 INFO:
+		JPanel box1 = new JPanel();
+		box1.setSize(width, height);
+		
+		JLabel player0Strat = new JLabel(strategyType.get(0), SwingConstants.CENTER);
+		box1.add(player0Strat);
+		JLabel player0GamesPlayed = new JLabel("Games played: " + totalGames, SwingConstants.CENTER);
+		box1.add(player0GamesPlayed);
+		JLabel player0GamesWon = new JLabel("Games won: " + playerWins.get(0), SwingConstants.CENTER);
+		box1.add(player0GamesWon);
+		JLabel player0PercentageWon = new JLabel("Percentage won: " + percentageWon.get(0), SwingConstants.CENTER);
+		box1.add(player0PercentageWon);
 		
 		JPanel box2 = new JPanel();
 		box2.setSize(width, height);
