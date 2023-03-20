@@ -241,14 +241,18 @@ public class Banner extends Component {
 	@Override
 	public void whenClicked() {
 		
-		System.out.println("banner clicked");
+		System.out.println("banner clicked"+playerIdx);
 		ArrayList<Player>players = gm.getPlayers();
+		playerIdx++;
 		if(playerIdx >= players.size()) {
 			gm.setGameState(GameState.ENDSCREEN);
 		} else {
+			
 			gamePanel.setViewedPlayer(players.get(playerIdx));
-			playerIdx++;
+			gm.nextPlayer();
 		}
 		tallyAnimation = false;
+		scoreIdx = 1;
+		gamePanel.repaint();
 	}
 }
