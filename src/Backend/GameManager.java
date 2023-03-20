@@ -1,7 +1,5 @@
 package Backend;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -10,8 +8,6 @@ import UIComponents.DominoButton;
 import UIComponents.UIGrid;
 import resources.OurColors;
 import resources.Titles;
-
-import javax.swing.*;
 
 public class GameManager {
     private boolean firstRound;
@@ -56,6 +52,8 @@ public class GameManager {
         Titles t = new Titles();
         players = new ArrayList<>(4);
         players.add(new HumanPlayer(OurColors.RED, "Player 1", Titles.generateTitle(), this));
+        //players.add(new SkilledStrategy(OurColors.RED, this));
+
         players.add(new SkilledStrategy(OurColors.BLUE, this));
         players.add(new SkilledStrategy(OurColors.GREEN, this));
         players.add(new SkilledStrategy(OurColors.YELLOW, this));
@@ -156,101 +154,32 @@ public class GameManager {
 
     private void computerPlayerTurn(boolean canPlace) {
         if (getCurrentPlayer() instanceof ComputerPlayer) {
-            if(isFastMode){
-                if (!firstRound && canPlace) {
-                    ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
-
-                    getCurrentPlayer().setPlaced(true);
-                }
-                if (!canPlace)
-                    getCurrentPlayer().setPlaced(true);
-                if (getDeck().getDominoesToSelect().length != 0) {
-                    ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
-                    for (GameEventListener gl : listeners) {
-                        gl.onDominoSelected(getCurrentPlayer().getNextDomino(), false);
-                    }
-                }
-                getCurrentPlayer().setSelected(true);
+            if (!firstRound && canPlace) {
+                ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
+                // TODO: update gamepanel
+//                for (GameEventListener gl : listeners) {
+//                    gl.onDominoSelected();
+//                }
+                getCurrentPlayer().setPlaced(true);
+            }
+            if (!canPlace)
+                getCurrentPlayer().setPlaced(true);
+            if (getDeck().getDominoesToSelect().length != 0) {
+                ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
                 for (GameEventListener gl : listeners) {
-                    gl.onFinishTurn();
+                    gl.onDominoSelected(getCurrentPlayer().getNextDomino(), false);
                 }
-                nextPlayer();
             }
-            else {
-                computerPlaceDomino(canPlace);
+            getCurrentPlayer().setSelected(true);
+            for (GameEventListener gl : listeners) {
+                gl.onFinishTurn();
             }
-
+            nextPlayer();
 //            for (GameEventListener gl : listeners) {
 //                gl.onNextPlayer();
 //            }
         }
     }
-    private int delayMillis = 1000;
-    private void computerPlaceDomino(final boolean canPlace){
-        final Timer timer = new Timer(1, null);
-        timer.addActionListener(new ActionListener() {
-            long currentTime = System.currentTimeMillis();
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (currentTime + delayMillis < System.currentTimeMillis()) {
-                    if (!firstRound && canPlace) {
-                        ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
-
-                        getCurrentPlayer().setPlaced(true);
-                    }
-                    if (!canPlace)
-                        getCurrentPlayer().setPlaced(true);
-                    computerChooseDomino();
-                    timer.stop();
-                }
-
-            }
-        });
-        timer.start();
-    }
-
-    private void computerChooseDomino(){
-        final Timer timer = new Timer(1, null);
-        timer.addActionListener(new ActionListener() {
-            long currentTime = System.currentTimeMillis();
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (currentTime + delayMillis < System.currentTimeMillis()) {
-                    if (getDeck().getDominoesToSelect().length != 0) {
-                        ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
-                        for (GameEventListener gl : listeners) {
-                            gl.onDominoSelected(getCurrentPlayer().getNextDomino(), false);
-                        }
-                    }
-                    getCurrentPlayer().setSelected(true);
-                    computerFinishTurn();
-                    timer.stop();
-                }
-
-            }
-        });
-        timer.start();
-    }
-
-    private void computerFinishTurn(){
-        final Timer timer = new Timer(1, null);
-        timer.addActionListener(new ActionListener() {
-            long currentTime = System.currentTimeMillis();
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (currentTime + delayMillis < System.currentTimeMillis()) {
-                    for (GameEventListener gl : listeners) {
-                        gl.onFinishTurn();
-                    }
-                    nextPlayer();
-                    timer.stop();
-                }
-
-            }
-        });
-        timer.start();
-    }
-
 
     // called when player finishes turn
     // updates player and calls playerTurn()
@@ -308,7 +237,12 @@ public class GameManager {
     }
 
     public void endGame() {
-        
+        for (Player player : players) {
+            player.setCurrentDomino(null);
+            player.setNextDomino(null);
+            player.setPlaced(true);
+        }
+
     	System.out.println("game over");
     	
     	setResults();
@@ -331,6 +265,8 @@ public class GameManager {
 
     private void slowMode() {
         for (int i = 0; i < players.size(); i++) {
+            playerTurn();
+            /*
             currPlayerIdx = i;
             Player currentPlayer = players.get(currPlayerIdx);
             try {
@@ -347,8 +283,9 @@ public class GameManager {
             ((ComputerPlayer) currentPlayer).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
             currentPlayer.setSelected(false);
             currentPlayer.setPlaced(false);
+             */
         }
-        updatePlayerOrder();
+        //updatePlayerOrder();
         firstRound = false;
     }
 
@@ -366,7 +303,6 @@ public class GameManager {
     }
     
     public ArrayList<Integer> getWinners() {
-        ArrayList<Integer> winners = new ArrayList<Integer>(Arrays.asList(1,2,3,4));
         return winners;
     }
 

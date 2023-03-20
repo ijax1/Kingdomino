@@ -39,6 +39,7 @@ public class PodiumPanel extends JPanel {
 	private ArrayList<Player> order;
 	public PodiumPanel(GridBagLayout g, final Kingdomino kdomino) {
 		k=kdomino;
+		gm=k.getManager();
 		order=k.getManager().getPlayers();
 		for(int i=0;i<order.size()-1;i++) {
 			for(int j=0;j<order.size();j++) {
@@ -117,8 +118,9 @@ public class PodiumPanel extends JPanel {
 		g.fillOval(100,50,getWidth()-200, getHeight()-100);				
 		//Resources.loadImage(order.get(0).getTitle());
         //g.drawImage(order.get(0), 0, 0, null);
-		g.drawImage(toImage(Resources.loadImage("king_domino_scroll.png")), 150, 0, null);
-		
+		g.drawImage(toImage(Resources.loadImage("king_domino_scroll.png")), (int)(this.getWidth()*0.13), 0, null);
+		//g.drawImage(toImage(Resources.loadImage("king_domino_scroll.png")), 150/1266, 0, null);
+		/*
 		BufferedImage icon1 = Resources.loadImage("player_icon_win.png");
         Image newiconimage1 = icon1.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
         g.drawImage(newiconimage1, 500, 190, null);
@@ -138,17 +140,23 @@ public class PodiumPanel extends JPanel {
         g.drawImage(newimg1, x1, y1, null);
         
         
-        BufferedImage img2 = Resources.loadImage("SecondPlace.png");
+        BufferedImage img2 = Resources.loadImage("FirstPlace.png");
         Image newimg2 = img2.getScaledInstance(350, 450, Image.SCALE_SMOOTH);
         int x2 = x1 - newimg2.getWidth(null);
         int y2 = y1+50; 
         g.drawImage(newimg2, x2, y2, null);
 
-        BufferedImage img3 = Resources.loadImage("ThirdPlace.png");
+        BufferedImage img3 = Resources.loadImage("FirstPlace.png");
         Image newimg3 = img3.getScaledInstance(350, 400, Image.SCALE_SMOOTH);
         int x3 = x1 + newimg2.getWidth(null); 
         int y3 = y1+100; 
         g.drawImage(newimg3, x3, y3, null);
+        */
+		g.setColor(Color.black);
+		g.setFont(Resources.getMedievalFont(40));
+		for(int i=0;i<order.size();i++) {
+			g.drawString(Integer.toString(1+i) +") "+ order.get(i).getName() + " Score " + order.get(i).getScore(), (int)(this.getWidth()*0.35), 250+ i*100);
+		}
 	}
 	private Image toImage(BufferedImage img) {
         Image image = img.getScaledInstance(img.getWidth(), img.getHeight(), Image.SCALE_SMOOTH);

@@ -223,7 +223,8 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     }
 
     public void changePlayer(Player player) {
-        playerTabs.selectButton(player);
+    	playerTabs.updatePlayers(gm.getPlayers(), gm.getPlayerOrder());
+    	playerTabs.selectButton(player);
         uiGrid = new UIGrid(new Coordinate(640, 320, 0), k, k.getManager().getCurrentPlayer().getGrid());
         uiGrid = grids.get(gm.getOrigPlayerIdx());
         for (UIGrid uigrid : grids) {
@@ -446,6 +447,9 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         if (clickedComponent instanceof PlayerTabGroup) {
             if (clickedComponent.onComponent(mouseCoord))
                 ((PlayerTabGroup) clickedComponent).selectButton(mouseCoord);
+        }
+        if (clickedComponent instanceof MessageTextBox) {
+            clickedComponent.whenClicked();
         }
     }
 

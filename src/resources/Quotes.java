@@ -19,9 +19,19 @@ public class Quotes {
             {"The wise man does at once what the fool does finally.", "Niccolo Machiavelli"},
             {"Never was anything great achieved without danger.", "Niccolo Machiavelli"},
             {"There is nothing on this earth more to be prized than true friendship.", "St. Thomas Aquinas"},
-            {"If the populace knew with what idiocy they were ruled, they would revolt."},
+            {"If the populace knew with what idiocy they were ruled, they would revolt.", "Charlemagne"},
             {"Do not sleep. Be awake on your throne.", "Suleyman the Magnificent"},
-            {"In this world a spell of health is the best state.", "Suleyman the Magnificent"}
+            {"In this world a spell of health is the best state.", "Suleyman the Magnificent"},
+            {"Courage! Do not fall back.", "Joan of Arc"},
+            {"I am not afraid; I was born to do this.", "Joan of Arc"},
+            {"Keep cool and you will command everyone.", "Justinian I"},
+            {"Justice is the constant and eternal purpose that renders to each his due.", "Justinian I"},
+            {"Give me twenty-six soldiers of lead and I will conquer the world.", "Johannes Gutenberg"},
+            {"I suddenly realized I was a writer of wide reputation and most of it bad.", "Theodora"},
+            {"Royalty is a fine burial shroud.", "Theodora"},
+            {"The pain that we cause is the cause of our pain.", "Leif Erikson"},
+            {"For it is in giving that we receive.", "St. Francis of Assisi"},
+            {"Peace if possible, truth at all costs.", "Martin Luther"}
     };
 
     public static String[] getQuote() {
