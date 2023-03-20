@@ -14,6 +14,7 @@ import Backend.GameManager;
 import Backend.GameManager.GameState;
 import Backend.Grid;
 import Backend.Kingdomino;
+import Backend.Player;
 import Backend.Tile.Land;
 import UIComponents.Render.Coordinate;
 import resources.OurColors;
@@ -28,6 +29,10 @@ public class Banner extends Component {
 	private Kingdomino k;
 	private GameManager gm;
 	private GamePanel gamePanel;
+	private int width = 200;
+	private int height = 500;
+	private int bannerStartX = 155;
+	private int bannerStartY = 20;
 	private final ArrayList<DominoButton> buttons = new ArrayList<DominoButton>();
 	Banner(Coordinate position, Kingdomino k, int numButtons, GamePanel gp, Domino[] dominoes) {
 		super(position, k);
@@ -63,8 +68,17 @@ public class Banner extends Component {
 
 	@Override
 	public boolean onComponent(Coordinate c) {
-		// TODO Auto-generated method stub
-		return false;
+		if(gm.getGameState() == GameState.TALLY_SCORE) {
+	    	double x = getPosition().getX() + bannerStartX;
+	    	double y = getPosition().getY() + bannerStartY;
+	    	System.out.println("here component:"+x+y);
+	        boolean isOn = ((c.getX() > x && c.getX() < x+width) &&
+	                (c.getY() > y && c.getY() < y+height));
+	        System.out.println(isOn);
+	        return isOn;
+		} else {
+			return false;
+		}
 	}
 	//shh this code is good
 	private int[] scores = new int[7];
@@ -94,7 +108,7 @@ public class Banner extends Component {
 			b.minimize();
 		}
 		
-		Grid grid = gm.getCurrentPlayer().getGrid();
+		Grid grid = gamePanel.getViewedPlayerIdx().getGrid();
 		int total = grid.calculateScore();
 		Land[] landOrder = {Land.FOREST, Land.WHEAT, Land.PASTURE, Land.LAKE, Land.SWAMP, Land.MINE};
 		int xPos = bannerStartX+20;
@@ -117,7 +131,8 @@ public class Banner extends Component {
 		}
 		//System.out.println();
 
-		g.drawString("Total:", bannerStartX-20, bannerEndY-120);	
+		g.drawString("Total:", bannerStartX, bannerEndY-120);	
+		g.drawString("NEXT", bannerStartX, bannerEndY-90);
 	}
 
 	@Override
@@ -126,11 +141,9 @@ public class Banner extends Component {
 		g.translate(pos.getX(), pos.getY());
 		int widthAllowed = Kingdomino.FRAME_WIDTH - (int) pos.getX();
 		int heightAllowed = Kingdomino.FRAME_HEIGHT - 50;
-		int bannerWidth = 200;
-		int bannerStartX = 155;
+		int bannerWidth = width;
 		int bannerEndX = bannerStartX + bannerWidth;
-		int bannerStartY = 20;
-		int bannerEndY = bannerStartY + 500;
+		int bannerEndY = bannerStartY + height;
 		g.setStroke(new BasicStroke(3));
 
 		//Draws purple background
@@ -224,10 +237,18 @@ public class Banner extends Component {
     public boolean isShown(){
         return minimized;
     }
-
+	private int playerIdx = 0;
 	@Override
 	public void whenClicked() {
-		// TODO Auto-generated method stub
 		
+		System.out.println("banner clicked");
+		ArrayList<Player>players = gm.getPlayers();
+		if(playerIdx >= players.size()) {
+			gm.setGameState(GameState.ENDSCREEN);
+		} else {
+			gamePanel.setViewedPlayer(players.get(playerIdx));
+			playerIdx++;
+		}
+		tallyAnimation = false;
 	}
 }

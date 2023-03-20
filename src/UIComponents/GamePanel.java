@@ -429,7 +429,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
                 break;
             }
         }
-        if (clickedComponent instanceof Button) {
+        if (clickedComponent instanceof Button || clickedComponent instanceof Banner) {
             if (clickedComponent instanceof DominoButton) {
                 if (!((DominoButton) clickedComponent).isLocked()) {
                     for (DominoButton d : banner.getButtons()) {
