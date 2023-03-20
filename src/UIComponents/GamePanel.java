@@ -412,14 +412,15 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
             }
             draggingCube = false;
 
-            //TODO: this won't work, just a placeholder.
-            Coordinate mouseCoord = new Coordinate(x, y, 0);
-            handleButtonClicks(mouseCoord);
+            
             if (!gm.isFirstRound() && gm.getCurrentPlayer().hasLegalMoves(false)) {
                 gm.getCurrentPlayer().setPlaced(uiGrid.isSnapped());
             }
             repaint();
         }
+        //needed to move this outside for banner click updates
+        Coordinate mouseCoord = new Coordinate(x, y, 0);
+        handleButtonClicks(mouseCoord);
 
     }
 
