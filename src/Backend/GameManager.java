@@ -237,7 +237,12 @@ public class GameManager {
     }
 
     public void endGame() {
-        
+        for (Player player : players) {
+            player.setCurrentDomino(null);
+            player.setNextDomino(null);
+            player.setPlaced(true);
+        }
+
     	System.out.println("game over");
     	
     	setResults();
@@ -260,6 +265,8 @@ public class GameManager {
 
     private void slowMode() {
         for (int i = 0; i < players.size(); i++) {
+            playerTurn();
+            /*
             currPlayerIdx = i;
             Player currentPlayer = players.get(currPlayerIdx);
             try {
@@ -276,8 +283,9 @@ public class GameManager {
             ((ComputerPlayer) currentPlayer).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
             currentPlayer.setSelected(false);
             currentPlayer.setPlaced(false);
+             */
         }
-        updatePlayerOrder();
+        //updatePlayerOrder();
         firstRound = false;
     }
 
