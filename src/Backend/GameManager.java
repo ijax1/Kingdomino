@@ -1,5 +1,7 @@
 package Backend;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -8,6 +10,8 @@ import UIComponents.DominoButton;
 import UIComponents.UIGrid;
 import resources.OurColors;
 import resources.Titles;
+
+import javax.swing.*;
 
 public class GameManager {
     private boolean firstRound;
@@ -154,31 +158,99 @@ public class GameManager {
 
     private void computerPlayerTurn(boolean canPlace) {
         if (getCurrentPlayer() instanceof ComputerPlayer) {
-            if (!firstRound && canPlace) {
-                ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
-                // TODO: update gamepanel
-//                for (GameEventListener gl : listeners) {
-//                    gl.onDominoSelected();
-//                }
-                getCurrentPlayer().setPlaced(true);
-            }
-            if (!canPlace)
-                getCurrentPlayer().setPlaced(true);
-            if (getDeck().getDominoesToSelect().length != 0) {
-                ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
-                for (GameEventListener gl : listeners) {
-                    gl.onDominoSelected(getCurrentPlayer().getNextDomino(), false);
+            if(isFastMode){
+                if (!firstRound && canPlace) {
+                    ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
+
+                    getCurrentPlayer().setPlaced(true);
                 }
+                if (!canPlace)
+                    getCurrentPlayer().setPlaced(true);
+                if (getDeck().getDominoesToSelect().length != 0) {
+                    ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
+                    for (GameEventListener gl : listeners) {
+                        gl.onDominoSelected(getCurrentPlayer().getNextDomino(), false);
+                    }
+                }
+                getCurrentPlayer().setSelected(true);
+                for (GameEventListener gl : listeners) {
+                    gl.onFinishTurn();
+                }
+                nextPlayer();
             }
-            getCurrentPlayer().setSelected(true);
-            for (GameEventListener gl : listeners) {
-                gl.onFinishTurn();
+            else {
+                computerPlaceDomino(canPlace);
             }
-            nextPlayer();
+
 //            for (GameEventListener gl : listeners) {
 //                gl.onNextPlayer();
 //            }
         }
+    }
+    private int delayMillis = 1000;
+    private void computerPlaceDomino(final boolean canPlace){
+        final Timer timer = new Timer(1, null);
+        timer.addActionListener(new ActionListener() {
+            long currentTime = System.currentTimeMillis();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (currentTime + delayMillis < System.currentTimeMillis()) {
+                    if (!firstRound && canPlace) {
+                        ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
+
+                        getCurrentPlayer().setPlaced(true);
+                    }
+                    if (!canPlace)
+                        getCurrentPlayer().setPlaced(true);
+                    computerChooseDomino();
+                    timer.stop();
+                }
+
+            }
+        });
+        timer.start();
+    }
+
+    private void computerChooseDomino(){
+        final Timer timer = new Timer(1, null);
+        timer.addActionListener(new ActionListener() {
+            long currentTime = System.currentTimeMillis();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (currentTime + delayMillis < System.currentTimeMillis()) {
+                    if (getDeck().getDominoesToSelect().length != 0) {
+                        ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
+                        for (GameEventListener gl : listeners) {
+                            gl.onDominoSelected(getCurrentPlayer().getNextDomino(), false);
+                        }
+                    }
+                    getCurrentPlayer().setSelected(true);
+                    computerFinishTurn();
+                    timer.stop();
+                }
+
+            }
+        });
+        timer.start();
+    }
+
+    private void computerFinishTurn(){
+        final Timer timer = new Timer(1, null);
+        timer.addActionListener(new ActionListener() {
+            long currentTime = System.currentTimeMillis();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (currentTime + delayMillis < System.currentTimeMillis()) {
+                    for (GameEventListener gl : listeners) {
+                        gl.onFinishTurn();
+                    }
+                    nextPlayer();
+                    timer.stop();
+                }
+
+            }
+        });
+        timer.start();
     }
 
     // called when player finishes turn
