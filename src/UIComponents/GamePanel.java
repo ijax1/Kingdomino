@@ -99,7 +99,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         finishTurn = new FinishTurnButton(new Coordinate(540, 600, 0), k);
 
 
-        //textBox = new MessageTextBox(new Coordinate(100, 550, 0), k);
+        textBox = new MessageTextBox(new Coordinate(300, 600, 0), k);
         //TODO: sorry, i can't provide a graphics to pass in here
         //minimizeComp = new MinimizeComponentButton(new Coordinate(375, 575, 0), k, textBox);
         //textBox.minimize();
@@ -119,7 +119,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         components.add(playerTabs);
         components.add(banner);
         components.add(finishTurn);
-        //components.add(textBox);
+        components.add(textBox);
         //components.add(minimizeComp);
         //components.addAll(group.getButtons());
         components.addAll(banner.getButtons());
@@ -262,11 +262,11 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         g.setColor(Color.WHITE);
 
         if (!gm.isFirstRound() && gm.getPlayers().get(viewedPlayerIdx) == gm.getCurrentPlayer() && !gm.getCurrentPlayer().hasPlaced()) {
-            g.drawString("Placeth thine tile, your grace!", 950, 665);
+            g.drawString("Placeth thine tile, your grace!", 950, 635);
             //where thy kingdom meets the lawless frontier
         }
         if (gm.getPlayers().get(viewedPlayerIdx) == gm.getCurrentPlayer() && !gm.getCurrentPlayer().hasSelected()) {
-            g.drawString("Selecteth thine tile, your majesty!", 950, 635);
+            g.drawString("Selecteth thine tile, your majesty!", 950, 665);
             //to stake claim to new territory!
         }
         //From InteractionPanel
