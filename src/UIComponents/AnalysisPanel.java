@@ -72,17 +72,13 @@ public class AnalysisPanel extends JPanel {
 					percentage = gm.getWinners().get(x)/totalGames;
 				percentageWon.add(percentage);
 			}
-			System.out.println(gm.getPlayers());
 			for (int x = 0; x<totalPlayers; x++) {
 				String stratType;
 				if(players.get(x) instanceof ComputerPlayer) {
 					stratType = ((ComputerPlayer) players.get(x)).getStrategyName();
 					strategyType.add(stratType);
 				}
-				//System.out.println("Player " + (x+1) + ": " + players.get(x).getName() + ", " + stratType);
 			}
-			//System.out.println("totalPlayers: " + totalPlayers);
-			System.out.println(strategyType);
 			//BOX 1 INFO:
 			JPanel box1 = new JPanel();
 			box1.setSize(width, height);

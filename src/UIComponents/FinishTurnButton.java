@@ -52,12 +52,8 @@ public class FinishTurnButton extends Button{
     }
 
     public void draw(Graphics2D g) {
-        //System.out.println("FINISH THY TURN length: " + g.getFontMetrics().stringWidth("FINISH THY TURN"));
         GameManager gm = super.getManager();
-//        System.out.print("first round:" + gm.isFirstRound());
-//        System.out.print("has placed:" + gm.getCurrentPlayer().hasPlaced());
-//        System.out.println("has selected:" + gm.getCurrentPlayer().hasSelected());
-        //TODO this technically doenst work because it jsut stops rendering
+        // this technically doenst work because it jsut stops rendering
         if ((gm.isFirstRound() || gm.getCurrentPlayer().hasPlaced()) && (gm.getCurrentPlayer().hasSelected() && gm.getCurrentPlayer() == getGame().getGamePanel().getViewedPlayerIdx())) {
             double xStart = super.getPosition().getX();
             double yStart = super.getPosition().getY();

@@ -33,7 +33,6 @@ public class PlayerTabGroup extends Component {
             //current height of each domino
             y += 150;
         }
-//        System.out.println(players);
         setSelected(group.get(0));
     }
 
@@ -52,12 +51,9 @@ public class PlayerTabGroup extends Component {
         selected = b;
         for (PlayerTabButton button : group) {
             if (button == b) {
-//                System.out.println("equals button");
                 button.show();
-                System.out.println("selected");
                 //gp.setViewedPlayer(button.getPlayer());
             } else {
-//                System.out.println("not equals button");
                 button.minimize();
 
             }
@@ -71,25 +67,20 @@ public class PlayerTabGroup extends Component {
             if (p.onComponent(c))
                 selected = p;
         }
-        System.out.println("selectButton-Coordinate");
         selected.show();
         gp.setViewedPlayer(selected.getPlayer());
 
     }
 
     void selectButton(Player selectedPlayer) {
-    	System.out.println("selected player: " + selectedPlayer);
         PlayerTabButton selectedButton = group.get(0);
         for (PlayerTabButton button : group) {
             button.minimize();
-            System.out.println("Player in group: " + button.getPlayer());
             if (button.getPlayer() == selectedPlayer) {
             	
                 selectedButton = button;
             }
         }
-        System.out.println("selectButton-Player");
-        System.out.println("player: " + selectedButton.getPlayer());
         selectedButton.show();
         
         //Here's the problem

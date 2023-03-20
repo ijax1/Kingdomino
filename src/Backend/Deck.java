@@ -199,7 +199,6 @@ public class Deck {
     		//no you don't get an equals method
     		if(dominoesToSelect[i]==d) {
     			//LOCK IN
-    			System.out.println("Deck: locked in");
     			whoLocked[i] = player;
     		}
     	}

@@ -169,7 +169,6 @@ public class StrategyAnalysisDialog extends JDialog {
 			input = (Double.parseDouble(textField.getText()));
 		}catch (NumberFormatException ex) {
 			numbers = false;
-			System.out.println("Thou hast not entered an appropriate # of games." );
 		}	
     	return numbers;
     }
@@ -186,7 +185,6 @@ public class StrategyAnalysisDialog extends JDialog {
 			input = (Double.parseDouble(textField.getText()));
 		}catch (NumberFormatException ex) {
 			games = false;
-			System.out.println("Thou hast not entered an appropriate # of games." );
 		}	
         
         //if num of games inputted in # format:

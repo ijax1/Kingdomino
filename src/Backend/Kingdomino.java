@@ -44,7 +44,6 @@ public class Kingdomino implements GameEventListener{
 
         startPanel = new StartPanel(new GridBagLayout(), this);
         podiumPanel = new PodiumPanel(new GridBagLayout(), this);
-
         basePanel.add(startPanel, "Start Panel");
 //        basePanel.add(gamePanel, "Game Panel");
         basePanel.add(podiumPanel, "Podium Panel");
@@ -92,7 +91,6 @@ public class Kingdomino implements GameEventListener{
     }
 	@Override
 	public void onStateChangedTo(GameState state) {
-		System.out.println(state);
 		if (state == GameState.INITIAL) {
             panels.show(basePanel, "Start Panel");
         } else if (state == GameState.PLAYER_TURN ||

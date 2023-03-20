@@ -24,7 +24,6 @@ public class Resources {
 		for(String name: fileNames) {
 			map.put(name, Resources.loadImage(path+name+".png"));
 		}
-		System.out.println(map.size());
 	}
 	//Cannot be instantiated
 	private Resources(){

@@ -172,7 +172,6 @@ public class StartPanel extends JPanel {
                 players.add(newPlayer);
             }
         }
-        System.out.println(players);
         return players;
     }
 

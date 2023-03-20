@@ -71,10 +71,8 @@ public class Banner extends Component {
 		if(gm.getGameState() == GameState.TALLY_SCORE) {
 	    	double x = getPosition().getX() + bannerStartX;
 	    	double y = getPosition().getY() + bannerStartY;
-	    	System.out.println("here component:"+x+y);
 	        boolean isOn = ((c.getX() > x && c.getX() < x+width) &&
 	                (c.getY() > y && c.getY() < y+height));
-	        System.out.println(isOn);
 	        return isOn;
 		} else {
 			return false;
@@ -92,7 +90,6 @@ public class Banner extends Component {
 			if(scoreIdx > 7) {
 				((Timer)e.getSource()).stop();
 			} else {
-				//System.out.println("scoreidx:"+scoreIdx);
 				displayedScores = new int[scoreIdx];
 				System.arraycopy(scores, 0, displayedScores, 0, scoreIdx);
 				gamePanel.repaint();
@@ -125,11 +122,9 @@ public class Banner extends Component {
 		yPos = bannerStartY;
 		
 		for(int i=0; i<displayedScores.length; i++) {
-			//System.out.print(displayedScores[i]);
 			g.drawString(""+displayedScores[i], xPos, yPos);
 			yPos += 50;
 		}
-		//System.out.println();
 
 		g.drawString("Total:", bannerStartX, bannerEndY-120);	
 		g.drawString("NEXT", bannerStartX, bannerEndY-90);
@@ -240,8 +235,7 @@ public class Banner extends Component {
 	private int playerIdx = 0;
 	@Override
 	public void whenClicked() {
-		
-		System.out.println("banner clicked"+playerIdx);
+
 		ArrayList<Player>players = gm.getPlayers();
 		playerIdx++;
 		if(playerIdx >= players.size()) {

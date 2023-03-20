@@ -23,9 +23,6 @@ public class PodiumPanelTester {
 		fakePlayers.add(new TestPlayer(OurColors.YELLOW, "Ian Jackson", "The Glorious",25));
 		Kingdomino k = new Kingdomino();
 		k.getManager().setPlayers(fakePlayers);
-//		for(Player p: fakePlayers) {
-//			System.out.println(p.getScore());
-//		}
 		k.getManager().setGameState(GameState.ENDSCREEN);
 	}
 }
