@@ -92,10 +92,55 @@ public class AnalysisPanel extends JPanel {
 		
 		JPanel box2 = new JPanel();
 		box2.setSize(width, height);
-		JPanel box3 = new JPanel();
-		box3.setSize(width, height);
-		JPanel box4 = new JPanel();
-		box4.setSize(width, height);
+		
+		JLabel player1Strat = new JLabel(strategyType.get(1), SwingConstants.CENTER);
+		box2.add(player1Strat);
+		JLabel player1GamesPlayed = new JLabel("Games played: " + totalGames, SwingConstants.CENTER);
+		box2.add(player1GamesPlayed);
+		JLabel player1GamesWon = new JLabel("Games won: " + playerWins.get(1), SwingConstants.CENTER);
+		box2.add(player1GamesWon);
+		JLabel player1PercentageWon = new JLabel("Percentage won: " + percentageWon.get(1), SwingConstants.CENTER);
+		box2.add(player1PercentageWon);
+		
+		if (totalPlayers>2) {
+			JPanel box3 = new JPanel();
+			box3.setSize(width, height);
+			
+			JLabel player2Strat = new JLabel(strategyType.get(2), SwingConstants.CENTER);
+			box3.add(player2Strat);
+			JLabel player2GamesPlayed = new JLabel("Games played: " + totalGames, SwingConstants.CENTER);
+			box3.add(player2GamesPlayed);
+			JLabel player2GamesWon = new JLabel("Games won: " + playerWins.get(2), SwingConstants.CENTER);
+			box3.add(player2GamesWon);
+			JLabel player2PercentageWon = new JLabel("Percentage won: " + percentageWon.get(2), SwingConstants.CENTER);
+			box3.add(player2PercentageWon);
+			c.gridx = 2;
+			c.gridy = 1;
+			g.setConstraints(box3, c);
+			add(box3);
+		}
+		
+		/*
+		if (totalPlayers>3) {
+			JPanel box4 = new JPanel();
+			box4.setSize(width, height);
+			
+			JLabel player3Strat = new JLabel(strategyType.get(3), SwingConstants.CENTER);
+			box4.add(player3Strat);
+			JLabel player3GamesPlayed = new JLabel("Games played: " + totalGames, SwingConstants.CENTER);
+			box4.add(player3GamesPlayed);
+			JLabel player3GamesWon = new JLabel("Games won: " + playerWins.get(3), SwingConstants.CENTER);
+			box4.add(player3GamesWon);
+			JLabel player3PercentageWon = new JLabel("Percentage won: " + percentageWon.get(3), SwingConstants.CENTER);
+			box4.add(player3PercentageWon);
+			g.setConstraints(box4, c);
+			add(box4);
+		}
+		
+		*/
+		
+		
+		
 
 		//JButton scrollB = new JButton("Quiteth");
 		JLabel scroll = new JLabel("Strategy Analysis", SwingConstants.CENTER);
@@ -145,12 +190,12 @@ public class AnalysisPanel extends JPanel {
 		add(box2);
 		c.gridx = 2;
 		c.gridy = 1;
-		g.setConstraints(box3, c);
-		add(box3);
+		//g.setConstraints(box3, c);
+		//add(box3);
 		c.gridx = 3;
 		c.gridy = 1;
-		g.setConstraints(box4, c);
-		add(box4);
+		//g.setConstraints(box4, c);
+		//add(box4);
 		c.ipady = 20;
 		c.gridx = 0;
 		c.gridy = 2;
