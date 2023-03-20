@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import resources.Titles;
 
 
-public abstract class ComputerPlayer extends Player {
+abstract class ComputerPlayer extends Player {
 
 	private final GameManager game;
 	private static Titles t = new Titles();
