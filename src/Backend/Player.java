@@ -47,10 +47,17 @@ public abstract class Player {
     }
     public boolean hasLegalMoves(boolean useCurrDomino) {
         Domino dominoCopy;
-        if (useCurrDomino)
+        if (useCurrDomino) {
+        	if(getCurrentDomino() == null) {
+        		return false;
+        	}
             dominoCopy = getCurrentDomino().copy();
-        else
+        } else {
+        	if(getNextDomino() == null) {
+        		return false;
+        	}
             dominoCopy = getNextDomino().copy();
+        }
         for(int i=0; i<360; i+=90) {
             dominoCopy.setRotation(i);
              if (!grid.availableSpaces(dominoCopy).isEmpty()) {
