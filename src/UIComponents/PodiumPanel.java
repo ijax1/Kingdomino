@@ -1,5 +1,4 @@
 package UIComponents;
-
 import java.util.*;
 import java.awt.*;
 import java.awt.Graphics;
@@ -29,7 +28,6 @@ import Backend.GameManager.GameState;
 import Backend.*;
 import resources.*;
 import resources.Titles;
-
 public class PodiumPanel extends JPanel {
 	private BufferedImage playerImg;
 	private BufferedImage computerImg;
@@ -39,26 +37,24 @@ public class PodiumPanel extends JPanel {
 	GameManager gm;
 	Kingdomino k;
 	private ArrayList<Player> order;
-
 	public PodiumPanel(GridBagLayout g, final Kingdomino kdomino) {
-		GridBagConstraints c = new GridBagConstraints();
-		k = kdomino;
-		gm = k.getManager();
-		order = k.getManager().getPlayers();
-		for (int i = 0; i < order.size() - 1; i++) {
-			for (int j = 0; j < order.size(); j++) {
-				if (order.get(i).getScore() < order.get(j).getScore()) {
+		k=kdomino;
+		gm=k.getManager();
+		order=k.getManager().getPlayers();
+		for(int i=0;i<order.size()-1;i++) {
+			for(int j=0;j<order.size();j++) {
+				if(order.get(i).getScore()<order.get(j).getScore()) {
 					Player temp = order.get(i);
 					order.set(i, order.get(j));
 					order.set(j, temp);
 				}
 			}
 		}
-		// order.get(0).getName();
+		//order.get(0).getName();
 //		class first extends JPanel{
 //			BufferedImage img;
 //			Image newimg;
-//			public first() {				
+//			public first() {
 //			img = Resources.loadImage("FirstPlace.png");
 //			newimg = img.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
 //            setPreferredSize(new Dimension(350, 500));
@@ -94,114 +90,91 @@ public class PodiumPanel extends JPanel {
 //	        }
 //		}
 
-		JLabel scroll = new JLabel("", SwingConstants.CENTER);
-		// scroll.setFont(Resources.getMedievalFont(50));
-		// scroll.setForeground(OurColors.FONT_LIGHT);
-		RoyalButton exit = new RoyalButton("EXITETH");
-		RoyalButton play = new RoyalButton("PLAYETH AGAIN");
-		exit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-        play.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	gm.setGameState(GameState.INITIAL);
-            }
-        });
-
-		// close = new CloseButton(new Coordinate(1200,800,0), null);
-
-		// Settings for whole layout
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.5;
-		c.gridheight = 1;
-		c.insets = new Insets(10, 10, 10, 10);
-		c.anchor = GridBagConstraints.CENTER;
-
-		c.ipady = 20;
-		c.gridx = 0;
-		c.gridy = 2;
-		c.gridwidth = 2;
-		g.setConstraints(exit, c);
-		add(exit);
-
-		c.gridx = 2;
-		c.gridy = 2;
-		c.gridwidth = 2;
-		g.setConstraints(play, c);
-		add(play);
 	}
-
-	public void updatePlayers() {
+	public void updatePlayers(){
 
 	};
-
 	public void paintComponent(Graphics g1) {
-		order = k.getManager().getPlayers();
-		for (int i = 0; i < order.size() - 1; i++) {
-			for (int j = 0; j < order.size(); j++) {
-				if (order.get(i).getScore() < order.get(j).getScore()) {
+		order=k.getManager().getPlayers();
+		for(int i=0;i<order.size()-1;i++) {
+			for(int j=0;j<order.size();j++) {
+				if(order.get(i).getScore()<order.get(j).getScore()) {
 					Player temp = order.get(i);
 					order.set(i, order.get(j));
 					order.set(j, temp);
 				}
 			}
 		}
-		for (Player p : order) {
+		for(Player p: order) {
 			System.out.print(p.getScore());
 		}
-		Graphics2D g = (Graphics2D) g1;
+		Graphics2D g = (Graphics2D)g1;
 		GamePanel.applyHints(g);
-		// BufferedImage img = Resources.loadImage("PodiumScreen.png");
-		// Image newimg = img.getScaledInstance(this.getWidth(), this.getHeight(),
-		// Image.SCALE_SMOOTH);
+		//BufferedImage img = Resources.loadImage("PodiumScreen.png");
+		//Image newimg = img.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
 		g.setColor(OurColors.BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(OurColors.BACKGROUND_CIRCLE);
-		g.fillOval(100, 50, getWidth() - 200, getHeight() - 100);
-		// Resources.loadImage(order.get(0).getTitle());
-		// g.drawImage(order.get(0), 0, 0, null);
-		g.drawImage(toImage(Resources.loadImage("king_domino_scroll.png")), (int) (this.getWidth() * 0.13), 0, null);
-		// g.drawImage(toImage(Resources.loadImage("king_domino_scroll.png")), 150/1266,
-		// 0, null);
+		g.fillOval(100,50,getWidth()-200, getHeight()-100);
+		//Resources.loadImage(order.get(0).getTitle());
+		//g.drawImage(order.get(0), 0, 0, null);
+		g.drawImage(toImage(Resources.loadImage("king_domino_scroll.png")), (int)(this.getWidth()*0.13), 0, null);
+		//g.drawImage(toImage(Resources.loadImage("king_domino_scroll.png")), 150/1266, 0, null);
 		/*
-		 * BufferedImage icon1 = Resources.loadImage("player_icon_win.png"); Image
-		 * newiconimage1 = icon1.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
-		 * g.drawImage(newiconimage1, 500, 190, null);
-		 * 
-		 * BufferedImage icon2 = Resources.loadImage("player_icon.png"); Image
-		 * newiconimage2 = icon2.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
-		 * g.drawImage(newiconimage2, 160, 250, null);
-		 * 
-		 * BufferedImage icon3 = Resources.loadImage("computer_icon.png"); Image
-		 * newiconimage3 = icon3.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
-		 * g.drawImage(newiconimage3, 850, 310, null);
-		 * 
-		 * BufferedImage img1 = Resources.loadImage("FirstPlace.png"); Image newimg1 =
-		 * img1.getScaledInstance(350, 500, Image.SCALE_SMOOTH); int x1 = (getWidth() -
-		 * newimg1.getWidth(null)) / 2; int y1 = getHeight() - newimg1.getHeight(null);
-		 * g.drawImage(newimg1, x1, y1, null);
-		 * 
-		 * 
-		 * BufferedImage img2 = Resources.loadImage("FirstPlace.png"); Image newimg2 =
-		 * img2.getScaledInstance(350, 450, Image.SCALE_SMOOTH); int x2 = x1 -
-		 * newimg2.getWidth(null); int y2 = y1+50; g.drawImage(newimg2, x2, y2, null);
-		 * 
-		 * BufferedImage img3 = Resources.loadImage("FirstPlace.png"); Image newimg3 =
-		 * img3.getScaledInstance(350, 400, Image.SCALE_SMOOTH); int x3 = x1 +
-		 * newimg2.getWidth(null); int y3 = y1+100; g.drawImage(newimg3, x3, y3, null);
-		 */
+		BufferedImage icon1 = Resources.loadImage("player_icon_win.png");
+        Image newiconimage1 = icon1.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+        g.drawImage(newiconimage1, 500, 190, null);
+
+		BufferedImage icon2 = Resources.loadImage("player_icon.png");
+        Image newiconimage2 = icon2.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+        g.drawImage(newiconimage2, 160, 250, null);
+
+        BufferedImage icon3 = Resources.loadImage("computer_icon.png");
+        Image newiconimage3 = icon3.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+        g.drawImage(newiconimage3, 850, 310, null);
+
+        BufferedImage img1 = Resources.loadImage("FirstPlace.png");
+        Image newimg1 = img1.getScaledInstance(350, 500, Image.SCALE_SMOOTH);
+        int x1 = (getWidth() - newimg1.getWidth(null)) / 2;
+        int y1 = getHeight() - newimg1.getHeight(null);
+        g.drawImage(newimg1, x1, y1, null);
+
+
+        BufferedImage img2 = Resources.loadImage("FirstPlace.png");
+        Image newimg2 = img2.getScaledInstance(350, 450, Image.SCALE_SMOOTH);
+        int x2 = x1 - newimg2.getWidth(null);
+        int y2 = y1+50;
+        g.drawImage(newimg2, x2, y2, null);
+
+        BufferedImage img3 = Resources.loadImage("FirstPlace.png");
+        Image newimg3 = img3.getScaledInstance(350, 400, Image.SCALE_SMOOTH);
+        int x3 = x1 + newimg2.getWidth(null);
+        int y3 = y1+100;
+        g.drawImage(newimg3, x3, y3, null);
+        */
 		g.setColor(Color.white);
 		g.setFont(Resources.getMedievalFont(40));
+		int[] ranks = new int[order.size()];
 		for (int i = 0; i < order.size(); i++) {
-			g.drawString(Integer.toString(1 + i) + ") " + order.get(i).getName() + " Score " + order.get(i).getScore(),
-					(int) (this.getWidth() * 0.35), 250 + i * 100);
+			ranks[i] = i + 1;
+		}
+		for(int i = 0; i < order.size(); i++) {
+			if (i > 0 && order.get(i).getScore() == order.get(i-1).getScore()) {
+				ranks[i] = ranks[i-1];
+			}
+			if (ranks[i] == 1) {
+				g.setColor(OurColors.YELLOW);
+			} else if (ranks[i] == 2) {
+				g.setColor(Color.LIGHT_GRAY);
+			} else if (ranks[i] == 3) {
+				g.setColor(OurColors.BRONZE);
+			} else {
+				g.setColor(Color.WHITE);
+			}
+			g.drawString(ranks[i] +": "+ order.get(i).getName() + " " + order.get(i).getTitle(), (int) (this.getWidth()*0.2), 250 + i*100);
+			g.drawString("Score " + order.get(i).getScore(), (int) (this.getWidth() * 0.65), 250 + i*100);
 		}
 	}
-
 	private Image toImage(BufferedImage img) {
 		Image image = img.getScaledInstance(img.getWidth(), img.getHeight(), Image.SCALE_SMOOTH);
 		return image;

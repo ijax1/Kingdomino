@@ -23,5 +23,7 @@ public class OurColors {
 	
 	public static final Color FONT_LIGHT = new Color(0xffffff);
 	public static final Color FONT_DARK = new Color(0x595959);
+
+	public static final Color BRONZE = new Color(0x964B00);
 	
 }
