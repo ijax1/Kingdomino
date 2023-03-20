@@ -9,64 +9,81 @@ public class SkilledStrategy extends ComputerPlayer {
 
     private GridPosition bestPos;
     private int bestRot = 0;
+    private Domino bestDomino;
     private String title = Titles.generateTitle();
     private String name = Titles.generateName();
 
     public SkilledStrategy(Color color, GameManager game) {
         super(color, game);
     }
+
     public String getStrategyName() {
-    	return "Skilled Strategy";
-    }
-    @Override
-    public String getTitle() {
-    	return title;
-    }
-    @Override
-    public String getName() {
-    	return name;
-    }
-    /** Note: don't call if there are no choices
-     * 
-     */
-    @Override
-    public void calculateChoice(Domino[]d, ArrayList<Player>p) {
-        Domino[] dominoes = d;
-        int maxScore = 0;
-        bestRot = 0;
-        Domino bestDomino = dominoes[0];
-        for (Domino domino : dominoes) {
-        	for(int i=0; i<4; i++) {
-        		domino.incrementRotation();
-	            ArrayList<GridPosition> positions = getGrid().availableSpaces(domino);
-	            Grid potentialGrid;
-	            if(!positions.isEmpty()) {
-		            bestPos = positions.get(0);
-		            for (GridPosition pos : positions) {
-		                potentialGrid = getGrid().copy();
-		                potentialGrid.placeDomino(pos.getX(), pos.getY(), domino);
-		                int currScore = potentialGrid.calculateScore();
-		                if (currScore > maxScore) {
-		                    bestPos = pos;
-		                    bestRot = domino.getRotation();
-		                    bestDomino = domino;
-		                    maxScore = currScore;
-		                }
-		            }
-	            }
-        	}
-        }
-        setSelected(true);
-        setNextDomino(bestDomino);
-        
+        return "Skilled Strategy";
     }
 
     @Override
-    public void placeDomino(Domino[]d, ArrayList<Player>p) {
-        if(bestPos != null && getNextDomino() != null) {
-        	Domino dom = getNextDomino();
-        	dom.setRotation(bestRot);
-            getGrid().placeDomino(bestPos.getX(), bestPos.getY(), dom);
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Note: don't call if there are no choices
+     */
+    @Override
+    public void calculateChoice(Domino[] d, ArrayList<Player> p) {
+        Domino[] dominoes = d;
+        int maxScore = 0;
+        bestRot = 0;
+//        Domino bestDomino = dominoes[0];
+        bestDomino = dominoes[0];
+        for (Domino domino : dominoes) {
+            for (int i = 0; i < 4; i++) {
+                domino.incrementRotation();
+                ArrayList<GridPosition> positions = getGrid().availableSpaces(domino);
+                Grid potentialGrid;
+                if (!positions.isEmpty()) {
+                    if (bestPos == null)
+                        bestPos = positions.get(0);
+                    for (GridPosition pos : positions) {
+                        potentialGrid = getGrid().copy();
+                        potentialGrid.placeDomino(pos.getY(), pos.getX(), domino);
+                        int currScore = potentialGrid.calculateScore();
+                        if (currScore > maxScore) {
+                            bestPos = pos;
+                            bestRot = domino.getRotation();
+                            bestDomino = domino;
+                            maxScore = currScore;
+                        }
+                    }
+                }
+            }
+        }
+        setSelected(true);
+        setNextDomino(bestDomino);
+    }
+
+//    @Override
+//    public void placeDomino(Domino[] d, ArrayList<Player> p) {
+//        if (bestPos != null && getCurrentDomino() != null) {
+//            Domino dom = getCurrentDomino();
+//            dom.setRotation(bestRot);
+////            getGrid().placeDomino(bestPos.getX(), bestPos.getY(), dom);
+//            getGrid().placeDomino(bestPos.getY(), bestPos.getX(), dom);
+//        }
+//        setPlaced(true);
+//    }
+
+    public void placeDomino(Domino[] d, ArrayList<Player> p) {
+        if (bestPos != null) {
+            bestDomino.setRotation(bestRot);
+            boolean placeable = getGrid().placeDomino(bestPos.getY(), bestPos.getX(), bestDomino);
+            if (!placeable)
+                System.out.println("not placeable");
         }
         setPlaced(true);
     }

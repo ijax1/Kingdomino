@@ -201,6 +201,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     @Override
     public void onNextPlayer() {
         if(gm.getCurrentPlayer() instanceof HumanPlayer) {
+            System.out.println("is human player");
             changePlayer(gm.getCurrentPlayer());
         }
         else{
