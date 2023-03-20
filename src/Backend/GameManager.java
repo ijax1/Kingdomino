@@ -55,6 +55,7 @@ public class GameManager {
         players.add(new SkilledStrategy(OurColors.BLUE, this));
         players.add(new SkilledStrategy(OurColors.GREEN, this));
         players.add(new SkilledStrategy(OurColors.YELLOW, this));
+        winners = new ArrayList<>();
         reset();
     }
 

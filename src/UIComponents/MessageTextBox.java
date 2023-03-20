@@ -48,7 +48,7 @@ public class MessageTextBox extends Component {
         } else {
             g.fillRoundRect((int) getPosition().getX(), (int) getPosition().getY(), 300, 220, 50, 50);
             g.setColor(Color.white);
-            if (!gm.getCurrentPlayer().hasLegalMoves(true)) {
+            if (!gm.isFirstRound() && !gm.getCurrentPlayer().hasLegalMoves(true)) {
                 g.drawString("No Legal Moves!", (int) minimizedPosition.getX(), (int) minimizedPosition.getY());
             }
             // draw string quotes based on seeking the current line from the text file with all the quotes
