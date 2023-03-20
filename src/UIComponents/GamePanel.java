@@ -432,6 +432,9 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
             if (clickedComponent.onComponent(mouseCoord))
                 ((PlayerTabGroup) clickedComponent).selectButton(mouseCoord);
         }
+        if (clickedComponent instanceof MessageTextBox) {
+            clickedComponent.whenClicked();
+        }
     }
 
 
