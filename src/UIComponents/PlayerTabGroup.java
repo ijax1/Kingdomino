@@ -11,7 +11,7 @@ import Backend.Kingdomino;
 import Backend.Player;
 import UIComponents.Render.Coordinate;
 
-public class PlayerTabGroup extends Component implements GameEventListener {
+public class PlayerTabGroup extends Component {
     private final ArrayList<PlayerTabButton> group;
     private PlayerTabButton selected;
     private int selectedIndex;
@@ -25,8 +25,6 @@ public class PlayerTabGroup extends Component implements GameEventListener {
         double y = 70;
         this.gp = gp;
         this.gm = k.getManager();
-        
-        gm.addListener(this);
 
         group = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
@@ -66,7 +64,7 @@ public class PlayerTabGroup extends Component implements GameEventListener {
         }
     }
 
-    public void selectButton(Coordinate c) {
+    void selectButton(Coordinate c) {
         PlayerTabButton selected = group.get(0);
         for (PlayerTabButton p : group) {
             p.minimize();
@@ -79,7 +77,7 @@ public class PlayerTabGroup extends Component implements GameEventListener {
 
     }
 
-    private void selectButton(Player selectedPlayer) {
+    void selectButton(Player selectedPlayer) {
     	System.out.println("selected player: " + selectedPlayer);
         PlayerTabButton selectedButton = group.get(0);
         for (PlayerTabButton button : group) {
@@ -97,39 +95,6 @@ public class PlayerTabGroup extends Component implements GameEventListener {
         //Here's the problem
         
         gp.setViewedPlayer(selectedButton.getPlayer());
-    }
-
-    public void updateOrder() {
-        /*
-        boolean sorted = false;
-        while (!sorted) {
-            for (int i = 0; i < group.size() - 1; i++) {
-                Player p = group.get(i).getPlayer();
-                Player p2 = group.get(i + 1).getPlayer();
-                if (p.getNextDomino().compareTo(p2.getNextDomino()) > 0) {
-                    sorted = false;
-                    PlayerTabButton temp = group.get(i);
-                    group.set(i, group.get(i + 1));
-                    group.set(i + 1, temp);
-                } else {
-                    sorted = true;
-                }
-            }
-        }
-
-         */
-
-        double x = 0;
-        double y = 160;
-        ArrayList<Player> players = getManager().getPlayers();
-        //System.out.println(players.get(0).getCurrentDomino());
-        for(int i = 0; i < 4; i++){
-            Coordinate coord = new Coordinate(x, y,0);
-            group.set(i, new PlayerTabButton(coord,getGame(),players.get(i),this,gp));
-            y+=100;
-        }
-
-
     }
 
     @Override
@@ -160,26 +125,8 @@ public class PlayerTabGroup extends Component implements GameEventListener {
                 button.draw(g);
             }
         }
-        /*
-        if (selected.getPlayer() != getGame().getManager().getCurrentPlayer()) {
-            g.setColor(new Color(241, 194, 50, 100));
-            int width = 50, height = 100;
-            int[] tipX = {width + 10, width + 50, width + 50};
-            int[] tipY = {(int) (((selectedIndex - 0.5) * height) + getPosition().getY()),
-                    (int) ((selectedIndex-1) * height + getPosition().getY()),
-                    (int) ((selectedIndex) * height + getPosition().getY())};
-            g.fillPolygon(new Polygon(tipX, tipY, 3));
-
-            // height = y constant * 2
-            g.fillRect(tipX[2], tipY[0] - 20, 70, 40);
-        }
-
-         */
     }
 
-    // trying to reduce the amount of times it needs to redraw?
-    // when integrating, should run playerTabButton whenClicked() first bc it is updating information used by playertabgroup
-    // actually when we add viewed player this whenclicked() will look differently.
     @Override
     public void whenClicked() {
         boolean run = false;
@@ -194,42 +141,5 @@ public class PlayerTabGroup extends Component implements GameEventListener {
         if (run) {
             draw(graphics);
         }
-
-        // shoudl look smth like this instead in theory ????
-
-// 	if (getGame().getManager().getViewedPlayer() != selected.player()) {
-// 		setSelected(); 
-// 		draw(graphics) 
-// 	}
     }
-
-	@Override
-	public void onStateChangedTo(GameState state) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onDominoSelected(Domino d, boolean recallNextPlayer) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onNextPlayer() {
-		// TODO Auto-generated method stub
-		updatePlayers(gm.getPlayers(), gm.getPlayerOrder());
-		selectButton(gm.getCurrentPlayer());
-	}
-
-	@Override
-	public void onFinishTurn() {
-		// TODO Auto-generated method stub
-		
-	}
-
-    // returns selected player - do we want to determine background based on player or button
-//    public Player getSelected() {
-//        return selected.getPlayer();
-//    }
 }
