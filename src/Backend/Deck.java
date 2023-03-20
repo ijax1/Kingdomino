@@ -106,11 +106,17 @@ public class Deck {
     public void shuffleDeck() {
         Collections.shuffle(deck);
     }
-
+    /**
+     * Gets the number of dominoes remaining in the deck
+     * @return the number of dominoes remaining from 0-48
+     */
     public int dominoesRemaining() {
         return deck.size();
     }
-
+    /**
+     * Returns if deck is empty
+     * @return true if deck is empty
+     */
     public boolean isEmpty() {
         return deck.isEmpty();
     }
@@ -198,6 +204,10 @@ public class Deck {
     		}
     	}
     }
+    /**
+     * Returns the array of Players that have selected and confirmed the corresponding Dominoes (from getAllDominoes)
+     * @return an array of 4 Players, some of whom are null, corresponding to who locked which Domino
+     */
     public Player[] getLocked() {
         return whoLocked;
     }
