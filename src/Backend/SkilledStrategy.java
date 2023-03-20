@@ -15,7 +15,7 @@ public class SkilledStrategy extends ComputerPlayer {
         super(color, game);
     }
     public String getStrategyName() {
-    	return "Random Strategy";
+    	return "Skilled Strategy";
     }
     @Override
     public String getTitle() {
