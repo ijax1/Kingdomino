@@ -49,9 +49,6 @@ public class PodiumPanel extends JPanel {
 				}
 			}
 		}
-		for(Player p: order) {
-			System.out.print(p.getScore());
-		}
 		//order.get(0).getName();
 //		class first extends JPanel{
 //			BufferedImage img;
@@ -93,7 +90,23 @@ public class PodiumPanel extends JPanel {
 //		}
 		
 	}
+	public void updatePlayers(){
+
+	};
 	public void paintComponent(Graphics g1) {
+		order=k.getManager().getPlayers();
+		for(int i=0;i<order.size()-1;i++) {
+			for(int j=0;j<order.size();j++) {
+				if(order.get(i).getScore()<order.get(j).getScore()) {
+					Player temp = order.get(i);
+					order.set(i, order.get(j));
+					order.set(j, temp);
+				}
+			}
+		}
+		for(Player p: order) {
+			System.out.print(p.getScore());
+		}
 		Graphics2D g = (Graphics2D)g1;
 		GamePanel.applyHints(g);
 		//BufferedImage img = Resources.loadImage("PodiumScreen.png");
