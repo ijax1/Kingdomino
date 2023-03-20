@@ -1,0 +1,24 @@
+package resources;
+
+public class Quotes {
+    private static final String[][] QUOTES = {
+            {"It is better to be feared than loved, if you cannot be both.", "Niccolo Machiavelli"},
+            {"To be or not to be, that is the question.", "Shakespeare's Hamlet"},
+            {"Who overcomes by force, hath overcome but half his foe.", "Milton's Paradise Lost"},
+            {"The mind is its own place, and in itself can make a heaven of hell, a hell of heaven.", "Milton's Paradise Lost"},
+            {"All the world's a stage, and all the men and women are merely players.", "Shakespeare's As You Like It"},
+            {"If it were done when 'tis done, then 'twere well it were done quickly.", "Shakespeare's Macbeth"},
+            {"Look like th' innocent flower, but be the serpent under 't.", "Shakespeare's Macbeth"},
+            {"Fair is foul, and foul is fair.", "Shakespeare's Hamlet"},
+            {"Something is rotten in the state of Denmark.", "Shakespeare's Hamlet"},
+            {"Most men seem to live according to sense rather than reason.", "St. Thomas Aquinas"},
+            {"If the highest aim of a captain were to preserve his ship, he would keep it in port forever.", "St. Thomas Aquinas"},
+            {"A man's greatest joy is crushing his enemies.", "Genghis Khan"},
+            {"My life was too short to achieve conquest of the world. That task is left for you.", "Genghis Khan"},
+
+    };
+
+    public static String[] getQuote() {
+        return QUOTES[(int) (Math.random() * QUOTES.length)];
+    }
+}

@@ -30,8 +30,8 @@ abstract class ComputerPlayer extends Player {
 	@Override
 	abstract public String getName();
 
-	abstract public void placeDomino(Domino[]choices, ArrayList<Player>currentPlayers);
+	abstract public void placeDomino(Domino[] choices, ArrayList<Player> currentPlayers);
 
-	abstract public void calculateChoice(Domino[]choices, ArrayList<Player>currentPlayers);
+	abstract public void calculateChoice(Domino[] choices, ArrayList<Player> currentPlayers);
 
 }

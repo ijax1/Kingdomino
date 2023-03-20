@@ -52,4 +52,5 @@ public class TestPlayer extends Player {
 		return true;
 	}
 
+	public String getStrategyName() { return "Test"; }
 }

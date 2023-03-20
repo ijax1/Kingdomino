@@ -69,7 +69,7 @@ public class Kingdomino implements GameEventListener{
         frame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         frame.setIconImage(Resources.loadImage("crown.ico"));
         frame.pack();
-        //frame.setResizable(true);
+        frame.setResizable(true);
         frame.setVisible(true);
 
         frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(

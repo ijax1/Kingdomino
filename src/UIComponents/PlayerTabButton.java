@@ -9,8 +9,8 @@ import UIComponents.Render.Coordinate;
 public class PlayerTabButton extends Button {
     Player player;
     private GamePanel gamePanel;
-    private double width = 50;
-    private final double height = 100;
+    private double width = 70;
+    private final double height = 150;
     private PlayerTabGroup group;
 
     PlayerTabButton(Coordinate position, Kingdomino k, Player p, PlayerTabGroup group, GamePanel gp) {
@@ -48,9 +48,9 @@ public class PlayerTabButton extends Button {
         double startY = getPosition().getY();
 
 
-        width = 40;
+        width = 90;
         if(super.isShown()) {
-            width += 25;
+            width += 30;
         }
         int filletRadius = 20;
         //g.fillRect((int) startX, (int) startY, (int) width, (int) height);
@@ -67,6 +67,13 @@ public class PlayerTabButton extends Button {
         g.fillOval((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) filletRadius);
         g.fillRect((int) (startX+(width-filletRadius)), (int) startY + filletRadius/2, (int) filletRadius, (int) height - filletRadius);
         g.fillOval((int) (startX+(width-filletRadius)), (int) (startY + (height - filletRadius)), (int) filletRadius, (int) filletRadius);
+
+        if (player.getNextDomino() != null) {
+            Coordinate dominoPosition = new Coordinate(super.getPosition().getX() + 40, super.getPosition().getY() + 75, super.getPosition().getZ());
+            UIDomino nextDomino = new UIDomino(dominoPosition, super.getGame(), player.getNextDomino());
+            nextDomino.incrementRotation(0, 0, Math.PI / 2);
+            nextDomino.draw(g);
+        }
     }
 
     public void setPlayer(Player player) {

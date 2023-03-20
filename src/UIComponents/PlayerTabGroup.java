@@ -17,7 +17,7 @@ public class PlayerTabGroup extends Component {
     PlayerTabGroup(ArrayList<Player> players, Kingdomino k, GamePanel gp) {
         super(new Coordinate(0, 160, 0), k);
         double x = 0;
-        double y = 160;
+        double y = 70;
         this.gp = gp;
 
         group = new ArrayList<>();
@@ -25,7 +25,7 @@ public class PlayerTabGroup extends Component {
             Coordinate coord = new Coordinate(x, y, 0);
             group.add(new PlayerTabButton(coord, k, players.get(i), this, gp));
             //current height of each domino
-            y += 100;
+            y += 150;
         }
 //        System.out.println(players);
         setSelected(group.get(0));
