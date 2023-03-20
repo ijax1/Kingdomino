@@ -40,9 +40,6 @@ public abstract class Player {
     public boolean hasPlaced() {
         return placed;
     }
-
-	abstract public String getStrategyName();
-
     
     
     public void setPlaced(boolean placed) {

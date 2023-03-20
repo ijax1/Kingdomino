@@ -22,10 +22,4 @@ public class HumanPlayer extends Player {
 		return true;
 	}
 
-	@Override
-	public String getStrategyName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
