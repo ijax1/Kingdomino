@@ -2,7 +2,9 @@ package UIComponents;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
+import Backend.GameEventListener;
 import Backend.GameManager;
 import Backend.Kingdomino;
 import Backend.Player;
@@ -23,7 +25,15 @@ public class FinishTurnButton extends Button{
         if(super.getManager().getCurrentPlayer() == getGame().getGamePanel().getViewedPlayerIdx()) {
             Player p = getGame().getManager().getCurrentPlayer();
             p.setCurrentDomino(p.getNextDomino());
-            getGame().nextPlayer();
+            getGame().finishTurn();
+            getGame().getManager().nextPlayer();
+
+//            getGame().nextPlayer();
+
+//            ArrayList<GameEventListener> listeners = getGame().getManager().getListeners();
+//            for (GameEventListener gl : listeners) {
+//                gl.onNextPlayer();
+//            }
         }
 //        getGame().getManager().finishTurn();
     }

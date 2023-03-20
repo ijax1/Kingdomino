@@ -164,13 +164,17 @@ public class GameManager {
             if (getDeck().getDominoesToSelect().length != 0) {
                 ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
                 for (GameEventListener gl : listeners) {
-                    gl.onDominoSelected(getCurrentPlayer().getNextDomino());
+                    gl.onDominoSelected(getCurrentPlayer().getNextDomino(), false);
                 }
             }
             getCurrentPlayer().setSelected(true);
-
-            //getCurrentPlayer().hasSelected();
+            for (GameEventListener gl : listeners) {
+                gl.onFinishTurn();
+            }
             nextPlayer();
+//            for (GameEventListener gl : listeners) {
+//                gl.onNextPlayer();
+//            }
         }
     }
 
@@ -326,6 +330,10 @@ public class GameManager {
 
     public ArrayList<Integer> getPlayerOrder() {
         return playerOrder;
+    }
+
+    public ArrayList<GameEventListener> getListeners() {
+        return listeners;
     }
 
 

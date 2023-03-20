@@ -167,7 +167,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     }
 
     @Override
-    public void onDominoSelected(Domino dominoSelected) {
+    public void onDominoSelected(Domino dominoSelected, boolean recallNextPlayer) {
         DominoButton dominoButton = null;
         for (DominoButton b : banner.getButtons()) {
             if (b.getUiDomino().ref == dominoSelected) {
@@ -193,6 +193,11 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     @Override
     public void onNextPlayer() {
         changePlayer(gm.getCurrentPlayer());
+
+    }
+
+    @Override
+    public void onFinishTurn() {
 
     }
 

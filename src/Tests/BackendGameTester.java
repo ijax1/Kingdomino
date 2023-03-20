@@ -47,12 +47,17 @@ public class BackendGameTester implements GameEventListener {
 		}
 	}
 	@Override
-	public void onDominoSelected(Domino d) {
+	public void onDominoSelected(Domino d, boolean recallNextPlayer) {
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void onNextPlayer() {
 		
+	}
+
+	@Override
+	public void onFinishTurn() {
+
 	}
 }

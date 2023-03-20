@@ -109,15 +109,22 @@ public class Kingdomino implements GameEventListener{
 //            analysisPanel.beginAnalysis(manager.getNumGames());
         }	
 	}
-    public void nextPlayer() {
+
+    public void finishTurn() {
         getGamePanel().finishTurn();
         if (manager.getCurrentPlayer() instanceof HumanPlayer && manager.getCurrentPlayer().getCurrentDomino() != null) {
             UIGrid uiGrid = getGamePanel().getUIGrid();
             manager.getCurrentPlayer().getGrid().placeDomino(uiGrid.getDominoLocation()[1], uiGrid.getDominoLocation()[0], manager.getCurrentPlayer().getCurrentDomino());
         }
-        manager.nextPlayer();
-        getGamePanel().changePlayer(manager.getCurrentPlayer());
-        
+    }
+
+    public void nextPlayer() {
+//        getGamePanel().finishTurn();
+//        if (manager.getCurrentPlayer() instanceof HumanPlayer && manager.getCurrentPlayer().getCurrentDomino() != null) {
+//            UIGrid uiGrid = getGamePanel().getUIGrid();
+//            manager.getCurrentPlayer().getGrid().placeDomino(uiGrid.getDominoLocation()[1], uiGrid.getDominoLocation()[0], manager.getCurrentPlayer().getCurrentDomino());
+//        }
+//        manager.nextPlayer();
     }
 
     public GamePanel getGamePanel() {
@@ -139,14 +146,19 @@ public class Kingdomino implements GameEventListener{
     }
 
 	@Override
-	public void onDominoSelected(Domino d) {
+	public void onDominoSelected(Domino d, boolean recallNextPlayer) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onNextPlayer() {
 		// TODO Auto-generated method stub
-		
+        nextPlayer();
+
 	}
+
+    @Override
+    public void onFinishTurn() {
+        finishTurn();
+    }
 }
