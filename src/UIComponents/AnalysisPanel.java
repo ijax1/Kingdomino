@@ -50,12 +50,7 @@ public class AnalysisPanel extends JPanel {
 		//last # of playerOrder won game = player #
 		Integer winner = kingdomino.getManager().getPlayerOrder().get(totalPlayers-1);
 		
-		//gameManager
-		//setResults();
-		//last # of playerOrder won game = player #
-		//Integer winner = getPlayerOrder().get(players.size());
 		
-        
 		
 		String stratType;
 		

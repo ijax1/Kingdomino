@@ -24,6 +24,7 @@ public class GameManager {
     private ArrayList<Domino> availableDominoes;
     private int roundNum;
     private boolean noMovePossible;
+  	private ArrayList<Integer> winners;  	
 
     // will contain integers 0,1,2,3 representing players, ordered in their desired order
     // ex: {3,0,2,1} = player 3 --> player 0 --> player 2 --> player 1
@@ -229,10 +230,19 @@ public class GameManager {
         list.set(i2, temp);
     }
 
+
+    
     public void endGame() {
         System.out.println("game over");
+    	setResults();
+      	//last # of playerOrder won game = player #
+      	Integer winner = getPlayerOrder().get(players.size()-1);
+        winners.add(winner);
+        
         setGameState(GameState.TALLY_SCORE);
-//        numGamesLeft--;
+//        
+      
+        numGamesLeft--;
 //        if (isFastMode && numGamesLeft == ) {
 //
 //        }
