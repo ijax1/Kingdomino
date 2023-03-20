@@ -50,7 +50,7 @@ public class AnalysisPanel extends JPanel {
 		ArrayList<Integer> percentageWon = new ArrayList<Integer>();
 
 
-		if (kingdomino.getManager().getGameState()==GameState.END_ROUND) {
+		
 			//VALUES:
 		
 			//total games won for each player:	
@@ -107,7 +107,7 @@ public class AnalysisPanel extends JPanel {
 			JLabel player1PercentageWon = new JLabel("Percentage won: " + percentageWon.get(1), SwingConstants.CENTER);
 			box2.add(player1PercentageWon);
 			
-			if (totalPlayers>2) {
+			
 				JPanel box3 = new JPanel();
 				box3.setSize(width, height);
 				
@@ -123,10 +123,8 @@ public class AnalysisPanel extends JPanel {
 				c.gridy = 1;
 				g.setConstraints(box3, c);
 				add(box3);
-			}
 			
-			/*
-			if (totalPlayers>3) {
+			
 				JPanel box4 = new JPanel();
 				box4.setSize(width, height);
 				
@@ -140,9 +138,6 @@ public class AnalysisPanel extends JPanel {
 				box4.add(player3PercentageWon);
 				g.setConstraints(box4, c);
 				add(box4);
-			}
-			
-			*/
 			
 			
 			
@@ -221,7 +216,7 @@ public class AnalysisPanel extends JPanel {
 		}
 		
 		
-	}
+	
 	@Override
 	public void paintComponent(Graphics g1) {
 		Graphics2D g = (Graphics2D)g1;
