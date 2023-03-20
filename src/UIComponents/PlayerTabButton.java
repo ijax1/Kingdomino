@@ -2,9 +2,11 @@ package UIComponents;
 
 import java.awt.*;
 
+import Backend.GameManager;
 import Backend.Kingdomino;
 import Backend.Player;
 import UIComponents.Render.Coordinate;
+import resources.OurColors;
 
 public class PlayerTabButton extends Button {
     Player player;
@@ -12,12 +14,14 @@ public class PlayerTabButton extends Button {
     private double width = 70;
     private final double height = 150;
     private PlayerTabGroup group;
+    private GameManager gm;
 
     PlayerTabButton(Coordinate position, Kingdomino k, Player p, PlayerTabGroup group, GamePanel gp) {
         super(position, k);
         player = p;
         gamePanel = gp;
         this.group = group;
+        this.gm = k.getManager();
     }
 
     public void doAction() {
@@ -25,11 +29,6 @@ public class PlayerTabButton extends Button {
             super.show();
         	group.setSelected(this);
         }
-        //will need to update to match once integrated
-//         if (gamePanel.getViewedPlayer() != index) {
-//             super.show();
-//             gamePanel.setViewedPlayer(index);
-//         }
     }
 
     public boolean onComponent(Coordinate c) {
@@ -73,6 +72,18 @@ public class PlayerTabButton extends Button {
             UIDomino nextDomino = new UIDomino(dominoPosition, super.getGame(), player.getNextDomino());
             nextDomino.incrementRotation(0, 0, Math.PI / 2);
             nextDomino.draw(g);
+        }
+        if(gm.getCurrentPlayer() == getPlayer()) {
+        	int widthi = (int) (startX + width + 10);
+        	int heighti = (int) (startY + height);
+        	int heightHalf = (int) (startY + height/2);
+        	int[] xp = {widthi, widthi+30, widthi+30};
+        	int[] yp = {heightHalf, (int) startY+30, heighti-30};
+        	g.setColor(OurColors.ACCENT_COLOR);
+        	g.fillPolygon(xp, yp, 3);
+        	g.setStroke(new BasicStroke(2));
+        	g.setColor(Color.BLACK);
+        	g.drawPolygon(xp, yp, 3);
         }
     }
 
