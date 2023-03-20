@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import Backend.GameManager;
 import resources.Resources;
 
+//TODO delete this class before turn in if it isnt used
 public class TopScroll extends JPanel {
 	private String title;
 	private String subtitle;
