@@ -152,7 +152,7 @@ public class PodiumPanel extends JPanel {
         int y3 = y1+100; 
         g.drawImage(newimg3, x3, y3, null);
         */
-		g.setColor(Color.black);
+		g.setColor(Color.white);
 		g.setFont(Resources.getMedievalFont(40));
 		for(int i=0;i<order.size();i++) {
 			g.drawString(Integer.toString(1+i) +") "+ order.get(i).getName() + " Score " + order.get(i).getScore(), (int)(this.getWidth()*0.35), 250+ i*100);
