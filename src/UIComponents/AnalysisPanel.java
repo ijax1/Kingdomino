@@ -31,7 +31,8 @@ public class AnalysisPanel extends JPanel {
 	private int width = 200;
 	private int height = 500;
 	private Kingdomino kingdomino;
-
+	
+	
 	
 	public AnalysisPanel(GridBagLayout g, Kingdomino kingdomino) {
 		super(g);
