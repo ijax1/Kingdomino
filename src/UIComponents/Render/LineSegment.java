@@ -125,14 +125,5 @@ public class LineSegment {
         LineSegment ls = new LineSegment(new Coordinate(0,0,0),new Coordinate(2,2,0));
         LineSegment ls2 = new LineSegment(new Coordinate(0,1,0),new Coordinate(1,0,0));
 
-        /*
-        Coordinate s = ls.getStart();
-        for(int i = 0; i < ls.getLength(); i++){
-            s = ls.getNextPoint(s,0.01);
-            System.out.println(s);
-        }
-
-         */
-        System.out.println(ls.intersect2D(ls2));
     }
 }

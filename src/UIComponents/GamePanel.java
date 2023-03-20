@@ -184,7 +184,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
             }
         }
         if (dominoButton == null) {
-            System.out.println("domino button null");
             return;
         }
         if (!dominoButton.isLocked()) {
@@ -337,7 +336,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
             double x = component.getPosition().getX();
             double y = component.getPosition().getY();
             //componentg.translate(x,y);
-            //System.out.println(component);
             component.draw(componentg);
             //}
         }
@@ -394,7 +392,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     public void mouseReleased(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-//		System.out.println("Clicked at " + "X: " + x + ", Y:" + y);
         if(gm.getCurrentPlayer() instanceof HumanPlayer) {
             //From InteractionPanel
             if (dragging) {
@@ -466,7 +463,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     public void mouseDragged(MouseEvent e) {
         mousex = e.getX();
         mousey = e.getY();
-        //System.out.println("mousex: "+mousex + " mousey: "+mousey);
 
         //From InteractionPanel
         if(gm.getCurrentPlayer() instanceof HumanPlayer) {

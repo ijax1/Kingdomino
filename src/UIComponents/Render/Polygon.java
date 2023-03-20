@@ -202,7 +202,6 @@ public class Polygon {
 
     public String toString(){
         StringBuilder ret = new StringBuilder();
-        System.out.println("FACE START");
         for(Coordinate c: points){
             ret.append((int) c.getX()).append(" ").append((int) c.getY()).append(" ").append((int) c.getZ());
             ret.append(" ->\n");

@@ -105,9 +105,6 @@ public class PodiumPanel extends JPanel {
 				}
 			}
 		}
-		for(Player p: order) {
-			System.out.print(p.getScore());
-		}
 		Graphics2D g = (Graphics2D)g1;
 		GamePanel.applyHints(g);
 		//BufferedImage img = Resources.loadImage("PodiumScreen.png");

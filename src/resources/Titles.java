@@ -69,7 +69,6 @@ public class Titles {
     		Collections.addAll(titles, MEDIEVAL_TITLES);
     	}
     	Random rand = new Random();
-    	System.out.println(titles.size()); 
         int randIndex = rand.nextInt(titles.size());
         return titles.remove(randIndex);
     }

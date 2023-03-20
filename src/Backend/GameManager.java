@@ -261,7 +261,6 @@ public class GameManager {
     // updates player and calls playerTurn()
     public void nextPlayer() {
         if (!getCurrentPlayer().hasSelected() && !(firstRound || getCurrentPlayer().hasPlaced())) {
-            System.out.println("cannot progress");
             return;
         }
         getCurrentPlayer().setSelected(false);
@@ -278,7 +277,6 @@ public class GameManager {
         for (GameEventListener gl : listeners) {
             gl.onNextPlayer();
         }
-        System.out.println(getCurrentPlayer());
         playerTurn();
     }
 
@@ -319,7 +317,6 @@ public class GameManager {
             player.setPlaced(true);
         }
 
-    	System.out.println("game over");
     	
     	setResults();
     			//last # of playerOrder won game = player #
@@ -340,7 +337,6 @@ public class GameManager {
     		setGameState(GameState.TALLY_SCORE);
     	} else {
     		numGamesLeft--;
-    		System.out.println(winners);
     		if(numGamesLeft >= 0) {
 	    		reset();
 	    		initPlayerTurns();
