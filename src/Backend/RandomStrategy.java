@@ -76,9 +76,8 @@ public class RandomStrategy extends ComputerPlayer {
         int ranPlace = randomNum(placements.size());
 
         //calls placeDomino:
-        boolean placeable = grid.placeDomino(placements.get(ranPlace).getY(), placements.get(ranPlace).getX(), domino);
-        if(!placeable)
-            System.out.println("can't place there");
+        if(grid.availableSpacesGrid(domino)[placements.get(ranPlace).getY()][placements.get(ranPlace).getX()])
+            grid.placeDomino(placements.get(ranPlace).getY(), placements.get(ranPlace).getX(), domino);
     }
 
 
