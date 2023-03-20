@@ -172,6 +172,7 @@ public class Kingdomino implements GameEventListener{
 
     @Override
     public void onFinishTurn() {
-        finishTurn();
+    	if(!manager.isFastMode())
+    		finishTurn();
     }
 }

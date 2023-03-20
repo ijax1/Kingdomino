@@ -376,6 +376,9 @@ public class GameManager {
     public void setMode(boolean fastMode) {
         this.isFastMode = fastMode;
     }
+    public boolean isFastMode() {
+    	return isFastMode;
+    }
 
     public ArrayList<Player> getPlayers() {
         return players;
