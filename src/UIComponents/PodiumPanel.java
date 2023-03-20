@@ -193,10 +193,19 @@ public class PodiumPanel extends JPanel {
 		g.setColor(Color.white);
 		g.setFont(Resources.getMedievalFont(40));
 		for (int i = 0; i < order.size(); i++) {
-			g.drawString(Integer.toString(i + 1) + ") " + order.get(i).getName() + " ", (int) (this.getWidth() * 0.2),
+			if (i == 0) {
+				g.setColor(OurColors.YELLOW);
+			} else if (i == 1) {
+				g.setColor(Color.LIGHT_GRAY);
+			} else if (i == 2) {
+				g.setColor(OurColors.BRONZE);
+			} else {
+				g.setColor(Color.WHITE);
+			}
+			g.drawString(Integer.toString(i + 1) + ": " + order.get(i).getName() + " " + order.get(i).getTitle(), (int) (this.getWidth() * 0.2),
 					250 + i * 100);
-			// g.drawString(Integer.toString(i+1)"Score " + order.get(i).getScore(), (int)
-			// (this.getWidth() * 0.65), 250 + i*100);
+			g.drawString("Score " + order.get(i).getScore(), (int)
+				(this.getWidth() * 0.65), 250 + i*100);
 		}
 	}
 
