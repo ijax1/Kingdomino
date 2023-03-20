@@ -98,38 +98,19 @@ public class PodiumPanel extends JPanel {
 		// scroll.setFont(Resources.getMedievalFont(50));
 		// scroll.setForeground(OurColors.FONT_LIGHT);
 		RoyalButton exit = new RoyalButton("EXITETH");
-		RoyalButton play = new RoyalButton("PLAYETH");
+		RoyalButton play = new RoyalButton("PLAYETH AGAIN");
 		exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-//        play.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//
-//                ArrayList<Player> players = getAllPlayers();
-//                if (players.size() < 2) {
-//                    new ErrorDialog(k.getFrame());
-//                } else {
-//                    boolean finished = false;
-//                    boolean strategyMode = true;
-//                    for (Player p : players) {
-//                        if (p.isHuman()) {
-//                            strategyMode = false;
-//                        }
-//                    }
-//                    if (!strategyMode) {
-//                        gm.setPlayers(players);
-//                        gm.setGameState(GameState.PLAYER_TURN);
-//                    } else {
-//                        //only computer players
-//                        new StrategyAnalysisDialog(k.getFrame(), kdomino);
-//                    }
-//                }
-//            }
-//        });
+        play.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	gm.setGameState(GameState.INITIAL);
+            }
+        });
 
 		// close = new CloseButton(new Coordinate(1200,800,0), null);
 
