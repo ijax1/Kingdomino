@@ -163,7 +163,7 @@ public class StartPanel extends JPanel {
         //g.drawImage(player, 100,100,100,100,null);
     }
 
-    private ArrayList<Player> getAllPlayers() {
+    ArrayList<Player> getAllPlayers() {
         ArrayList<Player> players = new ArrayList<Player>();
         Titles t = new Titles();
         for (PlayerSelectPanel panel : playerPanels) {

@@ -140,6 +140,10 @@ public class Kingdomino implements GameEventListener{
         return gamePanel;
     }
 
+    public StartPanel getStartPanel() {
+        return startPanel;
+    }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
