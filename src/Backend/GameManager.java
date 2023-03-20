@@ -323,9 +323,18 @@ public class GameManager {
     	
     	setResults();
     			//last # of playerOrder won game = player #
-    	Integer winner = getPlayerOrder().get(players.size()-1);
+    	int highScore=0;
+    	int winner=-1;
+    	for(int i=0; i<players.size(); i++) {
+    		if(players.get(i).getScore() >= highScore) {
+    			highScore = players.get(i).getScore();
+    			winner = getPlayerOrder().get(i);
+    		}
+    	}
     	Integer num = winners.get(winner) + 1;
-    	winners.set(winner,num);
+    	if(winner != -1) {
+    		winners.set(winner,num);
+    	}
     	        
     	if(!isFastMode()) {
     		setGameState(GameState.TALLY_SCORE);
