@@ -223,7 +223,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     }
 
     public void changePlayer(Player player) {
-        playerTabs.selectButton(player);
         uiGrid = new UIGrid(new Coordinate(640, 320, 0), k, k.getManager().getCurrentPlayer().getGrid());
         uiGrid = grids.get(gm.getOrigPlayerIdx());
         for (UIGrid uigrid : grids) {
