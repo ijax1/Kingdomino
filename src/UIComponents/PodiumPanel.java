@@ -1,34 +1,28 @@
 package UIComponents;
 
-import java.util.*;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
 import Backend.GameManager;
+import Backend.GameManager.GameState;
 import Backend.Kingdomino;
 import Backend.Player;
 import resources.OurColors;
 import resources.Resources;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.*;
-import java.util.ArrayList;
-
-import javax.swing.JLabel;
-import javax.swing.*;
-import javax.swing.SwingConstants;
-
-import Backend.GameManager.GameState;
-import Backend.*;
-import resources.*;
-import resources.Titles;
 
 public class PodiumPanel extends JPanel {
 	private BufferedImage playerImg;
@@ -96,8 +90,19 @@ public class PodiumPanel extends JPanel {
 		JLabel scroll = new JLabel("", SwingConstants.CENTER);
 		// scroll.setFont(Resources.getMedievalFont(50));
 		// scroll.setForeground(OurColors.FONT_LIGHT);
+		RoyalButton board = new RoyalButton("GO TO BOARD");
 		RoyalButton exit = new RoyalButton("EXITETH");
 		RoyalButton play = new RoyalButton("PLAYETH AGAIN");
+		board.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GamePanel gp = k.getGamePanel();
+				gm.setGameState(GameState.TALLY_SCORE);
+				gp.setViewedPlayer(gm.getPlayers().get(0));
+				gm.nextPlayer();
+				gp.repaint();
+			}
+		});
 		exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -119,16 +124,22 @@ public class PodiumPanel extends JPanel {
 		c.gridheight = 1;
 		c.insets = new Insets(10, 10, 10, 10);
 		c.anchor = GridBagConstraints.CENTER;
-
+		
 		c.ipady = 20;
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
 		g.setConstraints(exit, c);
 		add(exit);
-
+		c.ipady = 20;
 		c.gridx = 2;
 		c.gridy = 2;
+		c.gridwidth = 2;
+		g.setConstraints(board, c);
+		add(board);
+
+		c.gridx = 2;
+		c.gridy = 4;
 		c.gridwidth = 2;
 		g.setConstraints(play, c);
 		add(play);
