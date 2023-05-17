@@ -22,7 +22,7 @@ import UIComponents.UIGrid;
 import resources.Resources;
 
 
-public class Kingdomino implements GameEventListener{
+public class Kingdomino implements GameEventListener {
 
     final private JPanel basePanel;
     final private StartPanel startPanel;
@@ -39,7 +39,7 @@ public class Kingdomino implements GameEventListener{
     public Kingdomino() {
         manager = new GameManager();
         basePanel = new JPanel(panels);
-        
+
         manager.addListener(this);
 
         startPanel = new StartPanel(new GridBagLayout(), this);
@@ -53,8 +53,8 @@ public class Kingdomino implements GameEventListener{
     // GamePanel needs to be initialized after startPanel initializes players
     private void initializeGamePanel() {
         gamePanel = new GamePanel(this);
-        if(!manager.isFastMode()) {
-        	manager.addListener(gamePanel);
+        if (!manager.isFastMode()) {
+            manager.addListener(gamePanel);
         }
         basePanel.add(gamePanel, "Game Panel");
     }
@@ -89,9 +89,10 @@ public class Kingdomino implements GameEventListener{
     public GameManager getManager() {
         return manager;
     }
-	@Override
-	public void onStateChangedTo(GameState state) {
-		if (state == GameState.INITIAL) {
+
+    @Override
+    public void onStateChangedTo(GameState state) {
+        if (state == GameState.INITIAL) {
             panels.show(basePanel, "Start Panel");
         } else if (state == GameState.PLAYER_TURN ||
                 state == GameState.TALLY_SCORE) {
@@ -107,14 +108,14 @@ public class Kingdomino implements GameEventListener{
         } else if (state == GameState.ENDSCREEN) {
             panels.show(basePanel, "Podium Panel");
         } else if (state == GameState.STRATEGY) {
-        	if(analysisPanel == null) {
-        		analysisPanel = new AnalysisPanel(new GridBagLayout(), this);
-        		basePanel.add(analysisPanel, "Analysis Panel");
-        	}
+            if (analysisPanel == null) {
+                analysisPanel = new AnalysisPanel(new GridBagLayout(), this);
+                basePanel.add(analysisPanel, "Analysis Panel");
+            }
             panels.show(basePanel, "Analysis Panel");
 //            analysisPanel.beginAnalysis(manager.getNumGames());
-        }	
-	}
+        }
+    }
 
     @Override
     public void initDominoes() {
@@ -127,7 +128,8 @@ public class Kingdomino implements GameEventListener{
         getGamePanel().finishTurn();
         if (manager.getCurrentPlayer() instanceof HumanPlayer && manager.getCurrentPlayer().getCurrentDomino() != null) {
             UIGrid uiGrid = getGamePanel().getUIGrid();
-            manager.getCurrentPlayer().getGrid().placeDomino(uiGrid.getDominoLocation()[1], uiGrid.getDominoLocation()[0], manager.getCurrentPlayer().getCurrentDomino());
+            if (manager.getCurrentPlayer().hasLegalMoves(true))
+                manager.getCurrentPlayer().getGrid().placeDomino(uiGrid.getDominoLocation()[1], uiGrid.getDominoLocation()[0], manager.getCurrentPlayer().getCurrentDomino());
         }
     }
 
@@ -162,21 +164,21 @@ public class Kingdomino implements GameEventListener{
         return analysisPanel;
     }
 
-	@Override
-	public void onDominoSelected(Domino d, boolean recallNextPlayer) {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void onDominoSelected(Domino d, boolean recallNextPlayer) {
+        // TODO Auto-generated method stub
+    }
 
-	@Override
-	public void onNextPlayer() {
-		// TODO Auto-generated method stub
+    @Override
+    public void onNextPlayer() {
+        // TODO Auto-generated method stub
         nextPlayer();
 
-	}
+    }
 
     @Override
     public void onFinishTurn() {
-    	if(!manager.isFastMode())
-    		finishTurn();
+        if (!manager.isFastMode())
+            finishTurn();
     }
 }
