@@ -262,7 +262,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     }
 
     public void paintComponent(Graphics g1) {
-        if(gm.getGameState() == GameState.PLAYER_TURN) {
+        if(gm.getGameState() == GameState.PLAYER_TURN || gm.getGameState() == GameState.TALLY_SCORE) {
             Graphics2D g = (Graphics2D) g1;
             Player p = getViewedPlayerIdx();
             applyHints(g);
@@ -345,6 +345,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
                     new UIDomino(new Coordinate(640, 600, 0), k, getViewedPlayerIdx().getNextDomino()).render(g);
                 }
         }
+        //TODO: Implement tally_score game state!
     }
 
     public static void applyHints(Graphics2D g2d) {

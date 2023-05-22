@@ -48,7 +48,7 @@ public class SkilledStrategy extends ComputerPlayer {
                         bestPos = positions.get(0);
                     for (GridPosition pos : positions) {
                         potentialGrid = getGrid().copy();
-                        potentialGrid.placeDomino(pos.getY(), pos.getX(), domino);
+                        potentialGrid.placeDomino(pos.getX(), pos.getY(), domino);
                         int currScore = potentialGrid.calculateScore();
                         if (currScore > maxScore) {
                             bestPos = pos;
@@ -78,7 +78,7 @@ public class SkilledStrategy extends ComputerPlayer {
     public void placeDomino(Domino[] d, ArrayList<Player> p) {
         if (bestPos != null) {
             bestDomino.setRotation(bestRot);
-            boolean placeable = getGrid().placeDomino(bestPos.getY(), bestPos.getX(), bestDomino);
+            boolean placeable = getGrid().placeDomino(bestPos.getX(), bestPos.getY(), bestDomino);
         }
         setPlaced(true);
     }

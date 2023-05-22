@@ -1,6 +1,7 @@
 package Backend;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import Backend.Tile.Land;
 /**
@@ -68,7 +69,7 @@ public class Grid {
      * @return the Tile
      */
     public Tile getTile(int x, int y) {
-        return grid[x][y];
+        return grid[y][x];
     }
     /**
      * Gets the tile at the specified grid position.
@@ -92,7 +93,7 @@ public class Grid {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (canPlace(domino, changeX, changeY, i, j)) {
-                    positions.add(new GridPosition(i,j));
+                    positions.add(new GridPosition(j,i));
                 }
             }
         }
@@ -109,18 +110,25 @@ public class Grid {
                 spaces[i][j] = canPlace(domino, changeX, changeY, i, j);
             }
         }
+        /*for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.print(spaces[i][j] ? "Y " : "N ");
+            }
+            System.out.println();
+        }*/
+        //System.out.println();
         return spaces;
     }
 
     private boolean canPlace(Domino domino, int changeX, int changeY, int i, int j) {
         Grid temp = this.copy();
         temp.placeDomino(j, i, domino);
-        return isValidPos(i, j)
-                && isValidPos(i + changeY, j + changeX)
+        return isValidPos(j, i)
+                && isValidPos(j + changeX, i + changeY)
                 && grid[i][j] == null
                 && grid[i + changeY][j + changeX] == null
-                && (validTilePlacement(domino.getTiles()[0], i, j)
-                || validTilePlacement(domino.getTiles()[1], i + changeY, j + changeX))
+                && (validTilePlacement(domino.getTiles()[0], j, i)
+                || validTilePlacement(domino.getTiles()[1], j + changeX, i + changeY))
                 && !temp.isOversized();
     }
 
@@ -161,11 +169,12 @@ public class Grid {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (i * j == 0 && i != j) {
-
-                    if (isValidPos(x + j, y + i))
-                        if (grid[x + j][y + i] != null)
-                            if (grid[x + j][y + i].getLandType() == t.getLandType() || grid[x + j][y + i].getLandType() == Land.CASTLE)
+                    if (isValidPos(x + j, y + i)) {
+                        if (grid[y + i][x + j] != null) {
+                            if (grid[y + i][x + j].getLandType() == t.getLandType() || grid[y + i][x + j].getLandType() == Land.CASTLE)
                                 return true;
+                        }
+                    }
                 }
             }
         }

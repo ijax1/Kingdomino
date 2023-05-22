@@ -186,7 +186,6 @@ public class UIGrid extends Component{
         int gridHeight = toRender.length;
         int gridWidth = toRender[0].length;
 
-        g.setColor(Color.BLACK);
         int widthAllowed = 7-Math.abs(3-gridWidth);
         int heightAllowed = 7-Math.abs(3-gridHeight);
 
@@ -194,6 +193,20 @@ public class UIGrid extends Component{
         int startY = (int) center.getY() - tileSize*(heightAllowed)/2;
         int endX = (int) center.getX() + tileSize*(widthAllowed)/2;
         int endY = (int) center.getY() + tileSize*(heightAllowed)/2;
+       //System.out.println(gridHeight);
+        //System.out.println(gridWidth);
+        for(int y = 0; y < (9-widthAllowed/2); y++) {
+            for(int x = 0; x < (9-widthAllowed/2); x++) {
+                if(getGrid().availableSpacesGrid(ref)[y+(widthAllowed/2)][x+(widthAllowed/2)]) {
+                    g.setColor(Color.GREEN);
+                    g.fillRect(startX+(x*tileSize), startY+(y*tileSize), tileSize, tileSize);
+                } else {
+                    g.setColor(Color.RED);
+                    g.fillRect(startX+(x*tileSize), startY+(y*tileSize), tileSize, tileSize);
+                }
+            }
+        }
+        g.setColor(Color.BLACK);
         for(int x = startX; x <= endX; x+=tileSize) {
             g.drawLine(x, startY, x, endY);
         }

@@ -101,6 +101,7 @@ public class PodiumPanel extends JPanel {
 				gp.setViewedPlayer(gm.getPlayers().get(0));
 				gm.nextPlayer();
 				gp.repaint();
+				//gp.revalidate();
 			}
 		});
 		exit.addActionListener(new ActionListener() {
