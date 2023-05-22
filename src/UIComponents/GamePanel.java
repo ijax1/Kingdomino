@@ -434,7 +434,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         }
         if (clickedComponent instanceof Button || clickedComponent instanceof Banner) {
             if (clickedComponent instanceof DominoButton) {
-                if (!((DominoButton) clickedComponent).isLocked()) {
+                if (gm.getCurrentPlayer() instanceof HumanPlayer && !((DominoButton) clickedComponent).isLocked()) {
                     for (DominoButton d : banner.getButtons()) {
                         if (d == clickedComponent) {
                             d.doAction();

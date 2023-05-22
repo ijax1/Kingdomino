@@ -53,6 +53,7 @@ public class StrategyAnalysisDialog extends JDialog {
         //input pannel for funer of games users want to run
         NumberFormat intFormat = NumberFormat.getIntegerInstance();
         final JFormattedTextField textfield = new JFormattedTextField(intFormat);
+        textfield.setValue(1);
         
         //just a panel to hold titlePanel, bodyPanel, & bodyPanel2
         JPanel dialogPanel = new JPanel();
