@@ -14,6 +14,9 @@ import UIComponents.Render.Coordinate;
 import UIComponents.Render.LineSegment;
 import UIComponents.Render.Polygon;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class UIGrid extends Component{
     private final int width;
     private final int height;
@@ -221,7 +224,7 @@ public class UIGrid extends Component{
         int gridHeight = toRender.length;
         int gridWidth = toRender[0].length;
 
-        Polygon[] polygons = new Polygon[numTiles()];
+        ArrayList<Polygon> polygons = new ArrayList<Polygon>();
         int index = 0;
         double centerIndexX = 0.5*(gridWidth);
         double centerIndexY = 0.5*(gridHeight);
@@ -231,7 +234,7 @@ public class UIGrid extends Component{
                 if(toRender[i][j] != null){
                     Polygon temp = toRender[i][j].getPolygon();
                     Polygon p = temp.duplicatePolygon(temp.getCenter());
-                    polygons[index] = p;
+                    polygons.add(p);
                     index++;
                 }
             }
@@ -242,7 +245,10 @@ public class UIGrid extends Component{
                 center.translatedBy(tileSize/2.0*gridWidth,tileSize/2.0*gridHeight,0),
                 center.translatedBy(-tileSize/2.0*gridWidth,tileSize/2.0*gridHeight,0)
         };
-        CompoundPolygon c = new CompoundPolygon(polygons,points,center);
+        //System.out.println(Arrays.toString(polygons));
+        Polygon[] polyArr = new Polygon[polygons.size()];
+        polyArr = polygons.toArray(polyArr);
+        CompoundPolygon c = new CompoundPolygon(polyArr,points,center);
 
         c.render(g);
         Graphics2D g2d = (Graphics2D) g;

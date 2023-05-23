@@ -16,6 +16,19 @@ public class Domino implements Comparable<Domino>{
         this.tiles[1] = second;
         this.dominoValue = value;
     }
+
+    public boolean equals(Object other) {
+        if(other instanceof Domino) {
+            Domino o = (Domino) other;
+            return (o.getTiles()[0].getLandType() == getTiles()[0].getLandType() &&
+               o.getTiles()[1].getLandType() == getTiles()[1].getLandType() &&
+               o.getTiles()[0].getCrowns() == getTiles()[0].getCrowns() &&
+               o.getTiles()[1].getCrowns() == getTiles()[1].getCrowns() &&
+               o.getValue() == getValue());
+        } else {
+            return false;
+        }
+    }
     /**
      * gets the domino value (the number on the back of the domino). A higher number means a more v
      * @return value the domino value

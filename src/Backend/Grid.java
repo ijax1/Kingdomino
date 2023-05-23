@@ -34,7 +34,10 @@ public class Grid {
         Tile[][] newGrid = new Tile[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                newGrid[i][j] = grid[i][j];
+                if(grid[i][j] != null)
+                    newGrid[i][j] = new Tile(grid[i][j].getLandType(), grid[i][j].getCrowns());
+                else
+                    newGrid[i][j] = null;
             }
         }
         return new Grid(newGrid);

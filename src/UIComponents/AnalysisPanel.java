@@ -66,7 +66,7 @@ public class AnalysisPanel extends JPanel {
 //			}
 
 			for (int x = 0; x<totalPlayers; x++) {
-				totalGames++;
+				//totalGames++;
 				int percentage = 100;
 				if(totalGames != 0)
 					percentage = gm.getWinners().get(x)/totalGames;

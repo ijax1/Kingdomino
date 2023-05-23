@@ -10,7 +10,7 @@ import java.text.NumberFormat;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
+import javax.swing.JTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -51,9 +51,8 @@ public class StrategyAnalysisDialog extends JDialog {
         //JLabel inputError = new JLabel("");
 
         //input pannel for funer of games users want to run
-        NumberFormat intFormat = NumberFormat.getIntegerInstance();
-        final JFormattedTextField textfield = new JFormattedTextField(intFormat);
-        textfield.setValue(1);
+        final JTextField textfield = new JTextField();
+        textfield.setText("1");
         
         //just a panel to hold titlePanel, bodyPanel, & bodyPanel2
         JPanel dialogPanel = new JPanel();
@@ -175,15 +174,15 @@ public class StrategyAnalysisDialog extends JDialog {
     }
     */
     
-    private void modeSelected(JFormattedTextField textField, boolean isFast) {
+    private void modeSelected(JTextField textField, boolean isFast) {
         setVisible(false);
         tintPane.setVisible(false);
         
         //make sure user enter an int
-        double input = 1;
+        int input = 1;
         boolean games = true;
         try{
-			input = (Double.parseDouble(textField.getText()));
+			input = (Integer.parseInt(textField.getText()));
 		}catch (NumberFormatException ex) {
 			games = false;
 		}	
@@ -191,7 +190,7 @@ public class StrategyAnalysisDialog extends JDialog {
         //if num of games inputted in # format:
         if (games) {
         	//**call game manager with the number of games*
-            manager.setNumGames((int)input);
+            manager.setNumGames(input);
             //slow mode
             manager.setMode(isFast);
             manager.setPlayers(k.getStartPanel().getAllPlayers());

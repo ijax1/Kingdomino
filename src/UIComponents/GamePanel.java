@@ -178,7 +178,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     public void onDominoSelected(Domino dominoSelected, boolean recallNextPlayer) {
         DominoButton dominoButton = null;
         for (DominoButton b : banner.getButtons()) {
-            if (b.getUiDomino().ref == dominoSelected) {
+            if (b.getUiDomino().ref.equals(dominoSelected)) {
                 dominoButton = b;
                 break;
             }
