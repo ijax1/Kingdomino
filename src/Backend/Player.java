@@ -26,6 +26,13 @@ public abstract class Player {
         this.grid = new Grid();
     }
 
+    public void reset() {
+        score = 0;
+        grid = new Grid();
+        placed = false;
+        selected = false;
+    }
+
     // Abstract method to check if player is human
     public abstract boolean isHuman();
 
