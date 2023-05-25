@@ -60,6 +60,17 @@ public class PlayerTabGroup extends Component {
         }
     }
 
+    public void setSelected(Player player) {
+        for(PlayerTabButton btn : group) {
+            if(btn.getPlayer().getName().equals(player.getName())) {
+                selected = btn;
+                btn.show();
+            } else {
+                btn.minimize();
+            }
+        }
+    }
+
     void selectButton(Coordinate c) {
         PlayerTabButton selected = group.get(0);
         for (PlayerTabButton p : group) {

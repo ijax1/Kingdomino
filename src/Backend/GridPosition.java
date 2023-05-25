@@ -37,4 +37,13 @@ public class GridPosition {
     public String toString() {
     	return x + "-" + y;
     }
+
+    public boolean equals(Object other) {
+        if(other instanceof GridPosition) {
+            GridPosition p = (GridPosition) other;
+            return x == p.getX() && y == p.getY();
+        } else {
+            return false;
+        }
+    }
 }

@@ -91,8 +91,8 @@ public class PodiumPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				GamePanel gp = k.getGamePanel();
 				gm.setGameState(GameState.TALLY_SCORE);
-				gp.setViewedPlayer(gm.getPlayers().get(0));
-				gm.nextPlayer();
+				gp.setViewedPlayerIdx(gm.getPlayers().size()-1);
+				//gm.nextPlayer();
 				gp.repaint();
 				//gp.revalidate();
 			}

@@ -42,7 +42,7 @@ public class SkilledStrategy extends ComputerPlayer {
         for (Domino dm : dominoes) {
             Domino domino = dm.copy();
             for (int i = 0; i < 4; i++) {
-                domino.incrementRotation();
+                domino.setRotation(i*90);
                 ArrayList<GridPosition> positions = getGrid().availableSpaces(domino);
                 //System.out.println("Pos: " + positions);
                 if (!positions.isEmpty()) {
@@ -80,8 +80,12 @@ public class SkilledStrategy extends ComputerPlayer {
     public void placeDomino(Domino[] d, ArrayList<Player> p) {
         if (bestPos != null) {
             bestDomino.setRotation(bestRot);
+            System.out.println(getGrid().availableSpaces(bestDomino));
+            System.out.println(bestPos);
+            System.out.println("Included: "+ getGrid().availableSpaces(bestDomino).contains(bestPos));
             boolean placeable = getGrid().placeDomino(bestPos.getX(), bestPos.getY(), bestDomino);
-            System.out.println(placeable);
+            System.out.println(getGrid());
+            System.out.println();
         }
         setPlaced(true);
     }
