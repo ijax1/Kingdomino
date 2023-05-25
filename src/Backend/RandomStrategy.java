@@ -62,8 +62,6 @@ public class RandomStrategy extends ComputerPlayer {
         ArrayList<GridPosition> placements = getGrid().availableSpaces(domino);
         int ranPlace = randomNum(placements.size());
 
-        System.out.println(placements);
-        System.out.println();
         //calls placeDomino:
         if(placements.size() > 0) {
             getGrid().placeDomino(placements.get(ranPlace).getX(), placements.get(ranPlace).getY(), domino);

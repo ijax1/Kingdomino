@@ -190,7 +190,7 @@ public class GameManager {
 //            }
         }
     }
-    private int delayMillis = 1000;
+    private int delayMillis = 100;
     private void computerPlaceDomino(final boolean canPlace){
         final Timer timer = new Timer(1, null);
         timer.addActionListener(new ActionListener() {

@@ -146,7 +146,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     	ArrayList<Player> players = gm.getPlayers();
     	int index = 0;
     	for(int i=0; i<players.size(); i++) {
-    		if(players.get(i) == p) {
+    		if(players.get(i).getName() == p.getName()) {
     			index = i;
     		}
     	}
@@ -164,6 +164,8 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         if (playerIdx != gm.getOrigPlayerIdx() && d != null) {
             d.minimize();
         }
+        if(playerTabs != null)
+            playerTabs.setSelected(gm.getPlayers().get(playerIdx));
         repaint();
     }
 

@@ -34,6 +34,7 @@ public class Banner extends Component {
 	private int bannerStartX = 155;
 	private int bannerStartY = 20;
 	private final ArrayList<DominoButton> buttons = new ArrayList<DominoButton>();
+	private int prevPlayerIdx = -1;
 	Banner(Coordinate position, Kingdomino k, int numButtons, GamePanel gp, Domino[] dominoes) {
 		super(position, k);
 		this.k = k;
@@ -89,6 +90,7 @@ public class Banner extends Component {
 		public void actionPerformed(ActionEvent e) {
 			if(scoreIdx > 7) {
 				((Timer)e.getSource()).stop();
+				scoreIdx = 0;
 			} else {
 				displayedScores = new int[scoreIdx];
 				System.arraycopy(scores, 0, displayedScores, 0, scoreIdx);
@@ -103,8 +105,7 @@ public class Banner extends Component {
 		g.setColor(Color.BLACK);
 		for(DominoButton b: buttons){
 			b.minimize();
-		}
-		
+		}		
 		Grid grid = gamePanel.getViewedPlayerIdx().getGrid();
 		int total = grid.calculateScore();
 		Land[] landOrder = {Land.FOREST, Land.WHEAT, Land.PASTURE, Land.LAKE, Land.SWAMP, Land.MINE};
@@ -128,6 +129,14 @@ public class Banner extends Component {
 
 		g.drawString("Total:", bannerStartX, bannerEndY-120);	
 		g.drawString("NEXT", bannerStartX, bannerEndY-90);
+
+		if(prevPlayerIdx == -1 || prevPlayerIdx != gamePanel.getViewedPlayerIndex()) {
+			tallyAnimation = false;
+			prevPlayerIdx = gamePanel.getViewedPlayerIndex();
+			t.stop();
+			scoreIdx = 0;
+			gamePanel.repaint();
+		}
 	}
 
 	@Override
