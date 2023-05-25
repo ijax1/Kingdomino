@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,15 +41,6 @@ public class PodiumPanel extends JPanel {
 		k = kdomino;
 		gm = k.getManager();
 		order = k.getManager().getPlayers();
-		for (int i = 0; i < order.size() - 1; i++) {
-			for (int j = 0; j < order.size(); j++) {
-				if (order.get(i).getScore() < order.get(j).getScore()) {
-					Player temp = order.get(i);
-					order.set(i, order.get(j));
-					order.set(j, temp);
-				}
-			}
-		}
 		// order.get(0).getName();
 //		class first extends JPanel{
 //			BufferedImage img;
@@ -152,15 +145,17 @@ public class PodiumPanel extends JPanel {
 
 	public void paintComponent(Graphics g1) {
 		order = k.getManager().getPlayers();
-		for (int i = 0; i < order.size() - 1; i++) {
-			for (int j = 0; j < order.size(); j++) {
-				if (order.get(i).getScore() < order.get(j).getScore()) {
-					Player temp = order.get(i);
-					order.set(i, order.get(j));
-					order.set(j, temp);
+		Collections.sort(order, new Comparator<Player>() {
+			public int compare (Player p1, Player p2) {
+				int output = 0;
+				if (p1.getScore() < p2.getScore()) {
+					output = 1;
+				} else if (p2.getScore() < p1.getScore()) {
+					output = -1;
 				}
+			return output;
 			}
-		}
+		});
 		Graphics2D g = (Graphics2D) g1;
 		GamePanel.applyHints(g);
 		// BufferedImage img = Resources.loadImage("PodiumScreen.png");
