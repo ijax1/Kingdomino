@@ -158,20 +158,16 @@ public class Deck {
     }
     /**
      * Draws 4 dominoes from the deck, sorts them by value
-     * @return an array of 4 tiles removed from the deck, sorted from highest to lowest value, null if no dominoes left
      */
-    public Domino[] getNewDominoes() {
+    public void getNewDominoes() {
     	whoLocked = new Player[4];
-        // remove 4 items from main deck, places in list and reutrns list
+        // remove 4 items from main deck, places in list and returns list
         if (this.dominoesRemaining() >= 4) {
             for (int i = 0; i < 4; i++) {
                 dominoesToSelect[i] = deck.remove(0);
             }
-        } else {
-            return null;
         }
         sortDominoes(dominoesToSelect);
-        return dominoesToSelect;
     }
 
     private void sortDominoes(Domino[] dominoes) {
@@ -192,7 +188,6 @@ public class Deck {
     // --------------
     /**
      * Sets that a domino is selected (unused)
-     * @param index from 0-3
      */
     public void setLocked(Domino d, Player player) {
     	for(int i=0; i< dominoesToSelect.length; i++){
