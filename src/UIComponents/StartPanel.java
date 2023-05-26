@@ -37,7 +37,7 @@ public class StartPanel extends JPanel {
         GridBagConstraints c = new GridBagConstraints();
         k = kdomino;
         gm = k.getManager();
-        playerPanels[0] = new PlayerSelectPanel(OurColors.RED, 1, PlayerSelectPanel.HUMAN, k);
+        playerPanels[0] = new PlayerSelectPanel(OurColors.RED, 1, PlayerSelectPanel.COMPUTER, k);
         playerPanels[1] = new PlayerSelectPanel(OurColors.BLUE, 2, PlayerSelectPanel.COMPUTER, k);
         playerPanels[2] = new PlayerSelectPanel(OurColors.GREEN, 3, PlayerSelectPanel.COMPUTER, k);
         playerPanels[3] = new PlayerSelectPanel(OurColors.YELLOW, 4, PlayerSelectPanel.COMPUTER, k);
