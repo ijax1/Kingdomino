@@ -68,6 +68,9 @@ public class GameManager {
         //players = new ArrayList<Player>();
         currPlayerIdx = 0;
         playerOrder = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+        for(Player p : players)
+            p.reset();
+        System.out.println("Reset!");
     }
 
     public void setGameState(GameState state) {
@@ -157,10 +160,8 @@ public class GameManager {
         }
 
     }
-
-    private int delayMillis = 500;
-
-    private void computerPlaceDomino(final boolean canPlace) {
+    private int delayMillis = 1;
+    private void computerPlaceDomino(final boolean canPlace){
         final Timer timer = new Timer(1, null);
         timer.addActionListener(new ActionListener() {
             long currentTime = System.currentTimeMillis();
