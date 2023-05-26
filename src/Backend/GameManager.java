@@ -101,9 +101,10 @@ public class GameManager {
             }
         }
         //two checks here
-        if (roundNum == 12) {
+        if (roundNum == 13) {
             endGame();
         } else {
+//            System.out.println("round "+roundNum);
             roundNum++;
         }
         if (firstRound) {

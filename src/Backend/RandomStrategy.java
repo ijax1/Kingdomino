@@ -66,9 +66,9 @@ public class RandomStrategy extends ComputerPlayer {
         if(placements.size() > 0) {
             getGrid().placeDomino(placements.get(ranPlace).getX(), placements.get(ranPlace).getY(), domino);
         } else {
-            System.out.println("No available placements!");
-            System.out.println(getGrid());
-            System.out.println(domino);
+//            System.out.println("No available placements!");
+//            System.out.println(getGrid());
+//            System.out.println(domino);
         }
     }
 
