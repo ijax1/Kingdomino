@@ -468,22 +468,24 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         mousey = e.getY();
 
         //From InteractionPanel
-        if(gm.getCurrentPlayer() instanceof HumanPlayer) {
-            if (gm.getCurrentPlayer() == getViewedPlayerIdx())
-                if (dragging) {
-                    d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
-                    d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
-                    uiGrid.holdDomino(d, d.ref);
-                    if (!uiGrid.dominoOnGrid(d))
-                        uiGrid.setSnapped(false);
+        if ((uiGrid.dominoOnGrid(d) && !finishTurn.onComponent(new Coordinate(mousex, mousey, 0))) || (!uiGrid.dominoOnGrid(d))) {
+        	if(gm.getCurrentPlayer() instanceof HumanPlayer) {
+                if (gm.getCurrentPlayer() == getViewedPlayerIdx())
+                    if (dragging) {
+                        d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
+                        d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
+                        uiGrid.holdDomino(d, d.ref);
+                        if (!uiGrid.dominoOnGrid(d))
+                            uiGrid.setSnapped(false);
+                        repaint();
+
+                    }
+
+                if (draggingCube) {
+                    r.moveTo(new Coordinate(e.getX(), e.getY(), 0));
+                    r.incrementRotation(Math.PI / 20, Math.PI / 40, Math.PI / 50);
                     repaint();
-
                 }
-
-            if (draggingCube) {
-                r.moveTo(new Coordinate(e.getX(), e.getY(), 0));
-                r.incrementRotation(Math.PI / 20, Math.PI / 40, Math.PI / 50);
-                repaint();
             }
         }
 
