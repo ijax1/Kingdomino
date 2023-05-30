@@ -18,13 +18,12 @@ public class GameManager {
     private ArrayList<Player> players;
 
     private Deck deck;
+    //private Kingdomino game;
     private boolean isFastMode;
     private int numGames;
     private int numGamesLeft;
     private int roundNum;
-    private static final int delayMillis = 500;
-    private ArrayList<Integer> winners = new ArrayList<>(4);
-
+    private ArrayList<Integer> winners = new ArrayList<Integer>(4);
     // will contain integers 0,1,2,3 representing players, ordered in their desired order
     // ex: {3,0,2,1} = player 3 --> player 0 --> player 2 --> player 1
     private ArrayList<Integer> playerOrder;
@@ -33,7 +32,6 @@ public class GameManager {
 
     // this is index for playerOrder
     private int currPlayerIdx;
-    private boolean canMove;
 
     public enum GameState {
         INITIAL,
@@ -43,6 +41,7 @@ public class GameManager {
         ENDSCREEN,
         STRATEGY
     }
+
 
     public GameManager() {
         //this.game = game;
@@ -69,9 +68,9 @@ public class GameManager {
         //players = new ArrayList<Player>();
         currPlayerIdx = 0;
         playerOrder = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
-        for (Player p : players)
+        for(Player p : players)
             p.reset();
-//        System.out.println("Reset!");
+        System.out.println("Reset!");
     }
 
     public void setGameState(GameState state) {
@@ -104,9 +103,11 @@ public class GameManager {
                 gl.initDominoes();
             }
         }
+        //two checks here
         if (roundNum == 13) {
             endGame();
         } else {
+//            System.out.println("round "+roundNum);
             roundNum++;
         }
         if (firstRound) {
@@ -117,7 +118,8 @@ public class GameManager {
 
     // individual player in a turn
     private void playerTurn() {
-        canMove = !firstRound & getCurrentPlayer().hasLegalMoves(false);
+        // check if there are any possible moves left
+        boolean canMove = !firstRound & getCurrentPlayer().hasLegalMoves(false);
         if (!canMove) {
             if (getCurrentPlayer() instanceof HumanPlayer) {
                 getCurrentPlayer().setPlaced(true);
@@ -129,10 +131,6 @@ public class GameManager {
         }
     }
 
-    public boolean canMove(){
-        return canMove;
-    }
-
     private boolean isComputerPlayer() {
         return getCurrentPlayer() instanceof ComputerPlayer;
     }
@@ -141,6 +139,7 @@ public class GameManager {
         if (isFastMode) {
             if (!firstRound && canPlace) {
                 ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
+
                 getCurrentPlayer().setPlaced(true);
             }
             if (!canPlace)
@@ -161,19 +160,22 @@ public class GameManager {
         }
 
     }
-
-    private void computerPlaceDomino(boolean canPlace) {
+    private int delayMillis = 1;
+    private void computerPlaceDomino(final boolean canPlace){
         final Timer timer = new Timer(1, null);
         timer.addActionListener(new ActionListener() {
-            final long currentTime = System.currentTimeMillis();
+            long currentTime = System.currentTimeMillis();
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (currentTime + delayMillis < System.currentTimeMillis()) {
-                    if (canPlace) {
+                    if (!firstRound && canPlace) {
                         ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
+
+                        getCurrentPlayer().setPlaced(true);
                     }
-                    getCurrentPlayer().setPlaced(true);
+                    if (!canPlace)
+                        getCurrentPlayer().setPlaced(true);
                     computerChooseDomino();
                     timer.stop();
                 }
@@ -322,6 +324,38 @@ public class GameManager {
 //            game.getAnalysisPanel().displayAnalysis();
 //        }
     }
+
+
+    private void slowMode() {
+        if (firstRound)
+            for (GameEventListener gl : listeners) {
+                gl.initDominoes();
+            }
+        for (int i = 0; i < players.size(); i++) {
+            playerTurn();
+            /*
+            currPlayerIdx = i;
+            Player currentPlayer = players.get(currPlayerIdx);
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception ignored) {
+
+            }
+            ((ComputerPlayer) currentPlayer).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception ignored) {
+
+            }
+            ((ComputerPlayer) currentPlayer).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
+            currentPlayer.setSelected(false);
+            currentPlayer.setPlaced(false);
+             */
+        }
+        //updatePlayerOrder();
+        firstRound = false;
+    }
+
 
     public boolean isFirstRound() {
         return firstRound;

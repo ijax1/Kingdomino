@@ -19,7 +19,6 @@ import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -41,15 +40,22 @@ import resources.Resources;
 public class GamePanel extends JPanel implements GameEventListener, MouseListener, MouseMotionListener, MouseWheelListener {
     private static final long serialVersionUID = 7381080659172927952L;
 
+    Domino ref = new Domino(new Tile(Tile.Land.LAKE, 0), new Tile(Tile.Land.PASTURE, 0), 13);
     private ArrayList<Component> components = new ArrayList<Component>();
     private Font medieval;
     private Font medievalLg;
+    private int mousedx;
+    private int mousedy;
+    private Domino domino;
+    private int mousex, mousey;
     private PlayerTabGroup playerTabs;
+    private PlayerTabButton playerTab;
     private ArrayList<UIPlayer> uiPlayers = new ArrayList<UIPlayer>(4);
     private int viewedPlayerIdx;
     private Banner banner;
     private FinishTurnButton finishTurn;
     private MessageTextBox textBox;
+    private MinimizeComponentButton minimizeComp;
     private GameManager gm;
     private Kingdomino k;
 
@@ -130,20 +136,21 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         return viewedPlayerIdx;
     }
 
-
+    /**
+     * @return
+     */
     public Player getViewedPlayerIdx() {
         return gm.getPlayers().get(viewedPlayerIdx);
     }
-
     public void setViewedPlayer(Player p) {
-        ArrayList<Player> players = gm.getPlayers();
-        int index = 0;
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getName().equals(p.getName())) {
-                index = i;
-            }
-        }
-        setViewedPlayerIdx(index);
+    	ArrayList<Player> players = gm.getPlayers();
+    	int index = 0;
+    	for(int i=0; i<players.size(); i++) {
+    		if(players.get(i).getName() == p.getName()) {
+    			index = i;
+    		}
+    	}
+    	setViewedPlayerIdx(index);
     }
 
     /**
@@ -157,7 +164,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         if (playerIdx != gm.getOrigPlayerIdx() && d != null) {
             d.minimize();
         }
-        if (playerTabs != null)
+        if(playerTabs != null)
             playerTabs.setSelected(gm.getPlayers().get(playerIdx));
         repaint();
     }
@@ -194,10 +201,11 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 
     @Override
     public void onNextPlayer() {
-        if (gm.getCurrentPlayer() instanceof HumanPlayer) {
-//            System.out.println("is human player");
+        if(gm.getCurrentPlayer() instanceof HumanPlayer) {
+            System.out.println("is human player");
             changePlayer(gm.getCurrentPlayer());
-        } else {
+        }
+        else{
             changePlayer(gm.getCurrentPlayer());
 
             final Timer timer = new Timer(1, null);
@@ -221,18 +229,21 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     }
 
     public void changePlayer(Player player) {
-        playerTabs.updatePlayers(gm.getPlayers(), gm.getPlayerOrder());
-        playerTabs.selectButton(player);
+    	playerTabs.updatePlayers(gm.getPlayers(), gm.getPlayerOrder());
+    	playerTabs.selectButton(player);
         uiGrid = new UIGrid(new Coordinate(640, 320, 0), k, k.getManager().getCurrentPlayer().getGrid());
         uiGrid = grids.get(gm.getOrigPlayerIdx());
         for (UIGrid uigrid : grids) {
             uigrid.setSnapped(false);
         }
-        if (gm.canMove()) {
+
+        // first player
+
+
+        if (!gm.isFirstRound() && player.getNextDomino() != null) {
             d = new UIDomino(new Coordinate(640, 600, 0), k, player.getNextDomino());
             d.setMouseLocation(new Coordinate(640, 600, 0));
         } else {
-            System.out.println("domino null");
             d = null;
         }
         if (gm.isFirstPlayer()) {
@@ -253,7 +264,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     }
 
     public void paintComponent(Graphics g1) {
-        if (gm.getGameState() == GameState.PLAYER_TURN || gm.getGameState() == GameState.TALLY_SCORE) {
+        if(gm.getGameState() == GameState.PLAYER_TURN || gm.getGameState() == GameState.TALLY_SCORE) {
             Graphics2D g = (Graphics2D) g1;
             Player p = getViewedPlayerIdx();
             applyHints(g);
@@ -364,7 +375,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     @Override
     public void mousePressed(MouseEvent e) {
         //From InteractionPanel
-        if (gm.getCurrentPlayer() instanceof HumanPlayer) {
+        if(gm.getCurrentPlayer() instanceof HumanPlayer) {
             if (d != null && d.onComponent(new Coordinate(e.getX(), e.getY(), 0))) {
                 dragging = true;
             }
@@ -381,7 +392,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     public void mouseReleased(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        if (gm.getCurrentPlayer() instanceof HumanPlayer) {
+        if(gm.getCurrentPlayer() instanceof HumanPlayer) {
             //From InteractionPanel
             if (dragging) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
@@ -402,7 +413,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
             }
             draggingCube = false;
 
-
+            
             if (!gm.isFirstRound() && gm.getCurrentPlayer().hasLegalMoves(false)) {
                 gm.getCurrentPlayer().setPlaced(uiGrid.isSnapped());
             }
@@ -450,9 +461,11 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        mousex = e.getX();
+        mousey = e.getY();
 
         //From InteractionPanel
-        if (gm.getCurrentPlayer() instanceof HumanPlayer) {
+        if(gm.getCurrentPlayer() instanceof HumanPlayer) {
             if (gm.getCurrentPlayer() == getViewedPlayerIdx())
                 if (dragging) {
                     d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
@@ -487,6 +500,10 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 
     }
 
+    public void mouseEvent(boolean isClicked, boolean isDragged, boolean isScrolling) {
+
+    }
+
     //Empty methods
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -507,6 +524,10 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     public void mouseExited(MouseEvent e) {
     }
 
+    public PlayerTabGroup getPlayerTabs() {
+        return playerTabs;
+    }
+
     private Image toImage(BufferedImage img) {
         Image image = img.getScaledInstance(img.getWidth(), img.getHeight(), Image.SCALE_SMOOTH);
         return image;
@@ -514,6 +535,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 
     private void animateDomino(UIDomino d, Coordinate destination) {
         final LineSegment ls = new LineSegment(d.getCenter(), destination);
+        final UIDomino domino = d;
         final Timer timer = new Timer(1, null);
         timer.addActionListener(new ActionListener() {
             Coordinate temp = ls.getStart();
@@ -555,6 +577,13 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         });
         timer.start();
     }
+
+//    public void resetDominoButtons() {
+//        for (DominoButton b : banner.getButtons()) {
+//            b.
+//        }
+//    }
+
 
     public UIGrid getUIGrid() {
         return uiGrid;
