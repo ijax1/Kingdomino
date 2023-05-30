@@ -392,6 +392,8 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     public void mouseReleased(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
+        //used to not activate buttons when tile released
+        boolean startedDragging = dragging;
         if(gm.getCurrentPlayer() instanceof HumanPlayer) {
             //From InteractionPanel
             if (dragging) {
@@ -421,7 +423,8 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         }
         //needed to move this outside for banner click updates
         Coordinate mouseCoord = new Coordinate(x, y, 0);
-        handleButtonClicks(mouseCoord);
+        if (!startedDragging)
+            handleButtonClicks(mouseCoord);
 
     }
 
