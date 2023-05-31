@@ -55,40 +55,21 @@ public class StartPanel extends JPanel {
         //scroll.setForeground(OurColors.FONT_LIGHT);
         RoyalButton exit = new RoyalButton("EXITETH");
         RoyalButton play = new RoyalButton("PLAYETH");
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-        play.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        setActionListeners(kdomino, exit, play);
+        setConstraints(g, c, scroll, exit, play);
+        loadImages();
+    }
 
-                ArrayList<Player> players = getAllPlayers();
-                if (players.size() < 2) {
-                    new ErrorDialog(k.getFrame());
-                } else {
-                    boolean finished = false;
-                    boolean strategyMode = true;
-                    for (Player p : players) {
-                        if (p.isHuman()) {
-                            strategyMode = false;
-                        }
-                    }
-                    if (!strategyMode) {
-                        gm.setPlayers(players);
-                        gm.setGameState(GameState.PLAYER_TURN);
-                    } else {
-                        //only computer players
-                        new StrategyAnalysisDialog(k.getFrame(), kdomino);
-                    }
-                }
-            }
-        });
+    private void loadImages() {
+        player = Resources.loadImage("player_icon.png");
+        computer = Resources.loadImage("computer_icon.png");
+        none = Resources.loadImage("none_icon.png");
+        kingDominoScrollImage = Resources.loadImage("king_domino_scroll.png");
+        redTurretImage = Resources.loadImage("red_turret.png");
+        yellowTurretImage = Resources.loadImage("yellow_turret.png");
+    }
 
-        //close = new CloseButton(new Coordinate(1200,800,0), null);
-
+    private void setConstraints(GridBagLayout g, GridBagConstraints c, JLabel scroll, RoyalButton exit, RoyalButton play) {
         //Settings for whole layout
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -134,13 +115,40 @@ public class StartPanel extends JPanel {
         c.gridwidth = 2;
         g.setConstraints(play, c);
         add(play);
+    }
 
-        player = Resources.loadImage("player_icon.png");
-        computer = Resources.loadImage("computer_icon.png");
-        none = Resources.loadImage("none_icon.png");
-        kingDominoScrollImage = Resources.loadImage("king_domino_scroll.png");
-        redTurretImage = Resources.loadImage("red_turret.png");
-        yellowTurretImage = Resources.loadImage("yellow_turret.png");
+    private void setActionListeners(Kingdomino kdomino, RoyalButton exit, RoyalButton play) {
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        play.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                ArrayList<Player> players = getAllPlayers();
+                if (players.size() < 2) {
+                    new ErrorDialog(k.getFrame());
+                } else {
+                    boolean finished = false;
+                    boolean strategyMode = true;
+                    for (Player p : players) {
+                        if (p.isHuman()) {
+                            strategyMode = false;
+                        }
+                    }
+                    if (!strategyMode) {
+                        gm.setPlayers(players);
+                        gm.setGameState(GameState.PLAYER_TURN);
+                    } else {
+                        //only computer players
+                        new StrategyAnalysisDialog(k.getFrame(), kdomino);
+                    }
+                }
+            }
+        });
     }
 
     @Override
