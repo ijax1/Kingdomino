@@ -2,9 +2,7 @@ package UIComponents;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 
-import Backend.GameEventListener;
 import Backend.GameManager;
 import Backend.Kingdomino;
 import Backend.Player;
@@ -22,7 +20,7 @@ public class FinishTurnButton extends Button{
         // need to set current Player through the game manager
         // need access to get maanger through kingDomnio
         // need access to set currentPlayer int in gameManager
-        if(super.getManager().getCurrentPlayer() == getGame().getGamePanel().getViewedPlayerIdx()) {
+        if(super.getManager().getCurrentPlayer() == getGame().getGamePanel().getViewedPlayer()) {
             Player p = getGame().getManager().getCurrentPlayer();
             p.setCurrentDomino(p.getNextDomino());
             getGame().finishTurn();
@@ -42,7 +40,7 @@ public class FinishTurnButton extends Button{
         // only doing it based off if you clicke on the centerpiece
     	//relative coordinates work here
     	GameManager gm = super.getManager();
-    	if ((gm.isFirstRound() || gm.getCurrentPlayer().hasPlaced()) && (gm.getCurrentPlayer().hasSelected() && gm.getCurrentPlayer() == getGame().getGamePanel().getViewedPlayerIdx())) {
+    	if ((gm.isFirstRound() || gm.getCurrentPlayer().hasPlaced()) && (gm.getCurrentPlayer().hasSelected() && gm.getCurrentPlayer() == getGame().getGamePanel().getViewedPlayer())) {
 	    	double x = getPosition().getX();
 	    	double y = getPosition().getY();
 	        return ((c.getX() > x && c.getX() < x+width) &&
@@ -54,7 +52,7 @@ public class FinishTurnButton extends Button{
     public void draw(Graphics2D g) {
         GameManager gm = super.getManager();
         // this technically doenst work because it jsut stops rendering
-        if ((gm.isFirstRound() || gm.getCurrentPlayer().hasPlaced()) && (gm.getCurrentPlayer().hasSelected() && gm.getCurrentPlayer() == getGame().getGamePanel().getViewedPlayerIdx())) {
+        if ((gm.isFirstRound() || gm.getCurrentPlayer().hasPlaced()) && (gm.getCurrentPlayer().hasSelected() && gm.getCurrentPlayer() == getGame().getGamePanel().getViewedPlayer())) {
             double xStart = super.getPosition().getX();
             double yStart = super.getPosition().getY();
 

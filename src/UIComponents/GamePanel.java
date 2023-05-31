@@ -133,7 +133,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     /**
      * @return
      */
-    public Player getViewedPlayerIdx() {
+    public Player getViewedPlayer() {
         return gm.getPlayers().get(viewedPlayerIdx);
     }
 
@@ -260,7 +260,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     public void paintComponent(Graphics g1) {
         if (gm.getGameState() == GameState.PLAYER_TURN || gm.getGameState() == GameState.TALLY_SCORE) {
             Graphics2D g = (Graphics2D) g1;
-            Player p = getViewedPlayerIdx();
+            Player p = getViewedPlayer();
             applyHints(g);
             Dimension size = super.getSize();
             //g.scale(size.width/1280.0, size.width/720.0);
@@ -339,7 +339,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
                 }
             } else if (d != null && viewedPlayerIdx != gm.getOrigPlayerIdx())
                 if (!gm.getCurrentPlayer().hasPlaced()) {
-                    new UIDomino(new Coordinate(640, 600, 0), k, getViewedPlayerIdx().getNextDomino()).render(g);
+                    new UIDomino(new Coordinate(640, 600, 0), k, getViewedPlayer().getNextDomino()).render(g);
                 }
         }
         //TODO: Implement tally_score game state!
@@ -390,28 +390,14 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         //used to not activate buttons when tile released
         boolean startedDragging = dragging;
         if (gm.getCurrentPlayer() instanceof HumanPlayer) {
-            //From InteractionPanel
             if (dragging) {
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    dragging = false;
-                    if (!uiGrid.isSnapped()) {
-                        d.setMouseLocation(new Coordinate(640, 600, 0));
-                        d.moveTo(new Coordinate(640, 600, 0));
-                    }
-                    if (uiGrid.dominoOnGrid(d)) {
-                        d.minimize();
-                    } else
-                        d.show();
-                } else {
-                    if (!d.onComponent(new Coordinate(e.getX(), e.getY(), 0))) {
-                        dragging = false;
-                    }
-                }
+                handleDragging(e);
             }
             draggingCube = false;
 
             if (!gm.isFirstRound() && gm.getCurrentPlayer().hasLegalMoves(false)) {
-                gm.getCurrentPlayer().setPlaced(uiGrid.isSnapped());
+                getViewedPlayer().setPlaced(uiGrid.isSnapped());
+//                gm.getCurrentPlayer().setPlaced(uiGrid.isSnapped());
             }
             repaint();
         }
@@ -419,7 +405,25 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         Coordinate mouseCoord = new Coordinate(x, y, 0);
         if (!startedDragging)
             handleButtonClicks(mouseCoord);
+        repaint();
+    }
 
+    private void handleDragging(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            dragging = false;
+            if (!uiGrid.isSnapped()) {
+                d.setMouseLocation(new Coordinate(640, 600, 0));
+                d.moveTo(new Coordinate(640, 600, 0));
+            }
+            if (uiGrid.dominoOnGrid(d)) {
+                d.minimize();
+            } else
+                d.show();
+        } else {
+            if (!d.onComponent(new Coordinate(e.getX(), e.getY(), 0))) {
+                dragging = false;
+            }
+        }
     }
 
     private void handleButtonClicks(Coordinate mouseCoord) {
@@ -464,7 +468,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         //From InteractionPanel
         if ((uiGrid.dominoOnGrid(d) && !finishTurn.onComponent(new Coordinate(mousex, mousey, 0))) || (!uiGrid.dominoOnGrid(d))) {
             if (gm.getCurrentPlayer() instanceof HumanPlayer) {
-                if (gm.getCurrentPlayer() == getViewedPlayerIdx())
+                if (gm.getCurrentPlayer() == getViewedPlayer())
                     if (dragging) {
                         d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
                         d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
