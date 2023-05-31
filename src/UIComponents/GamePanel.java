@@ -135,7 +135,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     public Player getViewedPlayerIdx() {
         return gm.getPlayers().get(viewedPlayerIdx);
     }
-
     public void setViewedPlayer(Player p) {
         ArrayList<Player> players = gm.getPlayers();
         int index = 0;
@@ -386,7 +385,9 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     public void mouseReleased(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        if (gm.getCurrentPlayer() instanceof HumanPlayer) {
+        //used to not activate buttons when tile released
+        boolean startedDragging = dragging;
+        if(gm.getCurrentPlayer() instanceof HumanPlayer) {
             //From InteractionPanel
             if (dragging) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
@@ -414,7 +415,8 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         }
         //needed to move this outside for banner click updates
         Coordinate mouseCoord = new Coordinate(x, y, 0);
-        handleButtonClicks(mouseCoord);
+        if (!startedDragging)
+            handleButtonClicks(mouseCoord);
 
     }
 
@@ -455,22 +457,24 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     @Override
     public void mouseDragged(MouseEvent e) {
         //From InteractionPanel
-        if (gm.getCurrentPlayer() instanceof HumanPlayer) {
-            if (gm.getCurrentPlayer() == getViewedPlayerIdx())
-                if (dragging) {
-                    d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
-                    d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
-                    uiGrid.holdDomino(d, d.ref);
-                    if (!uiGrid.dominoOnGrid(d))
-                        uiGrid.setSnapped(false);
+        if ((uiGrid.dominoOnGrid(d) && !finishTurn.onComponent(new Coordinate(mousex, mousey, 0))) || (!uiGrid.dominoOnGrid(d))) {
+        	if(gm.getCurrentPlayer() instanceof HumanPlayer) {
+                if (gm.getCurrentPlayer() == getViewedPlayerIdx())
+                    if (dragging) {
+                        d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
+                        d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
+                        uiGrid.holdDomino(d, d.ref);
+                        if (!uiGrid.dominoOnGrid(d))
+                            uiGrid.setSnapped(false);
+                        repaint();
+
+                    }
+
+                if (draggingCube) {
+                    r.moveTo(new Coordinate(e.getX(), e.getY(), 0));
+                    r.incrementRotation(Math.PI / 20, Math.PI / 40, Math.PI / 50);
                     repaint();
-
                 }
-
-            if (draggingCube) {
-                r.moveTo(new Coordinate(e.getX(), e.getY(), 0));
-                r.incrementRotation(Math.PI / 20, Math.PI / 40, Math.PI / 50);
-                repaint();
             }
         }
 
