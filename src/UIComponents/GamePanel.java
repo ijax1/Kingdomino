@@ -51,6 +51,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     private MessageTextBox textBox;
     private GameManager gm;
     private Kingdomino k;
+    private int mousex, mousey;
 
     //From InteractionPanel
     private UIDomino d;
@@ -135,6 +136,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     public Player getViewedPlayerIdx() {
         return gm.getPlayers().get(viewedPlayerIdx);
     }
+
     public void setViewedPlayer(Player p) {
         ArrayList<Player> players = gm.getPlayers();
         int index = 0;
@@ -387,7 +389,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         int y = e.getY();
         //used to not activate buttons when tile released
         boolean startedDragging = dragging;
-        if(gm.getCurrentPlayer() instanceof HumanPlayer) {
+        if (gm.getCurrentPlayer() instanceof HumanPlayer) {
             //From InteractionPanel
             if (dragging) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
@@ -456,9 +458,12 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        mousex = e.getX();
+        mousey = e.getY();
+
         //From InteractionPanel
         if ((uiGrid.dominoOnGrid(d) && !finishTurn.onComponent(new Coordinate(mousex, mousey, 0))) || (!uiGrid.dominoOnGrid(d))) {
-        	if(gm.getCurrentPlayer() instanceof HumanPlayer) {
+            if (gm.getCurrentPlayer() instanceof HumanPlayer) {
                 if (gm.getCurrentPlayer() == getViewedPlayerIdx())
                     if (dragging) {
                         d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
