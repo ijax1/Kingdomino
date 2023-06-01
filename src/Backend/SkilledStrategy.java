@@ -33,13 +33,12 @@ public class SkilledStrategy extends ComputerPlayer {
      */
     @Override
     public void calculateChoice(Domino[] d, ArrayList<Player> p) {
-        Domino[] dominoes = d;
         int maxScore = 0;
         bestRot = 0;
 //        Domino bestDomino = dominoes[0];
-        bestDomino = dominoes[0];
+        bestDomino = d[0];
 //        System.out.println(getName());
-        for (Domino dm : dominoes) {
+        for (Domino dm : d) {
             Domino domino = dm.copy();
             for (int i = 0; i < 4; i++) {
                 domino.setRotation(i*90);

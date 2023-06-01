@@ -44,20 +44,14 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     private ArrayList<Component> components = new ArrayList<Component>();
     private Font medieval;
     private Font medievalLg;
-    private int mousedx;
-    private int mousedy;
-    private Domino domino;
-    private int mousex, mousey;
     private PlayerTabGroup playerTabs;
-    private PlayerTabButton playerTab;
-    private ArrayList<UIPlayer> uiPlayers = new ArrayList<UIPlayer>(4);
     private int viewedPlayerIdx;
     private Banner banner;
     private FinishTurnButton finishTurn;
     private MessageTextBox textBox;
-    private MinimizeComponentButton minimizeComp;
     private GameManager gm;
     private Kingdomino k;
+    private int mousex, mousey;
 
     //From InteractionPanel
     private UIDomino d;
@@ -139,18 +133,19 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     /**
      * @return
      */
-    public Player getViewedPlayerIdx() {
+    public Player getViewedPlayer() {
         return gm.getPlayers().get(viewedPlayerIdx);
     }
+
     public void setViewedPlayer(Player p) {
-    	ArrayList<Player> players = gm.getPlayers();
-    	int index = 0;
-    	for(int i=0; i<players.size(); i++) {
-    		if(players.get(i).getName() == p.getName()) {
-    			index = i;
-    		}
-    	}
-    	setViewedPlayerIdx(index);
+        ArrayList<Player> players = gm.getPlayers();
+        int index = 0;
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getName().equals(p.getName())) {
+                index = i;
+            }
+        }
+        setViewedPlayerIdx(index);
     }
 
     /**
@@ -164,7 +159,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         if (playerIdx != gm.getOrigPlayerIdx() && d != null) {
             d.minimize();
         }
-        if(playerTabs != null)
+        if (playerTabs != null)
             playerTabs.setSelected(gm.getPlayers().get(playerIdx));
         repaint();
     }
@@ -201,11 +196,10 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 
     @Override
     public void onNextPlayer() {
-        if(gm.getCurrentPlayer() instanceof HumanPlayer) {
+        if (gm.getCurrentPlayer() instanceof HumanPlayer) {
             System.out.println("is human player");
             changePlayer(gm.getCurrentPlayer());
-        }
-        else{
+        } else {
             changePlayer(gm.getCurrentPlayer());
 
             final Timer timer = new Timer(1, null);
@@ -229,8 +223,8 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     }
 
     public void changePlayer(Player player) {
-    	playerTabs.updatePlayers(gm.getPlayers(), gm.getPlayerOrder());
-    	playerTabs.selectButton(player);
+        playerTabs.updatePlayers(gm.getPlayers(), gm.getPlayerOrder());
+        playerTabs.selectButton(player);
         uiGrid = new UIGrid(new Coordinate(640, 320, 0), k, k.getManager().getCurrentPlayer().getGrid());
         uiGrid = grids.get(gm.getOrigPlayerIdx());
         for (UIGrid uigrid : grids) {
@@ -264,9 +258,9 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     }
 
     public void paintComponent(Graphics g1) {
-        if(gm.getGameState() == GameState.PLAYER_TURN || gm.getGameState() == GameState.TALLY_SCORE) {
+        if (gm.getGameState() == GameState.PLAYER_TURN || gm.getGameState() == GameState.TALLY_SCORE) {
             Graphics2D g = (Graphics2D) g1;
-            Player p = getViewedPlayerIdx();
+            Player p = getViewedPlayer();
             applyHints(g);
             Dimension size = super.getSize();
             //g.scale(size.width/1280.0, size.width/720.0);
@@ -338,13 +332,14 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
                 component.draw(componentg);
                 //}
             }
+            // render domino if possible
             if (d != null && viewedPlayerIdx == gm.getOrigPlayerIdx()) {
                 if (!gm.getCurrentPlayer().hasPlaced()) {
                     d.render(g);
                 }
             } else if (d != null && viewedPlayerIdx != gm.getOrigPlayerIdx())
                 if (!gm.getCurrentPlayer().hasPlaced()) {
-                    new UIDomino(new Coordinate(640, 600, 0), k, getViewedPlayerIdx().getNextDomino()).render(g);
+                    new UIDomino(new Coordinate(640, 600, 0), k, getViewedPlayer().getNextDomino()).render(g);
                 }
         }
         //TODO: Implement tally_score game state!
@@ -375,7 +370,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     @Override
     public void mousePressed(MouseEvent e) {
         //From InteractionPanel
-        if(gm.getCurrentPlayer() instanceof HumanPlayer) {
+        if (gm.getCurrentPlayer() instanceof HumanPlayer) {
             if (d != null && d.onComponent(new Coordinate(e.getX(), e.getY(), 0))) {
                 dragging = true;
             }
@@ -394,30 +389,15 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         int y = e.getY();
         //used to not activate buttons when tile released
         boolean startedDragging = dragging;
-        if(gm.getCurrentPlayer() instanceof HumanPlayer) {
-            //From InteractionPanel
+        if (gm.getCurrentPlayer() instanceof HumanPlayer) {
             if (dragging) {
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    dragging = false;
-                    if (!uiGrid.isSnapped()) {
-                        d.setMouseLocation(new Coordinate(640, 600, 0));
-                        d.moveTo(new Coordinate(640, 600, 0));
-                    }
-                    if (uiGrid.dominoOnGrid(d)) {
-                        d.minimize();
-                    } else
-                        d.show();
-                } else {
-                    if (!d.onComponent(new Coordinate(e.getX(), e.getY(), 0))) {
-                        dragging = false;
-                    }
-                }
+                handleDragging(e);
             }
             draggingCube = false;
 
-            
             if (!gm.isFirstRound() && gm.getCurrentPlayer().hasLegalMoves(false)) {
-                gm.getCurrentPlayer().setPlaced(uiGrid.isSnapped());
+                getViewedPlayer().setPlaced(uiGrid.isSnapped());
+//                gm.getCurrentPlayer().setPlaced(uiGrid.isSnapped());
             }
             repaint();
         }
@@ -425,7 +405,25 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         Coordinate mouseCoord = new Coordinate(x, y, 0);
         if (!startedDragging)
             handleButtonClicks(mouseCoord);
+        repaint();
+    }
 
+    private void handleDragging(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            dragging = false;
+            if (!uiGrid.isSnapped()) {
+                d.setMouseLocation(new Coordinate(640, 600, 0));
+                d.moveTo(new Coordinate(640, 600, 0));
+            }
+            if (uiGrid.dominoOnGrid(d)) {
+                d.minimize();
+            } else
+                d.show();
+        } else {
+            if (!d.onComponent(new Coordinate(e.getX(), e.getY(), 0))) {
+                dragging = false;
+            }
+        }
     }
 
     private void handleButtonClicks(Coordinate mouseCoord) {
@@ -469,8 +467,8 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 
         //From InteractionPanel
         if ((uiGrid.dominoOnGrid(d) && !finishTurn.onComponent(new Coordinate(mousex, mousey, 0))) || (!uiGrid.dominoOnGrid(d))) {
-        	if(gm.getCurrentPlayer() instanceof HumanPlayer) {
-                if (gm.getCurrentPlayer() == getViewedPlayerIdx())
+            if (gm.getCurrentPlayer() instanceof HumanPlayer) {
+                if (gm.getCurrentPlayer() == getViewedPlayer())
                     if (dragging) {
                         d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
                         d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
@@ -490,8 +488,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         }
 
     }
-
-    double xRotation = 0, yRotation = 0, zRotation = 0;
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {

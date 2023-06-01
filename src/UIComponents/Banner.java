@@ -106,7 +106,7 @@ public class Banner extends Component {
 		for(DominoButton b: buttons){
 			b.minimize();
 		}		
-		Grid grid = gamePanel.getViewedPlayerIdx().getGrid();
+		Grid grid = gamePanel.getViewedPlayer().getGrid();
 		int total = grid.calculateScore();
 		Land[] landOrder = {Land.FOREST, Land.WHEAT, Land.PASTURE, Land.LAKE, Land.SWAMP, Land.MINE};
 		int xPos = bannerStartX+20;

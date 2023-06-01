@@ -23,7 +23,8 @@ public class GameManager {
     private int numGames;
     private int numGamesLeft;
     private int roundNum;
-    private ArrayList<Integer> winners = new ArrayList<Integer>(4);
+    private static final int delayMillis = 500;
+    private ArrayList<Integer> winners = new ArrayList<>(4);
     // will contain integers 0,1,2,3 representing players, ordered in their desired order
     // ex: {3,0,2,1} = player 3 --> player 0 --> player 2 --> player 1
     private ArrayList<Integer> playerOrder;
@@ -70,9 +71,9 @@ public class GameManager {
         currPlayerIdx = 0;
         roundNum=0;
         playerOrder = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
-        for(Player p : players)
+        for (Player p : players)
             p.reset();
-        System.out.println("Reset!");
+//        System.out.println("Reset!");
     }
 
     public void setGameState(GameState state) {
@@ -126,9 +127,8 @@ public class GameManager {
         // check if there are any possible moves left
         boolean canMove = !firstRound & getCurrentPlayer().hasLegalMoves(false);
         if (!canMove) {
-            if (getCurrentPlayer() instanceof HumanPlayer) {
-                getCurrentPlayer().setPlaced(true);
-            } else if (isComputerPlayer()) {
+            getCurrentPlayer().setPlaced(true);
+            if (isComputerPlayer()) {
                 computerPlayerTurn(false);
             }
         } else if (isComputerPlayer()) {
@@ -168,8 +168,8 @@ public class GameManager {
         }
 
     }
-    private int delayMillis = 1;
-    private void computerPlaceDomino(final boolean canPlace){
+
+    private void computerPlaceDomino(final boolean canPlace) {
         final Timer timer = new Timer(1, null);
         timer.addActionListener(new ActionListener() {
             long currentTime = System.currentTimeMillis();
@@ -249,6 +249,7 @@ public class GameManager {
         getCurrentPlayer().setPlaced(false);
         updatePlayerIdx();
 
+        // new round (back to first player)
         if (currPlayerIdx == 0) {
             // next round
             firstRound = false;
@@ -349,38 +350,6 @@ public class GameManager {
 //            game.getAnalysisPanel().displayAnalysis();
 //        }
     }
-
-
-    private void slowMode() {
-        if (firstRound)
-            for (GameEventListener gl : listeners) {
-                gl.initDominoes();
-            }
-        for (int i = 0; i < players.size(); i++) {
-            playerTurn();
-            /*
-            currPlayerIdx = i;
-            Player currentPlayer = players.get(currPlayerIdx);
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (Exception ignored) {
-
-            }
-            ((ComputerPlayer) currentPlayer).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (Exception ignored) {
-
-            }
-            ((ComputerPlayer) currentPlayer).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
-            currentPlayer.setSelected(false);
-            currentPlayer.setPlaced(false);
-             */
-        }
-        //updatePlayerOrder();
-        firstRound = false;
-    }
-
 
     public boolean isFirstRound() {
         return firstRound;
