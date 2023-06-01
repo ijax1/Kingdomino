@@ -50,6 +50,7 @@ public class AnalysisPanel extends JPanel {
 		ArrayList<String> strategyType = new ArrayList<String>();
 		ArrayList<Integer> percentageWon = new ArrayList<Integer>();
 		GameManager gm = kingdomino.getManager();
+		System.out.println(gm.getWinners());
 
 
 			//VALUES:
@@ -69,7 +70,7 @@ public class AnalysisPanel extends JPanel {
 				//totalGames++;
 				int percentage = 100;
 				if(totalGames != 0)
-					percentage = gm.getWinners().get(x)/totalGames;
+					percentage = (int) (((float)gm.getWinners().get(x)/totalGames)*100);
 				percentageWon.add(percentage);
 			}
 			for (int x = 0; x<totalPlayers; x++) {
@@ -90,7 +91,7 @@ public class AnalysisPanel extends JPanel {
 				box1.add(player0GamesPlayed);
 				JLabel player0GamesWon = new JLabel("Games won: " + gm.getWinners().get(0), SwingConstants.CENTER);
 				box1.add(player0GamesWon);
-				JLabel player0PercentageWon = new JLabel("Percentage won: " + percentageWon.get(0), SwingConstants.CENTER);
+				JLabel player0PercentageWon = new JLabel("Percent: " + percentageWon.get(0) + "%", SwingConstants.CENTER);
 				box1.add(player0PercentageWon);
 			}
 
@@ -104,7 +105,7 @@ public class AnalysisPanel extends JPanel {
 				box2.add(player1GamesPlayed);
 				JLabel player1GamesWon = new JLabel("Games won: " + gm.getWinners().get(1), SwingConstants.CENTER);
 				box2.add(player1GamesWon);
-				JLabel player1PercentageWon = new JLabel("Percentage won: " + percentageWon.get(1), SwingConstants.CENTER);
+				JLabel player1PercentageWon = new JLabel("Percent: " + percentageWon.get(1) + "%", SwingConstants.CENTER);
 				box2.add(player1PercentageWon);
 			}
 
@@ -120,7 +121,7 @@ public class AnalysisPanel extends JPanel {
 				box3.add(player2GamesPlayed);
 				JLabel player2GamesWon = new JLabel("Games won: " + gm.getWinners().get(2), SwingConstants.CENTER);
 				box3.add(player2GamesWon);
-				JLabel player2PercentageWon = new JLabel("Percentage won: " + percentageWon.get(2), SwingConstants.CENTER);
+				JLabel player2PercentageWon = new JLabel("Percent: " + percentageWon.get(2) + "%", SwingConstants.CENTER);
 				box3.add(player2PercentageWon);
 			}
 
@@ -136,7 +137,7 @@ public class AnalysisPanel extends JPanel {
 				box4.add(player3GamesPlayed);
 				JLabel player3GamesWon = new JLabel("Games won: " + gm.getWinners().get(3), SwingConstants.CENTER);
 				box4.add(player3GamesWon);
-				JLabel player3PercentageWon = new JLabel("Percentage won: " + percentageWon.get(3), SwingConstants.CENTER);
+				JLabel player3PercentageWon = new JLabel("Percent: " + percentageWon.get(3) + "%", SwingConstants.CENTER);
 				box4.add(player3PercentageWon);
 			}
 			

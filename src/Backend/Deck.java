@@ -192,7 +192,7 @@ public class Deck {
     public void setLocked(Domino d, Player player) {
     	for(int i=0; i< dominoesToSelect.length; i++){
     		//no you don't get an equals method
-    		if(dominoesToSelect[i]==d) {
+    		if(dominoesToSelect[i].toString().equals(d.toString())) {
     			//LOCK IN
     			whoLocked[i] = player;
     		}
