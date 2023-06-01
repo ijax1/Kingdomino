@@ -9,13 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -397,11 +391,9 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 
             if (!gm.isFirstRound() && gm.getCurrentPlayer().hasLegalMoves(false)) {
                 getViewedPlayer().setPlaced(uiGrid.isSnapped());
-//                gm.getCurrentPlayer().setPlaced(uiGrid.isSnapped());
             }
             repaint();
         }
-        //needed to move this outside for banner click updates
         Coordinate mouseCoord = new Coordinate(x, y, 0);
         if (!startedDragging)
             handleButtonClicks(mouseCoord);
@@ -412,8 +404,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         if (e.getButton() == MouseEvent.BUTTON1) {
             dragging = false;
             if (!uiGrid.isSnapped()) {
-                d.setMouseLocation(new Coordinate(640, 600, 0));
-                d.moveTo(new Coordinate(640, 600, 0));
+                resetDominoLocation();
             }
             if (uiGrid.dominoOnGrid(d)) {
                 d.minimize();
@@ -424,6 +415,11 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
                 dragging = false;
             }
         }
+    }
+
+    private void resetDominoLocation() {
+        d.setMouseLocation(new Coordinate(640, 600, 0));
+        d.moveTo(new Coordinate(640, 600, 0));
     }
 
     private void handleButtonClicks(Coordinate mouseCoord) {
@@ -597,4 +593,10 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     }
 
 
+    public void lostFocus() {
+        if (gm.getCurrentPlayer() instanceof HumanPlayer && dragging && !uiGrid.isSnapped()) {
+            dragging = false;
+            resetDominoLocation();
+        }
+    }
 }

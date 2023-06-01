@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -78,6 +80,20 @@ public class Kingdomino implements GameEventListener {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
                 //framename.setVisible(false);
+            }
+        });
+        frame.addWindowFocusListener(new WindowFocusListener() {
+
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                if (gamePanel != null)
+                    gamePanel.repaint();
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                if (gamePanel != null)
+                    gamePanel.lostFocus();
             }
         });
     }
