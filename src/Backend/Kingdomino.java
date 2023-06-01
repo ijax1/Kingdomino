@@ -107,11 +107,10 @@ public class Kingdomino implements GameEventListener {
             panels.show(basePanel, "Game Panel");
         } else if (state == GameState.ENDSCREEN) {
             panels.show(basePanel, "Podium Panel");
-        } else if (state == GameState.STRATEGY) {
-            if (analysisPanel == null) {
-                analysisPanel = new AnalysisPanel(new GridBagLayout(), this);
-                basePanel.add(analysisPanel, "Analysis Panel");
-            }
+        } else if (state == GameState.ANALYSIS_PANEL) {
+            analysisPanel = new AnalysisPanel(new GridBagLayout(), this);
+            basePanel.removeAll();
+            basePanel.add(analysisPanel, "Analysis Panel");
             panels.show(basePanel, "Analysis Panel");
 //            analysisPanel.beginAnalysis(manager.getNumGames());
         }

@@ -39,7 +39,8 @@ public class GameManager {
         END_ROUND,
         TALLY_SCORE,
         ENDSCREEN,
-        STRATEGY
+        STRATEGY,
+        ANALYSIS_PANEL
     }
 
 
@@ -63,10 +64,11 @@ public class GameManager {
     }
 
     private void reset() {
-        firstRound = true;
         deck = new Deck();
         //players = new ArrayList<Player>();
+        firstRound = true;
         currPlayerIdx = 0;
+        roundNum=0;
         playerOrder = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
         for(Player p : players)
             p.reset();
@@ -84,8 +86,8 @@ public class GameManager {
         } else if (state == GameState.PLAYER_TURN) {
             round();
         } else if (state == GameState.STRATEGY) {
-            //play computer # games
             round();
+            setGameState(GameState.ANALYSIS_PANEL);
         } else if (state == GameState.ENDSCREEN) {
             setResults();
         }
@@ -97,6 +99,7 @@ public class GameManager {
     }
 
     private void round() {
+        System.out.println("Round " +roundNum);
         deck.getNewDominoes();
         if (firstRound) {
             for (GameEventListener gl : listeners) {
@@ -106,12 +109,14 @@ public class GameManager {
         //two checks here
         if (roundNum == 13) {
             endGame();
+            System.out.println("ended");
         } else {
 //            System.out.println("round "+roundNum);
             roundNum++;
         }
-        if (firstRound) {
+        if (firstRound && numGamesLeft > 0) {
             playerTurn();
+            System.out.println("Finished Turn!");
         }
     }
 
@@ -149,12 +154,15 @@ public class GameManager {
                 for (GameEventListener gl : listeners) {
                     gl.onDominoSelected(getCurrentPlayer().getNextDomino(), false);
                 }
+                getDeck().setLocked(getCurrentPlayer().getNextDomino(), getCurrentPlayer());
             }
             getCurrentPlayer().setSelected(true);
             for (GameEventListener gl : listeners) {
                 gl.onFinishTurn();
             }
-            nextPlayer();
+            //System.out.println(getCurrentPlayer());
+            if(numGamesLeft > 0)
+                nextPlayer();
         } else {
             computerPlaceDomino(canPlace);
         }
@@ -221,7 +229,8 @@ public class GameManager {
                     for (GameEventListener gl : listeners) {
                         gl.onFinishTurn();
                     }
-                    nextPlayer();
+                    if(numGamesLeft > 0)
+                        nextPlayer();
                     timer.stop();
                 }
 
@@ -264,7 +273,10 @@ public class GameManager {
     public void updatePlayerOrder() {
         ArrayList<Integer> dominoValues = new ArrayList<>();
         for (Player player : players) {
-            dominoValues.add(player.getNextDomino().getValue());
+            if(player.getNextDomino() != null)
+                dominoValues.add(player.getNextDomino().getValue());
+            else
+                dominoValues.add(0);
         }
         playerOrder = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
         for (int i = 0; i < dominoValues.size() - 1; i++) {
@@ -298,23 +310,36 @@ public class GameManager {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getScore() >= highScore) {
                 highScore = players.get(i).getScore();
+                System.out.println(players.get(i));
                 winner = getPlayerOrder().get(i);
             }
         }
+        //System.out.println(getPlayerOrder());
+        //System.out.println(winner);
         Integer num = winners.get(winner) + 1;
         if (winner != -1) {
             winners.set(winner, num);
         }
 
-        if (!isFastMode()) {
+        System.out.println(winners);
+
+        /*if (!isFastMode()) {
             setGameState(GameState.ENDSCREEN);
-        } else {
+        } else {*/
             numGamesLeft--;
-            if (numGamesLeft >= 0) {
-                reset();
-                round();
+            if (numGamesLeft > 0) {
+                roundNum=0;
+                if(isFastMode) {
+                    reset();
+                    round();
+                }
+            } else {
+                System.out.println("Done games");
+                if(getGameState()!=GameState.STRATEGY) {
+                    setGameState(GameState.ENDSCREEN);
+                }
             }
-        }
+        //}
 
 //        numGamesLeft--;
 //        if (isFastMode && numGamesLeft == ) {
