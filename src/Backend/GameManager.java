@@ -351,8 +351,14 @@ public class GameManager {
             }
         } else {
             //System.out.println("Done games");
-            if(getGameState()!=GameState.STRATEGY) {
+            boolean hasHuman = false;
+            for(Player p : getPlayers()) 
+                if(p instanceof HumanPlayer)
+                    hasHuman = true;
+            if(!hasHuman) {
                 setGameState(GameState.ANALYSIS_PANEL);
+            } else {
+                setGameState(GameState.ENDSCREEN);
             }
         }
         //}
