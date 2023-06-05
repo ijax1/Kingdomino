@@ -70,7 +70,7 @@ public class AnalysisPanel extends JPanel {
 				//totalGames++;
 				int percentage = 100;
 				if(totalGames != 0)
-					percentage = (int) (((float)gm.getWinners().get(x)/totalGames)*100);
+					percentage = (int) Math.round(((float)gm.getWinners().get(x)/totalGames)*100);
 				percentageWon.add(percentage);
 			}
 			for (int x = 0; x<totalPlayers; x++) {

@@ -19,11 +19,11 @@ public class GameManager {
 
     private Deck deck;
     //private Kingdomino game;
-    private boolean isFastMode;
-    private int numGames;
-    private int numGamesLeft;
+    private boolean isFastMode = false;
+    private int numGames = 1;
+    private int numGamesLeft = 1;
     private int roundNum;
-    private static final int delayMillis = 500;
+    private static final int delayMillis = 1;
     private ArrayList<Integer> winners = new ArrayList<>(4);
     // will contain integers 0,1,2,3 representing players, ordered in their desired order
     // ex: {3,0,2,1} = player 3 --> player 0 --> player 2 --> player 1
@@ -87,7 +87,15 @@ public class GameManager {
         } else if (state == GameState.PLAYER_TURN) {
             round();
         } else if (state == GameState.STRATEGY) {
-            round();
+            if(!isFastMode)
+                round();
+            else {
+                while(numGamesLeft > 0) {
+                    reset();
+                    round();
+                    //System.out.println("Loop!");
+                }
+            }
             setGameState(GameState.ANALYSIS_PANEL);
         } else if (state == GameState.ENDSCREEN) {
             setResults();
@@ -100,7 +108,7 @@ public class GameManager {
     }
 
     private void round() {
-        System.out.println("Round " +roundNum);
+        //System.out.println("Round " +roundNum);
         deck.getNewDominoes();
         if (firstRound) {
             for (GameEventListener gl : listeners) {
@@ -110,14 +118,14 @@ public class GameManager {
         //two checks here
         if (roundNum == 13) {
             endGame();
-            System.out.println("ended");
+            //System.out.println("ended");
         } else {
 //            System.out.println("round "+roundNum);
             roundNum++;
-        }
-        if (firstRound && numGamesLeft > 0) {
-            playerTurn();
-            System.out.println("Finished Turn!");
+            if (/*firstRound &&*/ numGamesLeft > 0) {
+                playerTurn();
+                //System.out.println("Finished Turn!");
+            }
         }
     }
 
@@ -204,8 +212,10 @@ public class GameManager {
                     if (getDeck().getDominoesToSelect().length != 0) {
                         ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
                         for (GameEventListener gl : listeners) {
-                            if (getCurrentPlayer().getNextDomino() != null)
+                            if (getCurrentPlayer().getNextDomino() != null) {
                                 gl.onDominoSelected(getCurrentPlayer().getNextDomino(), false);
+                                getDeck().setLocked(getCurrentPlayer().getNextDomino(), getCurrentPlayer());
+                            }
                         }
                     }
                     getCurrentPlayer().setSelected(true);
@@ -254,13 +264,18 @@ public class GameManager {
             // next round
             firstRound = false;
             updatePlayerOrder();
+            for (GameEventListener gl : listeners) {
+                gl.onNextPlayer();
+            }
             round();
+        } else {
+            //notify listeners last
+            for (GameEventListener gl : listeners) {
+                gl.onNextPlayer();
+            }
+            if(roundNum<=13)
+                playerTurn();
         }
-        //notify listeners last
-        for (GameEventListener gl : listeners) {
-            gl.onNextPlayer();
-        }
-        playerTurn();
     }
 
     private void updatePlayerIdx() {
@@ -311,7 +326,7 @@ public class GameManager {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getScore() >= highScore) {
                 highScore = players.get(i).getScore();
-                System.out.println(players.get(i));
+                //System.out.println(players.get(i));
                 winner = getPlayerOrder().get(i);
             }
         }
@@ -322,24 +337,24 @@ public class GameManager {
             winners.set(winner, num);
         }
 
-        System.out.println(winners);
+        //System.out.println(winners);
 
         /*if (!isFastMode()) {
             setGameState(GameState.ENDSCREEN);
         } else {*/
-            numGamesLeft--;
-            if (numGamesLeft > 0) {
-                roundNum=0;
-                if(isFastMode) {
-                    reset();
-                    round();
-                }
-            } else {
-                System.out.println("Done games");
-                if(getGameState()!=GameState.STRATEGY) {
-                    setGameState(GameState.ENDSCREEN);
-                }
+        numGamesLeft--;
+        if (numGamesLeft > 0) {
+            roundNum=0;
+            if(!isFastMode) {
+                reset();
+                round();
             }
+        } else {
+            //System.out.println("Done games");
+            if(getGameState()!=GameState.STRATEGY) {
+                setGameState(GameState.ANALYSIS_PANEL);
+            }
+        }
         //}
 
 //        numGamesLeft--;
@@ -416,7 +431,7 @@ public class GameManager {
 
     public void setNumGames(int numGames) {
         this.numGames = numGames;
-
+        //System.out.println(numGames);
         numGamesLeft = numGames;
     }
 

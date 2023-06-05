@@ -198,6 +198,16 @@ public class Deck {
     		}
     	}
     }
+
+    public void setLockedRef(Domino d, Player player) {
+        for(int i=0; i< dominoesToSelect.length; i++){
+    		//no you don't get an equals method
+    		if(dominoesToSelect[i] == d) {
+    			//LOCK IN
+    			whoLocked[i] = player;
+    		}
+    	}
+    }
     /**
      * Returns the array of Players that have selected and confirmed the corresponding Dominoes (from getAllDominoes)
      * @return an array of 4 Players, some of whom are null, corresponding to who locked which Domino
