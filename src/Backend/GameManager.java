@@ -357,6 +357,8 @@ public class GameManager {
                     hasHuman = true;
             if(!hasHuman) {
                 setGameState(GameState.ANALYSIS_PANEL);
+            } else {
+                setGameState(GameState.ENDSCREEN);
             }
         }
         //}
