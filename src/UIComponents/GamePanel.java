@@ -264,79 +264,91 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
             g.fillOval(100, 50, getWidth() - 200, getHeight() - 100);
             g.drawImage(image, 350, 0, null);
 
-            g.setFont(medievalLg);
-            FontMetrics metrics = g.getFontMetrics(medievalLg);
-            g.setColor(Color.BLACK);
-            String playerName = gm.getPlayers().get(viewedPlayerIdx).getName();
-            String playerTitle = gm.getPlayers().get(viewedPlayerIdx).getTitle();
-            g.drawString(playerName, 390 + (475 - metrics.stringWidth(playerName)) / 2, 100);
-            g.setFont(medieval);
-            metrics = g.getFontMetrics(medieval);
-            g.drawString(playerTitle, 390 + (475 - metrics.stringWidth(playerTitle)) / 2, 130);
+            drawPlayerInfo(g);
+            drawPlayerInstructions(g);
 
-            g.setFont(medieval);
-            g.setColor(Color.WHITE);
-
-            if (!gm.isFirstRound() && gm.getPlayers().get(viewedPlayerIdx) == gm.getCurrentPlayer() && !gm.getCurrentPlayer().hasPlaced()) {
-                g.drawString("Placeth thine tile, your grace!", 950, 635);
-                //where thy kingdom meets the lawless frontier
-            }
-            if (gm.getPlayers().get(viewedPlayerIdx) == gm.getCurrentPlayer() && !gm.getCurrentPlayer().hasSelected()) {
-                g.drawString("Selecteth thine tile, your majesty!", 950, 665);
-                //to stake claim to new territory!
-            }
             uiGrid.render(g.create(), dragging);
             checkDomino();
-            //moved UIDomino draw to the component loop
 
-            double startX = 0;
-            double startY = 0;
-            double width = 175;
-            double height = 50;
-            int filletRadius = 20;
-            g.setStroke(new BasicStroke(3));
-            g.setColor(new Color(241, 194, 50));
-            g.drawRect((int) startX, (int) startY, (int) width - filletRadius / 2, (int) height);
-            //g.drawOval((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) filletRadius);
-            g.drawRect((int) (startX + (width - filletRadius)), (int) startY, (int) filletRadius, (int) height - (filletRadius / 2));
-            g.drawOval((int) (startX + (width - filletRadius)), (int) (startY + (height - filletRadius)), (int) filletRadius, (int) filletRadius);
-
-            g.setColor(new Color(140, 67, 188));
-            g.fillRect((int) startX, (int) startY, (int) width - filletRadius / 2, (int) height);
-            //g.fillOval((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) filletRadius);
-            g.fillRect((int) (startX + (width - filletRadius)), (int) startY, (int) filletRadius, (int) height - (filletRadius / 2));
-            g.fillOval((int) (startX + (width - filletRadius)), (int) (startY + (height - filletRadius)), (int) filletRadius, (int) filletRadius);
-
-            g.setColor(new Color(241, 194, 50));
-            g.drawString("SCORE: " + gm.getPlayers().get(viewedPlayerIdx).getScore(), 30, 30);
-
-//		g.drawString("Hello world", 200,200);
-//		g.fillOval(500, 500, 10, 10);
-//		g.drawRect(480, 480, 40, 40);
-            for (Component component : components) {
-                //if (!component.isShown()) {
-                //TODO: currently, every component uses the same graphics object. Is this ok?
-                //We may need to copy the graphics object using g.create() or g.copyarea()
-                if (component == null)
-                    continue;
-                Graphics2D componentg = (Graphics2D) g.create();
-                double x = component.getPosition().getX();
-                double y = component.getPosition().getY();
-                //componentg.translate(x,y);
-                component.draw(componentg);
-                //}
-            }
-            // render domino if possible
-            if (d != null && viewedPlayerIdx == gm.getOrigPlayerIdx()) {
-                if (!gm.getCurrentPlayer().hasPlaced()) {
-                    d.render(g);
-                }
-            } else if (d != null && viewedPlayerIdx != gm.getOrigPlayerIdx())
-                if (!gm.getCurrentPlayer().hasPlaced()) {
-                    new UIDomino(new Coordinate(640, 600, 0), k, getViewedPlayer().getNextDomino()).render(g);
-                }
+            drawScore(g);
+            drawAllComponents(g);
+            renderDomino(g);
         }
         //TODO: Implement tally_score game state!
+    }
+
+    private void drawAllComponents(Graphics2D g) {
+        for (Component component : components) {
+            //if (!component.isShown()) {
+            if (component == null)
+                continue;
+            Graphics2D componentg = (Graphics2D) g.create();
+            double x = component.getPosition().getX();
+            double y = component.getPosition().getY();
+            //componentg.translate(x,y);
+            component.draw(componentg);
+            //}
+        }
+    }
+
+    private void drawScore(Graphics2D g) {
+        double startX = 0;
+        double startY = 0;
+        double width = 175;
+        double height = 50;
+        int filletRadius = 20;
+        g.setStroke(new BasicStroke(3));
+        g.setColor(new Color(241, 194, 50));
+        g.drawRect((int) startX, (int) startY, (int) width - filletRadius / 2, (int) height);
+        //g.drawOval((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) filletRadius);
+        g.drawRect((int) (startX + (width - filletRadius)), (int) startY, (int) filletRadius, (int) height - (filletRadius / 2));
+        g.drawOval((int) (startX + (width - filletRadius)), (int) (startY + (height - filletRadius)), (int) filletRadius, (int) filletRadius);
+
+        g.setColor(new Color(140, 67, 188));
+        g.fillRect((int) startX, (int) startY, (int) width - filletRadius / 2, (int) height);
+        //g.fillOval((int) (startX+(width-filletRadius)), (int) startY, (int) filletRadius, (int) filletRadius);
+        g.fillRect((int) (startX + (width - filletRadius)), (int) startY, (int) filletRadius, (int) height - (filletRadius / 2));
+        g.fillOval((int) (startX + (width - filletRadius)), (int) (startY + (height - filletRadius)), (int) filletRadius, (int) filletRadius);
+
+        g.setColor(new Color(241, 194, 50));
+        g.drawString("SCORE: " + gm.getPlayers().get(viewedPlayerIdx).getScore(), 30, 30);
+    }
+
+    private void drawPlayerInstructions(Graphics2D g) {
+        g.setFont(medieval);
+        g.setColor(Color.WHITE);
+        if (!gm.isFirstRound() && gm.getPlayers().get(viewedPlayerIdx) == gm.getCurrentPlayer() && !gm.getCurrentPlayer().hasPlaced()) {
+            g.drawString("Placeth thine tile, your grace!", 950, 605);
+            //where thy kingdom meets the lawless frontier
+        }
+        if (gm.getPlayers().get(viewedPlayerIdx) == gm.getCurrentPlayer() && !gm.getCurrentPlayer().hasSelected()) {
+            g.drawString("Selecteth thine tile, your majesty!", 950, 635);
+            //to stake claim to new territory!
+        }
+    }
+
+    private void drawPlayerInfo(Graphics2D g) {
+        g.setFont(medievalLg);
+        FontMetrics metrics = g.getFontMetrics(medievalLg);
+        g.setColor(Color.BLACK);
+        String playerName = gm.getPlayers().get(viewedPlayerIdx).getName();
+        String playerTitle = gm.getPlayers().get(viewedPlayerIdx).getTitle();
+        g.drawString(playerName, 390 + (475 - metrics.stringWidth(playerName)) / 2, 100);
+        g.setFont(medieval);
+        metrics = g.getFontMetrics(medieval);
+        g.drawString(playerTitle, 390 + (475 - metrics.stringWidth(playerTitle)) / 2, 130);
+    }
+
+    private void renderDomino(Graphics2D g) {
+        if (d != null && viewedPlayerIdx == gm.getOrigPlayerIdx()) {
+            if (!gm.getCurrentPlayer().hasPlaced()) {
+                d.render(g);
+            }
+        } else if (d != null && viewedPlayerIdx != gm.getOrigPlayerIdx()) {
+            if (!gm.getCurrentPlayer().hasPlaced()) {
+                new UIDomino(new Coordinate(640, 600, 0), k, getViewedPlayer().getNextDomino()).render(g);
+            }
+        }
     }
 
     public static void applyHints(Graphics2D g2d) {
