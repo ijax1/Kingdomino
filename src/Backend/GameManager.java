@@ -23,7 +23,7 @@ public class GameManager {
     private int numGames = 1;
     private int numGamesLeft = 1;
     private int roundNum;
-    private static final int delayMillis = 1;
+    private static final int delayMillis = 500;
     private ArrayList<Integer> winners = new ArrayList<>(4);
     // will contain integers 0,1,2,3 representing players, ordered in their desired order
     // ex: {3,0,2,1} = player 3 --> player 0 --> player 2 --> player 1
@@ -110,11 +110,11 @@ public class GameManager {
     private void round() {
         //System.out.println("Round " +roundNum);
         deck.getNewDominoes();
-        if (firstRound) {
+        //if (firstRound) {
             for (GameEventListener gl : listeners) {
                 gl.initDominoes();
             }
-        }
+        //}
         //two checks here
         if (roundNum == 13) {
             endGame();

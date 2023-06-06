@@ -97,7 +97,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 
     // need to call later bc GamePanel is initialized before gm.getDominoes() works
     public void initDominoes() {
-        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this, gm.getDeck().getAllDominoes());
+        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this, gm.getDeck().getDominoesToSelect());
         setComponents();
     }
 
@@ -395,6 +395,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
             repaint();
         }
         Coordinate mouseCoord = new Coordinate(x, y, 0);
+        System.out.println("c");
         if (!startedDragging)
             handleButtonClicks(mouseCoord);
         repaint();
@@ -443,6 +444,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
                     }
                 }
             } else {
+                if(clickedComponent instanceof FinishTurnButton) System.out.println("Clicked!");
                 clickedComponent.whenClicked();
             }
         }
