@@ -125,7 +125,6 @@ public class Kingdomino implements GameEventListener {
             panels.show(basePanel, "Podium Panel");
         } else if (state == GameState.ANALYSIS_PANEL) {
             analysisPanel = new AnalysisPanel(new GridBagLayout(), this);
-            basePanel.removeAll();
             basePanel.add(analysisPanel, "Analysis Panel");
             panels.show(basePanel, "Analysis Panel");
 //            analysisPanel.beginAnalysis(manager.getNumGames());
