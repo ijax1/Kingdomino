@@ -26,13 +26,13 @@ import resources.Resources;
 
 public class Kingdomino implements GameEventListener {
 
-    final private JPanel basePanel;
-    final private StartPanel startPanel;
+    private JPanel basePanel;
+    private StartPanel startPanel;
     private GamePanel gamePanel;
-    final private PodiumPanel podiumPanel;
+    private PodiumPanel podiumPanel;
     private AnalysisPanel analysisPanel;
-    final private GameManager manager;
-    final private CardLayout panels = new CardLayout();
+    private GameManager manager;
+    private CardLayout panels = new CardLayout();
     private JFrame frame;
 
     public static final int FRAME_WIDTH = 1280;
@@ -109,7 +109,22 @@ public class Kingdomino implements GameEventListener {
     @Override
     public void onStateChangedTo(GameState state) {
         if (state == GameState.INITIAL) {
+            gamePanel = null;
+            manager = new GameManager();
+            panels = new CardLayout();
+            basePanel = new JPanel(panels);
+
+            manager.addListener(this);
+
+            startPanel = new StartPanel(new GridBagLayout(), this);
+            podiumPanel = new PodiumPanel(new GridBagLayout(), this);
+            basePanel.add(startPanel, "Start Panel");
+//        basePanel.add(gamePanel, "Game Panel");
+            basePanel.add(podiumPanel, "Podium Panel");
+            frame.setContentPane(basePanel);
+            frame.pack();
             panels.show(basePanel, "Start Panel");
+
         } else if (state == GameState.PLAYER_TURN ||
                 state == GameState.TALLY_SCORE) {
             if (gamePanel == null) {
@@ -125,7 +140,6 @@ public class Kingdomino implements GameEventListener {
             panels.show(basePanel, "Podium Panel");
         } else if (state == GameState.ANALYSIS_PANEL) {
             analysisPanel = new AnalysisPanel(new GridBagLayout(), this);
-            basePanel.removeAll();
             basePanel.add(analysisPanel, "Analysis Panel");
             panels.show(basePanel, "Analysis Panel");
 //            analysisPanel.beginAnalysis(manager.getNumGames());
