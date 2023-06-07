@@ -62,6 +62,12 @@ public class Banner extends Component {
 		
 	}
 
+	public void setDominoes(Domino[]sorted) {
+		for(int i=0; i<sorted.length; i++) {
+			buttons.get(i).setDomino(sorted[i]);
+		}
+	}
+
 	@Override
 	public boolean onComponent(Coordinate c) {
 		if(gm.getGameState() == GameState.TALLY_SCORE) {

@@ -54,6 +54,8 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     boolean dragging = false;
     boolean draggingCube = false;
 
+    boolean dominoButtonSelected = false;
+
     Image image = toImage(Resources.loadImage("title_scroll.png")).getScaledInstance(1100, 900, Image.SCALE_SMOOTH);
 
     public GamePanel(Kingdomino k) {
@@ -75,6 +77,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 //        d = new UIDomino(new Coordinate(640, 50, 0), k, ref);
 //        d.setMouseLocation(new Coordinate(640, 50, 0));
         setViewedPlayerIdx(0);
+        updateUIPlayers();
 
         playerTabs = new PlayerTabGroup(gm.getPlayers(), k, this);
 //        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this, gm.getDominoesToSelect());
@@ -93,8 +96,12 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 
     // need to call later bc GamePanel is initialized before gm.getDominoes() works
     public void initDominoes() {
-        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this, gm.getDeck().getDominoesToSelect());
-        setComponents();
+        if(banner == null) {
+            banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this, gm.getDeck().getDominoesToSelect());
+            setComponents();
+        } else {
+            banner.setDominoes(gm.getDeck().getDominoesToSelect());
+        }
     }
 
     private void setComponents() {
@@ -235,12 +242,10 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
             }
         }
         if (gm.isFirstPlayer()) {
-            //todo: this is not updated the first time
             Domino[] toSelect = gm.getDeck().getAllDominoes();
             Arrays.sort(toSelect);
             int index = 3;
             for (DominoButton b : banner.getButtons()) {
-
                 b.setDomino(toSelect[index]);
                 index--;
             }
