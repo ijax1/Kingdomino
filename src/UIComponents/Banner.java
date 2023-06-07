@@ -55,11 +55,6 @@ public class Banner extends Component {
 	public final ArrayList<DominoButton> getButtons() {
 		return buttons;
 	}
-	public void setDominoes(Domino[]sorted) {
-		for(int i=0; i<sorted.length; i++) {
-			buttons.get(i).setDomino(sorted[i]);
-		}
-	}
 
 	@Override
 	public void setPosition(Coordinate coordinate) {
