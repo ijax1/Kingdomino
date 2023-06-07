@@ -97,8 +97,12 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 
     // need to call later bc GamePanel is initialized before gm.getDominoes() works
     public void initDominoes() {
-        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this, gm.getDeck().getDominoesToSelect());
-        setComponents();
+        if(banner == null) {
+            banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this, gm.getDeck().getDominoesToSelect());
+            setComponents();
+        } else {
+            banner.setDominoes(gm.getDeck().getDominoesToSelect());
+        }
     }
 
     private void setComponents() {
