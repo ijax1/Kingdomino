@@ -11,8 +11,6 @@ public abstract class ComputerPlayer extends Player {
 	private static Titles t = new Titles();
 	private static String defaultName = t.generateName();
 	private static String defaultTitle = t.generateTitle();
-
-	private int[] lastMove = {-1,-1};
 	
 	public ComputerPlayer(Color color, GameManager game) {
 		super(color, defaultName, defaultTitle);

@@ -35,6 +35,7 @@ public class SkilledStrategy extends ComputerPlayer {
     public void calculateChoice(Domino[] d, ArrayList<Player> p) {
         int maxScore = 0;
         bestRot = 0;
+        bestPos = null;
 //        Domino bestDomino = dominoes[0];
         bestDomino = d[0];
 //        System.out.println(getName());
