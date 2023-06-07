@@ -68,7 +68,7 @@ public class DominoButton extends Button {
         player.setSelected(true);
     }
 
-    // after turn finishs, will call setLocked on the domino button that has the same player instance as curretn player
+    // after turn finishes, will call setLocked on the domino button that has the same player instance as curretn player
     public void setLocked() {
         locked = true;
         gm.getDeck().setLocked(uiDomino.getRef(), player);

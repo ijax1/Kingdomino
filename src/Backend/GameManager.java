@@ -152,11 +152,13 @@ public class GameManager {
         if (isFastMode) {
             if (!firstRound && canPlace) {
                 ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
-
                 getCurrentPlayer().setPlaced(true);
             }
+
+            // Pretend it has been placed
             if (!canPlace)
                 getCurrentPlayer().setPlaced(true);
+
             if (getDeck().getDominoesToSelect().length != 0) {
                 ((ComputerPlayer) getCurrentPlayer()).calculateChoice(getDeck().getDominoesToSelect(), getPlayers());
                 for (GameEventListener gl : listeners) {
@@ -187,7 +189,6 @@ public class GameManager {
                 if (currentTime + delayMillis < System.currentTimeMillis()) {
                     if (!firstRound && canPlace) {
                         ((ComputerPlayer) getCurrentPlayer()).placeDomino(getDeck().getDominoesToSelect(), getPlayers());
-
                         getCurrentPlayer().setPlaced(true);
                     }
                     if (!canPlace)
