@@ -34,6 +34,7 @@ import resources.Resources;
 public class GamePanel extends JPanel implements GameEventListener, MouseListener, MouseMotionListener, MouseWheelListener {
     private static final long serialVersionUID = 7381080659172927952L;
 
+    Domino ref = new Domino(new Tile(Tile.Land.LAKE, 0), new Tile(Tile.Land.PASTURE, 0), 13);
     private ArrayList<Component> components = new ArrayList<Component>();
     private Font medieval;
     private Font medievalLg;
@@ -53,6 +54,8 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     private RectangularPrism r = new RectangularPrism(new Coordinate(200, 200, 200), 100, 200, 25);
     boolean dragging = false;
     boolean draggingCube = false;
+
+    boolean dominoButtonSelected = false;
 
     Image image = toImage(Resources.loadImage("title_scroll.png")).getScaledInstance(1100, 900, Image.SCALE_SMOOTH);
 
@@ -75,6 +78,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 //        d = new UIDomino(new Coordinate(640, 50, 0), k, ref);
 //        d.setMouseLocation(new Coordinate(640, 50, 0));
         setViewedPlayerIdx(0);
+        updateUIPlayers();
 
         playerTabs = new PlayerTabGroup(gm.getPlayers(), k, this);
 //        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this, gm.getDominoesToSelect());
@@ -112,6 +116,13 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         components.add(d);
     }
 
+    private void updateUIPlayers() {
+        Coordinate gridCenter = new Coordinate(200, 300, 0);
+        ArrayList<Player> players = gm.getPlayers();
+//		for(int i=0; i<players.size(); i++) {
+//			uiPlayers.add(new UIPlayer(gridCenter, k, players.get(i)));
+//		}
+    }
 
     public int getViewedPlayerIndex() {
         return viewedPlayerIdx;
@@ -161,11 +172,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     @Override
     public void onDominoSelected(Domino dominoSelected, boolean recallNextPlayer) {
         DominoButton dominoButton = null;
-        System.out.println("dominoSelected: " + dominoSelected);
-        System.out.println("dominos in banner:");
-        for (DominoButton b : banner.getButtons()) {
-            System.out.println(b.getUiDomino().getRef());
-        }
         for (DominoButton b : banner.getButtons()) {
             if (b.getUiDomino().ref.equals(dominoSelected)) {
                 dominoButton = b;
@@ -174,7 +180,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         }
         if (dominoButton == null) {
             return;
-//            throw new NullPointerException("dominoButton selected null");
         }
         if (!dominoButton.isLocked()) {
             for (DominoButton d : banner.getButtons()) {
@@ -239,12 +244,10 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
             }
         }
         if (gm.isFirstPlayer()) {
-            //todo: this is not updated the first time
             Domino[] toSelect = gm.getDeck().getAllDominoes();
             Arrays.sort(toSelect);
             int index = 3;
             for (DominoButton b : banner.getButtons()) {
-
                 b.setDomino(toSelect[index]);
                 index--;
             }
