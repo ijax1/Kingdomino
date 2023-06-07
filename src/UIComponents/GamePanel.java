@@ -169,8 +169,8 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
             }
         }
         if (dominoButton == null) {
-            return;
-//            throw new NullPointerException("dominoButton selected null");
+//            return;
+            throw new NullPointerException("dominoButton selected null");
         }
         if (!dominoButton.isLocked()) {
             for (DominoButton d : banner.getButtons()) {

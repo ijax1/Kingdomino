@@ -182,7 +182,7 @@ public class GameManager {
     private void computerPlaceDomino(final boolean canPlace) {
         final Timer timer = new Timer(1, null);
         timer.addActionListener(new ActionListener() {
-            long currentTime = System.currentTimeMillis();
+            final long currentTime = System.currentTimeMillis();
 
             @Override
             public void actionPerformed(ActionEvent e) {
