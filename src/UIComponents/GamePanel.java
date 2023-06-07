@@ -77,7 +77,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 //        d = new UIDomino(new Coordinate(640, 50, 0), k, ref);
 //        d.setMouseLocation(new Coordinate(640, 50, 0));
         setViewedPlayerIdx(0);
-        updateUIPlayers();
 
         playerTabs = new PlayerTabGroup(gm.getPlayers(), k, this);
 //        banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this, gm.getDominoesToSelect());
