@@ -95,7 +95,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
 
     // need to call later bc GamePanel is initialized before gm.getDominoes() works
     public void initDominoes() {
-        if(banner == null) {
+        if (banner == null) {
             banner = new Banner(new Coordinate(Kingdomino.FRAME_WIDTH - 400, 50, 0), k, 4, this, gm.getDeck().getDominoesToSelect());
             setComponents();
         } else {
@@ -164,7 +164,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     public void onDominoSelected(Domino dominoSelected, boolean recallNextPlayer) {
         DominoButton dominoButton = null;
         System.out.println("dominoSelected: " + dominoSelected);
-        System.out.println("dominos in banner:");
+        System.out.println("dominoes in banner:");
         for (DominoButton b : banner.getButtons()) {
             System.out.println(b.getUiDomino().getRef());
         }
@@ -175,7 +175,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
             }
         }
         if (dominoButton == null) {
-//            return;
             throw new NullPointerException("dominoButton selected null");
         }
         if (!dominoButton.isLocked()) {
@@ -225,9 +224,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         for (UIGrid uigrid : grids) {
             uigrid.setSnapped(false);
         }
-
-        // first player
-
 
         if (!gm.isFirstRound() && player.getNextDomino() != null) {
             d = new UIDomino(new Coordinate(640, 600, 0), k, player.getNextDomino());
@@ -376,9 +372,8 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     //Mouse, Key Event Handlers
     @Override
     public void mousePressed(MouseEvent e) {
-        //From InteractionPanel
         if (gm.getCurrentPlayer() instanceof HumanPlayer) {
-            if (d != null && d.onComponent(new Coordinate(e.getX(), e.getY(), 0))) {
+            if (d != null && d.onComponent(new Coordinate(e.getX(), e.getY(), 0)) && (!uiGrid.dominoOnGrid(d) || uiGrid.onGrid(new Coordinate(e.getX(), e.getY(), 0)))) {
                 dragging = true;
             }
             if (dragging && e.getButton() == MouseEvent.BUTTON3 && !uiGrid.isSnapped()) {
@@ -457,7 +452,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
                     }
                 }
             } else {
-                if(clickedComponent instanceof FinishTurnButton) System.out.println("Clicked!");
+                if (clickedComponent instanceof FinishTurnButton) System.out.println("Clicked!");
                 clickedComponent.whenClicked();
             }
         }
@@ -476,25 +471,22 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         mousex = e.getX();
         mousey = e.getY();
 
-        //From InteractionPanel
-        if ((uiGrid.dominoOnGrid(d) && !finishTurn.onComponent(new Coordinate(mousex, mousey, 0))) || (!uiGrid.dominoOnGrid(d))) {
-            if (gm.getCurrentPlayer() instanceof HumanPlayer) {
-                if (gm.getCurrentPlayer() == getViewedPlayer())
-                    if (dragging) {
-                        d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
-                        d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
-                        uiGrid.holdDomino(d, d.ref);
-                        if (!uiGrid.dominoOnGrid(d))
-                            uiGrid.setSnapped(false);
-                        repaint();
-
-                    }
-
-                if (draggingCube) {
-                    r.moveTo(new Coordinate(e.getX(), e.getY(), 0));
-                    r.incrementRotation(Math.PI / 20, Math.PI / 40, Math.PI / 50);
+        if (gm.getCurrentPlayer() instanceof HumanPlayer && (!uiGrid.dominoOnGrid(d) || uiGrid.onGrid(new Coordinate(e.getX(), e.getY(), 0)))) {
+            if (gm.getCurrentPlayer() == getViewedPlayer()) {
+                if (dragging) {
+                    d.moveTo(new Coordinate(e.getX(), e.getY(), 0));
+                    d.setMouseLocation(new Coordinate(e.getX(), e.getY(), 0));
+                    uiGrid.holdDomino(d, d.ref);
+                    if (!uiGrid.dominoOnGrid(d))
+                        uiGrid.setSnapped(false);
                     repaint();
+
                 }
+            }
+            if (draggingCube) {
+                r.moveTo(new Coordinate(e.getX(), e.getY(), 0));
+                r.incrementRotation(Math.PI / 20, Math.PI / 40, Math.PI / 50);
+                repaint();
             }
         }
 
@@ -541,8 +533,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
     }
 
     private Image toImage(BufferedImage img) {
-        Image image = img.getScaledInstance(img.getWidth(), img.getHeight(), Image.SCALE_SMOOTH);
-        return image;
+        return img.getScaledInstance(img.getWidth(), img.getHeight(), Image.SCALE_SMOOTH);
     }
 
     private void animateDomino(UIDomino d, Coordinate destination) {
@@ -589,13 +580,6 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
         });
         timer.start();
     }
-
-//    public void resetDominoButtons() {
-//        for (DominoButton b : banner.getButtons()) {
-//            b.
-//        }
-//    }
-
 
     public UIGrid getUIGrid() {
         return uiGrid;

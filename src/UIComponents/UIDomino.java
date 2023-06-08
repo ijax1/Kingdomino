@@ -43,8 +43,6 @@ public class UIDomino extends Component{
     public UIDomino(Coordinate position, Kingdomino k, Color color1, Color color2) {
         super(position, k);
         this.k = k;
-        double x = position.getX();
-        double y = position.getY();
         tiles[0] = new UITile(Color.RED, new Coordinate(position.getX()-sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
         tiles[1] = new UITile(Color.CYAN, new Coordinate(position.getX()+sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
 
@@ -56,8 +54,6 @@ public class UIDomino extends Component{
         super(position, k);
         this.k = k;
         Tile[] dominoTiles = d.getTiles();
-        //tiles[0] = new UITile(dominoTiles[0].getColor(), new Coordinate(position.getX()-sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
-        //tiles[1] = new UITile(dominoTiles[1].getColor(), new Coordinate(position.getX()+sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
         tiles[0] = new UITile(dominoTiles[0], new Coordinate(position.getX()-sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
         tiles[1] = new UITile(dominoTiles[1], new Coordinate(position.getX()+sideLen/2.0, position.getY(),position.getZ()-sideLen/20), (int) sideLen/2, position);
 
