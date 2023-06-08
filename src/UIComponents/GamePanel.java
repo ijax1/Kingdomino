@@ -144,7 +144,7 @@ public class GamePanel extends JPanel implements GameEventListener, MouseListene
      */
     public void setViewedPlayerIdx(int playerIdx) {
         viewedPlayerIdx = playerIdx;
-        uiGrid = grids.get(playerIdx);
+        uiGrid = new UIGrid(new Coordinate(640, 320, 0), k, gm.getPlayers().get(viewedPlayerIdx).getGrid());
         if (playerIdx != gm.getOrigPlayerIdx() && d != null) {
             d.minimize();
         }
