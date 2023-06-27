@@ -1,3 +1,4 @@
+Download here: https://github.com/ijax1/Kingdomino/releases/download/1.1.0/Kingdomino.jar
 ## Overview
 Kingdomino is modern take on the old game of Dominos. Players match up specialized domino tiles to create a “kingdom” and receive points for the regions it contains. Each tile contains two squares, each of which has a color (dark green, light green, yellow, blue, gray, or brown) and between zero and three crowns.
 
